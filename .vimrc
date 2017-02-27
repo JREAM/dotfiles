@@ -76,10 +76,10 @@ set nowrap
 set autoread
 
 " global text columns
-set textwidth=80
+" set textwidth=80
 
 " don't automatically break long lines unless they are new
-set formatoptions+=l
+"set formatoptions+=l
 
 " detect file type, turn on that type's plugins and indent preferences
 " Turned off -- This was annoying when copy/pasting causes indent problems
