@@ -8,30 +8,57 @@
 # for ssh logins, install and configure the libpam-umask package.
 #umask 022
 
-# if running bash
-if [ -n "$BASH_VERSION" ]; then
-    # include .bashrc if it exists
-    if [ -f "$HOME/.bashrc" ]; then
-    . "$HOME/.bashrc"
-    fi
-    # include .docker-complete if it exists
-    if [ -f "$HOME/.docker-complete" ]; then
-    . "$HOME/.docker-complete"
-    fi
-fi
 
-# set PATH so it includes user's private bin if it exists
+
+# ---------------------------------------------------
+# Path
+# ---------------------------------------------------
+
+# Always inlude the usr/local/bin
+PATH="/usr/local/bin:$PATH"
+
+# If a private ~/bin exists, let's add it
 if [ -d "$HOME/bin" ] ; then
-    PATH="$HOME/bin:$PATH"
+    PATH="$PATH:$HOME/bin"
 fi
 
-# Include local composer folder if it exists
-if [ -d "$HOME/.composer/vendor/bin" ] ; then
-    PATH="$HOME/.composer/vendor/bin:$PATH"
-fi
 
-# Set private to include Google go if it's installed
+# ---------------------------------------------------
+# Go
+# ---------------------------------------------------
+
+# Add Go to our path if it exists
 if [ -d "/usr/local/go/bin" ]; then
     PATH=$PATH:/usr/local/go/bin
 fi
 
+# ---------------------------------------------------
+# PHP
+# ---------------------------------------------------
+
+# Include local composer folder if exists
+export COMPOSER_HOME=""
+if [ -d "$HOME/.composer/vendor/bin" ] ; then
+    PATH="$HOME/.composer/vendor/bin:$PATH"
+    export COMPOSER_HOME=`composer config -g home`
+fi
+
+# Include composer autocomplete if exists
+if [ -d "$COMPOSER_HOME/vendor/bamarni/symfony-console-autocomplete" ]; then
+    eval "$(symfony-autocomplete)"
+fi
+
+# ---------------------------------------------------
+# Bash
+# ---------------------------------------------------
+
+if [ -n "$BASH_VERSION" ]; then
+    # Include .bashrc
+    if [ -f "$HOME/.bashrc" ]; then
+        source "$HOME/.bashrc"
+    fi
+    # include .docker-complete if it exists
+    if [ -f "$HOME/.docker-complete" ]; then
+        source "$HOME/.docker-complete"
+    fi
+fi
