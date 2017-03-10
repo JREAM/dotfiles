@@ -73,6 +73,10 @@ alias ..="cd .."
 alias ...="cd ../.."
 alias ....="cd ../../.."
 
+# Some personal navigation
+alias p="cd ~/projects"
+alias www="cd /var/www/"
+
 #################### Util #####################
 # use xclip
 alias xclip="xclip -sel clip"

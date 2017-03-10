@@ -36,6 +36,8 @@ git config --global user.IdentityFile "~/.ssh/your_private_key"
         - eg: `mkdir project/jream/files` creates a nested tree.
     - `h` runs `history`
     - `j` runs `jobs -l`
+    - `p` alias goes to `~/projects`
+    - `www` alias goes to `www`
     - `vi` runs `vim`
     - `ports` runs `netstat -tulnap
 
