@@ -7,11 +7,22 @@ charset = utf-8
 end_of_line = lf
 insert_final_newline = true
 trim_trailing_whitespace = true
-
-[*.{py,php,md,rst,ini,rb}]
 indent_style = space
+
+[*.{py,php,md,rst,rb,txt}]
 indent_size = 4
 
-[*{.yml,js,jsx,css,htm,html,voltl,j2,jinja2,jade}]
-indent_style = space
+[*.{yml,md,js,jsx,css,htm,html,volt,blade,j2,jinja2,jade}]
+indent_size = 2
+
+[*.{.travis.yml, .gitconfig, .bash_profile, .profile, .jscsrc, .vimrc, .bashrc, .jshintrc}]
+indent_size = 2
+
+[{package.json, bower.json}]
+indent_size = 2
+
+[/etc/apache2/sites-available/**.conf]
+indent_size = 2
+
+[/etc/nginx//etc/nginx/sites-available/*]
 indent_size = 2
