@@ -64,7 +64,8 @@ if [ -n "$BASH_VERSION" ]; then
 fi
 
 # Include Google go default path if installed
-if [ -d /usr/local/go ]; then
-    export GOPATH='/usr/local/go'
+if [ -d $HOME/go ]; then
+    export GOROOT=$HOME/go
+    export PATH=$PATH:$GOROOT/bin
 fi
 
