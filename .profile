@@ -62,3 +62,9 @@ if [ -n "$BASH_VERSION" ]; then
         source "$HOME/.docker-complete"
     fi
 fi
+
+# Include Google go default path if installed
+if [ -d /usr/local/go ]; then
+    export GOPATH='/usr/local/go'
+fi
+
