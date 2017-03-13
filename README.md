@@ -4,8 +4,7 @@
 
 - [dotfiles](#dotfiles)
     - [Update Git](#update-git)
-    - [.bashrc](#bashrc)
-        - [Aliases](#aliases)
+    - [.bashrc Aliases](#bashrc-aliases)
     - [Vim Plugins](#vim-plugins)
     - [Compiz Settings](#compiz-settings)
 
@@ -25,10 +24,9 @@ If you are using another default identity key other than `id_rsa/id_rsa.pub` mak
 git config --global user.IdentityFile "~/.ssh/your_private_key"
 ```
 
-## .bashrc
+## .bashrc Aliases
 Bash Display: `username@host[~/path]:~$`
 
-### Aliases
 | Alias | Command | Purpose |
 | --- | --- | --- |
 | **Navigation** | | |
@@ -68,6 +66,7 @@ Bash Display: `username@host[~/path]:~$`
 | df |  | improvement (apt insttall pydf) |
 | du |  | improvement (apt insttall ncdu) |
 | gza | | gzip an current folder |
+| extract | | extract nearly any file extension |
 | **Searching** | | |
 | egrep | egrep --color=auto | Color to egrep |
 | ffile | find . -name | find file by name |
