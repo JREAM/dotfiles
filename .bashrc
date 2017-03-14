@@ -266,6 +266,13 @@ fi
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
 
+# Git-Extras autocomplete with $gh
+# -----------------------------------------------
+if [ -f "$HOME/gh_complete.sh" ]; then
+   source "$HOME/gh_complete.sh"
+if
+
+
 
 # End of File
 # -----------------------------------------------
