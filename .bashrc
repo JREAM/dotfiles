@@ -270,7 +270,7 @@ fi
 # -----------------------------------------------
 if [ -f "$HOME/gh_complete.sh" ]; then
    source "$HOME/gh_complete.sh"
-if
+fi
 
 
 
