@@ -32,13 +32,51 @@
 [mergetool]
     keepBackup = false
 [alias]
+    # List Aliases
+    la = git alias
+
+    # Logs
     lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
-    co = checkout
+    fl = log -u
+    filelog = log -u
+
+    # Main
+    br = branch
     ci = commit
+    cm = commit -m
+    cl = clone
+    co = checkout
+    cp = cherry-pick
     aa = add --all
     st = status
-    di = diff
+
+    # Diff
+    diff  = diff --word-diff
+    ds = diff --stat
     dc = diff --cached
+    dlc = diff --cached HEAD^
+
+    # Find filepath in Codebase
+    # $ git f pattern
+    f = "!git ls-files | grep -i"
+
+    # Seach entire codebase for a string
+    # git gr specialcode  (Can reutrurn many retults!)
+    grep = grep -Ii
+
+    # Resets
+    r = reset
+    r1 = reset HEAD^
+    r2 = reset HEAD^^
+    rh = reset --hard
+    rh1 = reset HEAD^ --hard
+    rh2 = reset HEAD^^ --hard
+
+    # Stashes
+    sl = stash list
+    sa = stash apply
+    ss = stash save
+
 [core]
     excludesfile = ~/.gitignore
     filemode = false
