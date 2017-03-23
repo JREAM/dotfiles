@@ -13,12 +13,12 @@
 ################################################
 
 # Unubtrusive user@name[~/path]:~$
-# export PS1="\u\[$(tput sgr0)\]\[\033[38;5;250m\]@\[$(tput sgr0)\]\[\033[38;5;15m\]\H[\[$(tput sgr0)\]\[\033[38;5;251m\]\w\[$(tput sgr0)\]\[\033[38;5;15m\]]:~\\$ \[$(tput sgr0)\]"
+export PS1="\u\[$(tput sgr0)\]\[\033[38;5;250m\]@\[$(tput sgr0)\]\[\033[38;5;15m\]\H[\[$(tput sgr0)\]\[\033[38;5;251m\]\w\[$(tput sgr0)\]\[\033[38;5;15m\]]:~\\$ \[$(tput sgr0)\]"
 
 # Two Lined (Cyan-ish Color)
 # (jesse@laptop)-(~/projects/superfabulous)
 # $->
-export PS1="\[$(tput bold)\]\[\033[38;5;14m\](\[$(tput sgr0)\]\[$(tput sgr0)\]\[\033[38;5;15m\]\u\[$(tput bold)\]\[$(tput sgr0)\]\[\033[38;5;14m\]@\[$(tput sgr0)\]\[$(tput sgr0)\]\[\033[38;5;15m\]\h\[$(tput bold)\]\[$(tput sgr0)\]\[\033[38;5;14m\])-(\[$(tput sgr0)\]\[$(tput sgr0)\]\[\033[38;5;15m\]\w\[$(tput bold)\]\[$(tput sgr0)\]\[\033[38;5;14m\])\[$(tput sgr0)\]\[$(tput sgr0)\]\[\033[38;5;15m\]\n\[$(tput bold)\]\\$\[$(tput sgr0)\]\[\033[38;5;249m\]-\[$(tput sgr0)\]\[\033[38;5;14m\]>\[$(tput sgr0)\]\[$(tput sgr0)\]\[\033[38;5;15m\] \[$(tput sgr0)\]"
+# export PS1="\[$(tput bold)\]\[\033[38;5;14m\](\[$(tput sgr0)\]\[$(tput sgr0)\]\[\033[38;5;15m\]\u\[$(tput bold)\]\[$(tput sgr0)\]\[\033[38;5;14m\]@\[$(tput sgr0)\]\[$(tput sgr0)\]\[\033[38;5;15m\]\h\[$(tput bold)\]\[$(tput sgr0)\]\[\033[38;5;14m\])-(\[$(tput sgr0)\]\[$(tput sgr0)\]\[\033[38;5;15m\]\w\[$(tput bold)\]\[$(tput sgr0)\]\[\033[38;5;14m\])\[$(tput sgr0)\]\[$(tput sgr0)\]\[\033[38;5;15m\]\n\[$(tput bold)\]\\$\[$(tput sgr0)\]\[\033[38;5;249m\]-\[$(tput sgr0)\]\[\033[38;5;14m\]>\[$(tput sgr0)\]\[$(tput sgr0)\]\[\033[38;5;15m\] \[$(tput sgr0)\]"
 
 
 ################################################
