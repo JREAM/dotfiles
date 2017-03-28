@@ -4,9 +4,12 @@
 function ngmake { sudo vim /etc/nginx/sites-available/$1; }
 function ngenable { sudo ln -s /etc/nginx/sites-available/$1 /etc/nginx/sites-enabled; }
 function ngdisable { sudo rm /etc/nginx/sites-enabled/$1; }
-alias ngreload='sudo service nginx reload'
 alias ngtest='sudo service nginx configtest'
-
+alias ngreload='sudo service nginx reload'
+alias ngrestart='sudo service nginx restart'
+alias ngstart='sudo service nginx start'
+alias ngstop='sudo service nginx stop'
+alias ngpath='cd /etc/nginx/'
 
 ################################################
 ###################  APACHE  ###################
@@ -16,7 +19,11 @@ alias a2modules='sudo apachectl -t -D DUMP_MODULES'
 alias a2vhosts='sudo apachectl -t -D DUMP_VHOSTS'
 alias a2version='sudo apachectl -v'
 alias a2test='sudo apachectl -t'
-
+alias a2reload='sudo service apache2 reload'
+alias a2restart='sudo service apache2 restart'
+alias a2start='sudo service apache2 start'
+alias a2stop='sudo service apache2 stop'
+alias a2path='cd /etc/apache2/'
 
 ################################################
 #################### PYTHON ####################
@@ -38,6 +45,15 @@ export PYTHONDONTWRITEBYTECODE=1
 ################################################
 ###################  COMMON  ###################
 ################################################
+
+# Apply Sudo when you forget for service
+# -----------------------------------------------
+alias service='sudo service'
+
+
+################################################
+###################  COMMON  ###################
+################################################
 colorflag="--color"
 
 # Listing and colors
@@ -54,6 +70,10 @@ alias ls="command ls ${colorflag}"
 alias grep='grep --color=auto'
 alias egrep='egrep --color=auto'
 alias fgrep='fgrep --color=auto'
+
+# diff in colors (apt install colordiff)
+# -----------------------------------------------
+alias diff='colordiff'
 
 # IMPORTANT! If you get a bunch out output decalres
 # Make sure this is all on the same line!
@@ -214,3 +234,53 @@ function extract {
 fi
 }
 
+
+# The compression to rule them all: compress <file.tar.gz> <./path>
+# -----------------------------------------------
+compress() {
+  if [[ -n "$1" ]]; then
+    FILE=$1
+    case $FILE in
+      *.tar ) shift && tar cf $FILE $* ;;
+      *.tar.bz2 ) shift && tar cjf $FILE $* ;;
+      *.tar.gz ) shift && tar czf $FILE $* ;;
+      *.tgz ) shift && tar czf $FILE $* ;;
+      *.zip ) shift && zip $FILE $* ;;
+      *.rar ) shift && rar $FILE $* ;;
+    esac
+  else
+    echo "Usage: compress <foo.tar.gz> ./foo ./bar"
+  fi
+}
+
+
+
+# Moves up n Directorys, eg: $ up 4
+# -----------------------------------------------
+up() {
+  local d=""
+  limit=$1
+  for ((i=1; i <= limit; i++)); do
+    d=$d/..
+  done
+
+  d=$(echo $d | sed 's/^\///')
+
+  if [[ -z "$d" ]]; then
+    d=..
+  fi
+
+  cd $d
+}
+
+
+
+# Calculater, eg: calc 5 * 500 (No Spaces)
+# -----------------------------------------------
+calc() {
+  if which bc &>/dev/null; then
+    echo "scale=3; $*" | bc -l
+  else
+    awk "BEGIN { print $* }"
+  fi
+}

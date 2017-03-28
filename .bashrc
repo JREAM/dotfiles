@@ -24,6 +24,7 @@ HISTSIZE=1000
 HISTFILESIZE=2000
 
 # Append to the history file, don"t overwrite it
+# -----------------------------------------------
 shopt -s histappend
 
 # Set variable identifying the chroot you work in
@@ -42,6 +43,10 @@ fi
 if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
     . /etc/bash_completion
 fi
+
+# Fix $ cd typing errors
+# -----------------------------------------------
+shopt -s cdspell
 
 
 #################################################
