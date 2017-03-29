@@ -62,6 +62,13 @@ if [ -f "$HOME/gh_complete.sh" ]; then
    source "$HOME/gh_complete.sh"
 fi
 
+# NVM (Node Version Manager) Looks for .nvm in Dir
+# -----------------------------------------------
+if [ -d "$HOME/.nvm" ]; then
+    export NVM_DIR="$HOME/.nvm"
+    [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" # This loads nvm
+fi
+
 ##################################################
 #################### VARIOUS #####################
 ##################################################
