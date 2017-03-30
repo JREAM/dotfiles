@@ -11,6 +11,7 @@ alias ngstart='sudo service nginx start'
 alias ngstop='sudo service nginx stop'
 alias ngpath='cd /etc/nginx/'
 
+
 ################################################
 ###################  APACHE  ###################
 ################################################
@@ -25,9 +26,20 @@ alias a2start='sudo service apache2 start'
 alias a2stop='sudo service apache2 stop'
 alias a2path='cd /etc/apache2/'
 
-if [[ $PWD == '/etc/apache2/sites-available' ]]; then
-    echo "HERE"
-fi
+alias a2disconf='sudo a2disconf'
+alias a2enconf='sudo a2enconf'
+alias a2dismod='sudo a2dismod'
+alias a2enmod='sudo a2enmod'
+alias a2dissite='sudo a2dissite'
+alias a2ensite='sudo a2ensite'
+alias a2graceful='sudo a2graceful'
+alias a2modules='sudo a2modules'
+
+alias a2log='cat /var/log/apache2/error.log'
+alias a2access='cat /var/log/apache2/access.log'
+
+alias apachectl='sudo apachectl'
+alias apache2ctl='sudo apache2ctl'
 
 ################################################
 #################### PYTHON ####################
