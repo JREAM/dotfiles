@@ -25,6 +25,10 @@ alias a2start='sudo service apache2 start'
 alias a2stop='sudo service apache2 stop'
 alias a2path='cd /etc/apache2/'
 
+if [[ $PWD == '/etc/apache2/sites-available' ]]; then
+    echo "HERE"
+fi
+
 ################################################
 #################### PYTHON ####################
 ################################################
@@ -166,6 +170,7 @@ function findinfile() {
 # Apply sudo if forgotten
 # -----------------------------------------------
 alias apt-get="sudo apt-get"
+alias apt="sudo apt"
 
 # Mkdir more than one level if needed (Vebose).
 # -----------------------------------------------
