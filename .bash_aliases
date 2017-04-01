@@ -42,6 +42,17 @@ alias apachectl='sudo apachectl'
 alias apache2ctl='sudo apache2ctl'
 
 ################################################
+#################### DOCKER ####################
+################################################
+
+alias dk='docker'
+alias drm="docker rm"
+alias dps="docker ps"
+function newbox () {
+    docker run --name $1 --volumes-from=volume_container -it -v /var/run/docker.sock:/var/run/docker.sock -e BOX_NAME=$1 jream/devbox
+}
+
+################################################
 #################### PYTHON ####################
 ################################################
 
