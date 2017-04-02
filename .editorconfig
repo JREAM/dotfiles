@@ -9,13 +9,17 @@ insert_final_newline = true
 trim_trailing_whitespace = true
 indent_style = space
 
+[Makefile]
+# Required for MakeFile
+indent_style = tab
+
 [*.{py,php,md,rst,rb,txt}]
 indent_size = 4
 
-[*.{yml,md,js,jsx,css,htm,html,volt,blade,j2,jinja2,jade}]
+[*.{yml,yaml,js,jsx,css,htm,html,volt,blade,j2,jinja2,jade}]
 indent_size = 2
 
-[*.{.travis.yml, .gitconfig, .bash_profile, .profile, .jscsrc, .vimrc, .bashrc, .jshintrc}]
+[*.{gitconfig,bashrc,bash_aliases,bash_profile,profile,exports,jscsrc,jshintrc,vimrc}]
 indent_size = 2
 
 [{package.json, bower.json}]
@@ -24,5 +28,5 @@ indent_size = 2
 [/etc/apache2/sites-available/**.conf]
 indent_size = 2
 
-[/etc/nginx//etc/nginx/sites-available/*]
+[/etc/nginx/etc/nginx/sites-available/*]
 indent_size = 2
