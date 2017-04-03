@@ -65,7 +65,9 @@ fi
 
 # Include Google go default path if installed
 if [ -d $HOME/go ]; then
-    export GOROOT=$HOME/go
-    export PATH=$PATH:$GOROOT/bin
+    export GOPATH=$HOME/go
 fi
+
+
+export PATH
 
