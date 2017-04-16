@@ -2,8 +2,8 @@
 ####################  NGINX  ###################
 ################################################
 function ngmake { sudo vim /etc/nginx/sites-available/$1; }
-function ngenable { sudo ln -s /etc/nginx/sites-available/$1 /etc/nginx/sites-enabled; }
-function ngdisable { sudo rm /etc/nginx/sites-enabled/$1; }
+function ngensite { sudo ln -s /etc/nginx/sites-available/$1 /etc/nginx/sites-enabled; }
+function ngdissite { sudo rm /etc/nginx/sites-enabled/$1; }        
 alias ngtest='sudo service nginx configtest'
 alias ngreload='sudo service nginx reload'
 alias ngrestart='sudo service nginx restart'
@@ -27,7 +27,7 @@ alias a2reload='sudo service apache2 reload'
 alias a2restart='sudo service apache2 restart'
 alias a2start='sudo service apache2 start'
 alias a2stop='sudo service apache2 stop'
-alias a2status='sudo servie apache2 status'
+alias a2status='sudo service apache2 status'
 alias a2path='cd /etc/apache2/'
 alias a2log='cd /var/log/apache2'
 
