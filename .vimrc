@@ -25,6 +25,13 @@ Plugin 'metakirby5/codi.vim'
 Plugin 'bling/vim-airline'
 Plugin 'ervandew/supertab'
 
+" Nice Time Tracker for Myself
+" If not asked for API key, create:
+" vim ~/.wakatime.cfg
+" [settings]
+" api_key = your_key_here
+Plugin 'wakatime/vim-wakatime'
+
 " languages
 Plugin 'hail2u/vim-css3-syntax'
 Plugin 'Glench/Vim-Jinja2-Syntax'
