@@ -68,6 +68,9 @@ if [ -d $HOME/go ]; then
     export GOPATH=$HOME/go
 fi
 
+if [ -f $HOME/.meteor ]; then
+  PATH = $PATH:$HOME/.meteor
+fi
 
 export PATH
 
