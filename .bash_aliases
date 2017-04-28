@@ -2,17 +2,14 @@
 ####################  NGINX  ###################
 ################################################
 function ngmake { sudo vim /etc/nginx/sites-available/$1; }
-function ngensite { sudo ln -s /etc/nginx/sites-available/$1 /etc/nginx/sites-enabled; }
-function ngdissite { sudo rm /etc/nginx/sites-enabled/$1; }        
+function ngenable { sudo ln -s /etc/nginx/sites-available/$1 /etc/nginx/sites-enabled; }
+function ngdisable { sudo rm /etc/nginx/sites-enabled/$1; }
 alias ngtest='sudo service nginx configtest'
 alias ngreload='sudo service nginx reload'
 alias ngrestart='sudo service nginx restart'
 alias ngstart='sudo service nginx start'
 alias ngstop='sudo service nginx stop'
-alias ngstatus='sudo service nginx status'
-alias ngquit='sudo service nginx quit'
 alias ngpath='cd /etc/nginx/'
-alias nglogs='cd /var/log/nginx/';
 
 
 ################################################
@@ -27,9 +24,7 @@ alias a2reload='sudo service apache2 reload'
 alias a2restart='sudo service apache2 restart'
 alias a2start='sudo service apache2 start'
 alias a2stop='sudo service apache2 stop'
-alias a2status='sudo service apache2 status'
 alias a2path='cd /etc/apache2/'
-alias a2log='cd /var/log/apache2'
 
 alias a2disconf='sudo a2disconf'
 alias a2enconf='sudo a2enconf'
@@ -40,7 +35,8 @@ alias a2ensite='sudo a2ensite'
 alias a2graceful='sudo a2graceful'
 alias a2modules='sudo a2modules'
 
-alias a2logs='cd /var/log/apache2/'
+alias a2log='cat /var/log/apache2/error.log'
+alias a2access='cat /var/log/apache2/access.log'
 
 alias apachectl='sudo apachectl'
 alias apache2ctl='sudo apache2ctl'
@@ -49,6 +45,7 @@ alias apache2ctl='sudo apache2ctl'
 #################### DOCKER ####################
 ################################################
 
+alias dk='docker'
 alias drm="docker rm"
 alias dps="docker ps"
 function newbox () {
@@ -173,7 +170,7 @@ alias gitall='git branch -r | grep -v "\->" | while read remote; do git branch -
 
 # Make find a little easier
 # -----------------------------------------------
-alias ffile="find . -name "
+alias findfile="find . -name "
 
 # Find in file
 # -----------------------------------------------
@@ -191,6 +188,28 @@ function findinfile() {
   fi
 
   grep -Elir "(${1}) ${serach_path}"
+}
+
+# Set ACL Permissions to avoid 0777 dumbness
+# -----------------------------------------------
+function setfaclwww() {
+  if [ -z "$1" ]; then
+  #display usage if no parameters are given
+    echo "Usage: setfacl2 <path> username (Defaults to \$USER)"
+    return
+  fi
+
+  # Ensure user is in www-data
+  sudo usermod -aG www-data $USER
+
+  # Ensure user is in www-group
+  sudo chown -R www-data:www-data $1
+  # User ACL
+  sudo setfacl -R -m u:$USER:rwx $1
+  sudo setfacl -Rd -m u:$USER:rwx $1
+  # Group ACL
+  sudo setfacl -R -m g:www-data:rwx $1
+  sudo setfacl -Rd -m g:www-data:rwx $1
 }
 
 # Apply sudo if forgotten
