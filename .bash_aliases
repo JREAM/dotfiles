@@ -334,3 +334,72 @@ calc() {
     awk "BEGIN { print $* }"
   fi
 }
+
+# Facl Setters, not recursive to prevent overriding
+# File or Directory Executable permissions
+# --------------------------------------------------
+function aclfile() {
+    return "This function is not ready"
+    echo "(+) Set ACL for $USER:www-data rw [Files Only, Persist]"
+
+    # Files cannot have defaults -d permissions
+    while IFS= read -r -d $'\0' file; do
+        echo "  Setting $file"
+        # Default Mode: RW
+        mode="rw"
+
+        # If Executable, Add RWX
+        if [[ -x "$file" ]]; then
+            mode="rwx"
+        fi
+        sudo setfacl  -m u:$USER:$mode $file
+        sudo setfacl  -m g:www-data:$mode $file
+    done < <(find $CREATE -type f -print0)
+    echo "(+) Done with Files"
+}
+
+function acldir() {
+  return "This function is not ready"
+
+  if [ -z "$1" ]; then
+    # display usage if no parameters given
+    echo "Usage: acldir|acldirs <path> <user (default: $USER)> <group (default: www-data)>"
+  else
+      use_user=$USER
+      if [ -z "$2" ]; then
+        use_user=$2
+      fi
+
+      use_group="www-data"
+      if [ -z "$3" ]; then
+        use_group=$3
+      fi
+
+      echo "This will set ACL as follows to Directories ONLY (-d Persists new Files):"
+      echo "  sudo setfacl  -m u:$use_user:rwx $1"
+      echo "  sudo setfacl -dm u:$use_user:rwx $1"
+      echo "  sudo setfacl  -m g:$use_group:rwx $1"
+      echo "  sudo setfacl -dm g:$use_group:rwx $1"
+      echo "(?) Does this look correcte? The size of your directory can make it take a while. Contiue [y/N]: "
+      read yn
+
+      if [[ $yn =~ ^[Yy]$ ]]; then
+
+        echo "(+) Set ACL for $use_user:www-data rwx [Directories Only, Persist]"
+          while IFS= read -r -d $'\0' dir; do
+            echo "  Setting $dir"
+            sudo setfacl    -m u:$use_user:rwx $dir
+            sudo setfacl -d -m u:$use_user:rwx $dir
+            sudo setfacl    -m g:$use_group:rwx $dir
+            sudo setfacl -d -m g:$use_group:rwx $dir
+          done < <(find $1 -type d -print0)
+        echo "(+) Done with Directories"
+      else
+        echo "(!) Operation Cancelled."
+      fi
+  fi
+}
+
+# Plural Versions
+alias aclfiles=aclfile
+alias acldirs=acldir
