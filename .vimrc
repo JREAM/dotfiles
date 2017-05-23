@@ -30,7 +30,7 @@ Plugin 'ervandew/supertab'
 " vim ~/.wakatime.cfg
 " [settings]
 " api_key = your_key_here
-Plugin 'wakatime/vim-wakatime'
+"Plugin 'wakatime/vim-wakatime'
 
 " languages
 Plugin 'hail2u/vim-css3-syntax'
