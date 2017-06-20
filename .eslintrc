@@ -1,6 +1,5 @@
 {
   // npm install -g eslint
-  // Point editor to /path/to/.npm/node_modules/eslint
   "parserOptions": {
     "ecmaVersion": 6,
     "sourceType": "module",
