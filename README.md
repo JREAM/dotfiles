@@ -256,6 +256,7 @@ npm install -g --save \
   csslint \
   eslint \
   eslint-config-eslint \
+  eslint-plugin-flowtype \
   htmlhint \
   htmllint-cli \
   less \
