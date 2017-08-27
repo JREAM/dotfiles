@@ -80,12 +80,5 @@ fi
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
 
-# For direnv
-if type direnv 2>/dev/null; then
-  eval "$(direnv hook bash)"
-else
-  echo "[!] You need 'direnv', apt install direnv"
-fi
-
 # End of File
 # -----------------------------------------------
