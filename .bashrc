@@ -56,6 +56,16 @@ shopt -s cdspell
 # Source the aliases to keep this file smaller
 source ~/.bash_aliases
 
+# Pyenv if Used
+# -----------------------------------------------
+if [ -d "$HOME/.pyenv"]; then
+  # Shims for Autocomplete
+  export PATH="$PATH:$PYENV_ROOT/shims:$PYENV_ROOT/bin"
+  eval "$(pyenv init -)"
+  # Autoload virtualenv paths w/plugin
+  eval "$(pyenv virtualenv-init -)"
+fi
+
 # Git-Extras autocomplete with $gh
 # -----------------------------------------------
 if [ -f "$HOME/gh_complete.sh" ]; then
