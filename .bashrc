@@ -58,11 +58,14 @@ source ~/.bash_aliases
 
 # Pyenv if Used
 # -----------------------------------------------
-if [ -d "$HOME/.pyenv"]; then
+if [ -d "$HOME/.pyenv" ]; then
+  export PYENV_ROOT="$HOME/.pyenv"
+
   # Shims for Autocomplete
-  export PATH="$PATH:$PYENV_ROOT/shims:$PYENV_ROOT/bin"
-  eval "$(pyenv init -)"
+  export PATH="$PYENV_ROOT/shims:$PYENV_ROOT/bin:$PATH"
+
   # Autoload virtualenv paths w/plugin
+  eval "$(pyenv init -)"
   eval "$(pyenv virtualenv-init -)"
 fi
 
