@@ -1,7 +1,7 @@
 [user]
     name = Jesse Boyer
     email = imboyus@gmail.com
-    IdentityFile = ~/.ssh/id_rsa
+    IdentityFile = ~/.ssh/jream_rsa
 [push]
     default = simple
 [apply]
@@ -76,6 +76,9 @@
     sl = stash list
     sa = stash apply
     ss = stash save
+
+    # Submobules
+    smod = submodule # smod init, smud update
 
 [core]
     excludesfile = ~/.gitignore
