@@ -247,7 +247,7 @@ alias update='sudo apt-get update'
 
 # Shortcut to upgrade
 # -----------------------------------------------
-alias updatey='sudo apt-get update && sudo apt-get upgrade'
+alias updatey='sudo apt-get update && sudo apt-get upgrade -y'
 
 
 # The extraction to rule them all: extract file.ext
