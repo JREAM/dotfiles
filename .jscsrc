@@ -9,9 +9,9 @@
     "requireDotNotation": { "allExcept": [ "keywords" ] },
     "requireSemicolons": true,
     "requireParenthesesAroundIIFE": true,
-    "maximumLineLength": 120,
+    "maximumLineLength": 160,
     "validateLineBreaks": "LF",
-    "validateIndentation": 4,
+    "validateIndentation": 2,
     "disallowTrailingComma": true,
     "disallowSpacesInsideObjectBrackets": null,
     "disallowImplicitTypeConversion": [
