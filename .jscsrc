@@ -1,3 +1,10 @@
+// jscs:disable disallowSpacesInsideBrackets
+// jscs:disable requireSpacesInsideParentheses
+// jscs:disable disallowSpacesInsideImportedObjectBraces
+// jscs:disable disallowSpacesInsideParentheses
+// jscs:disable disallowSpacesInsideParenthesizedExpression
+// jscs:disable disallowSpacesInsideTemplateStringPlaceholders
+// jscs:disable disallowSpacesInsideObjectBrackets
 {
   "preset": "google",
     "fileExtensions": [
@@ -12,8 +19,8 @@
     "maximumLineLength": 160,
     "validateLineBreaks": "LF",
     "validateIndentation": 2,
+    "validateQuoteMarks": "'",
     "disallowTrailingComma": true,
-    "disallowSpacesInsideObjectBrackets": null,
     "disallowImplicitTypeConversion": [
         "string"
     ],
