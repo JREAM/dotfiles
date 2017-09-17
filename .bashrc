@@ -92,6 +92,12 @@ fi
 # -----------------------------------------------
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
+# Add .local/bin if exists
+# -----------------------------------------------
+if [ -d ~/.local/bin ]; then
+  PATH=$PATH=:~/.local/bin
+fi
+
 
 # End of File
 # -----------------------------------------------
