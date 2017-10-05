@@ -92,10 +92,11 @@ fi
 # -----------------------------------------------
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
-# Add .local/bin if exists
-# -----------------------------------------------
-if [ -d ~/.local/bin ]; then
-  PATH=$PATH=:~/.local/bin
+# For private exports which you don't place in git
+if [ ! -f ~/.private_exports ]; then
+  touch ~/.private_exports
+else
+  . ~/.private_exports
 fi
 
 

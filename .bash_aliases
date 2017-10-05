@@ -168,6 +168,19 @@ alias sudo="sudo "
 # -----------------------------------------------
 alias gitall='git branch -r | grep -v "\->" | while read remote; do git branch --track "${remote#origin/}" "$remote"; done'
 
+function cloneall() {
+    if [ -z "$1" ]; then
+        "Provide a name or organization, cannot be empty"
+        return
+    fi
+    if [ -z "${GITHUB_ACCESS_TOKEN}" ]; then
+        "Please set GITHUB_ACCESS_TOKEN='yourtoken' in .bashrc so you can bulk clone private users and orgs you belong to"
+    fi
+
+    access_token=$GITHUB_ACCESS_TOKEN
+    curl "https://api.github.com/users/$1/repos?page=1&per_page=100" | grep -e 'git_url*' | cut -d \" -f 4 | xargs -L1 git clone
+}
+
 # Make find a little easier
 # -----------------------------------------------
 alias findfile="find . -name "
@@ -232,6 +245,10 @@ alias c='clear'
 # Jobs
 # -----------------------------------------------
 alias j='jobs -l'
+
+# Python shorthand
+# -----------------------------------------------
+alias py='python'
 
 # Always use VIM
 # -----------------------------------------------
