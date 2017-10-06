@@ -127,10 +127,10 @@ rules:
     class-methods-use-this: 0            # enforce that class methods utilize this
     complexity: 0                        # enforce a maximum cyclomatic complexity allowed in a program
     consistent-return: 0                 # require return statements to either always or never specify values
-    curly: true                             # enforce consistent brace style for all control statements
+    curly: 1                             # enforce consistent brace style for all control statements
     default-case: 0                      # require default cases in switch statements
     dot-location: 0                      # enforces consistent newlines before and after dots
-    dot-notation: true                      # enforce dot notation whenever possible
+    dot-notation: 1                      # enforce dot notation whenever possible
     eqeqeq: 0                            # require the use of === and !==
     guard-for-in: 0                      # require for-in loops to include an if statement
     no-alert: 0                          # disallow the use of alert, confirm, and prompt
@@ -231,19 +231,19 @@ rules:
 
     ########## Stylistic Issues ##########
 
-    array-bracket-newline: true             # enforce linebreaks after opening and before closing array brackets
-    array-bracket-spacing: true             # enforce consistent spacing inside array brackets
-    array-element-newline: true             # enforce line breaks after each array element
-    block-spacing: true                     # enforce consistent spacing inside single-line blocks
-    brace-style: true                       # enforce consistent brace style for blocks
+    array-bracket-newline: 1             # enforce linebreaks after opening and before closing array brackets
+    array-bracket-spacing: 1             # enforce consistent spacing inside array brackets
+    array-element-newline: 1             # enforce line breaks after each array element
+    block-spacing: 1                     # enforce consistent spacing inside single-line blocks
+    brace-style: 1                       # enforce consistent brace style for blocks
     # camelcase: 0                         # enforce camelcase naming convention
     # capitalized-comments: 0              # enforce or disallow capitalization of the first letter of a comment
     # comma-dangle: 0                      # require or disallow trailing commas
     # comma-spacing: 0                     # enforce consistent spacing before and after commas
-    comma-style: true                       # enforce consistent comma style
+    comma-style: 1                       # enforce consistent comma style
     # computed-property-spacing: 0         # enforce consistent spacing inside computed property brackets
     # consistent-this: 0                   # enforces consistent naming when capturing the current execution context
-    eol-last: true                          # require or disallow newline at the end of files
+    eol-last: 1                          # require or disallow newline at the end of files
     # func-call-spacing: 0                 # require or disallow spacing between function identifiers and their invocations
     # func-name-matching: 0                # require function names to match the name of the variable or property to which they are assigned
     # func-names: 0                        # require or disallow named function expressions
@@ -252,10 +252,10 @@ rules:
     # id-blacklist: 0                      # disallow specified identifiers
     # id-length: 0                         # enforce minimum and maximum identifier lengths
     # id-match: 0                          # require identifiers to match a specified regular expression
-    indent: true                            # enforce consistent indentation
-    jsx-quotes: true                        # enforce the consistent use of either double or single quotes in JSX attributes
-    key-spacing: true                      # enforce consistent spacing between keys and values in object literal properties
-    keyword-spacing: true                   # enforce consistent spacing before and after keywords
+    indent: 1                            # enforce consistent indentation
+    jsx-quotes: 1                        # enforce the consistent use of either double or single quotes in JSX attributes
+    key-spacing: 1                      # enforce consistent spacing between keys and values in object literal properties
+    keyword-spacing: 1                    # enforce consistent spacing before and after keywords
     # line-comment-position: 0             # enforce position of line comments
     linebreak-style: 1                   # enforce consistent linebreak style
     lines-around-comment: 0              # require empty lines around comments
