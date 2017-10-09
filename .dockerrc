@@ -1,0 +1,31 @@
+# UTIL: Get last ID
+function docker-last-id() {
+    docker ps -l -q
+}
+
+# DANGLISH: Remove Images
+function docker-rmi-dangling() {
+    docker images -q --filter 'dangling=true' | xargs docker rmi
+}
+
+# DANGLISH: Remove Volumes
+function docker-rm-volume-dangling() {
+    docker volume rm $(docker volume ls -q -f dangling=true)
+}
+
+# IMAGES: Remove ALL
+function docker-rmi-all() {
+    docker rmi $(docker images -q)
+}
+
+# CONTAINERSL Remove ALL
+function docker-rm-containers-all() {
+    docker kill $(docker ps -q)
+    docker ps -aq | xargs docker rm -fv
+}
+
+# CONTAINERS: Remove OLD (Weeks Ago)
+function docker-rm-containers-old() {
+    docker ps -a | grep 'weeks ago' | awk '{print $1}' | xargs docker rm
+}
+
