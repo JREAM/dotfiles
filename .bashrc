@@ -99,6 +99,10 @@ else
   . ~/.private_exports
 fi
 
+if [ -f ~/.dockerrc ]; then
+  . .dockerrc
+fi
+
 
 # End of File
 # -----------------------------------------------
