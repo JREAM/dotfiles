@@ -8,6 +8,7 @@
 
 # Package List (These are all global)
 PACKAGES=(
+  # Ecma Abilities
   babel-cli
   babel-core
   babel-eslint
@@ -66,12 +67,13 @@ PACKAGES=(
   jsxhint
   # Testing/Coverage
   minimatch
-  istanbula
   sinon
   expect.js
   mocha
   mocha-jshint
   phplint
+  # Other
+  pm2
   postcss
   sass-lint
   stylelint
@@ -79,6 +81,7 @@ PACKAGES=(
   standard
   tslint
   typescript
+  # CLI Tools or Builders
   @angular/cli
   vue-cli
   rollup
