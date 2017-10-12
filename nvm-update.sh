@@ -8,6 +8,8 @@
 
 # Package List (These are all global)
 PACKAGES=(
+  # See https://blogs.windows.com/msedgedev/2017/08/10/es-modules-node-today/
+  @std/esm
   # Ecma Abilities
   babel-cli
   babel-core
