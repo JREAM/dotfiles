@@ -48,6 +48,7 @@ PACKAGES=(
   eslint-plugin-react
   # Config Setting Standards
   eslint-config-airbnb
+  eslint-config-airbnb-base
   eslint-config-standard
   eslint-config-standard-react
   eslint-config-google
