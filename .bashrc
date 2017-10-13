@@ -100,7 +100,7 @@ else
 fi
 
 if [ -f ~/.dockerrc ]; then
-  . .dockerrc
+  . ~/.dockerrc
 fi
 
 
