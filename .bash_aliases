@@ -168,7 +168,13 @@ alias sudo="sudo "
 # -----------------------------------------------
 alias gitall='git branch -r | grep -v "\->" | while read remote; do git branch --track "${remote#origin/}" "$remote"; done'
 
-function cloneall() {
+# Clone all Github User Repos (Limit 100 repos)
+# Defaults to a user Repository, pass --o or --org for Organization.
+# Example: cloneall jesse123  (Clones user/jesse and private repos if you own)
+# Example: cloneall privateteam -o (Clones org/privateteam and all public repos)
+# ------------------------------------------------
+function gitcloneall() {
+    CLONE_FROM='users' # Default
     if [ -z "$1" ]; then
         "Provide a name or organization, cannot be empty"
         return
@@ -178,6 +184,7 @@ function cloneall() {
     fi
 
     access_token=$GITHUB_ACCESS_TOKEN
+    REPO_URL= "https://api.github.com/users/$1/repos?page=1&per_page=100"
     curl "https://api.github.com/users/$1/repos?page=1&per_page=100" | grep -e 'git_url*' | cut -d \" -f 4 | xargs -L1 git clone
 }
 

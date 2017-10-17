@@ -24,7 +24,14 @@ Plugin 'benjaminwhite/Benokai'
 Plugin 'metakirby5/codi.vim'
 Plugin 'bling/vim-airline'
 Plugin 'ervandew/supertab'
-
+Plugin 'leafgarland/typescript-vim'
+Plugin 'isruslan/vim-es6'
+Plugin 'pangloss/vim-javascript'
+Plugin 'plasticboy/vim-markdown'
+Plugin 'elzr/vim-json'
+Plugin 'cakebaker/scss-syntax.vim'
+Plugin 'tpope/vim-surround'
+Plugin 'terryma/vim-multiple-cursors'
 " Nice Time Tracker for Myself
 " If not asked for API key, create:
 " vim ~/.wakatime.cfg
@@ -35,11 +42,9 @@ Plugin 'ervandew/supertab'
 " languages
 Plugin 'hail2u/vim-css3-syntax'
 Plugin 'Glench/Vim-Jinja2-Syntax'
-Plugin 'tpope/vim-markdown'
 Plugin 'jnwhiteh/vim-golang'
 Plugin 'StanAngeloff/php.vim'
 Plugin 'hdima/python-syntax'
-Plugin 'pangloss/vim-javascript'
 Plugin 'othree/html5.vim'
 Plugin 'stephpy/vim-yaml'
 
