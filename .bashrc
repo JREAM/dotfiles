@@ -54,7 +54,7 @@ shopt -s cdspell
 #################################################
 
 # Source the aliases to keep this file smaller
-source ~/.bash_aliases
+source ~/.bashalias
 
 # Pyenv if Used
 # -----------------------------------------------
@@ -86,7 +86,16 @@ fi
 #################### VARIOUS #####################
 ##################################################
 
-[ -x ~/.grcbash ] && source ~/.grcbash
+# grc color Highligting
+if hash grc 2>/dev/null; then
+  if [ -s ~/etc/grcbash ]; then
+    source ~/etc/grcbash
+  fi
+
+  if [ -f "$HOME/.grc/grc.bashrc" ]; then
+    source "$HOME/.grc/grc.bashrc"
+  fi
+fi
 
 # Make less more friendly for non-text input files, see lesspipe(1)
 # -----------------------------------------------

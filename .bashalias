@@ -1,6 +1,7 @@
-################################################
-####################  NGINX  ###################
-################################################
+# ░░░░░▒▒▒▒▒▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▒▒▒▒▒░░░░░
+# ░░░░░▒▒▒▒▒                   NGINX                        ▒▒▒▒▒░░░░░
+# ░░░░░▒▒▒▒▒▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▒▒▒▒▒░░░░░
+
 function ngmake { sudo vim /etc/nginx/sites-available/$1; }
 function ngenable { sudo ln -s /etc/nginx/sites-available/$1 /etc/nginx/sites-enabled; }
 function ngdisable { sudo rm /etc/nginx/sites-enabled/$1; }
@@ -12,9 +13,10 @@ alias ngstop='sudo service nginx stop'
 alias ngpath='cd /etc/nginx/'
 
 
-################################################
-###################  APACHE  ###################
-################################################
+# ░░░░░▒▒▒▒▒▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▒▒▒▒▒░░░░░
+# ░░░░░▒▒▒▒▒                   APACHE                       ▒▒▒▒▒░░░░░
+# ░░░░░▒▒▒▒▒▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▒▒▒▒▒░░░░░
+
 alias a2graceful='sudo /usr/sbin/apachectl -k graceful'
 alias a2modules='sudo apachectl -t -D DUMP_MODULES'
 alias a2vhosts='sudo apachectl -t -D DUMP_VHOSTS'
@@ -41,23 +43,12 @@ alias a2access='cat /var/log/apache2/access.log'
 alias apachectl='sudo apachectl'
 alias apache2ctl='sudo apache2ctl'
 
-################################################
-#################### DOCKER ####################
-################################################
 
-alias dk='docker'
-alias drm="docker rm"
-alias dps="docker ps"
-function newbox () {
-    docker run --name $1 --volumes-from=volume_container -it -v /var/run/docker.sock:/var/run/docker.sock -e BOX_NAME=$1 jream/devbox
-}
+# ░░░░░▒▒▒▒▒▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▒▒▒▒▒░░░░░
+# ░░░░░▒▒▒▒▒                   PYTHON                       ▒▒▒▒▒░░░░░
+# ░░░░░▒▒▒▒▒▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▒▒▒▒▒░░░░░
 
-################################################
-#################### PYTHON ####################
-################################################
-
-if [ -d "$HOME/.virtualenvs" ] ; then
-    # Virtualenv stuff
+if [ -d "~/.virtualenvs" ] ; then
     export WORKON_HOME=~/.virtualenvs
     export PROJECT_HOME=~/projects
     export PIP_VIRTUALENV_BASE=~/.virtualenvs
@@ -69,18 +60,15 @@ fi
 # Stop Python from generating bytecode files
 export PYTHONDONTWRITEBYTECODE=1
 
-################################################
-###################  COMMON  ###################
-################################################
 
-# Apply Sudo when you forget for service
+# ░░░░░▒▒▒▒▒▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▒▒▒▒▒░░░░░
+# ░░░░░▒▒▒▒▒                   COMMON                       ▒▒▒▒▒░░░░░
+# ░░░░░▒▒▒▒▒▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▒▒▒▒▒░░░░░
+
+# Apply SUDO when for all services
 # -----------------------------------------------
 alias service='sudo service'
 
-
-################################################
-###################  COMMON  ###################
-################################################
 colorflag="--color"
 
 # Listing and colors
@@ -115,6 +103,10 @@ alias ....="cd ../../.."
 
 if [ -d ~/projects ]; then
   alias p="cd ~/projects/"
+fi
+
+if [ -d ~/projects-socketface ]; then
+  alias pp="cd ~/projects-socketface"
 fi
 
 alias www="cd /var/www/"
@@ -241,6 +233,22 @@ alias apt="sudo apt"
 # -----------------------------------------------
 alias mkdir='mkdir -pv'
 
+# Directory Loop (One Parent)
+# Usage example: git checkout development (For all subfolders)
+# -----------------------------------------------
+loopdircmd() {
+    if [ -z "$1" ]; then
+        echo -e "[!] Whoops! Provide a command,\n\t eg: loopdircmd git checkout development\n"
+        return
+    fi
+
+    echo "$*"
+    # Go One Level Deep
+    # -name . skips running from the CWD
+    # $* joins all arguments as a string
+    find . -maxdepth 1 -type d \( ! -name . \) -exec bash -c "cd '{}' && $*" \;
+}
+
 # History
 # -----------------------------------------------
 alias h='history'
@@ -272,7 +280,6 @@ alias update='sudo apt-get update'
 # Shortcut to upgrade
 # -----------------------------------------------
 alias updatey='sudo apt-get update && sudo apt-get upgrade -y'
-
 
 # The extraction to rule them all: extract file.ext
 # -----------------------------------------------
@@ -359,6 +366,9 @@ calc() {
   fi
 }
 
+# ░░░░░▒▒▒▒▒▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▒▒▒▒▒░░░░░
+# ░░░░░▒▒▒▒▒                    ACL                         ▒▒▒▒▒░░░░░
+# ░░░░░▒▒▒▒▒▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▒▒▒▒▒░░░░░
 # Facl Setters, not recursive to prevent overriding
 # File or Directory Executable permissions
 # --------------------------------------------------
