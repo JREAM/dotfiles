@@ -1,3 +1,18 @@
+MY_PORTAINER_PORT=9500
+
+# $ docker container prune
+# Remove all stopped containers
+# $ docker container prune --filter "until=1w"
+
+#$ docker system prune -a
+
+#WARNING! This will remove:
+#    - all stopped containers
+#    - all volumes not used by at least one container
+#    - all networks not used by at least one container
+#    - all images without at least one container associated to them
+#Are you sure you want to continue? [y/N] y
+
 # UTIL: Get last ID
 function docker-last-id() {
     docker ps -l -q
@@ -9,7 +24,7 @@ function docker-rmi-dangling() {
 }
 
 # DANGLISH: Remove Volumes
-function docker-rm-volume-dangling() {
+function docker-rmv-dangling() {
     docker volume rm $(docker volume ls -q -f dangling=true)
 }
 
@@ -19,7 +34,7 @@ function docker-rmi-all() {
 }
 
 # CONTAINERSL Remove ALL
-function docker-rm-containers-all() {
+function docker-rmc-all() {
     docker kill $(docker ps -q)
     docker ps -aq | xargs docker rm -fv
 }
@@ -29,3 +44,12 @@ function docker-rm-containers-old() {
     docker ps -a | grep 'weeks ago' | awk '{print $1}' | xargs docker rm
 }
 
+function portainer-setup() {
+    docker volume create portainer_data
+    docker run -d -p $MY_PORTAINER_PORT:9000 -v /var/run/docker.sock:/var/run/docker.sock -v portainer_data:/data portainer/portainer
+}
+
+# PORTAINER WEB UI
+function portainer() {
+    docker run -d -p $MY_PORTAINER_PORT:9000 -v /var/run/docker.sock:/var/run/docker.sock -v portainer_data:/data portainer/portainer
+}
