@@ -1,18 +1,31 @@
+#!/bin/bash
+# ___________________________________________________________________
+#
+#                  Dockerrc [Sourced from .bashrc]
+#                         Docker Shortcuts
+#
+# Note: Using rm<i|c|v> (i:images, c:containers, v:volumes>
+#
+# < Built-in 1.13+ >
+# 1: Remove all stopped containers:
+#   $ docker container prune
+#   $ docker container prune --filter "until=1w"
+# 2: System Prune:
+#   $ docker system prune -a
+# ___________________________________________________________________
+
+# ___________________________________________________________________
+#
+#                           SETTINGS
+# ___________________________________________________________________
+#
 MY_PORTAINER_PORT=9500
 MY_PORTAINER_NAME="portainer"
 
-# $ docker container prune
-# Remove all stopped containers
-# $ docker container prune --filter "until=1w"
-
-#$ docker system prune -a
-
-#WARNING! This will remove:
-#    - all stopped containers
-#    - all volumes not used by at least one container
-#    - all networks not used by at least one container
-#    - all images without at least one container associated to them
-#Are you sure you want to continue? [y/N] y
+# ___________________________________________________________________
+#
+#                           FUNCTIONS
+# ___________________________________________________________________
 
 # UTIL: Get last ID
 function docker-last-id() {
@@ -45,12 +58,15 @@ function docker-rm-containers-old() {
     docker ps -a | grep 'weeks ago' | awk '{print $1}' | xargs docker rm
 }
 
+# ___________________________________________________________________
+#
+#                           PORTAINER
+# ___________________________________________________________________
 function portainer-setup() {
     docker volume create portainer_data
     docker run -d --name=$MY_PORTAINER_NAME -p $MY_PORTAINER_PORT:9000 -v /var/run/docker.sock:/var/run/docker.sock -v portainer_data:/data portainer/portainer
 }
 
-# PORTAINER WEB UI
 function portainer() {
     docker start $MY_PORTAINER_NAME
 }
@@ -58,3 +74,5 @@ function portainer() {
 function portainer-stop() {
     docker stop $MY_PORTAINER_NAME
 }
+
+# End of File
