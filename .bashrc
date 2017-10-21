@@ -112,10 +112,6 @@ if [ -f ~/.dockerrc ]; then
   . ~/.dockerrc
 fi
 
-# For Tilix @ https://launchpad.net/~webupd8team/+archive/ubuntu/terminix
-if [ $TILIX_ID ] || [ $VTE_VERSION ]; then
-  source /etc/profile.d/vte.sh
-fi
 
 # End of File
 # -----------------------------------------------
