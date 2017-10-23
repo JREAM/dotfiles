@@ -6,8 +6,10 @@
 #                        Speed up Commands in Terminal
 #
 # Suggested Apt Packages: pydf colordiff nmap
+# Note: See .exports for Color ENV variables
 #
 # Table of Contents:
+#   - COLORS
 #   - COMMON
 #   - COMMON W/INSTALLS
 #   - NGINX
@@ -20,6 +22,25 @@
 # Personal Folder shortcuts
 if [ -d ~/projects ]; then alias p='cd ~/projects/'; fi
 if [ -d ~/projects-socketface ]; then alias pp='cd ~/projects-socketface'; fi
+
+# ___________________________________________________________________
+#
+#                           COLORS
+# ___________________________________________________________________
+if [[ ! -v DOTEXPORTS_SET_COLORS ]]; then
+tput sgr0   # Reset Colors While Setting Variables
+    BLACK=$(tput setaf 0)
+    RED=$(tput setaf 1)
+    GREEN=$(tput setaf 2)
+    YELLOW=$(tput setaf 3)
+    BLUE=$(tput setaf 4)
+    PURPLE=$(tput setaf 5)
+    CYAN=$(tput setaf 6)
+    WHITE=$(tput setaf 7)
+
+    BOLD=$(tput bold)
+    RESET=$(tput sgr0)
+fi
 
 # ___________________________________________________________________
 #
@@ -220,7 +241,7 @@ function findinfile() {
 
 # Directory Loop (All Children/Sub-Folders)
 #
-#   @TODO PASS -d=2 or --depth=<number> to allow over 1 level deep
+#   @TODO [ON HOLD, SEE BELOW] PASS -d=2 or --depth=<number> to allow over 1 level deep
 #
 # examples: $ loopdircmd git checkout development
 # ___________________________________________________________________
@@ -230,11 +251,19 @@ loopdircmd() {
         return
     fi
 
-    echo "$*"
-    # Go One Level Deep
-    # -name . skips running from the CWD
     # $* joins all arguments as a string
-    find . -maxdepth 1 -type d \( ! -name . \) -exec bash -c "cd '{}' && $*" \;
+    echo "$*"
+
+    # Go One Level Deep
+    # @TODO Using this right now for CWD OUTPUT
+    for d in ./*/; do
+        echo -e "\n${BOLD}${WHITE}${d}${RESET}"
+        (cd "$d" && $*);
+    done
+
+    # @TODO: This works great, but I'd like to print out the directory im in better
+    # -name . skips running from the CWD
+    # find . -maxdepth 1 -type d \( ! -name . \) -exec bash -c "cd '{}' && echo -e \"\n${BOLD}${GREEN}In Directory: ${PWD}${RESET}\" && $*" \;
 }
 
 # One EXTRACT method to rule them all
