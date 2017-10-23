@@ -103,17 +103,17 @@ alias ip="dig +short myip.opendns.com @resolver1.opendns.com"
 #                       COMMON W/INSTALLS
 # ___________________________________________________________________
 
-if hash colordiff; then
+if hash colordiff 2> /dev/null; then
     # install: $ sudo apt install colordiff
     alias diff='colordiff'
 fi
 
-if hash nmap; then
+if hash nmap 2> /dev/null; then
     # install: $ sudo apt install nmap
     alias portsopen='nmap localhost --open'
 fi
 
-if hash pydf; then
+if hash pydf 2> /dev/null; then
     # install: $ sudo apt install pydf
     alias df='pydf'
 fi
