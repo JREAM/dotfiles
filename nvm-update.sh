@@ -10,8 +10,6 @@
 PACKAGES=(
   # See https://blogs.windows.com/msedgedev/2017/08/10/es-modules-node-today/
   @std/esm
-  # PostMan tester
-  newman
   # Ecma Abilities
   babel-cli
   babel-core
@@ -48,7 +46,6 @@ PACKAGES=(
   eslint-plugin-react
   # Config Setting Standards
   eslint-config-airbnb
-  eslint-config-airbnb-base
   eslint-config-standard
   eslint-config-standard-react
   eslint-config-google
@@ -59,6 +56,7 @@ PACKAGES=(
   grunt-babel
   grunt-eslint
   gulp
+  gulp-cli
   gulp-babel
   gulp-eslint
   gulp-jshint
@@ -91,6 +89,18 @@ PACKAGES=(
   vue-cli
   rollup
   webpack
+  # Type Definitions
+  @types/jquery
+  @types/lodash
+  @types/node
+  @types/async
+  @types/request
+  @types/uuid
+  @types/webpack
+  @types/jsonwebtoken
+  @types/winston
+  @types/restify
+  @types/twilio
 )
 
 # A few Colors
