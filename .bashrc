@@ -97,6 +97,23 @@ if hash grc 2>/dev/null; then
   fi
 fi
 
+# GitHub CLI Tool, $ hub
+# @install:
+#   git clone https://github.com/github/hub.git
+#   sudo make install prefix=/usr/local
+#   $ hub
+if hash hub; then
+  eval "$(hub alias -s)"
+
+  # Load Bash Completion(s)Completion
+  if [ -f $HOME/.hub.bash_completion ]; then
+    echo 1
+    . $HOME/.hub.bash_completion
+  fi
+fi
+
+eval "$(hub alias -s)"
+
 # Make less more friendly for non-text input files, see lesspipe(1)
 # -----------------------------------------------
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
