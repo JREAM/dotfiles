@@ -102,7 +102,7 @@ fi
 #   git clone https://github.com/github/hub.git
 #   sudo make install prefix=/usr/local
 #   $ hub
-if hash hub; then
+if hash hub 2> /dev/null; then
   eval "$(hub alias -s)"
 
   # Load Bash Completion(s)Completion
@@ -112,7 +112,6 @@ if hash hub; then
   fi
 fi
 
-eval "$(hub alias -s)"
 
 # Make less more friendly for non-text input files, see lesspipe(1)
 # -----------------------------------------------
@@ -132,3 +131,4 @@ fi
 
 # End of File
 # -----------------------------------------------
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
