@@ -84,11 +84,14 @@ PACKAGES=(
   standard
   tslint
   typescript
+  protractor
+  karma-cli
   # CLI Tools or Builders
   @angular/cli
   vue-cli
   rollup
   webpack
+  webpack-dev-server
   # Type Definitions
   @types/jquery
   @types/lodash
@@ -101,6 +104,10 @@ PACKAGES=(
   @types/winston
   @types/restify
   @types/twilio
+  # CLI Utils
+  fkill-cli
+  vtop
+  localtunnel
 )
 
 # A few Colors
