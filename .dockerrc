@@ -21,6 +21,8 @@
 #
 MY_PORTAINER_PORT=9500
 MY_PORTAINER_NAME="portainer"
+MY_SWAGGER_PORT=9600
+MY_SWAGGER_NAME="swagger"
 
 # ___________________________________________________________________
 #
@@ -67,12 +69,25 @@ function portainer-setup() {
     docker run -d --name=$MY_PORTAINER_NAME -p $MY_PORTAINER_PORT:9000 -v /var/run/docker.sock:/var/run/docker.sock -v portainer_data:/data portainer/portainer
 }
 
-function portainer() {
+function portainer-up() {
     docker start $MY_PORTAINER_NAME
 }
 
 function portainer-stop() {
     docker stop $MY_PORTAINER_NAME
+}
+
+
+function swagger-setup() {
+    docker run -d --name=$MY_SWAGGER_NAME -p $MY_SWAGGER_PORT:8080 swaggerapi/swagger-editor
+}
+
+function swagger-up() {
+    docker start $MY_SWAGGER_NAME
+}
+
+function swagger-stop() {
+    docker stop $MY_SWAGGER_NAME
 }
 
 # End of File
