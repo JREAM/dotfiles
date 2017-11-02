@@ -26,6 +26,16 @@ MY_SWAGGER_NAME="swagger"
 
 # ___________________________________________________________________
 #
+#                           ALIASES
+# ___________________________________________________________________
+alias dco="docker-compose"
+alias dco-fresh="docker-compose down && docker-compose up --build -d"
+alias dco-down="docker-compose down"
+alias dco-stop-all="docker kill $(docker ps -q)"
+
+
+# ___________________________________________________________________
+#
 #                           FUNCTIONS
 # ___________________________________________________________________
 
@@ -34,19 +44,36 @@ function docker-last-id() {
     docker ps -l -q
 }
 
-# DANGLISH: Remove Images
-function docker-rmi-dangling() {
-    docker images -q --filter 'dangling=true' | xargs docker rmi
+# IMAGES: Does Container Exist?
+function docker-exists-i() {
+    if [ -z $1 ]; then
+        echo "Missing argument for image name."
+        return
+    fi
+    return $(docker images -q $1)  # Returns ID or Nothing
 }
 
-# DANGLISH: Remove Volumes
-function docker-rmv-dangling() {
-    docker volume rm $(docker volume ls -q -f dangling=true)
+# IMAGES: Remove Danglish
+function docker-rmi-dangling() {
+    docker images -q --filter 'dangling=true' | xargs docker rmi
 }
 
 # IMAGES: Remove ALL
 function docker-rmi-all() {
     docker rmi $(docker images -q)
+}
+
+# VOLUMES: Remove Dangling
+function docker-rmv-dangling() {
+    docker volume rm $(docker volume ls -q -f dangling=true)
+}
+
+# CONTAINERS: Stop/Kill All
+function docker-stop-all {
+    docker stop $(docker ps -q)
+}
+function docker-kill-all {
+    docker kill $(docker ps -q)
 }
 
 # CONTAINERSL Remove ALL
@@ -77,9 +104,16 @@ function portainer-stop() {
     docker stop $MY_PORTAINER_NAME
 }
 
-
+# ___________________________________________________________________
+#
+#                           SWAGGER EDITOR
+#
+#                  @recommended: $ npm i -g swagger
+#                             (Optional)
+# ___________________________________________________________________
 function swagger-setup() {
     docker run -d --name=$MY_SWAGGER_NAME -p $MY_SWAGGER_PORT:8080 swaggerapi/swagger-editor
+    echo -e "@recommended: npm i -g swagger  (Additional CLI for Swagger)\n"
 }
 
 function swagger-up() {
@@ -89,5 +123,4 @@ function swagger-up() {
 function swagger-stop() {
     docker stop $MY_SWAGGER_NAME
 }
-
 # End of File
