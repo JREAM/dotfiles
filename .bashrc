@@ -111,7 +111,15 @@ if hash hub; then
   fi
 fi
 
+<<<<<<< HEAD
 eval "$(hub alias -s)"
+=======
+# Comma Navigation
+# @example: , d  <TAB>
+# @Install: curl -sL https://github.com/shyiko/commacd/raw/v0.3.3/commacd.bash -o ~/.commacd.bash
+if [ -f $HOME/.commacd.bash ]; then
+  . $HOME/.commacd.bash
+fi
 
 # Make less more friendly for non-text input files, see lesspipe(1)
 # -----------------------------------------------
