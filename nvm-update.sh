@@ -82,6 +82,7 @@ PACKAGES=(
   stylelint
   stylelint-scss
   standard
+  swagger
   tslint
   typescript
   protractor
