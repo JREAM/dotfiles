@@ -18,7 +18,6 @@ PACKAGES=(
   babel-polyfill
   babel-preset-env
   chalk
-  colors
   core-js
   lodash
   cross-env
@@ -27,7 +26,6 @@ PACKAGES=(
   es2016
   es2017
   es2018
-  esnext
   es6
   es6-promise
   eslint
@@ -38,16 +36,13 @@ PACKAGES=(
   eslint-plugin-prettier
   eslint-plugin-lodash
   eslint-plugin-mocha
-  eslint-plugin-react-native
   # Dependencies for eslint-config-standard
   eslint-plugin-import
   eslint-plugin-node
   eslint-plugin-promise
-  eslint-plugin-react
   # Config Setting Standards
   eslint-config-airbnb
   eslint-config-standard
-  eslint-config-standard-react
   eslint-config-google
   # Markdown Linter
   remark-lint
@@ -59,21 +54,15 @@ PACKAGES=(
   gulp-cli
   gulp-babel
   gulp-eslint
-  gulp-jshint
   # Linters/Helpers
   htmlhint
   htmlhint-cli
   jscs
-  jshint
-  jshint-stylish
-  jslint
-  jsxhint
   # Testing/Coverage
   minimatch
   sinon
   expect.js
   mocha
-  mocha-jshint
   phplint
   # Other
   pm2
@@ -82,7 +71,6 @@ PACKAGES=(
   stylelint
   stylelint-scss
   standard
-  swagger
   tslint
   typescript
   protractor
@@ -97,14 +85,11 @@ PACKAGES=(
   @types/jquery
   @types/lodash
   @types/node
-  @types/async
   @types/request
-  @types/uuid
   @types/webpack
   @types/jsonwebtoken
-  @types/winston
   @types/restify
-  @types/twilio
+  @types/q
   # CLI Utils
   fkill-cli
   vtop
