@@ -29,10 +29,16 @@ MY_SWAGGER_NAME="swagger"
 #                           ALIASES
 # ___________________________________________________________________
 alias dco="docker-compose"
-alias dco-fresh="docker-compose down && docker-compose up --build -d"
+alias dco-l="docker-compose logs"
+alias dco-lf="docker-compose logs -f"
+alias dco-reboot="docker-compose down && docker-compose up"
+alias dco-fresh="docker-compose kill && docker-compose down && docker-compose up --build -d"
 alias dco-down="docker-compose down"
-alias dco-stop-all="docker kill $(docker ps -q)"
+alias dco-up="docker-compose up -d"
+alias dco-stop="docker-compose stop"
+alias dco-kill="docker-compose kill"
 
+alias docker-kill-all="docker kill $(docker ps -q)"
 
 # ___________________________________________________________________
 #
