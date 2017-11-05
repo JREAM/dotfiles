@@ -11,8 +11,12 @@
 ##############  TERMINAL DISPLAY  ##############
 ################################################
 
+parse_git_branch() {
+  git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
+}
+
 # Unubtrusive user@name[~/path]:~$
-export PS1="\u\[$(tput sgr0)\]\[\033[38;5;250m\]@\[$(tput sgr0)\]\[\033[38;5;15m\]\H[\[$(tput sgr0)\]\[\033[38;5;251m\]\w\[$(tput sgr0)\]\[\033[38;5;15m\]]:~\\$ \[$(tput sgr0)\]"
+export PS1="\u\[$(tput sgr0)\]\[\033[38;5;250m\]@\[$(tput sgr0)\]\[\033[38;5;15m\]\H[\[$(tput sgr0)\]\[\033[38;5;251m\]\w\[\033[33m\]\$(parse_git_branch)\[\033[00m\]\[$(tput sgr0)\]\[\033[38;5;15m\]]:~\\$ \[$(tput sgr0)\]"
 
 
 
@@ -102,18 +106,16 @@ fi
 #   git clone https://github.com/github/hub.git
 #   sudo make install prefix=/usr/local
 #   $ hub
-if hash hub; then
+if hash hub 2> /dev/null; then
   eval "$(hub alias -s)"
 
   # Load Bash Completion(s)Completion
   if [ -f $HOME/.hub.bash_completion ]; then
+    echo 1
     . $HOME/.hub.bash_completion
   fi
 fi
 
-<<<<<<< HEAD
-eval "$(hub alias -s)"
-=======
 # Comma Navigation
 # @example: , d  <TAB>
 # @Install: curl -sL https://github.com/shyiko/commacd/raw/v0.3.3/commacd.bash -o ~/.commacd.bash
@@ -139,3 +141,4 @@ fi
 
 # End of File
 # -----------------------------------------------
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
