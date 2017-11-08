@@ -60,9 +60,10 @@ PACKAGES=(
   jscs
   # Testing/Coverage
   minimatch
+  mocha
+  chai
   sinon
   expect.js
-  mocha
   phplint
   # Other
   pm2
@@ -90,6 +91,11 @@ PACKAGES=(
   @types/jsonwebtoken
   @types/restify
   @types/q
+  # Testing Typedefs
+  @types/karma
+  @types/mocha
+  @types/chai
+  @types/sinon
   # CLI Utils
   fkill-cli
   vtop
