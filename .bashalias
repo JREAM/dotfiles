@@ -118,6 +118,11 @@ if hash pydf 2> /dev/null; then
     alias df='pydf'
 fi
 
+# For Windows | Make Shortcut Run as Administrator!
+if [ -f "/c/ProgramData/chocolatey/bin/choco" ]; then
+    alias choco="/c/ProgramData/chocolatey/bin/choco"
+fi
+
 # ___________________________________________________________________
 #
 #                           NGINX
