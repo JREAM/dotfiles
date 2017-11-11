@@ -111,7 +111,6 @@ if hash hub 2> /dev/null; then
 
   # Load Bash Completion(s)Completion
   if [ -f $HOME/.hub.bash_completion ]; then
-    echo 1
     . $HOME/.hub.bash_completion
   fi
 fi
