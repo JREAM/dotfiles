@@ -14,6 +14,14 @@
 #   $ docker system prune -a
 # ___________________________________________________________________
 
+
+# ___________________________________________________________________
+#
+# Used for Settings, please do not change.
+# ___________________________________________________________________
+DIR_DB='/data/db'
+DIR_CONF='/data/conf'
+
 # ___________________________________________________________________
 #
 #                           SETTINGS
@@ -22,6 +30,9 @@
 #  @note Different ports are use for non-conflict with local setups.
 # ___________________________________________________________________
 #
+
+# @TODO: Add destroyable so its easier for user, multi instance maybe?
+
 MY_PORTAINER_PORT=9500
 MY_PORTAINER_NAME="portainer-local"
 
@@ -169,7 +180,12 @@ function swagger-stop() {
 #
 # ___________________________________________________________________
 function redis-setup() {
-    docker run -d --name=$MY_REDIS_NAME -p $MY_REDIS_PORT:6379 redis:3-alpine
+    sudo mkdir -p /data
+    if [ ! -f $DIR_CONF/redis.conf ]; then
+        echo "You need are missing ${DIR_CONF}/redis.conf, see https://github.com/jream/dotfiles.git under a docker folder"
+        exit 1
+    fi
+    docker run -d -v $DIR_CONF/redis.conf:/usr/local/etc/redis/redis.conf --name=$MY_REDIS_NAME -p $MY_REDIS_PORT:6379 redis:3-alpine
 }
 
 function redis-up() {
@@ -187,8 +203,8 @@ function redis-stop() {
 # ___________________________________________________________________
 function mongo-setup() {
     echo "Creating local directory to persist data"
-    sudo mkdir /data/db/docker_mongo/$MY_MONGO_NAME
-    docker run -d -v /data/db/docker_mongo/$MY_MONGO_NAME --name=$MY_MONGO_NAME -p $MY_MONGO_PORT:27017 mongo:3.4
+    sudo mkdir $DIR_DB/mongo/$MY_MONGO_NAME
+    docker run -d -v $DIR_DB/mongo/$MY_MONGO_NAME --name=$MY_MONGO_NAME -p $MY_MONGO_PORT:27017 mongo:3.4
 }
 
 function mongo-up() {
@@ -206,8 +222,8 @@ function mongo-stop() {
 # ___________________________________________________________________
 function mysql-setup() {
     echo "Creating local directory to persist data"
-    sudo mkdir /data/db/docker_mysql/$MY_MYSQL_NAME
-    docker run -d -v /data/db/docker_mysql/$MY_MYSQL_NAME:/var/lib/mysql --name=$MY_MYSQL_NAME -p $MY_MYSQL_PORT:3306 -e MYSQL_ROOT_PASSWORD=$MY_MYSQL_ROOT_PASSWORD mysql:5.7
+    sudo mkdir $DIR_DB/mysql/$MY_MYSQL_NAME
+    docker run -d -v $DIR_DB/mysql/$MY_MYSQL_NAME:/var/lib/mysql --name=$MY_MYSQL_NAME -p $MY_MYSQL_PORT:3306 -e MYSQL_ROOT_PASSWORD=$MY_MYSQL_ROOT_PASSWORD mysql:5.7
 }
 
 #function mysql-connect() {
