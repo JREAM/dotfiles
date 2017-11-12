@@ -1,82 +1,84 @@
 #!/bin/bash
 # ╔═════════════════════════════════════════════════════════════════╗
-# ║ BASHRC                                                          ║
+# ║ BASH_VEDNORS                                                    ║
 # ╠═════════════════════════════════════════════════════════════════╣
 # ║ Entry Point to all Bash Utilities                               ║
 # ╚═════════════════════════════════════════════════════════════════╝
 
-# If not running interactively, don't do anything
-# ___________________________________________________________________
-[ -z "$PS1" ] && return
-
-
 # ┌─────────────────────────────────────────────────────────────────┐
-# │ Terminal Display                                                │
+# │ (Optional) PyEnv                                                │
 # ├─────────────────────────────────────────────────────────────────┤
 # └─────────────────────────────────────────────────────────────────┘
-parse_git_branch() {
-  git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
-}
+if [ -d "$HOME/.pyenv" ]; then
+  export PYENV_ROOT="$HOME/.pyenv"
 
-# Unobtrusive user@name[~/path]:~$
-# Unobtrusive user@name[~/path (git-branch)]:~$
-export PS1="\u\[$(tput sgr0)\]\[\033[38;5;250m\]@\[$(tput sgr0)\]\[\033[38;5;15m\]\H[\[$(tput sgr0)\]\[\033[38;5;251m\]\w\[\033[33m\]\$(parse_git_branch)\[\033[00m\]\[$(tput sgr0)\]\[\033[38;5;15m\]]:~\\$ \[$(tput sgr0)\]"
+  # Shims for Autocomplete
+  # ___________________________________________________________________
+  export PATH="$PYENV_ROOT/shims:$PYENV_ROOT/bin:$PATH"
 
-# ┌─────────────────────────────────────────────────────────────────┐
-# │ Source Other Files                                              │
-# ├─────────────────────────────────────────────────────────────────┤
-# │ Let Bash Variables come first to use within every area.         │
-# └─────────────────────────────────────────────────────────────────┘
-if [ -f ~/.bash_vars ]; then source ~/.bash_vars; fi
-if [ -f ~/.bash_aliases ]; then source ~/.bash_aliases; fi
-if [ -f ~/.bash_vendors ]; then source ~/.bash_vendors; fi
-if [ -f ~/.dockerrc ]; then source ~/.dockerrc; fi
-
-# For private exports [Don't place in git]
-# ___________________________________________________________________
-if [ ! -f ~/.exports_private ]; then
-  touch ~/.exports_private
-else
-  source ~/.exports_private
+  # Autoload virtualenv paths w/plugin
+  # ___________________________________________________________________
+  eval "$(pyenv init -)"
+  eval "$(pyenv virtualenv-init -)"
 fi
 
 # ┌─────────────────────────────────────────────────────────────────┐
-# │ Preferences: History                                            │
+# │ (Optional) Git Extras    $gh                                    │
 # ├─────────────────────────────────────────────────────────────────┤
 # └─────────────────────────────────────────────────────────────────┘
-HISTCONTROL=ignoreboth
-HISTSIZE=1000
-HISTFILESIZE=2000
-
-# Append to the history file, don"t overwrite it
-# ___________________________________________________________________
-shopt -s histappend
-
-# Set variable identifying the chroot you work in
-#                      (used in the prompt below)
-# ___________________________________________________________________
-if [ -z "$debian_chroot" ] && [ -r /etc/debian_chroot ]; then
-    debian_chroot=$(cat /etc/debian_chroot)
+if [ -f "$HOME/.gh_complete.sh" ]; then
+  source "$HOME/.gh_complete.sh"
 fi
-
 
 # ┌─────────────────────────────────────────────────────────────────┐
-# │ Bash Completion                                                 │
+# │ (Optional) NVM (Node Version Manager)                           │
 # ├─────────────────────────────────────────────────────────────────┤
 # └─────────────────────────────────────────────────────────────────┘
-
-# Enable programmable completion features
-# ___________________________________________________________________
-if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
-    . /etc/bash_completion
+if [ -d "$HOME/.nvm" ]; then
+  export NVM_DIR="$HOME/.nvm"
+  [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" # This loads nvm
+  # Loads NVM bash_completion
+  [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
 fi
 
-# Fix $ cd typing errors
-# ___________________________________________________________________
-shopt -s cdspell
+# ┌─────────────────────────────────────────────────────────────────┐
+# │ GRC Color Highlighting                                          │
+# ├─────────────────────────────────────────────────────────────────┤
+# └─────────────────────────────────────────────────────────────────┘
+if hash grc 2>/dev/null; then
+  if [ -s ~/etc/grcbash ]; then
+    source ~/etc/grcbash
+  fi
 
+  if [ -f "$HOME/.grc/grc.bashrc" ]; then
+    source "$HOME/.grc/grc.bashrc"
+  fi
+fi
 
-# Make less more friendly for non-text input files, see lesspipe(1)
-# ___________________________________________________________________
-[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
+# ┌─────────────────────────────────────────────────────────────────┐
+# │ (Optional) GitHub CLI   $hub                                    │
+# ├─────────────────────────────────────────────────────────────────┤
+# └─────────────────────────────────────────────────────────────────┘
+# @install:
+#   git clone https://github.com/github/hub.git
+#   sudo make install prefix=/usr/local
+#   $ hub
+if hash hub 2> /dev/null; then
+  eval "$(hub alias -s)"
 
+  # Load Bash Completion(s)Completion
+  if [ -f $HOME/.hub.bash_completion ]; then
+    source $HOME/.hub.bash_completion
+  fi
+fi
+
+# ┌─────────────────────────────────────────────────────────────────┐
+# │ Comma Navigation                                                │
+# ├─────────────────────────────────────────────────────────────────┤
+# └─────────────────────────────────────────────────────────────────┘
+# Comma Navigation
+# @example: , d  <TAB>
+# @Install: curl -sL https://github.com/shyiko/commacd/raw/v0.3.3/commacd.bash -o ~/.commacd.bash
+if [ -f $HOME/.commacd.bash ]; then
+  source $HOME/.commacd.bash
+fi

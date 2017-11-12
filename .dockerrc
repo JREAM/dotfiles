@@ -1,60 +1,68 @@
 #!/bin/bash
-# ___________________________________________________________________
-#
-#                  Dockerrc [Sourced from .bashrc]
-#                         Docker Shortcuts
-#
-# Note: Using rm<i|c|v> (i:images, c:containers, v:volumes>
-#
-# < Built-in 1.13+ >
-# 1: Remove all stopped containers:
-#   $ docker container prune
-#   $ docker container prune --filter "until=1w"
-# 2: System Prune:
-#   $ docker system prune -a
-# ___________________________________________________________________
+# ╔═════════════════════════════════════════════════════════════════╗
+# ║ DOCKERRC                                                        ║
+# ╠═════════════════════════════════════════════════════════════════╣
+# ║ - Sourced from .bashrc                                          ║
+# ║                                                                 ║
+# ║ @note: Using rm<i|c|v> (i:images, c:containers, v:volumes>      ║
+# ║                                                                 ║
+# ║ < Built-in 1.13+ >                                              ║
+# ║ (1): Remove all stopped containers:                             ║
+# ║  $ docker container prune                                       ║
+# ║  $ docker container prune --filter "until=1w"                   ║
+# ║ (2): System Prune:                                              ║
+# ║  $ docker system prune -a                                       ║
+# ╚═════════════════════════════════════════════════════════════════╝
 
 
-# ___________________________________________________________________
-#
 # Used for Settings, please do not change.
 # ___________________________________________________________________
 DIR_DB='/data/db'
 DIR_CONF='/data/conf'
 
-# ___________________________________________________________________
-#
-#                           SETTINGS
-#
-#       These only install if you run them with functions below.
-#  @note Different ports are use for non-conflict with local setups.
-# ___________________________________________________________________
-#
+# ┌─────────────────────────────────────────────────────────────────┐
+# │ Settings                                                        │
+# ├─────────────────────────────────────────────────────────────────┤
+# │ These only install if you run them with functions below.        │
+# │                                                                 │
+# │ @note   Different ports are use for non-conflict                │
+# │         with local setups.                                      │
+# └─────────────────────────────────────────────────────────────────┘
 
 # @TODO: Add destroyable so its easier for user, multi instance maybe?
 
+DIR_WWW="${HOME}/projects"      # Local HTTP Content serve location.
+
 MY_PORTAINER_PORT=9500
 MY_PORTAINER_NAME="portainer-local"
+IMAGE_PORTAINER="portainer/portainer"
 
-MY_SWAGGER_PORT=9600
-MY_SWAGGER_NAME="swagger-local"
+MY_SWAGGER_EDITOR_PORT=9600
+MY_SWAGGER_EDITOR_NAME="swagger-local"
+IMAGE_SWAGGER_EDITOR="swaggerapi/swagger-editor"
+
+MY_APACHE_NAME="apache-local"
+MY_APACHE_PORT="82"             # 80 is defau   lt
+IMAGE_APACHE="apache:2-alpine"
 
 MY_REDIS_NAME="redis-local"
-MY_REDIS_PORT=6300  # 6379 is default
+MY_REDIS_PORT=6300              # 6379 is default
+IMAGE_REDIS="redis:3-alpine"
 
 MY_MONGO_NAME="mongo-local"
-MY_MONGO_PORT=2700  # 27017 is default
+MY_MONGO_PORT=2700              # 27017 is default
+IMAGE_MONGO="mongo:3.4"
 
 MY_MYSQL_NAME="mysql-local"
-MY_MYSQL_PORT=3300  # 3306 is default
-MY_MYSQL_ROOT_PASSWORD="root"  # root Password
+MY_MYSQL_PORT=3300              # 3306 is default
+MY_MYSQL_ROOT_PASSWORD="root"   # root Password
+IMAGE_MYSQL="mysql:5.7"      # You could swap w/Percona, Maria, Mysql.
 
-# ___________________________________________________________________
-#
-#                           ALIASES
-#
-#                       Docker Compose
-# ___________________________________________________________________
+# ┌─────────────────────────────────────────────────────────────────┐
+# │ Aliases                                                         │
+# ├─────────────────────────────────────────────────────────────────┤
+# │ For Docker Compose                                              │
+# └─────────────────────────────────────────────────────────────────┘
 alias pose="docker-compose"
 alias pose-l="docker-compose logs"
 alias pose-log="docker-compose logs"
@@ -69,6 +77,11 @@ alias pose-up="docker-compose up -d"
 alias pose-stop="docker-compose stop"
 alias pose-kill="docker-compose kill"
 
+# ┌─────────────────────────────────────────────────────────────────┐
+# │ Aliases/Function                                                │
+# ├─────────────────────────────────────────────────────────────────┤
+# │ For Docker                                                      │
+# └─────────────────────────────────────────────────────────────────┘
 # ___________________________________________________________________
 #
 #                       ALIASES/FUNCTIONS
@@ -139,11 +152,45 @@ function docker-rm-containers-old() {
 
 # ___________________________________________________________________
 #
-#                           PORTAINER
+#                         REUSABLE CMDS
+#
+#     @note Odd Naming used to prevent any global command collisions
 # ___________________________________________________________________
+# function _dockr-setup() {
+#     echo "Setting up $1"
+# }
+# function _dockr-start() {
+#     echo "Starting: $1 ..."
+#     docker start $1
+# }
+# function _dockr-stop() {
+#     echo "Stopping: $1 ..."
+#     docker stop $1
+# }
+# function _dockr-rm() {
+#     echo "Removing Container: $1 ..."
+#     docker rm $1
+# }
+
+# function _dockr-rmi() {
+#     echo "Removing Image: $1 ..."
+#     docker rmi $1
+# }
+
+# function _docker-rmv() {
+#     echo "Removing Attached Volume: $1 ..."
+#     read -p "Are you sure? This cannot be undone [y/N]: " yn
+#     if [ p == 'y' || p == 'Y' ]; then
+#         docker rmi $1
+#     fi
+# }
+
+# ┌─────────────────────────────────────────────────────────────────┐
+# │ Portainer                                                       │
+# └─────────────────────────────────────────────────────────────────┘
 function portainer-setup() {
     docker volume create portainer_data
-    docker run -d --name=$MY_PORTAINER_NAME -p $MY_PORTAINER_PORT:9000 -v /var/run/docker.sock:/var/run/docker.sock -v /data/db/portainer_data:/data portainer/portainer
+    docker run -d --name=$MY_PORTAINER_NAME -p $MY_PORTAINER_PORT:9000 -v /var/run/docker.sock:/var/run/docker.sock -v /data/db/portainer_data:/data $IMAGE_PORTAINER
 }
 
 function portainer-up() {
@@ -154,38 +201,35 @@ function portainer-stop() {
     docker stop $MY_PORTAINER_NAME
 }
 
-# ___________________________________________________________________
-#
-#                           SWAGGER EDITOR
-#
-#                  @recommended: $ npm i -g swagger
-#                             (Optional)
-# ___________________________________________________________________
+# ┌─────────────────────────────────────────────────────────────────┐
+# │ Swagger Editor                                                  │
+# ├─────────────────────────────────────────────────────────────────┤
+# │ @recommend  $ npm i -g swagger                                  │
+# └─────────────────────────────────────────────────────────────────┘
 function swagger-setup() {
-    docker run -d --name=$MY_SWAGGER_NAME -p $MY_SWAGGER_PORT:8080 swaggerapi/swagger-editor
+    docker run -d --name=$MY_SWAGGER_EDITOR_NAME -p $MY_SWAGGER_EDITOR_PORT:8080 $IMAGE_SWAGGER_EDITOR
     echo -e "@recommended: npm i -g swagger  (Additional CLI for Swagger)\n"
 }
 
 function swagger-up() {
-    docker start $MY_SWAGGER_NAME
+    docker start $MY_SWAGGER_EDITOR_NAME
 }
 
 function swagger-stop() {
-    docker stop $MY_SWAGGER_NAME
+    docker stop $MY_SWAGGER_EDITOR_NAME
 }
 
-# ___________________________________________________________________
-#
-#                               REDIS
-#
-# ___________________________________________________________________
+# ┌─────────────────────────────────────────────────────────────────┐
+# │ Redis                                                           │
+# ├─────────────────────────────────────────────────────────────────┤
+# └─────────────────────────────────────────────────────────────────┘
 function redis-setup() {
     sudo mkdir -p /data
     if [ ! -f $DIR_CONF/redis.conf ]; then
         echo "You need are missing ${DIR_CONF}/redis.conf, see https://github.com/jream/dotfiles.git under a docker folder"
         exit 1
     fi
-    docker run -d -v $DIR_CONF/redis.conf:/usr/local/etc/redis/redis.conf --name=$MY_REDIS_NAME -p $MY_REDIS_PORT:6379 redis:3-alpine
+    docker run -d -v $DIR_CONF/redis.conf:/usr/local/etc/redis/redis.conf --name=$MY_REDIS_NAME -p $MY_REDIS_PORT:6379 $IMAGE_REDIS
 }
 
 function redis-up() {
@@ -200,15 +244,30 @@ function redis-connect() {
     docker exec -i $MY_REDIS_NAME redis-cli
 }
 
-# ___________________________________________________________________
-#
-#                               MONGO
-#
-# ___________________________________________________________________
+# ┌─────────────────────────────────────────────────────────────────┐
+# │ Apache                                                          │
+# ├─────────────────────────────────────────────────────────────────┤
+# └─────────────────────────────────────────────────────────────────┘
+function apache-setup() {
+    docker run -d -v "$DIR_WWW":/usr/local/apache2/htdocs/ --name=$MY_APACHE_NAME -p $MY_APACHE_PORT:80 $IMAGE_APACHE
+}
+
+function apache-up() {
+    docker start $MY_APACHE_NAME
+}
+
+function apache-stop() {
+    docker stop $MY_APACHE_NAME
+}
+
+# ┌─────────────────────────────────────────────────────────────────┐
+# │ Mongo                                                           │
+# ├─────────────────────────────────────────────────────────────────┤
+# └─────────────────────────────────────────────────────────────────┘
 function mongo-setup() {
     echo "Creating local directory to persist data"
     sudo mkdir $DIR_DB/mongo/$MY_MONGO_NAME
-    docker run -d -v $DIR_DB/mongo/$MY_MONGO_NAME --name=$MY_MONGO_NAME -p $MY_MONGO_PORT:27017 mongo:3.4
+    docker run -d -v $DIR_DB/mongo/$MY_MONGO_NAME --name=$MY_MONGO_NAME -p $MY_MONGO_PORT:27017 $IMAGE_MONGO
 }
 
 function mongo-up() {
@@ -223,15 +282,14 @@ function mongo-connect() {
     docker exec -it $MY_MONGO_NAME mongo
 }
 
-# ___________________________________________________________________
-#
-#                               MYSQL
-#
-# ___________________________________________________________________
+# ┌─────────────────────────────────────────────────────────────────┐
+# │ MySQL                                                           │
+# ├─────────────────────────────────────────────────────────────────┤
+# └─────────────────────────────────────────────────────────────────┘
 function mysql-setup() {
     echo "Creating local directory to persist data"
     sudo mkdir $DIR_DB/mysql/$MY_MYSQL_NAME
-    docker run -d -v $DIR_DB/mysql/$MY_MYSQL_NAME:/var/lib/mysql --name=$MY_MYSQL_NAME -p $MY_MYSQL_PORT:3306 -e MYSQL_ROOT_PASSWORD=$MY_MYSQL_ROOT_PASSWORD mysql:5.7
+    docker run -d -v $DIR_DB/mysql/$MY_MYSQL_NAME:/var/lib/mysql --name=$MY_MYSQL_NAME -p $MY_MYSQL_PORT:3306 -e MYSQL_ROOT_PASSWORD=$MY_MYSQL_ROOT_PASSWORD $IMAGE_MYSQL
 }
 
 #function mysql-connect() {
