@@ -196,6 +196,10 @@ function redis-stop() {
     docker stop $MY_REDIS_NAME
 }
 
+function redis-connect() {
+    docker exec -i $MY_REDIS_NAME redis-cli
+}
+
 # ___________________________________________________________________
 #
 #                               MONGO
@@ -213,6 +217,10 @@ function mongo-up() {
 
 function mongo-stop() {
     docker stop $MY_MONGO_NAME
+}
+
+function mongo-connect() {
+    docker exec -it $MY_MONGO_NAME mongo
 }
 
 # ___________________________________________________________________
@@ -236,6 +244,10 @@ function mysql-up() {
 
 function mysql-stop() {
     docker stop $MY_MYSQL_NAME
+}
+
+function mysql-connect() {
+    docker exec -it $MY_MYSQL_NAME mysql -uroot -p$MY_MYSQL_ROOT_PASSWORD
 }
 
 # End of File
