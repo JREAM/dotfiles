@@ -36,8 +36,10 @@ zstyle ':completion:*' verbose true
 zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
 zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
 
-if [ -f $HOME/.bashalias ]; then . ~/.bashalias; fi
+if [ -f $HOME/.bash_vars ]; then . ~/.bash_vars; fi
 if [ -f $HOME/.exports ]; then . ~/.exports; fi
-if [ -f $HOME/.private-exports ]; then . ~/.private-exports; fi
+if [ -f $HOME/.exports_private ]; then . ~/.exports_private; fi
+if [ -f $HOME/.bash_aliases ]; then . ~/.bash_aliases; fi
 if [ -f $HOME/.dockerrc ]; then . ~/.dockerrc; fi
+if [ -f $HOME/.bash_vendor ]; then . ~/.bash_vendor; fi
 

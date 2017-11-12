@@ -1,3 +1,9 @@
+# General
+.exports-private
+.exports_private
+.private_exports
+.private-exports
+
 # Apple
 .DS_Store
 .AppleDouble
