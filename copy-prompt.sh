@@ -54,6 +54,10 @@ if [[ $yn =~ ^([yY])+$ ]]; then
   done
 
   echo "Finished, run: $ source ~/.bashrc"
+  echo "[+] If you want to install and use ZSH over Bash, Run this command:"
+  echo ""
+  echo 'sudo apt install zsh && sh -c "$(wget https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"'
+  echo ""
 else
   echo "Exiting..."
 fi

@@ -27,7 +27,7 @@ if [ -d ~/projects-socketface ]; then alias pp='cd ~/projects-socketface'; fi
 #
 #                           COLORS
 # ___________________________________________________________________
-if [[ ! -v DOTEXPORTS_SET_COLORS ]]; then
+if [[ ! -z DOTEXPORTS_SET_COLORS ]]; then
 tput sgr0   # Reset Colors While Setting Variables
     BLACK=$(tput setaf 0)
     RED=$(tput setaf 1)
