@@ -2,19 +2,12 @@
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-export ZSH=/home/jesse/.oh-my-zsh
-
-source ~/.bash_vars
-source ~/.bash_aliases
-source ~/.bash_vendors
-source ~/.dockerrc
+export ZSH=$HOME/.oh-my-zsh
 
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
-ZSH_THEME="lambda-mod"
-#ZSH_THEME="lambda-gitster"
-# https://github.com/caiogondim/bullet-train.zsh
+ZSH_THEME="robbyrussell"
 
 # Set list of themes to load
 # Setting this variable when ZSH_THEME=random
@@ -66,51 +59,7 @@ ZSH_THEME="lambda-mod"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
-  autopep8
   git
-  colorize
-  composer
-  copydir
-  copyfile
-  cp
-  django
-  docker
-  docker-machine
-  docker-compose
-  fabric
-  gem
-  go
-  golang
-  git-extras
-  git-flow
-  git-hubflow
-  git-prompt
-  git-remote-branch
-  github
-  gitignore
-  grunt
-  gulp
-  kubectl
-  laravel5
-  nvm
-  ng
-  npm
-  node
-  pip
-  pep8
-  postgres
-  python
-  pylint
-  redis-cli
-  sudo
-  screen
-  supervisor
-  terminator
-  tmux
-  ubuntu
-  virtualenvwrapper
-  vundle
-  ubuntu
 )
 
 source $ZSH/oh-my-zsh.sh
