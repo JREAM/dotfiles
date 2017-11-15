@@ -43,7 +43,7 @@ export UPDATE_ZSH_DAYS=13
 # DISABLE_AUTO_TITLE="true"
 
 # Uncomment the following line to enable command auto-correction.
-ENABLE_CORRECTION="true"
+#ENABLE_CORRECTION="true"
 
 # Uncomment the following line to display red dots whilst waiting for completion.
 COMPLETION_WAITING_DOTS="true"
@@ -66,34 +66,29 @@ HIST_STAMPS="mm/dd/yy"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
-  git
-  colorize
   composer
   copydir
   copyfile
   cp
   docker
-  docker-machine
   docker-compose
+  docker-machine
   fabric
-  git-extras
-  git-flow
-  git-hubflow
+  git
   git-remote-branch
   github
   gitignore
   gulp
   kubectl
-  nvm
   ng
-  npm
   node
-  pip
+  npm
+  nvm
   pep8
+  pip
   python
   redis-cli
   sudo
-  ubuntu
   ubuntu
 )
 

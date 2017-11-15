@@ -68,6 +68,9 @@ PACKAGES=(
   # Other
   pm2
   postcss
+  prettier-eslint-cli
+  eslint-plugin-prettier
+  prettier-vscode
   sass-lint
   stylelint
   stylelint-scss
