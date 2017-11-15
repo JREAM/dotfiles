@@ -12,7 +12,7 @@ source ~/.dockerrc
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
-ZSH_THEME="lambda-mod"
+ZSH_THEME="avit"
 #ZSH_THEME="lambda-gitster"
 # https://github.com/caiogondim/bullet-train.zsh
 
@@ -66,28 +66,25 @@ HIST_STAMPS="mm/dd/yy"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
-  composer
-  copydir
-  copyfile
   cp
   docker
   docker-compose
   docker-machine
-  fabric
+  #fabric
   git
   git-remote-branch
   github
-  gitignore
-  gulp
-  kubectl
-  ng
+  #gitignore
+  #gulp
+  #kubectl
+  #ng
   node
   npm
   nvm
   pep8
   pip
   python
-  redis-cli
+  #redis-cli
   sudo
   ubuntu
 )
