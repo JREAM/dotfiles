@@ -65,6 +65,7 @@ PACKAGES=(
   sinon
   expect.js
   phplint
+  nodemon
   # Other
   pm2
   postcss
