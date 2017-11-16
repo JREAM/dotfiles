@@ -103,17 +103,17 @@ alias ip="dig +short myip.opendns.com @resolver1.opendns.com"
 #                       COMMON W/INSTALLS
 # ___________________________________________________________________
 
-if hash colordiff 2> /dev/null; then
+if (( $+commands[colordiff] )) >/dev/null 2>&1; then
     # install: $ sudo apt install colordiff
     alias diff='colordiff'
 fi
 
-if hash nmap 2> /dev/null; then
+if (( $+commands[nmap] )) >/dev/null 2>&1; then
     # install: $ sudo apt install nmap
     alias portsopen='nmap localhost --open'
 fi
 
-if hash pydf 2> /dev/null; then
+if (( $+commands[pydf] )) >/dev/null 2>&1; then
     # install: $ sudo apt install pydf
     alias df='pydf'
 fi
@@ -351,7 +351,7 @@ up() {
 # examples:     $  calc 5*500
 # ___________________________________________________________________
 calc() {
-  if which bc &>/dev/null; then
+  if (( $+commands[bc] )); then
     echo "scale=3; $*" | bc -l
   else
     awk "BEGIN { print $* }"
