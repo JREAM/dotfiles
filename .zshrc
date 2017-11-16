@@ -34,7 +34,7 @@ ZSH_THEME="avit"
 # DISABLE_AUTO_UPDATE="true"
 
 # Uncomment the following line to change how often to auto-update (in days).
-export UPDATE_ZSH_DAYS=13
+#export UPDATE_ZSH_DAYS=13
 
 # Uncomment the following line to disable colors in ls.
 # DISABLE_LS_COLORS="true"
@@ -46,7 +46,7 @@ export UPDATE_ZSH_DAYS=13
 #ENABLE_CORRECTION="true"
 
 # Uncomment the following line to display red dots whilst waiting for completion.
-COMPLETION_WAITING_DOTS="true"
+#COMPLETION_WAITING_DOTS="true"
 
 # Uncomment the following line if you want to disable marking untracked files
 # under VCS as dirty. This makes repository status check for large repositories
@@ -66,10 +66,8 @@ HIST_STAMPS="mm/dd/yy"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
-  cp
   docker
   docker-compose
-  docker-machine
   #fabric
   git
   git-remote-branch
@@ -78,12 +76,8 @@ plugins=(
   #gulp
   #kubectl
   #ng
-  node
   npm
   nvm
-  pep8
-  pip
-  python
   #redis-cli
   sudo
   ubuntu
@@ -110,6 +104,7 @@ fi
 
 # ssh
 export SSH_KEY_PATH="~/.ssh/rsa_id"
+
 
 # Set personal aliases, overriding those provided by oh-my-zsh libs,
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh

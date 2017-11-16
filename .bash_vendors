@@ -55,7 +55,7 @@ fi
 # │ GRC Color Highlighting                                          │
 # ├─────────────────────────────────────────────────────────────────┤
 # └─────────────────────────────────────────────────────────────────┘
-if hash grc 2>/dev/null; then
+if (( $+commands[grc] )) &>/dev/null; then
   if [ -s ~/etc/grcbash ]; then
     source ~/etc/grcbash
   fi
@@ -73,7 +73,7 @@ fi
 #   git clone https://github.com/github/hub.git
 #   sudo make install prefix=/usr/local
 #   $ hub
-if hash hub 2> /dev/null; then
+if (( $+commands[hub] )) &>/dev/null; then
   eval "$(hub alias -s)"
 
   # Load Bash Completion(s)Completion
