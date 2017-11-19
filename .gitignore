@@ -4,6 +4,9 @@
 .private_exports
 .private-exports
 
+.bash_history
+.bash_logout
+
 # Apple
 .DS_Store
 .AppleDouble
