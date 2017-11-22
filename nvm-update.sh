@@ -8,103 +8,115 @@
 
 # Package List (These are all global)
 PACKAGES=(
+
   # See https://blogs.windows.com/msedgedev/2017/08/10/es-modules-node-today/
   @std/esm
-  # Ecma Abilities
+
+  # Babel
   babel-cli
   babel-core
   babel-eslint
   babel-loader
   babel-polyfill
   babel-preset-env
-  chalk
+  grunt-babel
+  gulp-babel
+
+  # Ecma Abilities
   core-js
-  lodash
   cross-env
-  csslint
   es2015
   es2016
   es2017
   es2018
   es6
   es6-promise
+  lodash
+  lodash-es
+
+  # Linters/Helpers
   eslint
   eslint-config-eslint
   eslint-loader
   eslint-plugin-babel
   eslint-plugin-html
-  eslint-plugin-prettier
   eslint-plugin-lodash
   eslint-plugin-mocha
+  eslint-plugin-prettier
+  eslint-plugin-prettier
+  grunt-eslint
+  gulp-eslint
+  htmlhint
+  jscs
+  remark-lint
+  sass-lint
+  tslint
+
   # Dependencies for eslint-config-standard
   eslint-plugin-import
   eslint-plugin-node
   eslint-plugin-promise
-  # Config Setting Standards
-  eslint-config-airbnb
-  eslint-config-standard
-  eslint-config-google
-  # Markdown Linter
-  remark-lint
-  express-generator
-  grunt-cli
-  grunt-babel
-  grunt-eslint
-  gulp
-  gulp-cli
-  gulp-babel
-  gulp-eslint
-  # Linters/Helpers
-  htmlhint
-  htmlhint-cli
-  jscs
+
+    # Config Setting Standards
+    eslint-config-airbnb
+    eslint-config-standard
+
   # Testing/Coverage
-  minimatch
-  mocha
   chai
-  sinon
   expect.js
+  jest
+  mocha
   phplint
+  sinon
+
+  # Debug Server / System Runner
   nodemon
-  # Other
   pm2
+
+  # Other
   postcss
-  prettier-eslint-cli
-  eslint-plugin-prettier
   prettier-vscode
-  sass-lint
-  stylelint
-  stylelint-scss
-  standard
-  tslint
   tsutils
   typescript
-  protractor
-  karma-cli
-  # CLI Tools or Builders
+
+
+  # CLI Tools / Builders
   @angular/cli
-  vue-cli
+  chalk
+  express-generator
+  grunt-cli
+  gulp
+  gulp-cli
+  htmlhint-cli
+  karma-cli
+  loopback
+  prettier-eslint-cli
   rollup
+  swagger
+  vue-cli
   webpack
   webpack-dev-server
+
+    # System CLI Utils
+    fkill-cli
+    localtunnel
+    vtop
+
   # Type Definitions
   @types/jquery
+  @types/jsonwebtoken
   @types/lodash
   @types/node
-  @types/request
-  @types/webpack
-  @types/jsonwebtoken
-  @types/restify
   @types/q
-  # Testing Typedefs
-  @types/karma
-  @types/mocha
-  @types/chai
-  @types/sinon
-  # CLI Utils
-  fkill-cli
-  vtop
-  localtunnel
+  @types/request
+  @types/restify
+  @types/webpack
+
+    # Types: Test Frameworks
+    @types/chai
+    @types/karma
+    @types/mocha
+    @types/sinon
 )
 
 # A few Colors
