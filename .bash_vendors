@@ -16,23 +16,6 @@ if [[ -s "$HOME/.gvm/scripts/gvm" ]]; then
 fi
 
 # ┌─────────────────────────────────────────────────────────────────┐
-# │ (Optional) PyEnv                                                │
-# ├─────────────────────────────────────────────────────────────────┤
-# └─────────────────────────────────────────────────────────────────┘
-if [ -d "$HOME/.pyenv" ]; then
-  export PYENV_ROOT="$HOME/.pyenv"
-
-  # Shims for Autocomplete
-  # ___________________________________________________________________
-  export PATH="$PYENV_ROOT/shims:$PYENV_ROOT/bin:$PATH"
-
-  # Autoload virtualenv paths w/plugin
-  # ___________________________________________________________________
-  eval "$(pyenv init -)"
-  eval "$(pyenv virtualenv-init -)"
-fi
-
-# ┌─────────────────────────────────────────────────────────────────┐
 # │ (Optional) Git Extras    $gh                                    │
 # ├─────────────────────────────────────────────────────────────────┤
 # └─────────────────────────────────────────────────────────────────┘
@@ -62,23 +45,6 @@ if (( $+commands[grc] )) &>/dev/null; then
 
   if [ -f "$HOME/.grc/grc.bashrc" ]; then
     source "$HOME/.grc/grc.bashrc"
-  fi
-fi
-
-# ┌─────────────────────────────────────────────────────────────────┐
-# │ (Optional) GitHub CLI   $hub                                    │
-# ├─────────────────────────────────────────────────────────────────┤
-# └─────────────────────────────────────────────────────────────────┘
-# @install:
-#   git clone https://github.com/github/hub.git
-#   sudo make install prefix=/usr/local
-#   $ hub
-if (( $+commands[hub] )) &>/dev/null; then
-  eval "$(hub alias -s)"
-
-  # Load Bash Completion(s)Completion
-  if [ -f $HOME/.hub.bash_completion ]; then
-    source $HOME/.hub.bash_completion
   fi
 fi
 

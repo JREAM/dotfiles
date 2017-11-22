@@ -24,8 +24,6 @@ F=(
   .phpcs.xml
   .profile
   .scss-lint.yml
-  .oh-my-zsh
-  .eslint.json
   .eslintrc.json
   .wgetrc
 )

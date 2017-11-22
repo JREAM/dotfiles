@@ -9,6 +9,7 @@ source ~/.bash_aliases
 source ~/.bash_vendors
 source ~/.dockerrc
 
+
 # Angular Completions
 if [ -f ~/.bash_completions_ng ]; then
     source ~/.bash_completions_ng
@@ -75,8 +76,9 @@ plugins=(
   docker-compose
   #fabric
   git
-  git-remote-branch
-  github
+  zsh-nvm
+  #git-remote-branch
+  #github
   #gitignore
   #gulp
   #kubectl
@@ -91,6 +93,9 @@ plugins=(
 source $ZSH/oh-my-zsh.sh
 
 # User configuration
+
+export NVM_LAZY_LOAD=true
+#export NVM_AUTO_USE=true
 
 # export MANPATH="/usr/local/man:$MANPATH"
 
