@@ -58,24 +58,30 @@ MY_MYSQL_PORT=3300              # 3306 is default
 MY_MYSQL_ROOT_PASSWORD="root"   # root Password
 IMAGE_MYSQL="mysql:5.7"      # You could swap w/Percona, Maria, Mysql.
 
+MY_ELK_NAME="elk-local"
+MY_ELK_PORT_ELASTICSEARCH=9200  # 9200 Default
+MY_ELK_PORT_KIBANA=5601         # 5601 Default (http://localhost:5601)
+MY_ELK_PORT_LOGSTASH=5044       # 5044 Default
+IMAGE_ELK="sebp/elk:600"
+
 # ┌─────────────────────────────────────────────────────────────────┐
 # │ Aliases                                                         │
 # ├─────────────────────────────────────────────────────────────────┤
 # │ For Docker Compose                                              │
 # └─────────────────────────────────────────────────────────────────┘
-alias pose="docker-compose"
-alias pose-l="docker-compose logs"
-alias pose-log="docker-compose logs"
-alias pose-logs="docker-compose logs"
-alias pose-lf="docker-compose logs -f"
-alias post-logf="docker-compose logs -f"
-alias pose-logsf="docker-compose logs -f"
-alias pose-reboot="docker-compose down && docker-compose up -d"
-alias pose-fresh="docker-compose kill && docker-compose down && docker-compose up --build -d"
-alias pose-down="docker-compose down"
-alias pose-up="docker-compose up -d"
-alias pose-stop="docker-compose stop"
-alias pose-kill="docker-compose kill"
+alias dco="docker-compose"
+alias dco-l="docker-compose logs"
+alias dco-log="docker-compose logs"
+alias dco-logs="docker-compose logs"
+alias dco-lf="docker-compose logs -f"
+alias dco-logf="docker-compose logs -f"
+alias dco-logsf="docker-compose logs -f"
+alias dco-reboot="docker-compose down && docker-compose up -d"
+alias dco-fresh="docker-compose kill && docker-compose down && docker-compose up --build -d"
+alias dco-down="docker-compose down"
+alias dco-up="docker-compose up -d"
+alias dco-stop="docker-compose stop"
+alias dco-kill="docker-compose kill"
 
 # ┌─────────────────────────────────────────────────────────────────┐
 # │ Aliases/Function                                                │
@@ -90,6 +96,7 @@ alias pose-kill="docker-compose kill"
 alias docker-kill-all="docker kill $(docker ps -q)"
 
 # Shortcut for docker compose without the dash
+# Appearing to be useless :)
 function docker() {
     echo $1
   if [ "$1" = "compose" ]
@@ -187,11 +194,13 @@ function docker-rm-containers-old() {
 
 # ┌─────────────────────────────────────────────────────────────────┐
 # │ Portainer                                                       │
+# ├─────────────────────────────────────────────────────────────────┤
 # └─────────────────────────────────────────────────────────────────┘
 function portainer-setup() {
     docker volume create portainer_data
     docker run -d --name=$MY_PORTAINER_NAME -p $MY_PORTAINER_PORT:9000 -v /var/run/docker.sock:/var/run/docker.sock -v /data/db/portainer_data:/data $IMAGE_PORTAINER
 }
+alias portainer-setup='portainer-setup'
 
 function portainer-up() {
     docker start $MY_PORTAINER_NAME
@@ -292,10 +301,6 @@ function mysql-setup() {
     docker run -d -v $DIR_DB/mysql/$MY_MYSQL_NAME:/var/lib/mysql --name=$MY_MYSQL_NAME -p $MY_MYSQL_PORT:3306 -e MYSQL_ROOT_PASSWORD=$MY_MYSQL_ROOT_PASSWORD $IMAGE_MYSQL
 }
 
-#function mysql-connect() {
-#    docker run -it --link  $MY_MYSQL_NAME:mysql --rm mysql sh -c 'exec mysql -h"$MY_MYSQL_ADDR" -P"$MY_MYSQL_PORT" -uroot -p"$MY_MYSQL_PASSWORD"
-#}
-
 function mysql-up() {
     docker start $MY_MYSQL_NAME
 }
@@ -306,6 +311,23 @@ function mysql-stop() {
 
 function mysql-connect() {
     docker exec -it $MY_MYSQL_NAME mysql -uroot -p$MY_MYSQL_ROOT_PASSWORD
+}
+
+# ┌─────────────────────────────────────────────────────────────────┐
+# │ Redis                                                           │
+# ├─────────────────────────────────────────────────────────────────┤
+# └─────────────────────────────────────────────────────────────────┘
+function elk-setup() {
+    echo "Creating local directory to persist data"
+    docker run -v $DIR_DB/elasticsearch/$MY_ELK_NAME:/var/lib/elasticsearch -p $MY_ELK_PORT_ELASTICSEARCH:9200 -p $MY_ELK_PORT_KIBANA:5601 -p $MY_ELK_PORT_LOGSTASH:5044 -it --name $MY_ELK_NAME $IMAGE_ELK
+}
+
+function elk-up() {
+    docker start $MY_ELK_NAME
+}
+
+function elk-stop() {
+    docker stop $MY_ELK_NAME
 }
 
 # End of File
