@@ -466,3 +466,12 @@ to the CURRENT theme
 ```
 
 The above creates a file in `Users/bh_core.sublime-settings`.
+
+
+---
+
+Disclaimer: Not all Features are flawless, many things are experimental and change often.
+
+License: Open Source MIT
+
+(C) 2017 Jesse Boyer <[JREAM LLC](https://jream.com)>

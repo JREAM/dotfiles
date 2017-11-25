@@ -3,6 +3,10 @@
 set nocompatible
 filetype off
 
+
+" Use Bash shell, Avoid zsh/fish shell issues
+set shell=/bin/bash
+
 """"""""""""""""""""""""""""""""""""""""
 " Plugins
 """"""""""""""""""""""""""""""""""""""""
@@ -71,6 +75,7 @@ let g:ctrlp_custom_ignore = {
 """"""""""""""""""""""""""""""""""""""""
 " General VIM
 """"""""""""""""""""""""""""""""""""""""
+
 
 " allow backspacing over everything in insert mode
 set backspace=indent,eol,start
@@ -197,7 +202,7 @@ set hlsearch
 set scrolloff=3
 
 " highlight current line
-:set cursorline
+set cursorline
 
 " invert and bold status line
 set highlight=sbr
