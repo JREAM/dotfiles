@@ -8,7 +8,17 @@
 # for ssh logins, install and configure the libpam-umask package.
 #umask 022
 
+if ! hash compdef >/dev/null 2>&1; then
+  alias compdef='echo 0 >/dev/null'
+fi
 
+# ___________________________________________________________________
+#
+# Fix compdef if not exists
+# ___________________________________________________________________
+if (!( $+commands[compdef] )) >/dev/null 2>&1; then
+    alias compdef='1 >/dev/null'
+fi
 # ---------------------------------------------------
 # Path
 # ---------------------------------------------------
@@ -66,34 +76,6 @@ if [[ -n "$BASH_VERSION" ]]; then
         source "$HOME/.docker-complete"
     fi
 fi
-
-
-# ---------------------------------------------------
-# For the the Meteor Framework
-# ---------------------------------------------------
-if [[ -f "$HOME/.meteor" ]]; then
-  PATH=$PATH:$HOME/.meteor
-fi
-
-
-# ---------------------------------------------------
-# Ruby Version Manager (RVM)
-# ---------------------------------------------------
-if [[ -d "$HOME/.rvm/bin" ]]; then
-  PATH="$PATH:$HOME/.rvm/bin"
-  # Load RVM into a shell session *as a function*
-  [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
-fi
-
-
-# ---------------------------------------------------
-# Apple Swift Language
-# ---------------------------------------------------
-if [[ -d '/opt/swift/swift-3.0/usr/bin' ]]; then
-  PATH=/opt/swift/swift-3.0/usr/bin:$PATH
-fi
-
-
 
 # ---------------------------------------------------
 # Final Export
