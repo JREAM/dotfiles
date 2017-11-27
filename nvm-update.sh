@@ -58,6 +58,7 @@ PACKAGES=(
   eslint-plugin-promise
 
     # Config Setting Standards
+    eslint-config-airbnb-base
     eslint-config-airbnb
     eslint-config-standard
 
