@@ -38,11 +38,10 @@ fi
 # │ GRC Color Highlighting                                          │
 # ├─────────────────────────────────────────────────────────────────┤
 # └─────────────────────────────────────────────────────────────────┘
-if (( $+commands[grc] )) &>/dev/null; then
+if hash grc &>/dev/null; then
   if [ -s ~/etc/grcbash ]; then
     source ~/etc/grcbash
   fi
-
   if [ -f "$HOME/.grc/grc.bashrc" ]; then
     source "$HOME/.grc/grc.bashrc"
   fi

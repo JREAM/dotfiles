@@ -64,6 +64,8 @@ fi
 # │ Bash Completion                                                 │
 # ├─────────────────────────────────────────────────────────────────┤
 # └─────────────────────────────────────────────────────────────────┘
+[[ $PS1 && -f /usr/share/bash-completion/bash_completion ]] && \
+    . /usr/share/bash-completion/bash_completion
 
 # Fix $ cd typing errors
 # ___________________________________________________________________
