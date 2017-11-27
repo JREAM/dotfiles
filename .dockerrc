@@ -38,7 +38,7 @@ MY_PORTAINER_NAME="portainer-local"
 IMAGE_PORTAINER="portainer/portainer"
 
 MY_RANCHER_NAME=rancher-local
-MY_RANCHER_PORT=8090            # 8080 is default
+MY_RANCHER_PORT=8990            # 8080 is default
 IMAGE_RANCHER=rancher/server:stable
 
 MY_SWAGGER_EDITOR_PORT=9600
