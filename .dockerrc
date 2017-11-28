@@ -64,7 +64,52 @@ IMAGE_MONGO="mongo:3.4"
 MY_MYSQL_NAME="mysql-local"
 MY_MYSQL_PORT=3300              # 3306 is default
 MY_MYSQL_ROOT_PASSWORD="root"   # root Password
-IMAGE_MYSQL="mysql:5.7"      # You could swap w/Percona, Maria, Mysql.
+IMAGE_MYSQL="mysql:5.7"         # You could swap w/Percona, Maria, Mysql.
+
+MY_NATS_NAME="nats-local"
+MY_NATS_PORT=8220              # 8222 is default
+MY_NATS_PORT_CLIENT=4220       # 4222 is default
+#MY_NATS_PORT_CLUSTER=6220      # 6222 is default (Not Used)
+IMAGE_NATS="nats:1.0.4"
+
+# Simple way to keep track
+RUNNING=()
+RUNNING[PORTAINER]='off'
+RUNNING[RANCHER]='off'
+RUNNING[SWAGGER_EDITOR]='off'
+RUNNING[APACHE]='off'
+RUNNING[NGINX]='off'
+RUNNING[REDIS]='off'
+RUNNING[MONGO]='off'
+RUNNING[NATS]='off'
+
+# [mydocker Lists containers]
+function mydocker() {
+    echo -e "
+    ┌─────────────────────────────────────────────────┐;\n\
+      ${BOLD}${YELLOW}Container Name${RESET} \t; │ ${BOLD}${YELLOW}Port${RESET}; | ${BOLD}${YELLOW}Status${RESET}; \n\
+    ├─────────────────────────────────────────────────┤;\n\
+     ${MY_PORTAINER_NAME} \t │ ${MY_PORTAINER_PORT}\t  \n\
+     ${MY_RANCHER_NAME} \t │ ${MY_RANCHER_PORT} | s; \n\
+     ${MY_SWAGGER_EDITOR_NAME} \t │ ${MY_SWAGGER_EDITOR_PORT}; \n\
+     ${MY_APACHE_NAME} \t │ ${MY_APACHE_PORT}; \n\
+     ${MY_NGINX_NAME} \t │ ${MY_NGINX_PORT}; \n\
+     ${MY_REDIS_NAME} \t │ ${MY_REDIS_PORT}; \n\
+     ${MY_MONGO_NAME} \t │ ${MY_MONGO_PORT}; \n\
+     ${MY_MYSQL_NAME} \t │ ${MY_MYSQL_PORT}; \n\
+     ${MY_NATS_NAME} \t │ ${MY_NATS_PORT}; \n\
+    └──────────────────────────────────────────────────┘
+    " | column -tx -s ';'
+}
+
+# function isRunnning() {
+#     if [[ $(docker inspect -f {{.State.Running}} $1) ]]; then
+
+#         return true;
+#     fi
+#     RUNNING
+# }
+# isRunning 'APACHE'
 
 # ┌─────────────────────────────────────────────────────────────────┐
 # │ Aliases                                                         │
@@ -398,6 +443,30 @@ function mysql-restart() {
 
 function mysql-connect() {
     docker exec -it $MY_MYSQL_NAME mysql -uroot -p$MY_MYSQL_ROOT_PASSWORD
+}
+# ┌─────────────────────────────────────────────────────────────────┐
+# │ NATS                                                            │
+# ├─────────────────────────────────────────────────────────────────┤
+# │ @desc  Message Queue                                            │
+# └─────────────────────────────────────────────────────────────────┘
+function nats-setup() {
+    docker run -d --restart=unless-stopped --name=$MY_NATS_NAME -p $MY_NATS_PORT:8222 $IMAGE_NATS
+}
+
+function nats-up() {
+    docker start $MY_NATS_NAME
+}
+
+function nats-stop() {
+    docker stop $MY_NATS_NAME
+}
+
+function nats-restart() {
+    docker restart $MY_NATS_NAME
+}
+
+function nats-connect() {
+    docker exec -it $MY_NATS_NAME
 }
 
 # End of File
