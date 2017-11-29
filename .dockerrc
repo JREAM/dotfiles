@@ -72,6 +72,16 @@ MY_NATS_PORT_CLIENT=4220       # 4222 is default
 #MY_NATS_PORT_CLUSTER=6220      # 6222 is default (Not Used)
 IMAGE_NATS="nats:1.0.4"
 
+#MY_PROMETHEUS_NAME="prometheus-local"
+#MY_PROMETHEUS_PORT=9092         # 9090 is default
+#IMAGE_PROMETHEUS="prom/prometheus:v2.0.0"
+
+#MY_LOGSPOUT_NAME="logspout-local"
+#MY_LOGSPOUT_PORT=5001         # 5000 is default
+#IMAGE_LOGSPOUT="gliderlabs/logspout" # See More https://hub.docker.com/r/gliderlabs/logspout/
+
+
+# Simple way to keep track
 # Simple way to keep track
 RUNNING=()
 RUNNING[PORTAINER]='off'
