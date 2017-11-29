@@ -53,6 +53,12 @@ MY_NGINX_NAME="nginx-local"
 MY_NGINX_PORT="83"             # 80 is default
 IMAGE_NGINX="nginx:1-alpine"
 
+MY_ELK_NAME="elk-local"
+MY_ELK_PORT_KIBANA=5601              # 5601 is default
+MY_ELK_PORT_ELASTICSEARCH=9200              # 9200 is default
+MY_ELK_PORT_LOGSTASH=5044              # 9200 is default
+IMAGE_ELK="sebp/elk:600"
+
 MY_REDIS_NAME="redis-local"
 MY_REDIS_PORT=6300              # 6379 is default
 IMAGE_REDIS="redis:3-alpine"
@@ -92,6 +98,8 @@ RUNNING[NGINX]='off'
 RUNNING[REDIS]='off'
 RUNNING[MONGO]='off'
 RUNNING[NATS]='off'
+RUNNING[ELK]='off'
+RUNNING[PROMETHEUS]='off'
 
 # [mydocker Lists containers]
 function mydocker() {
@@ -108,6 +116,7 @@ function mydocker() {
      ${MY_MONGO_NAME} \t │ ${MY_MONGO_PORT}; \n\
      ${MY_MYSQL_NAME} \t │ ${MY_MYSQL_PORT}; \n\
      ${MY_NATS_NAME} \t │ ${MY_NATS_PORT}; \n\
+     ${MY_ELK_NAME} \t │ ${MY_ELK_PORT}; \n\
     └──────────────────────────────────────────────────┘
     " | column -tx -s ';'
 }
@@ -473,6 +482,30 @@ function nats-stop() {
 
 function nats-restart() {
     docker restart $MY_NATS_NAME
+}
+
+function nats-connect() {
+    docker exec -it $MY_NATS_NAME
+}
+# ┌─────────────────────────────────────────────────────────────────┐
+# │ ELK                                                             │
+# ├─────────────────────────────────────────────────────────────────┤
+# │ @desc  ElasticSearch, Logsstash, Kibana UI                      │
+# └─────────────────────────────────────────────────────────────────┘
+function elk-setup() {
+    docker run -d --restart=unless-stopped --name=$MY_ELK_NAME -p $MY_ELK_PORT_KIBANA:5601 -p $MY_ELK_PORT_ELASTICSEARCH:9200 -p $MY_ELK_PORT_LOGSTASH:5044 $IMAGE_ELK
+}
+
+function elk-up() {
+    docker start $MY_ELK_NAME
+}
+
+function elk-stop() {
+    docker stop $MY_ELK_NAME
+}
+
+function elk-restart() {
+    docker restart $MY_ELK_NAME
 }
 
 function nats-connect() {
