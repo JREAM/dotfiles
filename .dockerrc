@@ -265,7 +265,7 @@ function docker-rm-containers-old() {
 # └─────────────────────────────────────────────────────────────────┘
 function portainer-setup() {
     docker volume create portainer_data
-    docker run -d --name=$MY_PORTAINER_NAME --restart=unless-stopped -p $MY_PORTAINER_PORT:9000 -v /var/run/docker.sock:/var/run/docker.sock -v /data/db/portainer_data:/data $IMAGE_PORTAINER
+    docker run -d --name=$MY_PORTAINER_NAME -p $MY_PORTAINER_PORT:9000 -v /var/run/docker.sock:/var/run/docker.sock -v /data/db/portainer_data:/data $IMAGE_PORTAINER
 }
 
 function portainer-up() {
@@ -287,7 +287,7 @@ function portainer-restart() {
 # └─────────────────────────────────────────────────────────────────┘
 function rancher-setup() {
     # docker volume create rancher_data
-    docker run -d --name=$MY_RANCHER_NAME --restart=unless-stopped -p $MY_RANCHER_PORT:8080 $IMAGE_RANCHER
+    docker run -d --name=$MY_RANCHER_NAME -p $MY_RANCHER_PORT:8080 $IMAGE_RANCHER
 }
 
 function rancher-up() {
@@ -337,7 +337,7 @@ function redis-setup() {
         exit 1
     fi
     echo -e "Using ${DIR_CONF}/redis.conf, change & restart if you wish."
-    docker run -d -v $DIR_CONF/redis.conf:/usr/local/etc/redis/redis.conf --restart=unless-stopped --name=$MY_REDIS_NAME -p $MY_REDIS_PORT:6379 $IMAGE_REDIS
+    docker run -d -v $DIR_CONF/redis.conf:/usr/local/etc/redis/redis.conf --name=$MY_REDIS_NAME -p $MY_REDIS_PORT:6379 $IMAGE_REDIS
 }
 
 function redis-up() {
@@ -365,7 +365,7 @@ function redis-connect() {
 function apache-setup() {
     echo -e "Using ${DIR_WWW} as web-root, change & restart if you wish."
     # echo -e "Using ${DIR_CONF}/apache.ini for configuration, change & restart if you wish."
-    docker run -d -v "$DIR_WWW":/usr/local/apache2/htdocs/ --restart=unless-stopped --name=$MY_APACHE_NAME -p $MY_APACHE_PORT:80 $IMAGE_APACHE
+    docker run -d -v "$DIR_WWW":/usr/local/apache2/htdocs/ --name=$MY_APACHE_NAME -p $MY_APACHE_PORT:80 $IMAGE_APACHE
 }
 
 function apache-up() {
@@ -389,8 +389,8 @@ function apache-restart() {
 function nginx-setup() {
     echo -e "Using ${DIR_WWW} as web-root, change & restart if you wish."
     # echo -e "Using ${DIR_CONF}/nginx.ini for configuration, change & restart if you wish."
-    # docker run -d -v "$DIR_WWW":/usr/share/nginx/html --restart=unless-stopped --name=$MY_NGINX_NAME -p $MY_NGINX_PORT:80 $IMAGE_NGINX $CONF_DIR/nginx.conf:/etc/nginx/nginx.conf:ro
-    docker run -d -v "$DIR_WWW":/usr/share/nginx/html --restart=unless-stopped --name=$MY_NGINX_NAME -p $MY_NGINX_PORT:80 $IMAGE_NGINX
+    # docker run -d -v "$DIR_WWW":/usr/share/nginx/html --name=$MY_NGINX_NAME -p $MY_NGINX_PORT:80 $IMAGE_NGINX $CONF_DIR/nginx.conf:/etc/nginx/nginx.conf:ro
+    docker run -d -v "$DIR_WWW":/usr/share/nginx/html --name=$MY_NGINX_NAME -p $MY_NGINX_PORT:80 $IMAGE_NGINX
 }
 
 function nginx-up() {
@@ -414,7 +414,7 @@ function nginx-restart() {
 function mongo-setup() {
     echo "Creating local directory to persist data: ${DIR_DB}/mongo/${MY_MONGO_NAME}"
     sudo mkdir $DIR_DB/mongo/$MY_MONGO_NAME
-    docker run -d -v $DIR_DB/mongo/$MY_MONGO_NAME --restart=unless-stopped --name=$MY_MONGO_NAME -p $MY_MONGO_PORT:27017 $IMAGE_MONGO
+    docker run -d -v $DIR_DB/mongo/$MY_MONGO_NAME --name=$MY_MONGO_NAME -p $MY_MONGO_PORT:27017 $IMAGE_MONGO
 }
 
 function mongo-up() {
@@ -441,7 +441,7 @@ function mongo-connect() {
 function mysql-setup() {
     echo "Creating local directory to persist data: ${DIR_DB}/mysql/${MY_MYSQL_NAME}"
     sudo mkdir $DIR_DB/mysql/$MY_MYSQL_NAME
-    docker run -d -v $DIR_DB/mysql/$MY_MYSQL_NAME:/var/lib/mysql --restart=unless-stopped --name=$MY_MYSQL_NAME -p $MY_MYSQL_PORT:3306 -e MYSQL_ROOT_PASSWORD=$MY_MYSQL_ROOT_PASSWORD $IMAGE_MYSQL
+    docker run -d -v $DIR_DB/mysql/$MY_MYSQL_NAME:/var/lib/mysql --name=$MY_MYSQL_NAME -p $MY_MYSQL_PORT:3306 -e MYSQL_ROOT_PASSWORD=$MY_MYSQL_ROOT_PASSWORD $IMAGE_MYSQL
 }
 
 #function mysql-connect() {
@@ -469,7 +469,7 @@ function mysql-connect() {
 # │ @desc  Message Queue                                            │
 # └─────────────────────────────────────────────────────────────────┘
 function nats-setup() {
-    docker run -d --restart=unless-stopped --name=$MY_NATS_NAME -p $MY_NATS_PORT:8222 $IMAGE_NATS
+    docker run -d --name=$MY_NATS_NAME -p $MY_NATS_PORT:8222 $IMAGE_NATS
 }
 
 function nats-up() {
@@ -493,7 +493,7 @@ function nats-connect() {
 # │ @desc  ElasticSearch, Logsstash, Kibana UI                      │
 # └─────────────────────────────────────────────────────────────────┘
 function elk-setup() {
-    docker run -d --restart=unless-stopped --name=$MY_ELK_NAME -p $MY_ELK_PORT_KIBANA:5601 -p $MY_ELK_PORT_ELASTICSEARCH:9200 -p $MY_ELK_PORT_LOGSTASH:5044 $IMAGE_ELK
+    docker run -d --name=$MY_ELK_NAME -p $MY_ELK_PORT_KIBANA:5601 -p $MY_ELK_PORT_ELASTICSEARCH:9200 -p $MY_ELK_PORT_LOGSTASH:5044 $IMAGE_ELK
 }
 
 function elk-up() {
