@@ -21,7 +21,6 @@
 
 # Personal Folder shortcuts
 if [ -d ~/projects ]; then alias p='cd ~/projects/'; fi
-if [ -d ~/projects-socketface ]; then alias pp='cd ~/projects-socketface'; fi
 
 # ___________________________________________________________________
 #
