@@ -19,7 +19,7 @@ insert_final_newline = true
 [*.{py,php,json}]
 max_line_length = 120
 
-[*.rb]
+[*.{rb,py}]
 indent_size=2
 
 
@@ -58,7 +58,7 @@ indent_size = 2
 ## ------------------------------------------- ##
 ## Dotfiles
 ## ------------------------------------------- ##
-[*.{babelrc,bashrc,bash_profile,bash{_}alias{es},env,env.example,envrc,exports,gitconfig,nvmrc,profile,vimrc}]
+[*.{babelrc,bashrc,bash_profile,bash{_}alias{es},env,env.{example,sample},envrc,exports,gitconfig,nvmrc,profile,vimrc}]
 indent_size = 2
 insert_final_newline = ignore
 
