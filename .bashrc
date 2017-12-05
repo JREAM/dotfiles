@@ -32,6 +32,9 @@ if [ -f ~/.bash_aliases ]; then source ~/.bash_aliases; fi
 if [ -f ~/.bash_vendors ]; then source ~/.bash_vendors; fi
 if [ -f ~/.dockerrc ]; then source ~/.dockerrc; fi
 
+# For Angular, Delete the file if you don't have npm angular cli globally installed
+if [ -f ~/.bash_completion_ng ]; then source ~/.bash_completion_ng; fi
+
 # For private exports [Don't place in git]
 # ___________________________________________________________________
 if [ ! -f ~/.exports_private ]; then

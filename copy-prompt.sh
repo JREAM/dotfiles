@@ -1,17 +1,18 @@
 #!/bin/bash
 
 F=(
+  nvm-update.sh
   .bash_aliases
   .bashrc
   .bash_vars
   .bash_vendors
+  .bash_completion_ng
   .dockerrc
   .exports
   .gemrc
   .gh_complete
   .curlrc
   .pylintrc
-  nvm-update.sh
   .virtualenvs
   .zshrc
   .jscsrc
