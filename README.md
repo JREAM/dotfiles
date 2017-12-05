@@ -134,6 +134,28 @@ This is found in the `.bash_aliases` file.
 | `wget`           | `wget -c`         | Continue if failed download              |
 | `xclip`          | `xclip -sel clip` | Copy content                             |
 
+---
+
+##Handy Commands
+
+### Loop Dir & Run Any Command
+
+- **loopdircmd <cmd>**
+  - **Description**: Run any command on every directory one level up.
+  - **Example**: 
+    - `loopdircmd git checkout development`
+    - `loopdircmd git add . && git commit -m "Update" && git push`
+
+### Find Text in File Easily
+
+- **findinfile <text|text2> <path|default: $PWD>**
+  - **Description**: Find contents in a file recursively.
+  - **Example**: 
+    - `findinfile helloworld `
+    - `findinfile help|assist ~/projects/game/*.txt`
+
+---
+
 ## Important: Update Git Settings
 
 You should update the git config with:
