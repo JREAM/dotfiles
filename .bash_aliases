@@ -57,7 +57,7 @@ alias now="date +'%A, %B %m %Y at%l:%M%P %Z'"
 # Listing
 alias l="ls -l --color=auto"
 alias la="ls -la --color=auto"
-alias ls="command ls --color=auto"
+alias ls="ls --color=auto"
 
 alias os="lsb_release -a"           # Get OS Version
 
@@ -75,8 +75,12 @@ alias service='sudo service'
 alias root='sudo -i'                # Become root
 alias su='sudo -i'                  # Become root
 
+alias upgrade='sudo apt-get upgrade'
 alias update='sudo apt-get update'
 alias updatey='sudo apt-get update && sudo apt-get upgrade -y'
+alias autoremove='sudo apt autoremove'
+alias autoclean='sudo apt autoclean'
+alias ppa='sudo apt-add-repository'
 
 # Preserve / root folder permissions
 alias chown='chown --preserve-root'
@@ -162,8 +166,8 @@ alias a2ensite='sudo a2ensite'
 alias a2graceful='sudo a2graceful'
 alias a2modules='sudo a2modules'
 
-alias a2log='cat /var/log/apache2/error.log'
-alias a2access='cat /var/log/apache2/access.log'
+alias a2log='tail -n 50 /var/log/apache2/error.log'
+alias a2access='tail -n 50 /var/log/apache2/access.log'
 
 alias a2ctl='sudo apachectl'
 alias apachectl='sudo apachectl'

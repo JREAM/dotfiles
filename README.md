@@ -1,36 +1,141 @@
-# dotfiles
+# DotFiles
 
-<!-- TOC -->
+[TOC]
 
-- [dotfiles](#dotfiles)
-    - [Update Git](#update-git)
-    - [.bashrc Aliases](#bashrc-aliases)
-    - [Vim Plugins](#vim-plugins)
-- [Dev Environment Setup](#dev-environment-setup)
-        - [Linux: Install Environment Essentials](#linux-install-environment-essentials)
-    - [Get Node/NVM/Update NPM](#get-nodenvmupdate-npm)
-        - [Install Node and Update NPM](#install-node-and-update-npm)
-        - [Force Enviroment Versions](#force-enviroment-versions)
-    - [Ubuntu XML Linter](#ubuntu-xml-linter)
-    - [PHP](#php)
-    - [Python Linters](#python-linters)
-    - [Node JS Linters & Tools](#node-js-linters--tools)
-        - [Dependencies First](#dependencies-first)
-        - [Setup Eslint Config](#setup-eslint-config)
-    - [Ruby](#ruby)
-- [Configure PHP Settings for IDE](#configure-php-settings-for-ide)
-    - [Linter Settings: Ubuntu](#linter-settings-ubuntu)
-    - [Linter Settings: Windows](#linter-settings-windows)
-        - [All Linter Settings](#all-linter-settings)
-    - [Jetbrains and Laravel](#jetbrains-and-laravel)
-    - [Sublime Outline Scope (Disregard)](#sublime-outline-scope-disregard)
+---
 
-<!-- /TOC -->
+## Main Dotfiles
+
+| File                   | Purpose                                  |
+| ---------------------- | ---------------------------------------- |
+| `.bashrc`              | Main script to run `. ~/.bashrc` on, reloads all sub-scripts below |
+| `.bash_vendors`        | Any third-party add-ons such as `pyenv`, `nvm`, etc. |
+| `.bash_vars`           | Exported variables to re-use in bash     |
+| `.bash_completions_ng` | Optional angular cli completions (`npm i -g angular/cli`) |
+| `.bash_aliases`        | All shortcuts to make things easier!     |
+| `.exports`             | Basic export options                     |
+| `.exports_private`     | (Optional) Private export file to ignore with git when public |
+
+> **How To Update**: All files are loaded from `.bashrc`, so if you change and sub-file simply reload it with `source ~/.bashrc` or `. ~/.bashrc`.
+
+## Aliases List
+
+This is found in the `.bash_aliases` file.
+
+- **Bash PS1 Display** 
+  - `username@host[~/path]:~$`
+  - `username@host[~/path (master)]:~$` _(Git Branches)_
+
+### Navigation Shortcuts
+
+| Alias  | Actual Command        | Description                              |
+| ------ | --------------------- | ---------------------------------------- |
+| `..`   | `cd ..`               | Move up one directory                    |
+| `...`  | `cd ../..`            | Move up two directories                  |
+| `....` | `cd ../../..`         | Move up three directories                |
+| `l`    | `ls -l --color=auto`  | Long Listing with Color                  |
+| `la`   | `ls -la --color=auto` | Long Listing with Hidden Files and Color |
+| `ls`   | `ls --color=auto`     | List with Color                          |
+| `p`    | `cd ~/projects`       | Go to specific Folder                    |
+| `www`  | `cd /var/www`         | Go to specific Folder                    |
+
+### APT Shortcuts
+
+| Alias        | Actual Command                           | Description              |
+| ------------ | ---------------------------------------- | ------------------------ |
+| `apt`        | `sudo apt-get`                           | Prefix `sudo`            |
+| `update`     | `sudo apt-get update`                    | Quick Update             |
+| `updatey`    | `sudo apt-get update && sudo apt-get upgrade -y` | Quick Upgrade w/Auto Yes |
+| `upgrade`    | `sudo apt-get upgrade`                   | Upgrade                  |
+| `autoremove` | `sudo apt autoremove`                    | Quick Auto Remove        |
+| `autoclean`  | `sudo apt autoclean`                     | Quick Auto Clean         |
+| `ppa`        | `sudo apt-add-repository`                | Quickly add PPA          |
+
+### Sudo Shortcuts
+
+| Alias   | Actual Command          | Description                  |
+| ------- | ----------------------- | ---------------------------- |
+| `root`  | `sudo -i`               | Get to root easier           |
+| `su`    | `sudo -i`               | Get to root easier           |
+| `sudo`  | `sudo`                  | Allows aliases to use `sudo` |
+| `chgrp` | `chgrp --preserve-root` | Protect root folder(s)       |
+| `chmod` | `chmod --preserve-root` | Protect root folder(s)       |
+| `chown` | `chown --preserve-root` | Protect root folder(s)       |
+| chown          | chown --preserve-root                    | Protect root / folder      
+
+### Service Shortcuts
+
+| Alias        | Actual Command                           | Description                       |
+| ------------ | ---------------------------------------- | --------------------------------- |
+| `service`    | `sudo service`                           | Shorthand service                 |
+| **Apache2**  |                                          |                                   |
+| `a2ctl`      | `sudo apachectl`                         | Apache Control Utility            |
+| `a2graceful` | `sudo /usr/sbin/apachectl -k graceful`   | Graceful Restart                  |
+| `a2modules`  | `sudo apachectl -t -D DUMP_MODULES`      | List Active Modules               |
+| `a2test`     | `sudo apachectl -t`                      | Config Test                       |
+| `a2start`    |                                          | Start Apache                      |
+| `a2stop`     |                                          | Stop Apache                       |
+| `a2graceful` | `sidp /usr/sbin/apachectl -k graceful`   | Restart Gracefully                |
+| `a2restart`  |                                          | Restart Apache                    |
+| `a2reload`   |                                          | Reload Apache                     |
+| `a2version`  | `sudo apachectl -v`                      | Get Version                       |
+| `a2vhosts`   | `sudo apachectl -t -D DUMP_VHOSTS`       | List Active VHosts                |
+| `a2path`     |                                          | Go to Apache Config Path          |
+| `a2enconf`   | `sudo a2enconf`                          | Enable Configuration              |
+| `a2disconf`  | `sudo a2disconf`                         | Disable Configuration             |
+| `a2ensite`   | `sudo a2ensite`                          | Enable VHost                      |
+| `a2dissite`  | `sudo a2dissite`                         | Disable Vhost                     |
+| `a2log`      | `tail -n 50 /var/log/apache2/error.log`  | See Recent Error Log              |
+| `a2access`   | `tail -n 50 /var/log/apache2/access.log` | See Recent Access Log             |
+| **Nginx**    |                                          |                                   |
+| `ngmake`     |                                          | Create file in sites-available    |
+| `ngensite`   |                                          | Create symlink to sites-enabled   |
+| `ngdissite`  |                                          | Remove symlink from sites-enabled |
+| `ngstart`    |                                          | Start Nginx                       |
+| `ngstop`     |                                          | Stop Nginx                        |
+| `ngreload`   |                                          | Reload Nginx                      |
+| `ngrestart`  |                                          | Restart Nginx                     |
+| `ngtest`     |                                          | Config Test                       |
+| `ngpath`     |                                          | Go to Nginx Config Path           |
 
 
-This can be cloned on it's own, and it's part of my `config-ubuntu` sub-module.
+### Utility Shortcuts
+| Alias     | Actual Command | Description                       |
+| --------- | -------------- | --------------------------------- |
+| `df`      |                | improvement (`apt insttall pydf`) |
+| `du`      |                | improvement (`apt install ncdu`)  |
+| `gza`     |                | GZip an current folder            |
+| `extract` |                | extract nearly any file extension |
 
-## Update Git
+### Search Shortcuts
+
+| Alias   | Actual Command       | Description       |
+| ------- | -------------------- | ----------------- |
+| `egrep` | `egrep --color=auto` | Color to egrep    |
+| `ffile` | `find . -name`       | find file by name |
+| `fgrep` | `fgrep --color=auto` | Color to fgrep    |
+| `grep`  | `grep --color=auto`  | Color to grep     |
+
+### Misc Shortcuts
+| Alias            | Actual Command    | Description                              |
+| ---------------- | ----------------- | ---------------------------------------- |
+| `h`              | `history`         | View Bash History                        |
+| `c`              | `clear`           | Clear Terminal                           |
+| `gitall`         |                   | Get all current repo branches            |
+| `gitallbranches` |                   | Fetches all git branches in a repository |
+| `ip`             |                   | get current ip                           |
+| `j`              | `jobs -l`         | Show running jobs                        |
+| `mkdir`          | `mkdir -pv`       | Make directories multi-levels deep       |
+| `now`            |                   | Current Date Time                        |
+| `os`             | `lsb_release -a`  | OS Info                                  |
+| `ports`          | `netstat -tulanp` | Open Ports                               |
+| `py`             | `python`          | Shorthand Python                         |
+| `vi`             | `vim`             | Always use VIM                           |
+| `wget`           | `wget -c`         | Continue if failed download              |
+| `xclip`          | `xclip -sel clip` | Copy content                             |
+
+## Important: Update Git Settings
+
 You should update the git config with:
 
 ```sh
@@ -44,70 +149,7 @@ If you are using another default identity key other than `id_rsa/id_rsa.pub` mak
 git config --global user.IdentityFile "~/.ssh/your_private_key"
 ```
 
-## .bashrc Aliases
-Bash Display: `username@host[~/path]:~$`
-
-| Alias | Command | Purpose |
-| --- | --- | --- |
-| **Navigation** | | |
-| .. | cd .. | move up a directory |
-| ... | cd ../.. | move up two directories |
-| .... | cd ../../.. | move up thre directories |
-| l | ls -l --color | ls long listing & shortcut w/color |
-| la | ls -la --color | ls long listing + dotfiles & shortcut w/color |
-| ls | command ls --color | ls with color |
-| p | cd ~/projects/ | go to folder |
-| www | cd /var/www/ | go to folder |
-| **Apt** | |
-| apt-get | sudo apt-get | prefix sudo when forgotten |
-| update | sudo apt-get update | shortcut to update |
-| updatey | sudo apt-get update && sudo apt-get upgrade | shortcut to update & upgrade |
-| **Apache2** | |
-| a2graceful | sudo /usr/sbin/apachectl -k graceful | Graceful Restart |
-| a2modules | sudo apachectl -t -D DUMP_MODULES | List Active Modules |
-| a2test | sudo apachectl -t | Test Config |
-| a2version | sudo apachectl -v | Get Version |
-| a2vhosts | sudo apachectl -t -D DUMP_VHOSTS | List Active VHosts |
-| **Nginx** | | |
-| ngmake |  | Create file in sites-available |
-| ngensite |  | Create symlink to sites-enabled |
-| ngdissite |  | Remove symlink from sites-enabled |
-| ngreload | | nginx reload |
-| ngtest |  | nginx configtest |
-| **Safety** | | |
-| chgrp | chgrp --preserve-root | Protect root / folder |
-| chmod | chmod --preserve-root | Protect root / folder |
-| chown | chown --preserve-root | Protect root / folder |
-| **Super User** | | |
-| root | sudo -i | Get to root easier |
-| su | sudo -i | Get to root easier |
-| sudo | sudo  | Allow Aliases to use sudo |
-| **Utils** | | |
-| df |  | improvement (apt insttall pydf) |
-| du |  | improvement (apt insttall ncdu) |
-| gza | | gzip an current folder |
-| extract | | extract nearly any file extension |
-| **Searching** | | |
-| egrep | egrep --color=auto | Color to egrep |
-| ffile | find . -name | find file by name |
-| fgrep | fgrep --color=auto | Color to fgrep |
-| grep | grep --color=auto | Color to grep |
-| **Python** | | |
-| mkvirtualenv | | --no-site-packages --distribute  |
-| **Shortcuts** | | |
-| h |  | history |
-| c |  | clear |
-| gitall |  | get all current repo branches |
-| ip |  | get current ip |
-| j | jobs -l |  |
-| mkdir | mkdir -pv | Make directories multi-levels deep |
-| now |  | Current Date Time |
-| os | lsb_release -a | OS Info |
-| ports | netstat -tulanp | Open Ports |
-| vi | vim | Always use VIM |
-| wget | wget -c | Continue if failed download |
-| xclip | xclip -sel clip | Copy content |
-
+## 
 
 ## Vim Plugins
 
@@ -466,7 +508,6 @@ to the CURRENT theme
 ```
 
 The above creates a file in `Users/bh_core.sublime-settings`.
-
 
 ---
 
