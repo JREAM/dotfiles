@@ -50,6 +50,7 @@ alias c='clear'
 alias h='history'
 alias j='jobs -l'
 alias py='python'
+alias py3='python3'
 alias vi=vim
 alias ports='netstat -tulanp'
 alias now="date +'%A, %B %m %Y at%l:%M%P %Z'"
