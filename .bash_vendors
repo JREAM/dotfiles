@@ -21,6 +21,10 @@ if [[ -d $HOME/.pyenv ]]; then
     eval "$(pyenv init -)"
   fi
 
+  if [[ -d $HOME/.pyenv/plugins/pyenv-virtualenv ]]; then
+    eval "$(pyenv virtualenv-init -)"
+  fi
+
 fi
 
 # ┌─────────────────────────────────────────────────────────────────┐
