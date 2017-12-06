@@ -22,6 +22,7 @@ if [[ -d $HOME/.pyenv ]]; then
   fi
 
   if [[ -d $HOME/.pyenv/plugins/pyenv-virtualenv ]]; then
+    export PYENV_VIRTUALENV_DISABLE_PROMPT=1
     eval "$(pyenv virtualenv-init -)"
   fi
 
