@@ -83,6 +83,8 @@ PACKAGES=(
 
   # CLI Tools / Builders
   @angular/cli
+  feathers-cli
+  strapi
   chalk
   express-generator
   grunt-cli
@@ -92,6 +94,7 @@ PACKAGES=(
   karma-cli
   loopback
   prettier-eslint-cli
+  parcel-bundler
   rollup
   swagger
   vue-cli
