@@ -15,10 +15,8 @@ F=(
   .pylintrc
   .virtualenvs
   .zshrc
-  .jscsrc
-  .jslintrc.json
   .tmux.conf
-  tslint.json
+  .tslint.json
   .editorconfig
   .grc
   # Do NOT copy .git
