@@ -15,12 +15,6 @@
 # ╚═════════════════════════════════════════════════════════════════╝
 
 
-# @TODO - Make Re-usable functions
-# @TODO - Place All item in arrays probably, maybe.
-# @TODO - Echo out port names with one command not repeating code
-# @TODO - Auto add/remove to from host based on some identifier someway (User may change port or name)
-
-
 # Used for Settings, please do not change.
 # ___________________________________________________________________
 DIR_DB='/data/db'
@@ -48,13 +42,8 @@ MY_RANCHER_PORT=8990            # 8080 is default
 IMAGE_RANCHER=rancher/server:stable
 
 MY_SWAGGER_EDITOR_PORT=9600
-MY_SWAGGER_EDITOR_NAME="swagger-editor-local"
+MY_SWAGGER_EDITOR_NAME="swagger-local"
 IMAGE_SWAGGER_EDITOR="swaggerapi/swagger-editor"
-
-MY_SWAGGER_UI_PORT="8881"       # 8080 is default
-MY_SWAGGER_UI_NAME="swagger-ui-local"
-IMAGE_SWAGGER_UI="swaggerapi/swagger-ui"
-
 
 MY_APACHE_NAME="apache-local"
 MY_APACHE_PORT="82"             # 80 is default
@@ -104,7 +93,6 @@ RUNNING=()
 RUNNING[PORTAINER]='off'
 RUNNING[RANCHER]='off'
 RUNNING[SWAGGER_EDITOR]='off'
-RUNNING[SWAGGER_UI]='off'
 RUNNING[APACHE]='off'
 RUNNING[NGINX]='off'
 RUNNING[REDIS]='off'
@@ -122,7 +110,6 @@ function mydocker() {
      ${MY_PORTAINER_NAME} \t │ ${MY_PORTAINER_PORT}\t  \n\
      ${MY_RANCHER_NAME} \t │ ${MY_RANCHER_PORT} | s; \n\
      ${MY_SWAGGER_EDITOR_NAME} \t │ ${MY_SWAGGER_EDITOR_PORT}; \n\
-     ${MY_SWAGGER_UI_NAME} \t │ ${MY_SWAGGER_UI_PORT}; \n\
      ${MY_APACHE_NAME} \t │ ${MY_APACHE_PORT}; \n\
      ${MY_NGINX_NAME} \t │ ${MY_NGINX_PORT}; \n\
      ${MY_REDIS_NAME} \t │ ${MY_REDIS_PORT}; \n\
@@ -161,6 +148,36 @@ alias dco-down="docker-compose down"
 alias dco-up="docker-compose up -d"
 alias dco-stop="docker-compose stop"
 alias dco-kill="docker-compose kill"
+
+# ┌─────────────────────────────────────────────────────────────────┐
+# │ AWS ECR Login (                                                 │
+# ├─────────────────────────────────────────────────────────────────┤
+# │ Requires $ pip install awscl (PyEnv 3.x is fine)                │
+# └─────────────────────────────────────────────────────────────────┘
+function aws-docker-login() {
+    echo -e "[!] Attempting to login using your ~/.aws credentials from $ aws configure)"
+    $(aws ecr get-login)
+}
+
+function aws-docker-tag() {
+    echo "NOT READY"
+    echo -e "[@] Usage: $ aws-docker-tag jesse/node:development"
+    echo -e "[!] Required: ~/.private_exports must have export AWS_ECR_HOST=0000.awshostname.com"
+
+    IFS='/'; read -rda $1 <<< "$URL"  # IFS is Scoped to this command by being on the same line.
+    for i in "${URL[@]}"; do
+        echo $i
+    done
+    echo "${URL[0]}"
+    echo "${URL[1]}"
+    #docker tag $1 $AWS_ECR_HOST/
+}
+
+function aws-docker-push() {
+    echo -e "NOT READY"
+    echo -e "[@] Usage: $ aws-docker-push node:development "
+    docker push $AWS_ECR_HOST/$1
+}
 
 # ┌─────────────────────────────────────────────────────────────────┐
 # │ Aliases/Function                                                │
@@ -321,50 +338,21 @@ function rancher-restart() {
 # ├─────────────────────────────────────────────────────────────────┤
 # │ @recommend  $ npm i -g swagger                                  │
 # └─────────────────────────────────────────────────────────────────┘
-function swagger-editor-setup() {
+function swagger-setup() {
     docker run -d --name=$MY_SWAGGER_EDITOR_NAME -p $MY_SWAGGER_EDITOR_PORT:8080 $IMAGE_SWAGGER_EDITOR
     echo -e "@recommended: npm i -g swagger  (Additional CLI for Swagger)\n"
-    echo "${MY_SWAGGER_EDITOR_NAME} at http://localhost:${MY_SWAGGER_EDITOR_PORT}"
 }
 
-function swagger-editor-up() {
+function swagger-up() {
     docker start $MY_SWAGGER_EDITOR_NAME
-    echo "${MY_SWAGGER_EDITOR_NAME} at http://localhost:${MY_SWAGGER_EDITOR_PORT}"
 }
 
-function swagger-editor-stop() {
+function swagger-stop() {
     docker stop $MY_SWAGGER_EDITOR_NAME
 }
 
-function swagger-editor-restart() {
+function swagger-restart() {
     docker restart $MY_SWAGGER_EDITOR_NAME
-    echo "${MY_SWAGGER_EDITOR_NAME} at http://localhost:${MY_SWAGGER_EDITOR_PORT}"
-}
-
-
-# ┌─────────────────────────────────────────────────────────────────┐
-# │ Swagger UI                                                      │
-# ├─────────────────────────────────────────────────────────────────┤
-# │ @recommend  $ npm i -g swagger                                  │
-# └─────────────────────────────────────────────────────────────────┘
-function swagger-ui-setup() {
-    docker run -d --name=$MY_SWAGGER_UI_NAME -p $MY_SWAGGER_UI_PORT:8080 $IMAGE_SWAGGER_UI
-    echo -e "@recommended: npm i -g swagger  (Additional CLI for Swagger)\n"
-    echo "${MY_SWAGGER_UI_NAME} at http://localhost:${MY_SWAGGER_UI_PORT}"
-}
-
-function swagger-ui-up() {
-    docker start $MY_SWAGGER_UI_NAME
-    echo "${MY_SWAGGER_UI_NAME} at http://localhost:${MY_SWAGGER_UI_PORT}"
-}
-
-function swagger-ui-stop() {
-    docker stop $MY_SWAGGER_UI_NAME
-}
-
-function swagger-ui-restart() {
-    docker restart $MY_SWAGGER_UI_NAME
-    echo "${MY_SWAGGER_UI_NAME} at http://localhost:${MY_SWAGGER_UI_PORT}"
 }
 
 # ┌─────────────────────────────────────────────────────────────────┐
@@ -380,13 +368,11 @@ function redis-setup() {
     fi
     echo -e "Using ${DIR_CONF}/redis.conf, change & restart if you wish."
     docker run -d -v $DIR_CONF/redis.conf:/usr/local/etc/redis/redis.conf --name=$MY_REDIS_NAME -p $MY_REDIS_PORT:6379 $IMAGE_REDIS
-    echo "${MY_REDIS_NAME} at http://localhost:${MY_REDIS_PORT}"
 }
 
 function redis-up() {
     echo -e "Using ${DIR_CONF}/redis.conf, change & restart if you wish."
     docker start $MY_REDIS_NAME
-    echo "${MY_REDIS_NAME} at http://localhost:${MY_REDIS_PORT}"
 }
 
 function redis-stop() {
@@ -395,7 +381,6 @@ function redis-stop() {
 
 function redis-restart() {
     docker restart $MY_REDIS_NAME
-    echo "${MY_REDIS_NAME} at http://localhost:${MY_REDIS_PORT}"
 }
 
 function redis-connect() {
@@ -411,13 +396,11 @@ function apache-setup() {
     echo -e "Using ${DIR_WWW} as web-root, change & restart if you wish."
     # echo -e "Using ${DIR_CONF}/apache.ini for configuration, change & restart if you wish."
     docker run -d -v "$DIR_WWW":/usr/local/apache2/htdocs/ --name=$MY_APACHE_NAME -p $MY_APACHE_PORT:80 $IMAGE_APACHE
-    echo "${MY_APACHE_NAME} at http://localhost:${IMAGE_APACHE}"
 }
 
 function apache-up() {
     echo -e "Using ${DIR_WWW} as web-root, change & restart if you wish."
     docker start $MY_APACHE_NAME
-    echo "${MY_APACHE_NAME} at http://localhost:${IMAGE_APACHE}"
 }
 
 function apache-stop() {
@@ -426,7 +409,6 @@ function apache-stop() {
 
 function apache-restart() {
     docker restart $MY_APACHE_NAME
-    echo "${MY_APACHE_NAME} at http://localhost:${IMAGE_APACHE}"
 }
 
 # ┌─────────────────────────────────────────────────────────────────┐
@@ -439,13 +421,11 @@ function nginx-setup() {
     # echo -e "Using ${DIR_CONF}/nginx.ini for configuration, change & restart if you wish."
     # docker run -d -v "$DIR_WWW":/usr/share/nginx/html --name=$MY_NGINX_NAME -p $MY_NGINX_PORT:80 $IMAGE_NGINX $CONF_DIR/nginx.conf:/etc/nginx/nginx.conf:ro
     docker run -d -v "$DIR_WWW":/usr/share/nginx/html --name=$MY_NGINX_NAME -p $MY_NGINX_PORT:80 $IMAGE_NGINX
-    echo "${MY_NGINX_NAME} at http://localhost:${MY_NGINX_PORT}"
 }
 
 function nginx-up() {
     echo -e "Using ${DIR_WWW} as web-root, change & restart if you wish."
     docker start $MY_NGINX_NAME
-    echo "${MY_NGINX_NAME} at http://localhost:${MY_NGINX_PORT}"
 }
 
 function nginx-stop() {
@@ -454,7 +434,6 @@ function nginx-stop() {
 
 function nginx-restart() {
     docker restart $MY_NGINX_NAME
-    echo "${MY_NGINX_NAME} at http://localhost:${MY_NGINX_PORT}"
 }
 
 # ┌─────────────────────────────────────────────────────────────────┐
@@ -466,12 +445,10 @@ function mongo-setup() {
     echo "Creating local directory to persist data: ${DIR_DB}/mongo/${MY_MONGO_NAME}"
     sudo mkdir $DIR_DB/mongo/$MY_MONGO_NAME
     docker run -d -v $DIR_DB/mongo/$MY_MONGO_NAME --name=$MY_MONGO_NAME -p $MY_MONGO_PORT:27017 $IMAGE_MONGO
-    echo "${MY_MONGO_NAME} at http://localhost:${MY_MONGO_PORT}"
 }
 
 function mongo-up() {
     docker start $MY_MONGO_NAME
-    echo "${MY_MONGO_NAME} at http://localhost:${MY_MONGO_PORT}"
 }
 
 function mongo-stop() {
@@ -480,7 +457,6 @@ function mongo-stop() {
 
 function mongo-restart() {
     docker restart $MY_MONGO_NAME
-    echo "${MY_MONGO_NAME} at http://localhost:${MY_MONGO_PORT}"
 }
 
 function mongo-connect() {
@@ -496,7 +472,6 @@ function mysql-setup() {
     echo "Creating local directory to persist data: ${DIR_DB}/mysql/${MY_MYSQL_NAME}"
     sudo mkdir $DIR_DB/mysql/$MY_MYSQL_NAME
     docker run -d -v $DIR_DB/mysql/$MY_MYSQL_NAME:/var/lib/mysql --name=$MY_MYSQL_NAME -p $MY_MYSQL_PORT:3306 -e MYSQL_ROOT_PASSWORD=$MY_MYSQL_ROOT_PASSWORD $IMAGE_MYSQL
-    echo "${MY_MYSQL_NAME} at http://localhost:${MY_MYSQL_PORT}"
 }
 
 #function mysql-connect() {
@@ -505,7 +480,6 @@ function mysql-setup() {
 
 function mysql-up() {
     docker start $MY_MYSQL_NAME
-    echo "${MY_MYSQL_NAME} at http://localhost:${MY_MYSQL_PORT}"
 }
 
 function mysql-stop() {
@@ -514,7 +488,6 @@ function mysql-stop() {
 
 function mysql-restart() {
     docker restart $MY_MYSQL_NAME
-    echo "${MY_MYSQL_NAME} at http://localhost:${MY_MYSQL_PORT}"
 }
 
 function mysql-connect() {
@@ -527,12 +500,10 @@ function mysql-connect() {
 # └─────────────────────────────────────────────────────────────────┘
 function nats-setup() {
     docker run -d --name=$MY_NATS_NAME -p $MY_NATS_PORT:8222 $IMAGE_NATS
-    echo "${MY_NATS_NAME} at http://localhost:${MY_NATS_PORT}"
 }
 
 function nats-up() {
     docker start $MY_NATS_NAME
-    echo "${MY_NATS_NAME} at http://localhost:${MY_NATS_PORT}"
 }
 
 function nats-stop() {
@@ -541,7 +512,6 @@ function nats-stop() {
 
 function nats-restart() {
     docker restart $MY_NATS_NAME
-    echo "${MY_NATS_NAME} at http://localhost:${MY_NATS_PORT}"
 }
 
 function nats-connect() {
@@ -554,7 +524,6 @@ function nats-connect() {
 # └─────────────────────────────────────────────────────────────────┘
 function elk-setup() {
     docker run -d --name=$MY_ELK_NAME -p $MY_ELK_PORT_KIBANA:5601 -p $MY_ELK_PORT_ELASTICSEARCH:9200 -p $MY_ELK_PORT_LOGSTASH:5044 $IMAGE_ELK
-    # echo "${MY_ELK_NAME} at http://localhost:${MY_ELK_PORT_KIBANA}"
 }
 
 function elk-up() {
@@ -569,5 +538,8 @@ function elk-restart() {
     docker restart $MY_ELK_NAME
 }
 
+function nats-connect() {
+    docker exec -it $MY_NATS_NAME
+}
 
 # End of File
