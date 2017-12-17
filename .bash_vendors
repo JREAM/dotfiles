@@ -21,20 +21,15 @@ if [[ -d $HOME/.pyenv ]]; then
     eval "$(pyenv init -)"
   fi
 
-  if [[ -d $HOME/.pyenv/plugins/pyenv-virtualenv ]]; then
-    export PYENV_VIRTUALENV_DISABLE_PROMPT=1
-    eval "$(pyenv virtualenv-init -)"
-  fi
-
 fi
 
 # ┌─────────────────────────────────────────────────────────────────┐
 # │ (Optional) PipEnv (PipEnv/AutoCompletion)                       │
 # ├─────────────────────────────────────────────────────────────────┤
 # └─────────────────────────────────────────────────────────────────┘
-if hash pipenv >/dev/null 2>&1; then
-  eval "$(pipenv --completion)"
-fi
+#if hash pipenv >/dev/null 2>&1; then
+#  eval "$(pipenv --completion)"
+#fi
 
 # ┌─────────────────────────────────────────────────────────────────┐
 # │ (Optional) GVM (GoLang Version Manager)                         │
@@ -43,14 +38,6 @@ fi
 
 if [[ -s "$HOME/.gvm/scripts/gvm" ]]; then
     source "$HOME/.gvm/scripts/gvm"
-fi
-
-# ┌─────────────────────────────────────────────────────────────────┐
-# │ (Optional) Git Extras    $gh                                    │
-# ├─────────────────────────────────────────────────────────────────┤
-# └─────────────────────────────────────────────────────────────────┘
-if [ -f "$HOME/.gh_complete.sh" ]; then
-  source "$HOME/.gh_complete.sh"
 fi
 
 # ┌─────────────────────────────────────────────────────────────────┐
