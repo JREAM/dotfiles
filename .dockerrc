@@ -75,9 +75,12 @@ IMAGE_MYSQL="mysql:5.7"         # You could swap w/Percona, Maria, Mysql.
 MY_NATS_NAME="nats-local"
 MY_NATS_PORT=8220              # 8222 is default
 MY_NATS_PORT_CLIENT=4220       # 4222 is default
-#MY_NATS_PORT_CLUSTER=6220      # 6222 is default (Not Used)
+#MY_NATS_PORT_CLUSTER=6220     # 6222 is default (Not Used)
 IMAGE_NATS="nats:1.0.4"
 
+MY_RETHINKDB_NAME="rethinkdb-local"
+MY_RETHINKDB_PORT="7999"        # Default is 8080
+IMAGE_RETHINKDB="rethinkdb:2.3.6"
 #MY_PROMETHEUS_NAME="prometheus-local"
 #MY_PROMETHEUS_PORT=9092         # 9090 is default
 #IMAGE_PROMETHEUS="prom/prometheus:v2.0.0"
@@ -100,6 +103,7 @@ RUNNING[MONGO]='off'
 RUNNING[NATS]='off'
 RUNNING[ELK]='off'
 RUNNING[PROMETHEUS]='off'
+RUNNING[RETHINKDB]='off'
 
 # [mydocker Lists containers]
 function mydocker() {
@@ -117,6 +121,7 @@ function mydocker() {
      ${MY_MYSQL_NAME} \t │ ${MY_MYSQL_PORT}; \n\
      ${MY_NATS_NAME} \t │ ${MY_NATS_PORT}; \n\
      ${MY_ELK_NAME} \t │ ${MY_ELK_PORT}; \n\
+     ${MY_RETHINKDB_NAME} \t │ ${MY_RETHINKDB_PORT}; \n\
     └──────────────────────────────────────────────────┘
     " | column -tx -s ';'
 }
@@ -517,6 +522,7 @@ function nats-restart() {
 function nats-connect() {
     docker exec -it $MY_NATS_NAME
 }
+
 # ┌─────────────────────────────────────────────────────────────────┐
 # │ ELK                                                             │
 # ├─────────────────────────────────────────────────────────────────┤
@@ -542,4 +548,26 @@ function nats-connect() {
     docker exec -it $MY_NATS_NAME
 }
 
+# ┌─────────────────────────────────────────────────────────────────┐
+# │ Rethink DB                                                      │
+# ├─────────────────────────────────────────────────────────────────┤
+# │ @desc                                                           │
+# └─────────────────────────────────────────────────────────────────┘
+function rethink-setup() {
+    echo "Creating local directory to persist data: ${DIR_DB}/rethinkdb/${MY_RETHINKDB_NAME}"
+    sudo mkdir $DIR_DB/rethinkdb/$MY_RETHINKDB_NAME
+    docker run -d --name=$MY_RETHINKDB_NAME -p $MY_RETHINKDB_PORT:8008 $IMAGE_RETHINKDB
+}
+
+function rethink-up() {
+    docker start $MY_RETHINKDB_NAME
+}
+
+function rethink-stop() {
+    docker stop $MY_RETHINKDB_NAME
+}
+
+function rethink-restart() {
+    docker restart $MY_RETHINKDB_NAME
+}
 # End of File
