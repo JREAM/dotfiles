@@ -28,33 +28,54 @@ Plugin 'benjaminwhite/Benokai'
 Plugin 'metakirby5/codi.vim'
 Plugin 'bling/vim-airline'
 Plugin 'ervandew/supertab'
+
+" Multi Cursors (Config below)
+Plugin 'terryma/vim-multiple-cursors'
+
+" Default mapping
+let g:multi_cursor_next_key='<C-n>'
+let g:multi_cursor_prev_key='<C-p>'
+let g:multi_cursor_skip_key='<C-x>'
+let g:multi_cursor_quit_key='<Esc>'
+" Map start key separately from next key
+let g:multi_cursor_start_key='<F6>'
+
+" Surround Brackets
+Plugin 'tpope/vim-surround'
+
+" Indent Lines
+Plugin 'yggdroot/indentline'
+
+" JS Frameworks (Highlight)
+Plugin 'othree/javascript-libraries-syntax.vim'
+Plugin 'gregsexton/matchtag'
+Plugin 'httplog'
+
+" Languages
+Plugin 'ap/vim-css-color'
 Plugin 'leafgarland/typescript-vim'
 Plugin 'isruslan/vim-es6'
 Plugin 'pangloss/vim-javascript'
 Plugin 'plasticboy/vim-markdown'
 Plugin 'elzr/vim-json'
 Plugin 'cakebaker/scss-syntax.vim'
-Plugin 'tpope/vim-surround'
-Plugin 'terryma/vim-multiple-cursors'
-" Nice Time Tracker for Myself
-" If not asked for API key, create:
-" vim ~/.wakatime.cfg
-" [settings]
-" api_key = your_key_here
-"Plugin 'wakatime/vim-wakatime'
-
-" languages
+Plugin 'moll/vim-node'
 Plugin 'hail2u/vim-css3-syntax'
 Plugin 'Glench/Vim-Jinja2-Syntax'
 Plugin 'jnwhiteh/vim-golang'
 Plugin 'StanAngeloff/php.vim'
+Plugin 'mustache/vim-mustache-handlebars'
+Plugin 'nginx.vim'
 Plugin 'hdima/python-syntax'
 Plugin 'othree/html5.vim'
 Plugin 'stephpy/vim-yaml'
+Plugin 'mxw/vim-jsx'
+Plugin 'ekalinin/dockerfile.vim'
 
 " misc
 Bundle "editorconfig/editorconfig-vim"
 Bundle "vim-scripts/gitignore"
+
 
 " error handling
 Bundle "nvie/vim-flake8"
