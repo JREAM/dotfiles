@@ -21,6 +21,7 @@
 
 # Personal Folder shortcuts
 if [ -d ~/projects ]; then alias p='cd ~/projects/'; fi
+if [ -d ~/dev ]; then alias d='cd ~/dev/'; fi
 
 # ___________________________________________________________________
 #
@@ -50,7 +51,6 @@ alias c='clear'
 alias h='history'
 alias j='jobs -l'
 alias py='python'
-alias py3='python3'
 alias vi=vim
 alias ports='netstat -tulanp'
 alias now="date +'%A, %B %m %Y at%l:%M%P %Z'"
@@ -135,13 +135,20 @@ fi
 function ngmake { sudo vim /etc/nginx/sites-available/$1; }
 function ngenable { sudo ln -s /etc/nginx/sites-available/$1 /etc/nginx/sites-enabled; }
 function ngdisable { sudo rm /etc/nginx/sites-enabled/$1; }
-alias ngtest='sudo service nginx configtest'
+alias ngtest='sudo nginx -t -c /etc/nginx/nginx.conf'
 alias ngreload='sudo service nginx reload'
 alias ngrestart='sudo service nginx restart'
 alias ngstart='sudo service nginx start'
 alias ngstop='sudo service nginx stop'
 alias ngpath='cd /etc/nginx/'
 
+# Swap from nginx to apache
+alias ngswapapache='sudo service nginx stop && sudo service apache2 restart'
+alias a2swapng='sudo service apache2 stop && sudo service nginx restart'
+
+# TODO: Improve for other versions
+alias ngdisstartup='sudo service nginx stop && sudo update-rc.d nginx disable && echo "nginx set to NOT autostart"'
+alias ngenstartup='sudo service nginx start && sudo update-rc.d nginx enable && echo "nginx set to autostart"'
 # ___________________________________________________________________
 #
 #                           APACHE2
@@ -173,6 +180,10 @@ alias a2access='tail -n 50 /var/log/apache2/access.log'
 alias a2ctl='sudo apachectl'
 alias apachectl='sudo apachectl'
 alias apache2ctl='sudo apache2ctl'
+
+# TODO: Improve for other versions
+alias a2disstartup='sudo service apache2 stop && sudo update-rc.d apache2 disable && echo "apache2 set to NOT autostart"'
+alias a2enstartup='sudo service apache2 start && sudo update-rc.d apache2 enable && echo "apache2 set to autostart"'
 
 # ___________________________________________________________________
 #
