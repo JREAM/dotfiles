@@ -17,7 +17,6 @@ PACKAGES=(
   babel-core
   babel-eslint
   babel-loader
-  babel-polyfill
   babel-preset-env
   grunt-babel
   gulp-babel
@@ -28,7 +27,6 @@ PACKAGES=(
   es2015
   es2016
   es2017
-  es2018
   es6
   es6-promise
   lodash
@@ -43,11 +41,9 @@ PACKAGES=(
   eslint-plugin-lodash
   eslint-plugin-mocha
   eslint-plugin-prettier
-  eslint-plugin-prettier
   grunt-eslint
   gulp-eslint
   htmlhint
-  jscs
   remark-lint
   sass-lint
   tslint
@@ -67,7 +63,6 @@ PACKAGES=(
   expect.js
   jest
   mocha
-  phplint
   sinon
 
   # Debug Server / System Runner
@@ -75,8 +70,6 @@ PACKAGES=(
   pm2
 
   # Other
-  postcss
-  prettier-vscode
   tsutils
   typescript
 
@@ -87,16 +80,14 @@ PACKAGES=(
   strapi
   chalk
   express-generator
+  create-react-app
+  generator-generator  # yeoman helper custom generator
   grunt-cli
   gulp
   gulp-cli
-  htmlhint-cli
   karma-cli
-  loopback
-  prettier-eslint-cli
   parcel-bundler
   rollup
-  swagger
   vue-cli
   webpack
   webpack-dev-server
@@ -105,22 +96,6 @@ PACKAGES=(
     fkill-cli
     localtunnel
     vtop
-
-  # Type Definitions
-  @types/jquery
-  @types/jsonwebtoken
-  @types/lodash
-  @types/node
-  @types/q
-  @types/request
-  @types/restify
-  @types/webpack
-
-    # Types: Test Frameworks
-    @types/chai
-    @types/karma
-    @types/mocha
-    @types/sinon
 )
 
 # A few Colors
