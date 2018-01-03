@@ -14,6 +14,11 @@
 # ║  $ docker system prune -a                                       ║
 # ╚═════════════════════════════════════════════════════════════════╝
 
+if hash docker >&2 /dev/null; then
+  nothing=true
+else
+  exit 1
+fi
 
 # Used for Settings, please do not change.
 # ___________________________________________________________________
