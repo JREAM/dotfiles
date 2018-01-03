@@ -141,17 +141,34 @@ if [[ $yn =~ ^[yY]$ ]]; then
 
 
   # Brief Timeout incase mind is changed, regardless this is all no big deal.
-  TIMEOUT=7
+  TIMEOUT=4
   while [ $TIMEOUT -gt 0 ]; do
     echo -e "${YLW}Running in ${TIMEOUT} seconds ... ( CTRL+C to cancel )${NC}"
     sleep 1
     : $((TIMEOUT--))
   done
 
-  # The shorthand to install each item
-  for i in "${PACKAGES[@]}"; do
-    npm i ${i} -g
+  # @NOTE: Not using YARN for global, installs in place I do not want
+  # Strip the /bin off the end (4 chars)
+  #NODE_MODULES_PATH=${NVM_BIN%????}
+
+  #YARN=0
+  #if hash yarn 2>/dev/null; then
+  #  YARN=1
+  #fi
+
+  # Much faster than iterating, though a broken packages will not run any.
+  # @TODO This is not reliable so far, lame!
+  #PACKAGES_STR="${PACKAGES[@]}"
+
+  #if [[ $YARN == 1 ]]; then
+  #  yarn global add $PACKAGES_STR
+  #else
+  for p in "${PACKAGES[@]}"
+  do
+    npm i -g $p
   done
+  #fi
 
   echo -e "${GRN}Finished.. If you had errors, please check them manually"
 
