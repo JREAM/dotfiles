@@ -36,6 +36,7 @@ if [ -f ~/.exports_private ]; then source ~/.exports_private; fi
 if [ -f ~/.bash_vars ]; then source ~/.bash_vars; fi
 if [ -f ~/.bash_aliases ]; then source ~/.bash_aliases; fi
 if [ -f ~/.bash_vendors ]; then source ~/.bash_vendors; fi
+if [ -f ~/.bash_snippets ]; then source ~/.bash_snippets; fi
 if [ -f ~/.dockerrc ]; then source ~/.dockerrc; fi
 
 # ┌─────────────────────────────────────────────────────────────────┐
@@ -74,3 +75,4 @@ shopt -s cdspell
 # ___________________________________________________________________
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
+source <(kubectl completion bash)

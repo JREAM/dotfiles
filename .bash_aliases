@@ -21,7 +21,10 @@
 
 # Personal Folder shortcuts
 if [ -d ~/projects ]; then alias p='cd ~/projects/'; fi
-if [ -d ~/dev ]; then alias d='cd ~/dev/'; fi
+if [ -d ~/dev ]; then
+  alias d='cd ~/dev/'
+  alias dev='cd ~/dev'
+fi
 
 # ___________________________________________________________________
 #
