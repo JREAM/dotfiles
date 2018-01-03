@@ -75,4 +75,3 @@ shopt -s cdspell
 # ___________________________________________________________________
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
-source <(kubectl completion bash)

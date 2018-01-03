@@ -6,6 +6,7 @@ F=(
   .bashrc
   .bash_vars
   .bash_vendors
+  .bash_snippets
   .bash_completion_ng
   .dockerrc
   .exports
@@ -39,7 +40,9 @@ completed() {
 copyfiles() {
   echo -e "Copying to ${HOME}...\n"
   for file in "${F[@]}"; do
-    cp -r $file $HOME
+    if [ -if $file ]; then
+      cp -r $file $HOME
+    fi
   done
 }
 
