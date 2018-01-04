@@ -36,15 +36,7 @@ body {
 " > "./${NEW_DIR}/css/app.css"
 
 # Create JS File
-echo -e "
-body {
-  padding-top: 5rem;
-}
-.starter-template {
-  padding: 3rem 1.5rem;
-  text-align: center;
-}
-" > "./${NEW_DIR}/js/app.js"
+touch "./${NEW_DIR}/js/app.js"
 
 # Create HTML
 echo -e '<!doctype html>
