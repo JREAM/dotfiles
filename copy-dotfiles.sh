@@ -24,7 +24,7 @@ F=(
   .phpcs.xml
   .profile
   .scss-lint.yml
-  .eslintrc.json
+  .eslintrc
   .wgetrc
 )
 
