@@ -24,6 +24,7 @@ F=(
   .phpcs.xml
   .profile
   .scss-lint.yml
+  .stylelintrc
   .eslintrc
   .wgetrc
 )

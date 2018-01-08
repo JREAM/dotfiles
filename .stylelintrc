@@ -1,0 +1,14 @@
+{
+  "extends": "stylelint-config-standard",
+  "rules": {
+    "color-hex-case": "lower",
+    "color-hex-length": "short",
+    "number-no-trailing-zeros": true,
+    "string-quotes": "single",
+    "rule-empty-line-before": "always-multi-line",
+    "comment-empty-line-before": "always"
+  }
+}
+
+
+
