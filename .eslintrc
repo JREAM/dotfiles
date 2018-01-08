@@ -7,6 +7,5 @@
         "node": true
     },
     "rules": {
-        "comma-dangle": "never"
     }
 }
