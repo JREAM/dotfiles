@@ -268,7 +268,7 @@ function findinfile() {
 #
 # examples: $ loopdircmd git checkout development
 # ___________________________________________________________________
-loopdircmd() {
+loopdir() {
     if [ -z "$1" ]; then
         echo -e "[!] Whoops! Provide a command,\n\t eg: loopdircmd git checkout development\n"
         return
