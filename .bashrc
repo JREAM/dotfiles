@@ -11,6 +11,20 @@
 
 
 # ┌─────────────────────────────────────────────────────────────────┐
+# │ Distro Determination                                            │
+# ├─────────────────────────────────────────────────────────────────┤
+# │ (bash_aliases has functions)                                    │
+# └─────────────────────────────────────────────────────────────────┘
+# Distro Determination
+# ___________________________________________________________________
+DISTRO=$(lsb_release -i | xargs); DISTRO=${LSB:16:50};
+case "$LSB" in
+  CentOS)         PKGM="yum";;
+  Ubuntu|Debian)  PKGM="apt";;
+esac
+
+
+# ┌─────────────────────────────────────────────────────────────────┐
 # │ Terminal Display                                                │
 # ├─────────────────────────────────────────────────────────────────┤
 # └─────────────────────────────────────────────────────────────────┘
@@ -38,6 +52,8 @@ if [ -f ~/.bash_aliases ]; then source ~/.bash_aliases; fi
 if [ -f ~/.bash_vendors ]; then source ~/.bash_vendors; fi
 if [ -f ~/.bash_snippets ]; then source ~/.bash_snippets; fi
 if [ -f ~/.dockerrc ]; then source ~/.dockerrc; fi
+
+
 
 # ┌─────────────────────────────────────────────────────────────────┐
 # │ Preferences: History                                            │

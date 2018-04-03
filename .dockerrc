@@ -15,9 +15,9 @@
 # ╚═════════════════════════════════════════════════════════════════╝
 
 if hash docker >&2 /dev/null; then
-  nothing=true
+  :
 else
-  exit 1
+  return false
 fi
 
 # Used for Settings, please do not change.
@@ -95,7 +95,6 @@ IMAGE_RETHINKDB="rethinkdb:2.3.6"
 #IMAGE_LOGSPOUT="gliderlabs/logspout" # See More https://hub.docker.com/r/gliderlabs/logspout/
 
 
-# Simple way to keep track
 # Simple way to keep track
 RUNNING=()
 RUNNING[PORTAINER]='off'

@@ -363,6 +363,15 @@ up() {
 }
 
 
+# Trim
+#  Removes starting and ending white space
+#
+# examples:     $  trim " string"
+# ___________________________________________________________________
+trim() {
+  awk '{$1=$1};print'
+}
+
 # Calculator
 #   Simple calculator, cannot use spaces (MIGHT FIX)
 #
