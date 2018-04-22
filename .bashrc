@@ -45,18 +45,18 @@ export PS1="\u\[$(tput sgr0)\]\[\033[38;5;250m\]@\[$(tput sgr0)\]\[\033[38;5;15m
 # For private exports [Don't place in git]
 # @ Load Before other items incase exports are needed.
 # ___________________________________________________________________
-[ -f "~/.exports_private" ] && source ~/.exports_private # || echo 'Missing'
-[ -f "~/.bash_vars" ] && source ~/.bash_vars
-[ -f "~/.bash_aliases" ] && source ~/.bash_aliases
-[ -f "~/.bash_vendors" ] && source ~/.bash_vendors
-[ -f "~/.bash_snippets" ] && source ~/.bash_snippets
+[[ -f ~/.exports_private ]] && source ~/.exports_private # || echo 'Missing'
+[[ -f ~/.bash_vars ]] && source ~/.bash_vars
+[[ -f ~/.bash_aliases ]] && source ~/.bash_aliases
+[[ -f ~/.bash_vendors ]] && source ~/.bash_vendors
+[[ -f ~/.bash_snippets ]] && source ~/.bash_snippets
 
 # Docker Related
-[ -f "~/.dockerrc" ] && source ~/.dockerrc
+[[ -f ~/.dockerrc ]] && source ~/.dockerrc
 
 # JS Package Manager Related
-[ -f "~/.npm-completion" ] && source ~/.npm-completion
-[ -f "~/.yarn-completion" ] && source ~/.yarn-completion
+[[ -f ~/.npm-completion ]] && source ~/.npm-completion
+[[ -f ~/.yarn-completion ]] && source ~/.yarn-completion
 
 
 
