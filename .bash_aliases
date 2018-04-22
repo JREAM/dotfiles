@@ -20,7 +20,7 @@
 # ___________________________________________________________________
 
 # Personal Folder shortcuts
-if [ -d ~/projects ]; then alias p='cd ~/projects/'; fi
+[ -d "~/projects" ] && alias p='cd ~/projects/'
 if [ -d ~/dev ]; then
   alias d='cd ~/dev/'
   alias dev='cd ~/dev'
@@ -135,9 +135,8 @@ fi
 #                           NGINX
 # ___________________________________________________________________
 
-function ngmake { sudo vim /etc/nginx/sites-available/$1; }
-function ngenable { sudo ln -s /etc/nginx/sites-available/$1 /etc/nginx/sites-enabled; }
-function ngdisable { sudo rm /etc/nginx/sites-enabled/$1; }
+function ngensite { sudo ln -s /etc/nginx/sites-available/$1 /etc/nginx/sites-enabled; }
+function ngdissite { sudo rm /etc/nginx/sites-enabled/$1; }
 alias ngtest='sudo nginx -t -c /etc/nginx/nginx.conf'
 alias ngreload='sudo service nginx reload'
 alias ngrestart='sudo service nginx restart'
@@ -362,15 +361,6 @@ up() {
   cd $d
 }
 
-
-# Trim
-#  Removes starting and ending white space
-#
-# examples:     $  trim " string"
-# ___________________________________________________________________
-trim() {
-  awk '{$1=$1};print'
-}
 
 # Calculator
 #   Simple calculator, cannot use spaces (MIGHT FIX)

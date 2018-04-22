@@ -69,7 +69,7 @@ trim_trailing_whitespace = false
 ## ------------------------------------------- ##
 ## (Ignore) Minified JS/CSS
 ## ------------------------------------------- ##
-[*.{min.js,.min.css,scssc}]
+[*.{min.js,.min.css}]
 indent_style = ignore
 insert_final_newline = ignore
 
@@ -87,7 +87,7 @@ indent_style = tab
 [*.bat]
 indent_style = tab  # These always use tabs (Windows)
 
-[*.{bash,sh,zsh}]
+[*.{bash*,sh,zsh}]
 trim_trailing_whitespace = true
 insert_final_newline = ignore
 

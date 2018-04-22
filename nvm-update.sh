@@ -9,93 +9,108 @@
 # Package List (These are all global)
 PACKAGES=(
 
-  # See https://blogs.windows.com/msedgedev/2017/08/10/es-modules-node-today/
-  @std/esm
-
+  # ---------------
   # Babel
+  # ---------------
   babel-cli
   babel-core
-  babel-eslint
-  babel-loader
+  # babel-eslint        # (Use per-project)
+  # babel-loader        # (Use per-project)
   babel-preset-env
-  grunt-babel
-  gulp-babel
 
+  # ---------------
   # Ecma Abilities
-  core-js
+  # ---------------
   cross-env
   es2015
   es2016
   es2017
   es6
   es6-promise
-  lodash
-  lodash-es
 
+  # ---------------
   # Linters/Helpers
+  # ---------------
+  babel-eslint
   eslint
   eslint-config-eslint
   eslint-loader
   eslint-plugin-babel
   eslint-plugin-html
-  eslint-plugin-lodash
-  eslint-plugin-mocha
-  eslint-plugin-prettier
-  grunt-eslint
-  gulp-eslint
-  htmlhint
-  remark-lint
-  sass-lint
-  tslint
+  eslint-plugin-react
+  eslint-plugin-import
+  # grunt-eslint      # (Use per-project)
+  # gulp-eslint       # (Use per-project)
+  remark-lint         # Markdown Lint
+  # sass-lint         # (Use per-project)
+  tslint              # Typescript Lint
 
+  # ---------------
   # Dependencies for eslint-config-standard
+  # ---------------
   eslint-plugin-import
   eslint-plugin-node
   eslint-plugin-promise
 
-    # Config Setting Standards
-    eslint-config-airbnb-base
-    eslint-config-airbnb
-    eslint-config-standard
+  # ---------------
+  # Config Setting Standards
+  # ---------------
+  eslint-config-airbnb-base
+  eslint-config-airbnb
+  eslint-config-standard
 
+  # ---------------
   # Testing/Coverage
+  # ---------------
   chai
   expect.js
   jest
   mocha
   sinon
 
+  # ---------------
   # Debug Server / System Runner
-  nodemon
+  # ---------------
+  #nodemon
   pm2
 
+  # ---------------
   # Other
+  # ---------------
   tsutils
   typescript
 
 
+  # ---------------
   # CLI Tools / Builders
-  @angular/cli
+  # ---------------
   feathers-cli
   strapi
   chalk
-  express-generator
-  create-react-app
+  yo
   generator-generator  # yeoman helper custom generator
   grunt-cli
   gulp
   gulp-cli
   karma-cli
-  parcel-bundler
-  rollup
-  vue-cli
-  webpack
-  webpack-dev-server
+  # parcel-bundler      # (Use per-project)
+  # rollup              # (Use per-project)
+  # webpack             # (Use per-project)
+  # webpack-dev-server  # (Use per-project)
 
-    # System CLI Utils
-    fkill-cli
-    localtunnel
-    vtop
+  # ---------------
+  # FrontEnd
+  # ---------------
+  @angular/cli
+  vue-cli
+  create-react-app
+
+  # ---------------
+  # System CLI Utils
+  # ---------------
+  #fkill-cli
+  #localtunnel
+  vtop
 )
 
 # A few Colors

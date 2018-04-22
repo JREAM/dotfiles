@@ -4,7 +4,8 @@
         "import"
     ],
     "env": {
-        "node": true
+        "node": true,
+        "browser": true
     },
     "rules": {
     }

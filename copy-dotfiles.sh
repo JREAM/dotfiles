@@ -1,82 +1,80 @@
 #!/bin/bash
 
-F=(
-  nvm-update.sh
-  .bash_aliases
-  .bashrc
-  .bash_vars
-  .bash_vendors
-  .bash_snippets
-  .bash_completion_ng
-  .dockerrc
-  .exports
-  .gemrc
-  .gh_complete
-  .curlrc
-  .pylintrc
-  .virtualenvs
-  .zshrc
-  .tmux.conf
-  .tslint.json
-  .editorconfig
-  .grc
-  # Do NOT copy .git
-  .phpcs.xml
-  .profile
-  .scss-lint.yml
-  .stylelintrc
-  .eslintrc
-  .wgetrc
-)
+# Get Array ( ) of the LS Grep
+DOTFILES=( $(ls -a | egrep "^\.[a-zA-Z]") )
 
+# Empty Array to separate files/folders
+FILES=()
+DIRS=()
 
-completed() {
-  echo "Finished, run: $ source ~/.bashrc"
-  echo "[+] If you want to install and use ZSH over Bash, Run this command:"
-  echo ""
-  echo 'sudo apt install zsh && sh -c "$(wget https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"'
-  echo ""
-}
+for item in "${DOTFILES[@]}"; do
+  [[ -f "./${item}" ]] && FILES+=($item) && continue
+  # Ignore the .git folder, that'll be bad!
+  [[ -d "./${item}" && "${item}" != ".git" ]] && DIRS+=($item)
+done
+
+# // Debugging //
+#echo "FILES"
+#for a in "${FILES[@]}"; do
+#  echo $a;
+#done
+
+#echo "DIRS"
+#for a in "${DIRS[@]}"; do
+#  echo $a;
+#done
 
 copyfiles() {
-  echo -e "Copying to ${HOME}...\n"
-  for file in "${F[@]}"; do
-    if [ -if $file ]; then
-      cp -r $file $HOME
-    fi
+  echo -e "Copying Files.."
+  for file in "${FILES[@]}"; do
+    echo "[+] Copy: ${file} to ${HOME}"
+    cp $file $HOME
   done
 }
 
+copydirs() {
+  echo -e "Copying Directories.."
+  for dir in "${DIRS[@]}"; do
+      echo "[+] Copy: ${dir} to ${HOME}"
+      cp -r $dir $HOME
+  done
+}
+
+completed() {
+  echo -e "\n[+] Finished, make sure to run:"
+  echo -e "      $ source ~/.bashrc"
+}
 
 # Entry
 echo -e "\n -------------------------------------------"
-echo -e "\n       Copy Dotfiles to Home Folder\n"
-echo -e ""
-echo -e "\n     ++ The files below will be copied ++"
-echo -e "\n -------------------------------------------"
+echo -e "         Copy Dotfiles to Home Folder"
+echo -e " -------------------------------------------"
 
 # 8 column max array
-for f in "${F[@]}"; do
+echo "[ Files ]"
+for f in "${FILES[@]}"; do
   printf "%-8s\n" "${f}"
 done | column
 
+echo -e "\n[ Directories ]"
+for d in "${DIRS[@]}"; do
+  printf "%-8s\n" "${d}"
+done | column
 echo -e "\n ------------------------------------------- \n"
 
-# Optionally pass y flag to skip prompt, ./file.sh -y
-ARG1=$1
-if [[ $ARG1 =~ ^(-[yY])+$ ]]; then
-  copyfiles
-  completed
-  exit 1
-fi
+# User Prompt
+read -p "(1/2) Copy the above FILES to ${HOME} folder [y/N]?: " ynFiles
+read -p "(2/2) Copy the above DIRECTORIES to ${HOME} folder [y/N]?: " ynDirs
 
+# Flag for output at the end
+DID_RUN=0
 
-read -p "Do you want to copy the above files to ${HOME} folder [y/N]?: " yn
+# Copy Files
+[[ $ynFiles =~ ^([yY])+$ ]] && copyfiles && DID_RUN=1
 
-if [[ $yn =~ ^([yY])+$ ]]; then
-  copyfiles
-  completed
-else
-  echo "Exiting..."
-fi
+# Copy Dirs
+[[ $ynDirs =~ ^([yY])+$ ]] && copydirs && DID_RUN=1
+
+# Final Result
+[[ $DID_RUN == 1 ]] && completed || echo "Exiting..."
 

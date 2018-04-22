@@ -29,7 +29,7 @@ esac
 # ├─────────────────────────────────────────────────────────────────┤
 # └─────────────────────────────────────────────────────────────────┘
 parse_git_branch() {
-    git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
+  git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
 }
 
 # Unobtrusive user@name[~/path]:~$
@@ -45,13 +45,18 @@ export PS1="\u\[$(tput sgr0)\]\[\033[38;5;250m\]@\[$(tput sgr0)\]\[\033[38;5;15m
 # For private exports [Don't place in git]
 # @ Load Before other items incase exports are needed.
 # ___________________________________________________________________
-if [ -f ~/.exports_private ]; then source ~/.exports_private; fi
+[ -f "~/.exports_private" ] && source ~/.exports_private # || echo 'Missing'
+[ -f "~/.bash_vars" ] && source ~/.bash_vars
+[ -f "~/.bash_aliases" ] && source ~/.bash_aliases
+[ -f "~/.bash_vendors" ] && source ~/.bash_vendors
+[ -f "~/.bash_snippets" ] && source ~/.bash_snippets
 
-if [ -f ~/.bash_vars ]; then source ~/.bash_vars; fi
-if [ -f ~/.bash_aliases ]; then source ~/.bash_aliases; fi
-if [ -f ~/.bash_vendors ]; then source ~/.bash_vendors; fi
-if [ -f ~/.bash_snippets ]; then source ~/.bash_snippets; fi
-if [ -f ~/.dockerrc ]; then source ~/.dockerrc; fi
+# Docker Related
+[ -f "~/.dockerrc" ] && source ~/.dockerrc
+
+# JS Package Manager Related
+[ -f "~/.npm-completion" ] && source ~/.npm-completion
+[ -f "~/.yarn-completion" ] && source ~/.yarn-completion
 
 
 
@@ -71,7 +76,7 @@ shopt -s histappend
 #                      (used in the prompt below)
 # ___________________________________________________________________
 if [ -z "$debian_chroot" ] && [ -r /etc/debian_chroot ]; then
-    debian_chroot=$(cat /etc/debian_chroot)
+  debian_chroot=$(cat /etc/debian_chroot)
 fi
 
 
