@@ -55,12 +55,17 @@ alias vi=vim
 alias ports='netstat -tulanp'
 alias now="date +'%A, %B %m %Y at%l:%M%P %Z'"
 
-# Listing
-alias l="ls -l --color=auto"
-alias la="ls -la --color=auto"
-alias ls="ls --color=auto"
 
-alias os="lsb_release -a"           # Get OS Version
+# Listing
+alias l="ls -lh --color=auto"
+alias la="ls -lah --color=auto"                   # Long List
+alias ll="ls -lah --color=auto"                   # Long List
+alias ls="ls --color=auto"
+alias l.="ls -d .* --color=auto | column -s='\n'" # List Hidden files
+alias lh="l."                                     # <List Hidden Files>; Alias for Alias
+alias ll.="ls -lhd .* --color=auto"               # Long List Hiddent
+alias llh="ll."                                   # <List Hiddent Files; Alias for Alias
+alias os="lsb_release -a"                         # Get OS Version
 
 # Navigation
 alias ..='cd ..'
@@ -76,6 +81,11 @@ alias service='sudo service'
 alias root='sudo -i'                # Become root
 alias su='sudo -i'                  # Become root
 
+# Reboot Bypass Wait
+alias reboot='sudo /sbin/reboot'
+alias poweroff='sudo /sbin/poweroff'
+alias shutdown='sudo /sbin/shutdown'
+
 alias upgrade='sudo apt-get upgrade'
 alias update='sudo apt-get update'
 alias updatey='sudo apt-get update && sudo apt-get upgrade -y'
@@ -87,6 +97,14 @@ alias ppa='sudo apt-add-repository'
 alias chown='chown --preserve-root'
 alias chmod='chmod --preserve-root'
 alias chgrp='chgrp --preserve-root'
+alias rm='rm --preserve root'
+
+# Mount (Readable)
+alias mount='mount |column -t'
+
+# Ping
+alias ping='ping -c 5'  # Send X packets
+alias fastping='ping -c 100 -s.2'
 
 # Grep
 alias grep='grep --color=auto'
@@ -98,6 +116,12 @@ alias mkdir='mkdir -pv'             # $ mkdir x/y/z
 alias xclip='xclip -sel clip'       # Copy to Clipboard $ cat file.txt | xclip
 alias wget="wget -c"                # Resume if failed by default
 alias findfile="find . -name "      # Make find a little easier
+
+# Disk Related
+alias df='df -H'
+alias du='du -ch'
+
+
 
 # Utility: Get My IP
 alias ip="dig +short myip.opendns.com @resolver1.opendns.com"
@@ -115,11 +139,6 @@ fi
 if (( $+commands[nmap] )) >/dev/null 2>&1; then
     # install: $ sudo apt install nmap
     alias portsopen='nmap localhost --open'
-fi
-
-if (( $+commands[pydf] )) >/dev/null 2>&1; then
-    # install: $ sudo apt install pydf
-    alias df='pydf'
 fi
 
 # For Windows | Make Shortcut Run as Administrator!
@@ -204,6 +223,17 @@ export PYTHONDONTWRITEBYTECODE=1  # Stop Python from generating bytecode files
 #
 #                           GIT
 # ___________________________________________________________________
+
+# Git Flow
+alias gf='git flow'
+alias gitflow='git flow'
+GITFLOW_HELP="\
+  git flow --- init\
+           --- feature  ---  start   --- < NAME >\
+           --- release  ---  finish\
+           --- hotfix   ---  publsih\
+                        ---  pull\
+"
 
 # Fetch all remote git branches to local in working directory
 #
