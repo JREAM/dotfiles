@@ -12,13 +12,15 @@ if ! hash compdef >/dev/null 2>&1; then
   alias compdef='echo 0 >/dev/null'
 fi
 
-# ___________________________________________________________________
+# ---------------------------------------------------
 #
 # Fix compdef if not exists
-# ___________________________________________________________________
+# ---------------------------------------------------
 if (!( $+commands[compdef] )) >/dev/null 2>&1; then
-    alias compdef='1 >/dev/null'
+  alias compdef='1 >/dev/null'
 fi
+
+
 # ---------------------------------------------------
 # Path
 # ---------------------------------------------------
@@ -28,7 +30,7 @@ PATH="/usr/local/bin:$PATH"
 
 # If a private ~/bin exists, let's add it
 if [[ -d "$HOME/bin" ]] ; then
-    PATH="$PATH:$HOME/bin"
+  PATH="$PATH:$HOME/bin"
 fi
 
 
@@ -52,8 +54,8 @@ fi
 
 # Include local composer folder if exists
 export COMPOSER_HOME=""
-if [[ -d "$HOME/.composer/vendor/bin" ]] ; then
-    PATH="$HOME/.composer/vendor/bin:$PATH"
+if [[ -d ~/.composer/vendor/bin ]] ; then
+    PATH=~/.composer/vendor/bin:$PATH
     export COMPOSER_HOME=`composer config -g home`
 fi
 
@@ -67,14 +69,10 @@ fi
 # ---------------------------------------------------
 
 if [[ -n "$BASH_VERSION" ]]; then
-    # Include .bashrc
-    if [[ -f "$HOME/.bashrc" ]]; then
-        source "$HOME/.bashrc"
-    fi
-    # include .docker-complete if it exists
-    if [[ -f "$HOME/.docker-complete" ]]; then
-        source "$HOME/.docker-complete"
-    fi
+    # 1: Include .bashrc
+    # 2: include .docker-complete if it exists
+    [[ -f ~/.bashrc ]] && source ~/.bashrc
+    [[ -f ~/.docker-complete ]] && source ~/.docker-complete
 fi
 
 # ---------------------------------------------------

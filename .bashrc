@@ -51,8 +51,9 @@ export PS1="\u\[$(tput sgr0)\]\[\033[38;5;250m\]@\[$(tput sgr0)\]\[\033[38;5;15m
 [[ -f ~/.bash_vendors ]] && source ~/.bash_vendors
 [[ -f ~/.bash_snippets ]] && source ~/.bash_snippets
 
-# Docker Related
-[[ -f ~/.dockerrc ]] && source ~/.dockerrc
+# Docker Related (Prevent error if docker is not installed)
+DOCKER_INSTALLED=$( hash docker 2>/dev/null )
+[[ -f ~/.dockerrc || $DOCKER_INSTALLED ]] && source ~/.dockerrc
 
 # JS Package Manager Related
 [[ -f ~/.npm-completion ]] && source ~/.npm-completion
@@ -65,8 +66,8 @@ export PS1="\u\[$(tput sgr0)\]\[\033[38;5;250m\]@\[$(tput sgr0)\]\[\033[38;5;15m
 # ├─────────────────────────────────────────────────────────────────┤
 # └─────────────────────────────────────────────────────────────────┘
 HISTCONTROL=ignoreboth
-HISTSIZE=1000
-HISTFILESIZE=2000
+HISTSIZE=10000
+HISTFILESIZE=20000
 
 # Append to the history file, don"t overwrite it
 # ___________________________________________________________________
@@ -85,7 +86,7 @@ fi
 # ├─────────────────────────────────────────────────────────────────┤
 # └─────────────────────────────────────────────────────────────────┘
 [[ $PS1 && -f /usr/share/bash-completion/bash_completion ]] && \
-. /usr/share/bash-completion/bash_completion
+  . /usr/share/bash-completion/bash_completion
 
 # Fix $ cd typing errors
 # ___________________________________________________________________
