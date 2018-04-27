@@ -97,7 +97,6 @@ alias ppa='sudo apt-add-repository'
 alias chown='chown --preserve-root'
 alias chmod='chmod --preserve-root'
 alias chgrp='chgrp --preserve-root'
-alias rm='rm --preserve root'
 
 # Mount (Readable)
 alias mount='mount |column -t'
