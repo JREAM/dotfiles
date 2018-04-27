@@ -104,6 +104,7 @@ PACKAGES=(
   @angular/cli
   vue-cli
   create-react-app
+  jscodeshift         # Make changes to code nicely
 
   # ---------------
   # System CLI Utils
