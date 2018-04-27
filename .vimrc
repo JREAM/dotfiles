@@ -25,12 +25,8 @@ Plugin 'scrooloose/nerdtree'
 Plugin 'kien/ctrlp.vim'
 Plugin 'flazz/vim-colorschemes'
 Plugin 'benjaminwhite/Benokai'
-Plugin 'metakirby5/codi.vim'
 Plugin 'bling/vim-airline'
 Plugin 'ervandew/supertab'
-
-" Multi Cursors (Config below)
-Plugin 'terryma/vim-multiple-cursors'
 
 " Default mapping
 let g:multi_cursor_next_key='<C-n>'
@@ -43,17 +39,12 @@ let g:multi_cursor_start_key='<F6>'
 " Surround Brackets
 Plugin 'tpope/vim-surround'
 
-" Indent Lines
-Plugin 'yggdroot/indentline'
-
 " JS Frameworks (Highlight)
-Plugin 'othree/javascript-libraries-syntax.vim'
 Plugin 'gregsexton/matchtag'
 Plugin 'httplog'
 
 " Languages
 Plugin 'ap/vim-css-color'
-Plugin 'leafgarland/typescript-vim'
 Plugin 'isruslan/vim-es6'
 Plugin 'pangloss/vim-javascript'
 Plugin 'plasticboy/vim-markdown'
@@ -62,10 +53,8 @@ Plugin 'cakebaker/scss-syntax.vim'
 Plugin 'moll/vim-node'
 Plugin 'hail2u/vim-css3-syntax'
 Plugin 'Glench/Vim-Jinja2-Syntax'
-Plugin 'jnwhiteh/vim-golang'
 Plugin 'StanAngeloff/php.vim'
 Plugin 'mustache/vim-mustache-handlebars'
-Plugin 'nginx.vim'
 Plugin 'hdima/python-syntax'
 Plugin 'othree/html5.vim'
 Plugin 'stephpy/vim-yaml'
