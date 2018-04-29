@@ -13,6 +13,8 @@ if hash kubectl &>/dev/null; then
   source <(kubectl completion bash)
 fi
 
+[[ -d ~/.yarn/bin ]] && export PATH=$PATH:~/.yarn/bin
+
 # ┌─────────────────────────────────────────────────────────────────┐
 # │ (Optional) PyEnv (Python Version Manager)                       │
 # ├─────────────────────────────────────────────────────────────────┤
