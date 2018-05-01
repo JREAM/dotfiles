@@ -147,45 +147,65 @@ echo -e "${YLW}${DISPLAY_OUTPUT} ${NC}"
 echo -e "${GRN}══════════════════════════════════════════════════════════════════════${NC}"
 
 # Prompt Before Installation
-read -ep "--> Install all of the dependencies for this Node version? [ y/N ]: " yn
+read -ep "(1/2) Install above libs for the current Node version? [ Y/n ]: " yn
+read -ep "(2/2) Use Yarn (Default) or npm? [yarn/npm]: " yarnnpm
 
-if [[ $yn =~ ^[yY]$ ]]; then
+if [[ $yn =~ ^[nN]$ ]]; then
+  echo -e "Exiting ..."
+  exit 1
+fi
 
-  echo -e "${GRN}══════════════════════════════════════════════════════════════════════${NC}"
-  echo -e "${GRN}Preparing to install, you may CTRL+C to cancel${NC}"
-  echo -e "${GRN}══════════════════════════════════════════════════════════════════════${NC}"
+echo $yarnnpm
+
+PACKAGE_CONTROL='yarn'
+if [ "$yarnnpm" = "npm" ]; then
+  PACKAGE_CONTROL='npm'
+fi
+
+echo -e "${GRN}══════════════════════════════════════════════════════════════════════${NC}"
+echo -e "${GRN}Preparing to install using: ${PACKAGE_CONTROL}. CTRL+C to cancel${NC}"
+echo -e "${GRN}══════════════════════════════════════════════════════════════════════${NC}"
 
 
-  # Brief Timeout incase mind is changed, regardless this is all no big deal.
-  TIMEOUT=4
-  while [ $TIMEOUT -gt 0 ]; do
-    echo -e "${YLW}Running in ${TIMEOUT} seconds ... ( CTRL+C to cancel )${NC}"
-    sleep 1
-    : $((TIMEOUT--))
-  done
+# Brief Timeout incase mind is changed, regardless this is all no big deal.
+TIMEOUT=4
+while [ $TIMEOUT -gt 0 ]; do
+  echo -e "${YLW}Running in ${TIMEOUT} seconds ... ( CTRL+C to cancel )${NC}"
+  sleep 1
+  : $((TIMEOUT--))
+done
 
-  # @NOTE: Not using YARN for global, installs in place I do not want
-  # Strip the /bin off the end (4 chars)
-  #NODE_MODULES_PATH=${NVM_BIN%????}
+# @NOTE: Not using YARN for global, installs in place I do not want
+# Strip the /bin off the end (4 chars)
+#NODE_MODULES_PATH=${NVM_BIN%????}
 
-  #YARN=0
-  #if hash yarn 2>/dev/null; then
-  #  YARN=1
-  #fi
+#YARN=0
+#if hash yarn 2>/dev/null; then
+#  YARN=1
+#fi
 
-  # Much faster than iterating, though a broken packages will not run any.
-  # @TODO This is not reliable so far, lame!
-  #PACKAGES_STR="${PACKAGES[@]}"
+# Much faster than iterating, though a broken packages will not run any.
+# @TODO This is not reliable so far, lame!
+#PACKAGES_STR="${PACKAGES[@]}"
 
-  #if [[ $YARN == 1 ]]; then
-  #  yarn global add $PACKAGES_STR
-  #else
-  for p in "${PACKAGES[@]}"
-  do
+#if [[ $YARN == 1 ]]; then
+#  yarn global add $PACKAGES_STR
+#else
+
+for p in "${PACKAGES[@]}"
+do
+  if [ "$PACKAGE_CONTROL" = "npm" ]; then
+    echo "NPM ${p}"
     npm i -g $p
-  done
+    continue
+  fi
+  yarn global add $p
+done
   #fi
 
-  echo -e "${GRN}Finished.. If you had errors, please check them manually"
+echo -e "${GRN}Finished.. If you had errors, please check them manually."
 
+if [[ $PACKAGE_CONTROL -eq "yarn" ]]; then
+  echo -e "${GRN}[!] For Yarn, make sure to add to your .bashrc or a sourced file to load the files:"
+  echo -e "\t [[ -d ~/.yarn/bin ]] && export PATH=$PATH:~/.yarn/bin"
 fi
