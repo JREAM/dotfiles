@@ -51,13 +51,9 @@ export PS1="\u\[$(tput sgr0)\]\[\033[38;5;250m\]@\[$(tput sgr0)\]\[\033[38;5;15m
 [[ -f ~/.bash_vendors ]] && source ~/.bash_vendors
 [[ -f ~/.bash_snippets ]] && source ~/.bash_snippets
 
-# Docker Related (Comment out if not using docker)
-[[ -f ~/.dockerrc ]] && source ~/.dockerrc
-
-# JS Package Manager Related
-[[ -f ~/.npm-completion ]] && source ~/.npm-completion
-[[ -f ~/.yarn-completion ]] && source ~/.yarn-completion
-
+# Docker Related (Prevent error if docker is not installed)
+DOCKER_INSTALLED=$( hash docker 2>/dev/null )
+[[ -f ~/.dockerrc || $DOCKER_INSTALLED ]] && source ~/.dockerrc
 
 
 # ┌─────────────────────────────────────────────────────────────────┐
@@ -96,7 +92,3 @@ shopt -s cdspell
 # ___________________________________________________________________
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
-
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion

@@ -5,16 +5,6 @@
 # ║ Entry Point to all Bash Utilities                               ║
 # ╚═════════════════════════════════════════════════════════════════╝
 
-
-# ┌─────────────────────────────────────────────────────────────────┐
-# │ (Optional) Ruby Gems                                            │
-# ├─────────────────────────────────────────────────────────────────┤
-# └─────────────────────────────────────────────────────────────────┘
-if hash gem &>/dev/null; then
-  export GEM_HOME=$HOME/gems
-  export PATH=$HOME/gems/bin:$PATH
-fi
-
 # ┌─────────────────────────────────────────────────────────────────┐
 # │ (Optional) Kubernetes                                           │
 # ├─────────────────────────────────────────────────────────────────┤
@@ -22,6 +12,16 @@ fi
 if hash kubectl &>/dev/null; then
   source <(kubectl completion bash)
 fi
+
+
+# ┌─────────────────────────────────────────────────────────────────┐
+# │ (Optional) Node/Yarn Related                                    │
+# ├─────────────────────────────────────────────────────────────────┤
+# │ Place ~/.yarn before ~/.npm so is takes presedense.             │
+# └─────────────────────────────────────────────────────────────────┘
+# JS Package Manager Related
+[[ -f ~/.npm-completion ]] && source ~/.npm-completion
+[[ -f ~/.yarn-completion ]] && source ~/.yarn-completion
 
 [[ -d ~/.yarn/bin ]] && export PATH=$PATH:~/.yarn/bin
 
