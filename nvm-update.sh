@@ -41,6 +41,7 @@ PACKAGES=(
   eslint-plugin-import
   # grunt-eslint      # (Use per-project)
   # gulp-eslint       # (Use per-project)
+  prettier
   remark-lint         # Markdown Lint
   # sass-lint         # (Use per-project)
   tslint              # Typescript Lint
