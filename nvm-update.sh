@@ -95,7 +95,8 @@ PACKAGES=(
   karma-cli
   # parcel-bundler      # (Use per-project)
   # rollup              # (Use per-project)
-  # webpack             # (Use per-project)
+  webpack-cli
+  webpack
   # webpack-dev-server  # (Use per-project)
 
   # ---------------
