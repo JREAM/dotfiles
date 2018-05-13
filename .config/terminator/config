@@ -1,4 +1,5 @@
 [global_config]
+  enabled_plugins = LaunchpadCodeURLHandler, APTURLHandler, LaunchpadBugURLHandler
   title_font = Ubuntu Mono 13
   title_inactive_bg_color = "#70991f"
   title_receive_bg_color = "#fd971f"
@@ -9,8 +10,8 @@
   broadcast_all = <Alt>semicolon
   broadcast_group = None
   broadcast_off = <Alt>1
-  close_term = <Primary><Alt>w
-  close_window = None
+  close_term = <Primary>w
+  close_window = <Alt>F4
   new_tab = <Primary>t
   new_terminator = <Primary>n
   next_tab = <Primary>Tab
@@ -35,7 +36,7 @@
       order = 0
       parent = ""
       position = 513:279
-      size = 654, 378
+      size = 900, 600
       title = /bin/bash
       type = Window
     [[[terminal1]]]
@@ -48,10 +49,10 @@
 [profiles]
   [[default]]
     background_color = "#272822"
-    background_darkness = 0.08
-    background_image = None
+    background_darkness = 0.96
+    background_type = transparent
     cursor_blink = False
     cursor_color = "#9da189"
-    font = Ubuntu Mono 14
+    font = Ubuntu Mono 17
     foreground_color = "#fdfdfd"
     use_system_font = False
