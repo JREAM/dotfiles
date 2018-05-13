@@ -52,8 +52,11 @@ export PS1="\u\[$(tput sgr0)\]\[\033[38;5;250m\]@\[$(tput sgr0)\]\[\033[38;5;15m
 [[ -f ~/.bash_snippets ]] && source ~/.bash_snippets
 
 # Docker Related (Prevent error if docker is not installed)
-DOCKER_INSTALLED=$( hash docker 2>/dev/null )
-[[ -f ~/.dockerrc || $DOCKER_INSTALLED ]] && source ~/.dockerrc
+if hash docker 2>/dev/null; then
+  if [[ -f ~/.dockerrc ]]; then
+    source ~/.dockerrc
+  fi
+fi
 
 
 # ┌─────────────────────────────────────────────────────────────────┐
