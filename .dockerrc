@@ -42,9 +42,9 @@ MY_PORTAINER_PORT=9500
 MY_PORTAINER_NAME="portainer-local"
 IMAGE_PORTAINER="portainer/portainer"
 
-MY_RANCHER_NAME=rancher-local
+MY_RANCHER_NAME="rancher-local"
 MY_RANCHER_PORT=8990            # 8080 is default
-IMAGE_RANCHER=rancher/server:stable
+IMAGE_RANCHER="rancher/server:stable"
 
 MY_SWAGGER_EDITOR_PORT=9600
 MY_SWAGGER_EDITOR_NAME="swagger-local"
@@ -62,15 +62,15 @@ MY_ELK_NAME="elk-local"
 MY_ELK_PORT_KIBANA=5601              # 5601 is default
 MY_ELK_PORT_ELASTICSEARCH=9200              # 9200 is default
 MY_ELK_PORT_LOGSTASH=5044              # 9200 is default
-IMAGE_ELK="sebp/elk:600"
+IMAGE_ELK="sebp/elk:622"
 
 MY_REDIS_NAME="redis-local"
 MY_REDIS_PORT=6300              # 6379 is default
-IMAGE_REDIS="redis:3-alpine"
+IMAGE_REDIS="redis:4-alpine"
 
 MY_MONGO_NAME="mongo-local"
 MY_MONGO_PORT=27000              # 27017 is default
-IMAGE_MONGO="mongo:3.4"
+IMAGE_MONGO="mongo:3.6-jessie"
 
 MY_MYSQL_NAME="mysql-local"
 MY_MYSQL_PORT=3300              # 3306 is default
@@ -81,18 +81,11 @@ MY_NATS_NAME="nats-local"
 MY_NATS_PORT=8220              # 8222 is default
 MY_NATS_PORT_CLIENT=4220       # 4222 is default
 #MY_NATS_PORT_CLUSTER=6220     # 6222 is default (Not Used)
-IMAGE_NATS="nats:1.0.4"
+IMAGE_NATS="nats:1.1.0"
 
 MY_RETHINKDB_NAME="rethinkdb-local"
 MY_RETHINKDB_PORT="7999"        # Default is 8080
 IMAGE_RETHINKDB="rethinkdb:2.3.6"
-#MY_PROMETHEUS_NAME="prometheus-local"
-#MY_PROMETHEUS_PORT=9092         # 9090 is default
-#IMAGE_PROMETHEUS="prom/prometheus:v2.0.0"
-
-#MY_LOGSPOUT_NAME="logspout-local"
-#MY_LOGSPOUT_PORT=5001         # 5000 is default
-#IMAGE_LOGSPOUT="gliderlabs/logspout" # See More https://hub.docker.com/r/gliderlabs/logspout/
 
 
 # Simple way to keep track
@@ -106,7 +99,6 @@ RUNNING[REDIS]='off'
 RUNNING[MONGO]='off'
 RUNNING[NATS]='off'
 RUNNING[ELK]='off'
-RUNNING[PROMETHEUS]='off'
 RUNNING[RETHINKDB]='off'
 
 # [mydocker Lists containers]
