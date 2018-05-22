@@ -4,4 +4,6 @@
 # This will only load upon login
 #
 
-ssh-add ~/.ssh/jream_rsa
+KEYPATH=~/.ssh/jream_rsa
+
+[[ -f $KEYPATH ]] && ssh-add $KEYPATH
