@@ -83,6 +83,7 @@ PACKAGES=(
   # ---------------
   # Other
   # ---------------
+  poi
   tsutils
   typescript
 
