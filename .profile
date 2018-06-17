@@ -8,6 +8,9 @@
 # for ssh logins, install and configure the libpam-umask package.
 #umask 022
 
+# Source on start
+source ~/.bashrc
+
 if ! hash compdef >/dev/null 2>&1; then
   alias compdef='echo 0 >/dev/null'
 fi
