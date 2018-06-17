@@ -284,7 +284,7 @@ function findinfile() {
     search_path=$2
   fi
 
-  grep -Elir "(${1}) ${serach_path}"
+  grep -Elir "(${1}) ${search_path}"
 }
 
 # Directory Loop (All Children/Sub-Folders)

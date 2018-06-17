@@ -29,6 +29,11 @@ PACKAGES=(
   es6-promise
 
   # ---------------
+  # UI Zoo
+  # ---------------
+  uizoo # For React Component Library (See proects/uizoo)
+
+  # ---------------
   # Linters/Helpers
   # ---------------
   babel-eslint
@@ -78,6 +83,7 @@ PACKAGES=(
   # ---------------
   # Other
   # ---------------
+  poi
   tsutils
   typescript
 
@@ -149,23 +155,15 @@ echo -e "${YLW}${DISPLAY_OUTPUT} ${NC}"
 echo -e "${GRN}══════════════════════════════════════════════════════════════════════${NC}"
 
 # Prompt Before Installation
-read -ep "(1/2) Install above libs for the current Node version? [ Y/n ]: " yn
-read -ep "(2/2) Use Yarn (Default) or npm? [yarn/npm]: " yarnnpm
+read -ep "[?] Install above libs for the current Node version? [ Y/n ]: " yn
 
 if [[ $yn =~ ^[nN]$ ]]; then
   echo -e "Exiting ..."
   exit 1
 fi
 
-echo $yarnnpm
-
-PACKAGE_CONTROL='yarn'
-if [ "$yarnnpm" = "npm" ]; then
-  PACKAGE_CONTROL='npm'
-fi
-
 echo -e "${GRN}══════════════════════════════════════════════════════════════════════${NC}"
-echo -e "${GRN}Preparing to install using: ${PACKAGE_CONTROL}. CTRL+C to cancel${NC}"
+echo -e "${GRN}Preparing to install. CTRL+C to cancel${NC}"
 echo -e "${GRN}══════════════════════════════════════════════════════════════════════${NC}"
 
 
@@ -196,18 +194,13 @@ done
 
 for p in "${PACKAGES[@]}"
 do
-  if [ "$PACKAGE_CONTROL" = "npm" ]; then
     echo "NPM ${p}"
     npm i -g $p
     continue
-  fi
-  yarn global add $p
 done
   #fi
 
-echo -e "${GRN}Finished.. If you had errors, please check them manually."
+echo -e "${GRN}[+] Finished.. If you had errors, please check them manually."
 
-if [[ $PACKAGE_CONTROL -eq "yarn" ]]; then
-  echo -e "${GRN}[!] For Yarn, make sure to add to your .bashrc or a sourced file to load the files:"
-  echo -e "\t [[ -d ~/.yarn/bin ]] && export PATH=$PATH:~/.yarn/bin"
-fi
+echo -e "${GRN}[+] UIZoo was added, create a folder for uizoo and run: $ uizoo for react."
+
