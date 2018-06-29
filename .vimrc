@@ -27,6 +27,7 @@ Plugin 'flazz/vim-colorschemes'
 Plugin 'benjaminwhite/Benokai'
 Plugin 'bling/vim-airline'
 Plugin 'ervandew/supertab'
+Plugin 'nginx.vim'
 
 " Default mapping
 let g:multi_cursor_next_key='<C-n>'
@@ -45,25 +46,38 @@ Plugin 'httplog'
 
 " Languages
 Plugin 'ap/vim-css-color'
-Plugin 'isruslan/vim-es6'
-Plugin 'pangloss/vim-javascript'
-Plugin 'plasticboy/vim-markdown'
-Plugin 'elzr/vim-json'
-Plugin 'cakebaker/scss-syntax.vim'
-Plugin 'moll/vim-node'
-Plugin 'hail2u/vim-css3-syntax'
-Plugin 'Glench/Vim-Jinja2-Syntax'
-Plugin 'StanAngeloff/php.vim'
+
+" Syntax Languages
 Plugin 'mustache/vim-mustache-handlebars'
 Plugin 'hdima/python-syntax'
 Plugin 'othree/html5.vim'
 Plugin 'stephpy/vim-yaml'
 Plugin 'mxw/vim-jsx'
+Plugin 'cakebaker/scss-syntax.vim'
+Plugin 'moll/vim-node'
+Plugin 'hail2u/vim-css3-syntax'
+Plugin 'Glench/Vim-Jinja2-Syntax'
+Plugin 'StanAngeloff/php.vim'
+Plugin 'isruslan/vim-es6'
+Plugin 'pangloss/vim-javascript'
+Plugin 'plasticboy/vim-markdown'
+Plugin 'elzr/vim-json'
+
+" Autocomplete
+Plugin 'valloric/youcompleteme' " Requires compilation
+let g:ycm_python_binary_path = '/usr/bin/python3'
+" sudo apt-get install build-essential cmake
+" sudo apt-get install python-dev python3-dev
+" cd ~/.vim/bundle/YouCompleteMe && ./install.py
+
+" Docker
 Plugin 'ekalinin/dockerfile.vim'
+Plugin 'docker/docker'
 
 " misc
 Bundle "editorconfig/editorconfig-vim"
 Bundle "vim-scripts/gitignore"
+Plugin 'nathanaelkane/vim-indent-guides'
 
 
 " error handling
@@ -72,6 +86,16 @@ Bundle "scrooloose/syntastic"
 
 " For vim-airline
 let g:airline#extensions#tabline#enabled = 1
+
+" Indent Guides
+let g:indent_guides_enable_on_vim_startup = 1
+let g:indent_guides_auto_colors = 0
+autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=red   ctermbg=235
+autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=green ctermbg=237
+
+let g:indentLine_setColors = 0
+let g:indentLine_color_term = 239
+" let g:indentLine_char = 'c'
 
 " For vim-markdown
 autocmd BufNewFile,BufReadPost *.md set filetype=markdown
@@ -129,9 +153,9 @@ set tm=500
 set hidden
 
 " global tab settings
-set tabstop=4
-set softtabstop=4
-set shiftwidth=4
+set tabstop=2
+set softtabstop=2
+set shiftwidth=2
 set expandtab
 set smarttab
 
