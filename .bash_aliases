@@ -152,18 +152,21 @@ fi
 
 function ngensite { sudo ln -s /etc/nginx/sites-available/$1 /etc/nginx/sites-enabled; }
 function ngdissite { sudo rm /etc/nginx/sites-enabled/$1; }
-alias ngtest='sudo nginx -t -c /etc/nginx/nginx.conf'
+alias ngtest='sudo nginx -t'
 alias ngreload='sudo service nginx reload'
 alias ngrestart='sudo service nginx restart'
 alias ngstart='sudo service nginx start'
 alias ngstop='sudo service nginx stop'
 alias ngpath='cd /etc/nginx/'
 
-# Swap from nginx to apache
-alias ngswapapache='sudo service nginx stop && sudo service apache2 restart'
-alias a2swapng='sudo service apache2 stop && sudo service nginx restart'
+alias ngsa='cd /etc/nginx/sites-available'
+alias ngse='cd /etc/nginx/sites-enabled'
 
-# TODO: Improve for other versions
+alias nglog='tail -n 50 /var/log/nginx/error.log'
+alias ngaccess='tail -n 50 /var/log/nginx/access.log'
+
+alias ngstatus='systemctl status nginx.service'
+
 alias ngdisstartup='sudo service nginx stop && sudo update-rc.d nginx disable && echo "nginx set to NOT autostart"'
 alias ngenstartup='sudo service nginx start && sudo update-rc.d nginx enable && echo "nginx set to autostart"'
 # ___________________________________________________________________
@@ -181,6 +184,8 @@ alias a2restart='sudo service apache2 restart'
 alias a2start='sudo service apache2 start'
 alias a2stop='sudo service apache2 stop'
 alias a2path='cd /etc/apache2/'
+alias a2status='systemctl status apache2.service'
+alias a2log='sudo tail /var/log/apache2/error.log'
 
 alias a2disconf='sudo a2disconf'
 alias a2enconf='sudo a2enconf'
@@ -191,17 +196,15 @@ alias a2ensite='sudo a2ensite'
 alias a2graceful='sudo a2graceful'
 alias a2modules='sudo a2modules'
 
+alias a2sa='cd /etc/apache2/sites-available'
+alias a2se='cd /etc/apache2/sites-enabled'
+
 alias a2log='tail -n 50 /var/log/apache2/error.log'
 alias a2access='tail -n 50 /var/log/apache2/access.log'
 
 alias a2ctl='sudo apachectl'
 alias apachectl='sudo apachectl'
 alias apache2ctl='sudo apache2ctl'
-
-# TODO: Improve for other versions
-alias a2disstartup='sudo service apache2 stop && sudo update-rc.d apache2 disable && echo "apache2 set to NOT autostart"'
-alias a2enstartup='sudo service apache2 start && sudo update-rc.d apache2 enable && echo "apache2 set to autostart"'
-
 # ___________________________________________________________________
 #
 #                           PYTHON
