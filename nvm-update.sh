@@ -9,6 +9,11 @@
 # Package List (These are all global)
 PACKAGES=(
 
+  # --------------
+  # Update NPM
+  # --------------
+  npm
+
   # ---------------
   # Babel
   # ---------------

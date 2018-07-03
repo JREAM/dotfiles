@@ -8,13 +8,14 @@
 
 | File                   | Purpose                                  |
 | ---------------------- | ---------------------------------------- |
+| `.bash_profile`        | First Load (Startup) | Use .profile for non-bash shells. Primarily for Ubuntu 18 LTS |
 | `.bashrc`              | Main script to run `. ~/.bashrc` on, reloads all sub-scripts below |
 | `.bash_vendors`        | Any third-party add-ons such as `pyenv`, `nvm`, etc. |
 | `.bash_vars`           | Exported variables to re-use in bash     |
-| `.bash_completions_ng` | Optional angular cli completions (`npm i -g angular/cli`) |
 | `.bash_aliases`        | All shortcuts to make things easier!     |
-| `.exports`             | Basic export options                     |
-| `.exports_private`     | (Optional) Private export file to ignore with git when public |
+| `.dockerrc`            | Provides many commands for Docker, easy loading several docker containers |
+| `.exports`             | Basic export options, perhaps colors and re-usable variables.                    |
+| `.exports_private`     | (Optional) Private export file to ignore with git & other when public |
 
 > **How To Update**: All files are loaded from `.bashrc`, so if you change and sub-file simply reload it with `source ~/.bashrc` or `. ~/.bashrc`.
 
@@ -61,7 +62,6 @@ This is found in the `.bash_aliases` file.
 | `chgrp` | `chgrp --preserve-root` | Protect root folder(s)       |
 | `chmod` | `chmod --preserve-root` | Protect root folder(s)       |
 | `chown` | `chown --preserve-root` | Protect root folder(s)       |
-| chown          | chown --preserve-root                    | Protect root / folder      
 
 ### Service Shortcuts
 
@@ -171,8 +171,6 @@ If you are using another default identity key other than `id_rsa/id_rsa.pub` mak
 git config --global user.IdentityFile "~/.ssh/your_private_key"
 ```
 
-## 
-
 ## Vim Plugins
 
 To install vim plugins the following will suffice to clone Vundle:
@@ -190,7 +188,9 @@ vim +PluginInstall +qall
 You will see an error with the color scheme, but when you reload VIM it will fix itself.
 
 
-# Dev Environment Setup
+# (Depricated) Dev Environment Setup
+
+**No longer using `direnv`, Mainly NVM**
 
 I have used the following:
 - Node: `8.1.0`
