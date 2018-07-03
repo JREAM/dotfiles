@@ -6,11 +6,7 @@
 # ║                                                                 ║
 # ║ @note: Using rm<i|c|v> (i:images, c:containers, v:volumes>      ║
 # ║                                                                 ║
-# ║ < Built-in 1.13+ >                                              ║
-# ║ (1): Remove all stopped containers:                             ║
-# ║  $ docker container prune                                       ║
-# ║  $ docker container prune --filter "until=1w"                   ║
-# ║ (2): System Prune:                                              ║
+# ║ (1): System Prune:                                              ║
 # ║  $ docker system prune -a                                       ║
 # ╚═════════════════════════════════════════════════════════════════╝
 
@@ -39,54 +35,49 @@ DIR_CONF='/data/conf'
 DIR_WWW="${HOME}/projects"      # Local HTTP Content serve location.
 
 MY_PORTAINER_PORT=9500
-MY_PORTAINER_NAME="portainer-local"
+MY_PORTAINER_NAME="local-portainer_data"
 IMAGE_PORTAINER="portainer/portainer"
 
-MY_RANCHER_NAME="rancher-local"
+MY_RANCHER_NAME="local-rancher"
 MY_RANCHER_PORT=8990            # 8080 is default
-IMAGE_RANCHER="rancher/server:stable"
+IMAGE_RANCHER=rancher/server:stable
 
 MY_SWAGGER_EDITOR_PORT=9600
-MY_SWAGGER_EDITOR_NAME="swagger-local"
+MY_SWAGGER_EDITOR_NAME="local-swagger-editor"
 IMAGE_SWAGGER_EDITOR="swaggerapi/swagger-editor"
 
-MY_APACHE_NAME="apache-local"
+MY_APACHE_NAME="local-apache"
 MY_APACHE_PORT="82"             # 80 is default
 IMAGE_APACHE="httpd:2.4-alpine"
 
-MY_NGINX_NAME="nginx-local"
+MY_NGINX_NAME="local-nginx"
 MY_NGINX_PORT="83"             # 80 is default
 IMAGE_NGINX="nginx:1-alpine"
 
-MY_ELK_NAME="elk-local"
+MY_ELK_NAME="local-elk"
 MY_ELK_PORT_KIBANA=5601              # 5601 is default
 MY_ELK_PORT_ELASTICSEARCH=9200              # 9200 is default
 MY_ELK_PORT_LOGSTASH=5044              # 9200 is default
-IMAGE_ELK="sebp/elk:622"
+IMAGE_ELK="sebp/elk:600"
 
-MY_REDIS_NAME="redis-local"
+MY_REDIS_NAME="local-redis"
 MY_REDIS_PORT=6300              # 6379 is default
-IMAGE_REDIS="redis:4-alpine"
+IMAGE_REDIS="redis:3-alpine"
 
-MY_MONGO_NAME="mongo-local"
+MY_MONGO_NAME="local-mongo"
 MY_MONGO_PORT=27000              # 27017 is default
-IMAGE_MONGO="mongo:3.6-jessie"
+IMAGE_MONGO="mongo:3.6"
 
-MY_MYSQL_NAME="mysql-local"
+MY_MYSQL_NAME="local-mysql"
 MY_MYSQL_PORT=3300              # 3306 is default
 MY_MYSQL_ROOT_PASSWORD="root"   # root Password
 IMAGE_MYSQL="mysql:5.7"         # You could swap w/Percona, Maria, Mysql.
 
-MY_NATS_NAME="nats-local"
+MY_NATS_NAME="local-nats"
 MY_NATS_PORT=8220              # 8222 is default
 MY_NATS_PORT_CLIENT=4220       # 4222 is default
 #MY_NATS_PORT_CLUSTER=6220     # 6222 is default (Not Used)
 IMAGE_NATS="nats:1.1.0"
-
-MY_RETHINKDB_NAME="rethinkdb-local"
-MY_RETHINKDB_PORT="7999"        # Default is 8080
-IMAGE_RETHINKDB="rethinkdb:2.3.6"
-
 
 # Simple way to keep track
 RUNNING=()
@@ -99,10 +90,9 @@ RUNNING[REDIS]='off'
 RUNNING[MONGO]='off'
 RUNNING[NATS]='off'
 RUNNING[ELK]='off'
-RUNNING[RETHINKDB]='off'
 
 # [mydocker Lists containers]
-function mydocker() {
+function docker-ports() {
     echo -e "
     ┌─────────────────────────────────────────────────┐;\n\
       ${BOLD}${YELLOW}Container Name${RESET} \t; │ ${BOLD}${YELLOW}Port${RESET}; | ${BOLD}${YELLOW}Status${RESET}; \n\
@@ -117,19 +107,9 @@ function mydocker() {
      ${MY_MYSQL_NAME} \t │ ${MY_MYSQL_PORT}; \n\
      ${MY_NATS_NAME} \t │ ${MY_NATS_PORT}; \n\
      ${MY_ELK_NAME} \t │ ${MY_ELK_PORT}; \n\
-     ${MY_RETHINKDB_NAME} \t │ ${MY_RETHINKDB_PORT}; \n\
     └──────────────────────────────────────────────────┘
     " | column -tx -s ';'
 }
-
-# function isRunnning() {
-#     if [[ $(docker inspect -f {{.State.Running}} $1) ]]; then
-
-#         return true;
-#     fi
-#     RUNNING
-# }
-# isRunning 'APACHE'
 
 # ┌─────────────────────────────────────────────────────────────────┐
 # │ Aliases                                                         │
@@ -149,42 +129,6 @@ alias dco-down="docker-compose down"
 alias dco-up="docker-compose up -d"
 alias dco-stop="docker-compose stop"
 alias dco-kill="docker-compose kill"
-
-# ┌─────────────────────────────────────────────────────────────────┐
-# │ AWS ECR Login (                                                 │
-# ├─────────────────────────────────────────────────────────────────┤
-# │ Requires $ pip install awscl (PyEnv 3.x is fine)                │
-# └─────────────────────────────────────────────────────────────────┘
-function aws-docker-login() {
-    echo -e "[!] Attempting to login using your ~/.aws credentials from $ aws configure)"
-    $(aws ecr get-login)
-}
-
-function aws-docker-tag() {
-    echo "NOT READY"
-    echo -e "[@] Usage: $ aws-docker-tag jesse/node:development"
-    echo -e "[!] Required: ~/.private_exports must have export AWS_ECR_HOST=0000.awshostname.com"
-
-    IFS='/'; read -rda $1 <<< "$URL"  # IFS is Scoped to this command by being on the same line.
-    for i in "${URL[@]}"; do
-        echo $i
-    done
-    echo "${URL[0]}"
-    echo "${URL[1]}"
-    #docker tag $1 $AWS_ECR_HOST/
-}
-
-function aws-docker-push() {
-    echo -e "NOT READY"
-    echo -e "[@] Usage: $ aws-docker-push node:development "
-    docker push $AWS_ECR_HOST/$1
-}
-
-# ┌─────────────────────────────────────────────────────────────────┐
-# │ Aliases/Function                                                │
-# ├─────────────────────────────────────────────────────────────────┤
-# │ For Docker                                                      │
-# └─────────────────────────────────────────────────────────────────┘
 
 # ───────────────────────────────────────────────────────────────────
 #
@@ -229,9 +173,9 @@ function docker-rmi-all() {
     docker rmi $(docker images -a -q)
 }
 
-# VOLUMES: Remove Dangling
-function docker-rmv-dangling() {
-    docker volume rm $(docker volume ls -q -f dangling=true)
+# VOLUMES: Remove Unused
+function docker-rmv-unused() {
+    docker volume prune
 }
 
 # CONTAINERS: Stop/Kill All
@@ -291,10 +235,9 @@ function docker-rm-containers-old() {
 
 # ┌─────────────────────────────────────────────────────────────────┐
 # │ Portainer                                                       │
-# ├─────────────────────────────────────────────────────────────────┤
 # │ @desc  Container Management Engine                              │
 # └─────────────────────────────────────────────────────────────────┘
-function portainer-setup() {
+function portainer-create() {
     docker volume create portainer_data
     docker run -d --name=$MY_PORTAINER_NAME -p $MY_PORTAINER_PORT:9000 -v /var/run/docker.sock:/var/run/docker.sock -v /data/db/portainer_data:/data $IMAGE_PORTAINER
 }
@@ -316,7 +259,7 @@ function portainer-restart() {
 # ├─────────────────────────────────────────────────────────────────┤
 # │ @desc  Container Management Engine                              │
 # └─────────────────────────────────────────────────────────────────┘
-function rancher-setup() {
+function rancher-create() {
     # docker volume create rancher_data
     docker run -d --name=$MY_RANCHER_NAME -p $MY_RANCHER_PORT:8080 $IMAGE_RANCHER
 }
@@ -339,7 +282,7 @@ function rancher-restart() {
 # ├─────────────────────────────────────────────────────────────────┤
 # │ @recommend  $ npm i -g swagger                                  │
 # └─────────────────────────────────────────────────────────────────┘
-function swagger-setup() {
+function swagger-create() {
     docker run -d --name=$MY_SWAGGER_EDITOR_NAME -p $MY_SWAGGER_EDITOR_PORT:8080 $IMAGE_SWAGGER_EDITOR
     echo -e "@recommended: npm i -g swagger  (Additional CLI for Swagger)\n"
 }
@@ -361,7 +304,7 @@ function swagger-restart() {
 # ├─────────────────────────────────────────────────────────────────┤
 # │ @desc  In Memory Database                                       │
 # └─────────────────────────────────────────────────────────────────┘
-function redis-setup() {
+function redis-create() {
     sudo mkdir -p /data
     if [ ! -f $DIR_CONF/redis.conf ]; then
         echo "You need are missing ${DIR_CONF}/redis.conf, see https://github.com/jream/dotfiles.git under a docker folder"
@@ -371,7 +314,7 @@ function redis-setup() {
     docker run -d -v $DIR_CONF/redis.conf:/usr/local/etc/redis/redis.conf --name=$MY_REDIS_NAME -p $MY_REDIS_PORT:6379 $IMAGE_REDIS
 }
 
-function redis-up() {
+function redis-create() {
     echo -e "Using ${DIR_CONF}/redis.conf, change & restart if you wish."
     docker start $MY_REDIS_NAME
 }
@@ -393,7 +336,7 @@ function redis-connect() {
 # ├─────────────────────────────────────────────────────────────────┤
 # │ @desc  HTTP Server                                              │
 # └─────────────────────────────────────────────────────────────────┘
-function apache-setup() {
+function apache-create() {
     echo -e "Using ${DIR_WWW} as web-root, change & restart if you wish."
     # echo -e "Using ${DIR_CONF}/apache.ini for configuration, change & restart if you wish."
     docker run -d -v "$DIR_WWW":/usr/local/apache2/htdocs/ --name=$MY_APACHE_NAME -p $MY_APACHE_PORT:80 $IMAGE_APACHE
@@ -417,7 +360,7 @@ function apache-restart() {
 # ├─────────────────────────────────────────────────────────────────┤
 # │ @desc  HTTP Server                                              │
 # └─────────────────────────────────────────────────────────────────┘
-function nginx-setup() {
+function nginx-create() {
     echo -e "Using ${DIR_WWW} as web-root, change & restart if you wish."
     # echo -e "Using ${DIR_CONF}/nginx.ini for configuration, change & restart if you wish."
     # docker run -d -v "$DIR_WWW":/usr/share/nginx/html --name=$MY_NGINX_NAME -p $MY_NGINX_PORT:80 $IMAGE_NGINX $CONF_DIR/nginx.conf:/etc/nginx/nginx.conf:ro
@@ -442,7 +385,7 @@ function nginx-restart() {
 # ├─────────────────────────────────────────────────────────────────┤
 # │ @desc  NoSQL Database                                           │
 # └─────────────────────────────────────────────────────────────────┘
-function mongo-setup() {
+function mongo-create() {
     echo "Creating local directory to persist data: ${DIR_DB}/mongo/${MY_MONGO_NAME}"
     sudo mkdir $DIR_DB/mongo/$MY_MONGO_NAME
     docker run -d -v $DIR_DB/mongo/$MY_MONGO_NAME --name=$MY_MONGO_NAME -p $MY_MONGO_PORT:27017 $IMAGE_MONGO
@@ -469,7 +412,7 @@ function mongo-connect() {
 # ├─────────────────────────────────────────────────────────────────┤
 # │ @desc  Relational Database                                      │
 # └─────────────────────────────────────────────────────────────────┘
-function mysql-setup() {
+function mysql-create() {
     echo "Creating local directory to persist data: ${DIR_DB}/mysql/${MY_MYSQL_NAME}"
     sudo mkdir $DIR_DB/mysql/$MY_MYSQL_NAME
     docker run -d -v $DIR_DB/mysql/$MY_MYSQL_NAME:/var/lib/mysql --name=$MY_MYSQL_NAME -p $MY_MYSQL_PORT:3306 -e MYSQL_ROOT_PASSWORD=$MY_MYSQL_ROOT_PASSWORD $IMAGE_MYSQL
@@ -499,7 +442,7 @@ function mysql-connect() {
 # ├─────────────────────────────────────────────────────────────────┤
 # │ @desc  Message Queue                                            │
 # └─────────────────────────────────────────────────────────────────┘
-function nats-setup() {
+function nats-create() {
     docker run -d --name=$MY_NATS_NAME -p $MY_NATS_PORT:8222 $IMAGE_NATS
 }
 
@@ -524,7 +467,7 @@ function nats-connect() {
 # ├─────────────────────────────────────────────────────────────────┤
 # │ @desc  ElasticSearch, Logsstash, Kibana UI                      │
 # └─────────────────────────────────────────────────────────────────┘
-function elk-setup() {
+function elk-create() {
     docker run -d --name=$MY_ELK_NAME -p $MY_ELK_PORT_KIBANA:5601 -p $MY_ELK_PORT_ELASTICSEARCH:9200 -p $MY_ELK_PORT_LOGSTASH:5044 $IMAGE_ELK
 }
 
@@ -544,26 +487,4 @@ function nats-connect() {
     docker exec -it $MY_NATS_NAME
 }
 
-# ┌─────────────────────────────────────────────────────────────────┐
-# │ Rethink DB                                                      │
-# ├─────────────────────────────────────────────────────────────────┤
-# │ @desc                                                           │
-# └─────────────────────────────────────────────────────────────────┘
-function rethink-setup() {
-    echo "Creating local directory to persist data: ${DIR_DB}/rethinkdb/${MY_RETHINKDB_NAME}"
-    sudo mkdir $DIR_DB/rethinkdb/$MY_RETHINKDB_NAME
-    docker run -d --name=$MY_RETHINKDB_NAME -p $MY_RETHINKDB_PORT:8008 $IMAGE_RETHINKDB
-}
-
-function rethink-up() {
-    docker start $MY_RETHINKDB_NAME
-}
-
-function rethink-stop() {
-    docker stop $MY_RETHINKDB_NAME
-}
-
-function rethink-restart() {
-    docker restart $MY_RETHINKDB_NAME
-}
 # End of File
