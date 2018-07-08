@@ -28,6 +28,7 @@ Plugin 'benjaminwhite/Benokai'
 Plugin 'bling/vim-airline'
 Plugin 'ervandew/supertab'
 Plugin 'nginx.vim'
+Plugin 'itspriddle/vim-stripper'
 
 " Default mapping
 let g:multi_cursor_next_key='<C-n>'
@@ -62,13 +63,6 @@ Plugin 'isruslan/vim-es6'
 Plugin 'pangloss/vim-javascript'
 Plugin 'plasticboy/vim-markdown'
 Plugin 'elzr/vim-json'
-
-" Autocomplete
-Plugin 'valloric/youcompleteme' " Requires compilation
-let g:ycm_python_binary_path = '/usr/bin/python3'
-" sudo apt-get install build-essential cmake
-" sudo apt-get install python-dev python3-dev
-" cd ~/.vim/bundle/YouCompleteMe && ./install.py
 
 " Docker
 Plugin 'ekalinin/dockerfile.vim'
