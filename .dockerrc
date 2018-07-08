@@ -66,7 +66,7 @@ IMAGE_REDIS="redis:3-alpine"
 
 MY_MONGO_NAME="local-mongo"
 MY_MONGO_PORT=27000              # 27017 is default
-IMAGE_MONGO="mongo:3.6"
+IMAGE_MONGO="mongo:4"
 
 MY_MYSQL_NAME="local-mysql"
 MY_MYSQL_PORT=3300              # 3306 is default
