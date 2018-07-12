@@ -15,10 +15,21 @@ fi
 
 
 # ┌─────────────────────────────────────────────────────────────────┐
-# │ (Optional) PHP Composer                                         │
+# │ (Optional) PHP Composer Related                                    │
 # ├─────────────────────────────────────────────────────────────────┤
 # └─────────────────────────────────────────────────────────────────┘
-[[ -d ~/.composer/vendor/bin ]] && export PATH=$PATH:~/.composer/vendor/bin
+# Include local composer folder if exists
+export COMPOSER_HOME=""
+if [[ -d ~/.composer/vendor/bin ]] ; then
+    PATH=~/.composer/vendor/bin:$PATH
+    export COMPOSER_HOME=`composer config -g home`
+fi
+
+# Include composer autocomplete if exists
+if [[ -d "$COMPOSER_HOME/vendor/bamarni/symfony-console-autocomplete" ]]; then
+    eval "$(symfony-autocomplete)"
+fi
+
 # ┌─────────────────────────────────────────────────────────────────┐
 # │ (Optional) Node/Yarn Related                                    │
 # ├─────────────────────────────────────────────────────────────────┤
@@ -27,11 +38,11 @@ fi
 # JS Package Manager Related
 [[ -f ~/.npm-completion ]] && source ~/.npm-completion
 [[ -f ~/.yarn-completion ]] && source ~/.yarn-completion
-
+[[ -f ~/.docker-complete ]] && source ~/.docker-complete
 [[ -d ~/.yarn/bin ]] && export PATH=$PATH:~/.yarn/bin
 
 # ┌─────────────────────────────────────────────────────────────────┐
-# │ (Optional) PyEnv (Python Version Manager)                       │
+# │ (Optional) GoLang                                               │
 # ├─────────────────────────────────────────────────────────────────┤
 # └─────────────────────────────────────────────────────────────────┘
 if [[ -d /usr/local/go ]]; then
@@ -69,9 +80,9 @@ fi
 # │ (Optional) PipEnv (PipEnv/AutoCompletion)                       │
 # ├─────────────────────────────────────────────────────────────────┤
 # └─────────────────────────────────────────────────────────────────┘
-#if hash pipenv >/dev/null 2>&1; then
-#  eval "$(pipenv --completion)"
-#fi
+if hash pipenv >/dev/null 2>&1; then
+  eval "$(pipenv --completion)"
+fi
 
 # ┌─────────────────────────────────────────────────────────────────┐
 # │ (Optional) GVM (GoLang Version Manager)                         │
