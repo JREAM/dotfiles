@@ -20,14 +20,14 @@ fi
 # └─────────────────────────────────────────────────────────────────┘
 # Include local composer folder if exists
 export COMPOSER_HOME=""
-if [[ -d ~/.composer/vendor/bin ]] ; then
-    PATH=~/.composer/vendor/bin:$PATH
-    export COMPOSER_HOME=`composer config -g home`
+if [ -d ~/.composer/vendor/bin ] ; then
+  PATH=~/.composer/vendor/bin:$PATH
+  export COMPOSER_HOME=`composer config -g home`
 fi
 
 # Include composer autocomplete if exists
-if [[ -d "$COMPOSER_HOME/vendor/bamarni/symfony-console-autocomplete" ]]; then
-    eval "$(symfony-autocomplete)"
+if [ -d $COMPOSER_HOME/vendor/bamarni/symfony-console-autocomplete ]; then
+  eval "$(symfony-autocomplete)"
 fi
 
 # ┌─────────────────────────────────────────────────────────────────┐
@@ -45,16 +45,16 @@ fi
 # │ (Optional) GoLang                                               │
 # ├─────────────────────────────────────────────────────────────────┤
 # └─────────────────────────────────────────────────────────────────┘
-if [[ -d /usr/local/go ]]; then
-    export GOPATH=$HOME/go
-    export PATH=$PATH:/usr/local/go/bin:$GOPATH/bin
+if [ -d /usr/local/go ]; then
+  export GOPATH=$HOME/go
+  export PATH=$PATH:/usr/local/go/bin:$GOPATH/bin
 fi
 
 # ┌─────────────────────────────────────────────────────────────────┐
 # │ (Optional) PyEnv (Python Version Manager)                       │
 # ├─────────────────────────────────────────────────────────────────┤
 # └─────────────────────────────────────────────────────────────────┘
-if [[ -d $HOME/.pyenv ]]; then
+if [ -d $HOME/.pyenv ]; then
 
   # @install https://github.com/pyenv/pyenv#installation
   export PYENV_ROOT="$HOME/.pyenv"
@@ -77,19 +77,11 @@ if [ -d $HOME/.rbenv ]; then
 fi
 
 # ┌─────────────────────────────────────────────────────────────────┐
-# │ (Optional) PipEnv (PipEnv/AutoCompletion)                       │
-# ├─────────────────────────────────────────────────────────────────┤
-# └─────────────────────────────────────────────────────────────────┘
-if hash pipenv >/dev/null 2>&1; then
-  eval "$(pipenv --completion)"
-fi
-
-# ┌─────────────────────────────────────────────────────────────────┐
 # │ (Optional) GVM (GoLang Version Manager)                         │
 # ├─────────────────────────────────────────────────────────────────┤
 # └─────────────────────────────────────────────────────────────────┘
 
-if [[ -s "$HOME/.gvm/scripts/gvm" ]]; then
+if [ -s $HOME/.gvm/scripts/gvm ]; then
     source "$HOME/.gvm/scripts/gvm"
 fi
 
@@ -97,7 +89,7 @@ fi
 # │ (Optional) NVM (Node Version Manager)                           │
 # ├─────────────────────────────────────────────────────────────────┤
 # └─────────────────────────────────────────────────────────────────┘
-if [ -d "$HOME/.nvm" ]; then
+if [ -d $HOME/.nvm ]; then
   export NVM_DIR="$HOME/.nvm"
   [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" # This loads nvm
   # Loads NVM bash_completion
@@ -117,13 +109,3 @@ if hash grc &>/dev/null; then
   fi
 fi
 
-# ┌─────────────────────────────────────────────────────────────────┐
-# │ Comma Navigation                                                │
-# ├─────────────────────────────────────────────────────────────────┤
-# └─────────────────────────────────────────────────────────────────┘
-# Comma Navigation
-# @example: , d  <TAB>
-# @Install: curl -sL https://github.com/shyiko/commacd/raw/v0.3.3/commacd.bash -o ~/.commacd.bash
-if [ -f $HOME/.commacd.bash ]; then
-  source $HOME/.commacd.bash
-fi

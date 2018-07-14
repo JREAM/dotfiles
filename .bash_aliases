@@ -19,6 +19,11 @@
 #   - LEGIT FUNCTIONS
 # ___________________________________________________________________
 
+# Fix "GREP OPTIONS depcrated"
+#GREP_OPTIONS="$GREP_OPTIONS -r -d skip"
+export GREP_COLOR='1;32'
+
+
 # Personal Folder shortcuts
 [ -d ~/projects ] && alias p='cd ~/projects/'
 [ -d ~/dev ] && alias d='cd ~/dev/' && alias dev='cd ~/dev'
@@ -46,6 +51,13 @@ fi
 #
 #                           COMMON
 # ___________________________________________________________________
+
+alias chmox='sudo chmod'  # always make this typo
+alias chmod='sudo chmod'
+alias chown='sudo chown'
+alias chgrp='sudo chown'
+alias service='sudo service'
+alias systemctl='sudo systemctl'
 
 alias c='clear'
 alias h='history'
@@ -123,7 +135,8 @@ alias du='du -ch'
 
 
 # Utility: Get My IP
-alias ip="dig +short myip.opendns.com @resolver1.opendns.com"
+alias myip="dig +short myip.opendns.com @resolver1.opendns.com"
+alias myips="hostname -I"
 
 # ___________________________________________________________________
 #
@@ -159,8 +172,8 @@ alias ngstart='sudo service nginx start'
 alias ngstop='sudo service nginx stop'
 alias ngpath='cd /etc/nginx/'
 
-alias ngsa='cd /etc/nginx/sites-available'
-alias ngse='cd /etc/nginx/sites-enabled'
+alias ngavailable='cd /etc/nginx/sites-available'
+alias ngenabled='cd /etc/nginx/sites-enabled'
 
 alias nglog='tail -n 50 /var/log/nginx/error.log'
 alias ngaccess='tail -n 50 /var/log/nginx/access.log'
@@ -237,34 +250,6 @@ GITFLOW_HELP="\
                         ---  pull\
 "
 
-# Fetch all remote git branches to local in working directory
-#
-# examples: $ gitallbranches
-# ___________________________________________________________________
-alias gitallbranches='git branch -r | grep -v "\->" | while read remote; do git branch --track "${remote#origin/}" "$remote"; done'
-
-# Clone all Github User Repos (Limit 100 repos)
-#   Defaults to all Users Repositories (Private Included),
-#   For Organizations, Pass -o or --org for Organization.
-#
-# examples: $ gitallclone jesse123         # Clones user/jesse and private repos if you own
-#           $ gitallclone privateteam -o   # Clones org/privateteam and all public repos (NOT READY)
-# ___________________________________________________________________
-function gitallclone() {
-    CLONE_FROM='users' # Default
-    if [ -z "$1" ]; then
-        "Provide a name or organization, cannot be empty"
-        return
-    fi
-    if [ -z "${GITHUB_ACCESS_TOKEN}" ]; then
-        "Please set GITHUB_ACCESS_TOKEN='yourtoken' in .bashrc so you can bulk clone private users and orgs you belong to"
-    fi
-
-    access_token=$GITHUB_ACCESS_TOKEN
-    REPO_URL= "https://api.github.com/users/$1/repos?page=1&per_page=100"
-    curl "https://api.github.com/users/$1/repos?page=1&per_page=100" | grep -e 'git_url*' | cut -d \" -f 4 | xargs -L1 git clone
-}
-
 # ___________________________________________________________________
 #
 #                        LEGIT FUNCTIONS
@@ -316,80 +301,6 @@ loopdir() {
     # -name . skips running from the CWD
     # find . -maxdepth 1 -type d \( ! -name . \) -exec bash -c "cd '{}' && echo -e \"\n${BOLD}${GREEN}In Directory: ${PWD}${RESET}\" && $*" \;
 }
-
-# One EXTRACT method to rule them all
-#
-#  examples: $ extract <file.ext> <(optional path) .>
-# ___________________________________________________________________
-function extract {
- if [ -z "$1" ]; then
-    # display usage if no parameters given
-    echo "Usage: extract <path/file_name>.<zip|rar|bz2|gz|tar|tbz2|tgz|Z|7z|xz|ex|tar.bz2|tar.gz|tar.xz>"
- else
-    if [ -f $1 ] ; then
-        # NAME=${1%.*}
-        # mkdir $NAME && cd $NAME
-        case $1 in
-          *.tar.bz2)   tar xvjf ../$1    ;;
-          *.tar.gz)    tar xvzf ../$1    ;;
-          *.tar.xz)    tar xvJf ../$1    ;;
-          *.lzma)      unlzma ../$1      ;;
-          *.bz2)       bunzip2 ../$1     ;;
-          *.rar)       unrar x -ad ../$1 ;;
-          *.gz)        gunzip ../$1      ;;
-          *.tar)       tar xvf ../$1     ;;
-          *.tbz2)      tar xvjf ../$1    ;;
-          *.tgz)       tar xvzf ../$1    ;;
-          *.zip)       unzip ../$1       ;;
-          *.Z)         uncompress ../$1  ;;
-          *.7z)        7z x ../$1        ;;
-          *.xz)        unxz ../$1        ;;
-          *.exe)       cabextract ../$1  ;;
-          *)           echo "extract: '$1' - unknown archive method" ;;
-        esac
-    else
-        echo "$1 - file does not exist"
-    fi
-fi
-}
-
-# One COMPRESS method to rule them all
-# examples: $ compress <file.tar> <./path>
-# ___________________________________________________________________
-compress() {
-  if [[ -n "$1" ]]; then
-    FILE=$1
-    case $FILE in
-      *.tar ) shift && tar cf $FILE $* ;;
-      *.tar.bz2 ) shift && tar cjf $FILE $* ;;
-      *.tar.gz ) shift && tar czf $FILE $* ;;
-      *.tgz ) shift && tar czf $FILE $* ;;
-      *.zip ) shift && zip $FILE $* ;;
-      *.rar ) shift && rar $FILE $* ;;
-    esac
-  else
-    echo "Usage: compress <foo.tar.gz> ./foo ./bar"
-  fi
-}
-
-
-
-# Go Up(n) Parent Directories
-#
-# examples:  $ up 4      # Goes four parents up
-# ___________________________________________________________________
-up() {
-  local d=''
-  limit=$1
-  for ((i=1; i <= limit; i++)); do
-    d=$d/..
-  done
-  d=$(echo $d | sed 's/^\///')
-
-  if [[ -z "$d" ]]; then d=..; fi
-  cd $d
-}
-
 
 # Calculator
 #   Simple calculator, cannot use spaces (MIGHT FIX)
