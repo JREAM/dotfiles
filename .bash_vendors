@@ -94,6 +94,17 @@ if [ -d $HOME/.nvm ]; then
   [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" # This loads nvm
   # Loads NVM bash_completion
   [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+
+  load-nvmrc() {
+    if [[ -f .nvmrc && -r .nvmrc ]]; then
+      nvm use
+    elif [[ $(nvm version) != $(nvm version default)  ]]; then
+      echo "Reverting to nvm default version"
+      nvm use default
+    fi
+  }
+
+  cd() { builtin cd "$@"; 'load-nvmrc'; }
 fi
 
 # ┌─────────────────────────────────────────────────────────────────┐
