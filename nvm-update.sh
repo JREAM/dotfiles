@@ -115,7 +115,7 @@ PACKAGES=(
   # FrontEnd
   # ---------------
   @angular/cli
-  vue-cli
+  @vue/cli
   create-react-app
   jscodeshift         # Make changes to code nicely
 
