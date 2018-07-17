@@ -116,6 +116,7 @@ PACKAGES=(
   # ---------------
   @angular/cli
   @vue/cli
+  @vue/cli-service-global
   create-react-app
   jscodeshift         # Make changes to code nicely
 
@@ -179,6 +180,9 @@ while [ $TIMEOUT -gt 0 ]; do
   sleep 1
   : $((TIMEOUT--))
 done
+
+yarn global add @vue/cli-service-global
+yarn global add @vue/cli
 
 # @NOTE: Not using YARN for global, installs in place I do not want
 # Strip the /bin off the end (4 chars)
