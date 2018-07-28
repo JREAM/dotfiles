@@ -9,10 +9,9 @@
 # │ (Optional) Kubernetes                                           │
 # ├─────────────────────────────────────────────────────────────────┤
 # └─────────────────────────────────────────────────────────────────┘
-if hash kubectl &>/dev/null; then
+if (( $+commands[kubectl] )) >/dev/null 2>&1; then
   source <(kubectl completion bash)
 fi
-
 
 # ┌─────────────────────────────────────────────────────────────────┐
 # │ (Optional) PHP Composer Related                                    │
