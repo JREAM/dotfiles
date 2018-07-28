@@ -27,16 +27,6 @@ PACKAGES=(
   # Ecma Abilities
   # ---------------
   cross-env
-  es2015
-  es2016
-  es2017
-  es6
-  es6-promise
-
-  # ---------------
-  # UI Zoo
-  # ---------------
-  uizoo # For React Component Library (See proects/uizoo)
 
   # ---------------
   # Linters/Helpers
@@ -97,8 +87,7 @@ PACKAGES=(
   # CLI Tools / Builders
   # ---------------
   feathers-cli
-  strapi
-  chalk
+  strapi/alpha
   yo
   generator-generator  # yeoman helper custom generator
   grunt-cli
