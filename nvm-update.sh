@@ -199,6 +199,3 @@ done
   #fi
 
 echo -e "${GRN}[+] Finished.. If you had errors, please check them manually."
-
-echo -e "${GRN}[+] UIZoo was added, create a folder for uizoo and run: $ uizoo for react."
-
