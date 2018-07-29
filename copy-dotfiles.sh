@@ -1,16 +1,19 @@
 #!/bin/bash
 
+# Get the directory regardless of where its called
+ROOTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
+
 # Get Array ( ) of the LS Grep
-DOTFILES=( $(ls -a | egrep "^\.[a-zA-Z]") )
+DOTFILES=( $(ls -a $ROOTDIR | egrep "^\.[a-zA-Z]") )
 
 # Empty Array to separate files/folders
 FILES=()
 DIRS=()
 
 for item in "${DOTFILES[@]}"; do
-  [[ -f "./${item}" ]] && FILES+=($item) && continue
+  [[ -f "./${item}" ]] && FILES+=($ROOTDIR/$item) && continue
   # Ignore the .git folder, that'll be bad!
-  [[ -d "./${item}" && "${item}" != ".git" ]] && DIRS+=($item)
+  [[ -d "./${item}" && "${item}" != ".git" ]] && DIRS+=($ROOTDIR/$item)
 done
 
 # // Debugging //
