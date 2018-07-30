@@ -105,6 +105,7 @@ PACKAGES=(
   # ---------------
   @angular/cli
   @vue/cli
+  @vue/cli-init
   @vue/cli-service-global
   create-react-app
   jscodeshift         # Make changes to code nicely
