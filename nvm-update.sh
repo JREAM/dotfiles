@@ -97,6 +97,7 @@ PACKAGES=(
   webpack-cli
   webpack
   # webpack-dev-server  # (Use per-project)
+  npm-ls-scripts        # $ ls-scripts
 
   # ---------------
   # FrontEnd
