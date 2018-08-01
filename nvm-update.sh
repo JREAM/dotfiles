@@ -12,7 +12,7 @@ PACKAGES=(
   # --------------
   # Update NPM
   # --------------
-  npm
+  npm@latest
 
   # ---------------
   # Babel
@@ -57,8 +57,6 @@ PACKAGES=(
   # Config Setting Standards
   # ---------------
   eslint-config-airbnb-base
-  eslint-config-airbnb
-  eslint-config-standard
 
   # ---------------
   # Testing/Coverage
@@ -72,7 +70,7 @@ PACKAGES=(
   # ---------------
   # Debug Server / System Runner
   # ---------------
-  #nodemon
+  nodemon
   pm2
 
   # ---------------
