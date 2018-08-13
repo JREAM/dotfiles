@@ -67,6 +67,7 @@ Plugin 'pangloss/vim-javascript'
 Plugin 'othree/javascript-libraries-syntax.vim'
 Plugin 'plasticboy/vim-markdown'
 Plugin 'elzr/vim-json'
+Plugin 'posva/vim-vue'
 
 " Docker
 Plugin 'ekalinin/dockerfile.vim'
