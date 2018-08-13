@@ -47,11 +47,14 @@ Plugin 'httplog'
 
 " Languages
 Plugin 'ap/vim-css-color'
+Plugin 'othree/html5.vim'
+Plugin 'chiel92/vim-autoformat'
 
 " Syntax Languages
 Plugin 'mustache/vim-mustache-handlebars'
+Plugin 'kien/rainbow_parentheses.vim'
 Plugin 'hdima/python-syntax'
-Plugin 'othree/html5.vim'
+Plugin 'mattn/emmet-vim'
 Plugin 'stephpy/vim-yaml'
 Plugin 'mxw/vim-jsx'
 Plugin 'cakebaker/scss-syntax.vim'
@@ -61,6 +64,7 @@ Plugin 'Glench/Vim-Jinja2-Syntax'
 Plugin 'StanAngeloff/php.vim'
 Plugin 'isruslan/vim-es6'
 Plugin 'pangloss/vim-javascript'
+Plugin 'othree/javascript-libraries-syntax.vim'
 Plugin 'plasticboy/vim-markdown'
 Plugin 'elzr/vim-json'
 
@@ -77,6 +81,10 @@ Plugin 'nathanaelkane/vim-indent-guides'
 " error handling
 Bundle "nvie/vim-flake8"
 Bundle "scrooloose/syntastic"
+
+
+" For Match Tag Always
+let g:rbpt_loadround = 1
 
 " For vim-airline
 let g:airline#extensions#tabline#enabled = 1
@@ -99,6 +107,32 @@ let g:ctrlp_custom_ignore = {
     \ 'dir':  '\.git$\|\.hg$\|\.svn$\|bower_components$\|dist$\|node_modules$\|project_files$\|test$',
     \ 'file': '\.exe$\|\.so$\|\.dll$\|\.pyc$' }
 
+" rainbow parentheses
+let g:rbpt_colorpairs = [
+    \ ['brown',       'RoyalBlue3'],
+    \ ['Darkblue',    'SeaGreen3'],
+    \ ['darkgray',    'DarkOrchid3'],
+    \ ['darkgreen',   'firebrick3'],
+    \ ['darkcyan',    'RoyalBlue3'],
+    \ ['darkred',     'SeaGreen3'],
+    \ ['darkmagenta', 'DarkOrchid3'],
+    \ ['brown',       'firebrick3'],
+    \ ['gray',        'RoyalBlue3'],
+    \ ['black',       'SeaGreen3'],
+    \ ['darkmagenta', 'DarkOrchid3'],
+    \ ['Darkblue',    'firebrick3'],
+    \ ['darkgreen',   'RoyalBlue3'],
+    \ ['darkcyan',    'SeaGreen3'],
+    \ ['darkred',     'DarkOrchid3'],
+    \ ['red',         'firebrick3'],
+    \ ]
+let g:rbpt_max = 16
+let g:rbpt_loadcmd_toggle = 1
+
+autocmd VimEnter * RainbowParenthesesToggle
+autocmd Syntax * RainbowParenthesesLoadRound
+autocmd Syntax * RainbowParenthesesLoadSquare
+autocmd Syntax * RainbowParenthesesLoadBraces
 
 """"""""""""""""""""""""""""""""""""""""
 " General VIM
