@@ -30,6 +30,13 @@ if [ -d $COMPOSER_HOME/vendor/bamarni/symfony-console-autocomplete ]; then
 fi
 
 # ┌─────────────────────────────────────────────────────────────────┐
+# │ (Optional) Rust Language Environment                            │
+# └─────────────────────────────────────────────────────────────────┘
+if [ -f $HOME/.cargo/env ]; then
+  source $HOME/.cargo/env
+fi
+
+# ┌─────────────────────────────────────────────────────────────────┐
 # │ (Optional) Node/Yarn Related                                    │
 # ├─────────────────────────────────────────────────────────────────┤
 # │ Place ~/.yarn before ~/.npm so is takes presedense.             │
