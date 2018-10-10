@@ -1,0 +1,59 @@
+version: 2.13.0
+whitespace:
+  indent: '  '
+expandSets: false
+fixerSets:
+  - '@PSR2'
+fixers:
+  align_multiline_comment:
+    comment_type: phpdocs_only
+  array_indentation: true
+  array_syntax:
+    syntax: short
+  binary_operator_spaces: true
+  blank_line_after_opening_tag: true
+  cast_spaces: true
+  class_attributes_separation: true
+  function_typehint_space: true
+  include: true
+  lowercase_cast: true
+  lowercase_static_reference: true
+  magic_constant_casing: true
+  magic_method_casing: true
+  native_function_casing: true
+  no_blank_lines_after_phpdoc: true
+  no_empty_comment: true
+  no_empty_phpdoc: true
+  no_empty_statement: true
+  no_extra_blank_lines: true
+  no_leading_namespace_whitespace: true
+  no_mixed_echo_print: true
+  no_multiline_whitespace_around_double_arrow: true
+  no_short_bool_cast: true
+  no_singleline_whitespace_before_semicolons: true
+  no_spaces_around_offset: true
+  no_unused_imports: true
+  no_useless_else: true
+  no_whitespace_before_comma_in_array: true
+  no_whitespace_in_blank_line: true
+  normalize_index_brace: true
+  object_operator_without_whitespace: true
+  ordered_class_elements: true
+  phpdoc_align: true
+  phpdoc_annotation_without_dot: true
+  phpdoc_indent: true
+  phpdoc_return_self_reference: true
+  phpdoc_scalar: true
+  phpdoc_single_line_var_spacing: true
+  phpdoc_summary: true
+  phpdoc_to_comment: true
+  phpdoc_trim: true
+  phpdoc_types: true
+  phpdoc_var_without_name: true
+  short_scalar_cast: true
+  single_quote:
+    strings_containing_single_quote_chars: true
+  standardize_not_equals: true
+  ternary_operator_spaces: true
+  trailing_comma_in_multiline_array: true
+  trim_array_spaces: true
