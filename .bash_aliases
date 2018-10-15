@@ -65,7 +65,7 @@ alias j='jobs -l'
 alias py='python'
 alias vi=vim
 alias ports='netstat -tulanp'
-alias now="date +'%A, %B %m %Y at%l:%M%P %Z'"
+alias time="date +'%A, %B %m %Y at%l:%M%P %Z'"
 
 
 # Listing
@@ -221,18 +221,42 @@ alias apache2ctl='sudo apache2ctl'
 # ___________________________________________________________________
 #
 #                           PYTHON
+#
+#            Virtualenvwrapper: Globally or Pyenv installation
 # ___________________________________________________________________
 
-if [ -d "~/.virtualenvs" ] ; then
-    export WORKON_HOME=~/.virtualenvs
-    export PROJECT_HOME=~/projects
-    export PIP_VIRTUALENV_BASE=~/.virtualenvs
-    source /usr/local/bin/virtualenvwrapper.sh
+if [ -d ~/.virtualenvs ]; then
+  export WORKON_HOME=~/.virtualenvs
+  export PROJECT_HOME=~/projects
+  export PIP_VIRTUALENV_BASE=~/.virtualenvs
 
-    alias mkvirtualenv="mkvirtualenv --no-site-packages --distribute"
+  USING_PYENV=false
+  FIND_VENVWRAP="/usr/local/bin/virtualenvwrapper.sh"
+
+  # Determine if pyenv is used.
+  if [[ $(which python) == *".pyenv"* ]]; then
+    USING_PYENV=true;
+    VERSION=$(python -c 'import sys; print(".".join(map(str, sys.version_info[:3])))')
+    FIND_VENVWRAP=~/.pyenv/versions/$VERSION/bin/virtualenvwrapper.sh
+  fi
+  #./.pyenv/versions/3.6.5/lib/python3.6/site-packages
+
+  if [[ -f "$FIND_VENVWRAP" ]]; then
+    source $FIND_VENVWRAP
+  fi
+
+  alias mkvirtualenv="mkvirtualenv --no-site-packages --distribute"
 fi
 
 export PYTHONDONTWRITEBYTECODE=1  # Stop Python from generating bytecode files
+
+# ___________________________________________________________________
+#
+#                          RBEnv
+# ___________________________________________________________________
+if [ -f ~/.rbenv ]; then
+  eval "$(rbenv init -)"
+fi
 
 # ___________________________________________________________________
 #
