@@ -263,16 +263,39 @@ fi
 #                           GIT
 # ___________________________________________________________________
 
-# Git Flow
-alias gf='git flow'
-alias gitflow='git flow'
-GITFLOW_HELP="\
-  git flow --- init\
-           --- feature  ---  start   --- < NAME >\
-           --- release  ---  finish\
-           --- hotfix   ---  publsih\
-                        ---  pull\
-"
+# Shrink Git Repo with Tool
+# @src: https://rtyley.github.io/bfg-repo-cleaner/
+function gitshrink() {
+  if [[ -f "$HOME/apps/bfg-gitshrink.jar" ]]; then
+    REMOTE=$(git config --get remote.origin.url)
+    echo $REMOTE
+    [ -z $REMOTE ] && echo "Not a git repository" && return false;
+
+    SIZE_ORIG=$(git count-objects -vH | grep size-pack.*)
+
+    echo "Backing up $REMOTE as a Cloned Mirror before proceeding"
+    git clone --mirror $REMOTE
+
+    echo "Running bfg utility for blobs larger than 50MB..."
+    java -jar "$HOME/apps/bfg-gitshrink.jar" --strip-blobs-bigger-than 50M .
+
+    echo "Expiring and Pruning Git Cache"
+    git reflog expire --expire=now --all && git gc --prune=now --aggressive
+
+    SIZE_AFTER=$(git count-objects -vH | grep size-pack.*)
+
+    echo -e "[ Finished ] - Stats:"
+    echo -e "Original Repository Size:\t $SIZE_ORIG"
+    echo -e "Modified Repository Size:\t $SIZE_AFTER\n"
+  else
+    echo -e "Oops! You don't have the bfg utility; download it from:\n"
+    echo -e "1: https://rtyley.github.io/bfg-repo-cleaner/ (the .jar file)"
+    echo -e "2: Place it in $HOME/apps/bfg-gitshrink.jar"
+    echo -e "3: *You will need Java 8 installed"
+    echo -e "\t$ mkdir ~/apps &&  mv bfg*.jar ~/apps/bfg-gitshrink.jar"
+    echo -e "\t$ source ~/.bash_aliases"
+  fi
+}
 
 # ___________________________________________________________________
 #

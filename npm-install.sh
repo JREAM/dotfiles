@@ -17,9 +17,9 @@ PACKAGES=(
   # ---------------
   # Babel
   # ---------------
-  babel-cli
+  babel-cli@next
   babel-core
-  # babel-eslint        # (Use per-project)
+  babel-eslint        # (Use per-project)
   # babel-loader        # (Use per-project)
   babel-preset-env
 
@@ -97,7 +97,7 @@ PACKAGES=(
   # parcel-bundler      # (Use per-project)
   # rollup              # (Use per-project)
   webpack-cli
-  webpack
+  webpack@next
   # webpack-dev-server  # (Use per-project)
   npm-ls-scripts        # $ ls-scripts
 
