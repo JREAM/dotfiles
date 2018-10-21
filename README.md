@@ -19,6 +19,27 @@
 
 > **How To Update**: All files are loaded from `.bashrc`, so if you change and sub-file simply reload it with `source ~/.bashrc` or `. ~/.bashrc`.
 
+## Virtualhost Folder
+
+This is a nice CLI utility a fellow made (See his README) which is very easy to 
+use to instantly create/delete an Nginx or Apache2 VHost on the fly; This includes
+a record in `/etc/hosts`. I simply run:
+
+```sh
+chmod +x virtualhost/*.sh && mkdir ~/apps && cp -r virtualhost ~/apps
+sudo ln -s $HOME/virtualhost/virtualhost.sh /usr/local/bin/virtualhost
+
+# Important:
+# - One line is modified in the file, I place my projects in ~/projects, change this if you need.
+# Usage:
+# - virtualhost.sh is for Apache2
+# - virtualhost-nginx.sh is for Nginx
+# - $ virtualhost create myproject.local subdir/public
+# - $ virtualhost delete myproject.local
+# (You can use any name you like)
+# (The path at the end is optional, otherwise it will go to the root folder in the script)
+```
+
 ## Aliases List
 
 This is found in the `.bash_aliases` file.
