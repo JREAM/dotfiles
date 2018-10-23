@@ -44,6 +44,7 @@ PACKAGES=(
   stylelint
   stylelint-config-recommended
   prettier
+  @starptech/prettyhtml # Works w/Vue, Angular, React
   remark-lint         # Markdown Lint
   # sass-lint         # (Use per-project)
   tslint              # Typescript Lint
@@ -87,7 +88,7 @@ PACKAGES=(
   # CLI Tools / Builders
   # ---------------
   feathers-cli
-  strapi/alpha
+  strapi@alpha
   yo
   generator-generator  # yeoman helper custom generator
   grunt-cli
@@ -108,6 +109,7 @@ PACKAGES=(
   @vue/cli
   @vue/cli-init
   @vue/cli-service-global
+  vuejs-webpack-project
   create-react-app
   jscodeshift         # Make changes to code nicely
 
