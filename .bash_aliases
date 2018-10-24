@@ -62,7 +62,11 @@ alias systemctl='sudo systemctl'
 alias c='clear'
 alias h='history'
 alias j='jobs -l'
-alias py='python'
+
+# Use the Latest Python Version via "py"
+PYTHON_LATEST=$(ls -t /usr/bin/python* | head -1)
+alias py=$PYTHON_LATEST
+
 alias vi=vim
 alias ports='netstat -tulanp'
 alias time="date +'%A, %B %m %Y at%l:%M%P %Z'"
@@ -243,9 +247,17 @@ if [ -d ~/.virtualenvs ]; then
 
   if [[ -f "$FIND_VENVWRAP" ]]; then
     source $FIND_VENVWRAP
+    eval "$(pyenv init -)"
   fi
 
   alias mkvirtualenv="mkvirtualenv --no-site-packages --distribute"
+
+  if [ -d ~/.pyenv/plugins/pyenv-virtualenvwrapper ]; then
+    # Allow PyEnv Virtualenvwrapper to create venvs
+    # Auto activate virtualenvs on directory change
+    eval "$(pyenv virtualenv-init -)"
+    export PYENV_VIRTUALENVWRAPPER_PREFER_PYVENV="true"
+  fi
 fi
 
 export PYTHONDONTWRITEBYTECODE=1  # Stop Python from generating bytecode files
