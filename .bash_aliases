@@ -255,7 +255,7 @@ if [ -d ~/.virtualenvs ]; then
   if [ -d ~/.pyenv/plugins/pyenv-virtualenvwrapper ]; then
     # Allow PyEnv Virtualenvwrapper to create venvs
     # Auto activate virtualenvs on directory change
-    eval "$(pyenv virtualenv-init -)"
+    eval "$(~/.pyenv/bin/pyenv virtualenv-init -)"
     export PYENV_VIRTUALENVWRAPPER_PREFER_PYVENV="true"
   fi
 fi

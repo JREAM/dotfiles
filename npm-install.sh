@@ -18,15 +18,15 @@ PACKAGES=(
   # Babel
   # ---------------
   babel-cli@next
-  babel-core
-  babel-eslint        # (Use per-project)
+  # babel-core          # (Use per-project)
+  babel-eslint          # (Use per-project)
   # babel-loader        # (Use per-project)
-  babel-preset-env
+  # babel-preset-env    # (Use per-project)
 
   # ---------------
   # Ecma Abilities
   # ---------------
-  cross-env
+  # cross-env           # (Use per-project)
 
   # ---------------
   # Linters/Helpers
@@ -34,11 +34,13 @@ PACKAGES=(
   babel-eslint
   eslint
   eslint-config-eslint
-  eslint-loader
-  eslint-plugin-babel
-  eslint-plugin-html
-  eslint-plugin-react
-  eslint-plugin-import
+  # eslint-loader       # (Use per-project/webpack)
+  # eslint-plugin-babel   # (Use per-project/webpack)
+  # eslint-plugin-html    # (Use per-project/webpack)
+  # eslint-plugin-react   # (Use per-project/webpack)
+  # eslint-plugin-import
+  jshint
+  jslint
   # grunt-eslint      # (Use per-project)
   # gulp-eslint       # (Use per-project)
   stylelint
@@ -52,14 +54,14 @@ PACKAGES=(
   # ---------------
   # Dependencies for eslint-config-standard
   # ---------------
-  eslint-plugin-import
-  eslint-plugin-node
-  eslint-plugin-promise
+  # eslint-plugin-import    # (Use per-project/webpack)
+  # eslint-plugin-node      # (Use per-project/webpack)
+  # eslint-plugin-promise   # (Use per-project/webpack)
 
   # ---------------
   # Config Setting Standards
   # ---------------
-  eslint-config-airbnb-base
+  # eslint-config-airbnb-base # (Use per-project/webpack)
 
   # ---------------
   # Testing/Coverage
@@ -95,8 +97,8 @@ PACKAGES=(
   gulp
   gulp-cli
   karma-cli
-  # parcel-bundler      # (Use per-project)
-  # rollup              # (Use per-project)
+  parcel-bundler      # (Use per-project)
+  rollup              # (Use per-project)
   webpack-cli
   webpack@next
   # webpack-dev-server  # (Use per-project)
@@ -105,7 +107,7 @@ PACKAGES=(
   # ---------------
   # FrontEnd
   # ---------------
-  @angular/cli
+  #@angular/cli
   @vue/cli
   @vue/cli-init
   @vue/cli-service-global
@@ -118,7 +120,8 @@ PACKAGES=(
   # ---------------
   #fkill-cli
   #localtunnel
-  vtop
+  #vtop
+  chalk
 )
 
 # A few Colors
