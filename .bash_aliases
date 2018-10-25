@@ -133,7 +133,7 @@ alias wget="wget -c"                # Resume if failed by default
 alias findfile="find . -name "      # Make find a little easier
 
 # Disk Related
-alias df='df -H'
+alias df='df -H | grep -v "/snap"'  # Remove the snap directories
 alias du='du -ch'
 
 
