@@ -34,11 +34,18 @@ PACKAGES=(
   babel-eslint
   eslint
   eslint-config-eslint
+
+  # My new Preference; Sick of AirBNB
+  eslint-plugin-import
+  eslint-plugin-node
+  eslint-plugin-promise
+  eslint-config-standard
+  eslint-plugin-standard
   # eslint-loader       # (Use per-project/webpack)
   # eslint-plugin-babel   # (Use per-project/webpack)
   # eslint-plugin-html    # (Use per-project/webpack)
   # eslint-plugin-react   # (Use per-project/webpack)
-  # eslint-plugin-import
+
   jshint
   jslint
   # grunt-eslint      # (Use per-project)
