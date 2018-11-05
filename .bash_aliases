@@ -30,6 +30,52 @@ export GREP_COLOR='1;32'
 
 # ___________________________________________________________________
 #
+#                           ACL
+# ___________________________________________________________________
+if type setfacl > /dev/null; then
+
+  setfacl-user() {
+    if [ $# -ne 2 ]; then
+      echo "[!] Error: Missing Argument for \$user and \$path"
+      echo "[!] Example:  $ command user /any/path"
+      return 1
+    fi
+    if ! id -u "$1" > /dev/null 2>&1; then
+      echo "[!] Error: You provided a user $1 that does not exist"
+      return 1
+    fi
+    if [ ! -d "$2" ] && [ ! -f "$2" ]; then
+      echo "[!] Error: You provided a file or path $2 that does not exist"
+      return 1
+    fi
+
+    setfacl -R -m u:$1:rwx $2
+    setfacl -Rd -m u:$1:rwx $2
+  }
+
+  setfacl-group() {
+    if [ $# -ne 2 ]; then
+      echo "[!] Error: Missing Argument for \$user and \$path"
+      echo "[!] Example:  $ command user /any/path"
+      return 1
+    fi
+    if ! grep -q $1 /etc/group; then
+      echo "[!] Error: You provided a group $1 that does not exist."
+      return 0
+    fi
+    if [ ! -d "$2" ] && [ ! -f "$2" ]; then
+      echo "[!] Error: You provided a file or path $2 that does not exist"
+      return 0
+    fi
+
+    setfacl -R -m g:$1:rwx $2
+    setfacl -Rd -m g:$1:rwx $2
+  }
+
+fi
+
+# ___________________________________________________________________
+#
 #                           COLORS
 # ___________________________________________________________________
 if [[ ! -z DOTEXPORTS_SET_COLORS ]]; then
@@ -63,14 +109,9 @@ alias c='clear'
 alias h='history'
 alias j='jobs -l'
 
-# Laptop scrolling bug on touchpad after suspend
-alias fixmouse='sudo rmmod psmouse ; sudo modprobe psmouse ; sudo modprobe psmouse'
-
-if [ -f /usr/bin/python ]; then
-  # Use the Latest Python Version via "py"
-  PYTHON_LATEST=$(ls -t /usr/bin/python* | head -1)
-  alias py=$PYTHON_LATEST
-fi
+# Use the Latest Python Version via "py"
+PYTHON_LATEST=$(ls -t /usr/bin/python* | head -1)
+alias py=$PYTHON_LATEST
 
 alias vi=vim
 alias ports='netstat -tulanp'
