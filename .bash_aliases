@@ -74,6 +74,11 @@ if type setfacl > /dev/null; then
 
 fi
 
+if type cheat > /dev/null; then
+  export CHEATCOLORS=true
+  export CHEAT_EDITOR=vim
+fi
+
 # ___________________________________________________________________
 #
 #                           COLORS
