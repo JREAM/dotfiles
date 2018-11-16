@@ -64,49 +64,7 @@ if [ "$action" == 'create' ]
 		fi
 
 		### create virtual host rules file
-		if ! echo "server {
-			listen   80;
-			root $userDir$rootDir;
-			index index.php index.html index.htm;
-			server_name $domain;
-
-			# serve static files directly
-			location ~* \.(jpg|jpeg|gif|css|png|js|ico|html)$ {
-				access_log off;
-				expires max;
-			}
-
-			# removes trailing slashes (prevents SEO duplicate content issues)
-			if (!-d \$request_filename) {
-				rewrite ^/(.+)/\$ /\$1 permanent;
-			}
-
-			# unless the request is for a valid file (image, js, css, etc.), send to bootstrap
-			if (!-e \$request_filename) {
-				rewrite ^/(.*)\$ /index.php?/\$1 last;
-				break;
-			}
-
-			# removes trailing 'index' from all controllers
-			if (\$request_uri ~* index/?\$) {
-				rewrite ^/(.*)/index/?\$ /\$1 permanent;
-			}
-
-			# catch all
-			error_page 404 /index.php;
-
-			location ~ \.php$ {
-				fastcgi_split_path_info ^(.+\.php)(/.+)\$;
-				fastcgi_pass 127.0.0.1:9000;
-				fastcgi_index index.php;
-				include fastcgi_params;
-			}
-
-			location ~ /\.ht {
-				deny all;
-			}
-
-		}" > $sitesAvailable$domain
+		if ! echo $TEMPLATE_NGINX > $sitesAvailable$domain
 		then
 			echo -e $"There is an ERROR create $domain file"
 			exit;
@@ -196,3 +154,65 @@ if [ "$action" == 'create' ]
 		echo -e $"Complete!\nYou just removed Virtual Host $domain"
 		exit 0;
 fi
+
+$TEMPLATE_NGINX = "
+  server {
+    server_name www.$domain;
+    return 301 \$scheme://$domain.com\$request_uri;
+  }
+
+  }
+  server {
+    server_name           $domain;
+    listen                80;
+    root                  $userDir$rootDir;
+    index                 index.php index.html index.htm;
+
+    charset               utf-8;
+    client_max_body_size  100M;
+    fastcgi_read_timeout  1800;
+
+    # Catch All
+    error_page 404        /index.php;
+
+    # Serve Static Files Directly
+    location ~* \.(jpg|jpeg|gif|svg|css|png|js|ico|html|ttf|woff|otf|eot)$ {
+      access_log          off;
+      log_not_found       off;
+      expires             max;
+    }
+
+    # Removes Trailing Slashes
+    # @note: Prevents SEO duplicate content
+    if (!-d \$request_filename) {
+      rewrite ^/(.+)/\$ /\$1 permanent;
+    }
+
+    # Unless the Request is for a Valid Static File (above: image, js, css, etc.)
+    # Then Send to Site Bootstrap
+    if (!-e \$request_filename) {
+      rewrite ^/(.*)\$ /index.php?/\$1 last;
+      break;
+    }
+
+    # Remove Trailing 'index' from all Controllers
+    if (\$request_uri ~* index/?\$) {
+      rewrite ^/(.*)/index/?\$ /\$1 permanent;
+    }
+
+    location ~ \.php$ {
+      fastcgi_split_path_info ^(.+\.php)(/.+)\$;
+      fastcgi_pass        unix:/var/run/php/php7.2-fpm.sock;
+      fastcgi_index       index.php;
+      include             fastcgi_params;
+
+      fastcgi_param       PATH_INFO         \$fastcgi_path_info;
+      fastcgi_param       SCRIPT_FILENAME   \$document_root\$fastcgi_script_name;
+    }
+
+    location ~ /\.ht {
+      deny          all;
+    }
+
+  }
+"

@@ -8,6 +8,8 @@
 # for ssh logins, install and configure the libpam-umask package.
 #umask 022
 
+source $HOME/.bashrc
+
 if ! hash compdef >/dev/null 2>&1; then
   alias compdef='echo 0 >/dev/null'
 fi
@@ -24,5 +26,9 @@ fi
 # Final Export
 # ---------------------------------------------------
 export PATH
+
+if [ -d "$HOME/.local/bin" ]; then
+  export PATH="$HOME/.local/bin:$PATH"
+fi
 
 export PATH="$HOME/.cargo/bin:$PATH"

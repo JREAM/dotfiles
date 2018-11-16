@@ -69,24 +69,7 @@ if [ "$action" == 'create' ]
 		fi
 
 		### create virtual host rules file
-		if ! echo "
-		<VirtualHost *:80>
-			ServerAdmin $email
-			ServerName $domain
-			ServerAlias $domain
-			DocumentRoot $rootDir
-			<Directory />
-				AllowOverride All
-			</Directory>
-			<Directory $rootDir>
-				Options Indexes FollowSymLinks MultiViews
-				AllowOverride all
-				Require all granted
-			</Directory>
-			ErrorLog /var/log/apache2/$domain-error.log
-			LogLevel error
-			CustomLog /var/log/apache2/$domain-access.log combined
-		</VirtualHost>" > $sitesAvailabledomain
+		if ! echo $TEMPLATE_APACHE > $sitesAvailabledomain
 		then
 			echo -e $"There is an ERROR creating $domain file"
 			exit;
@@ -181,3 +164,26 @@ if [ "$action" == 'create' ]
 		echo -e $"Complete!\nYou just removed Virtual Host $domain"
 		exit 0;
 fi
+
+TEMPLATE_APACHE = "
+<VirtualHost *:80>
+  ServerAdmin   $email
+  ServerName    $domain
+  ServerAlias   $domain
+  DocumentRoot  $rootDir
+
+  LogLevel      error
+  ErrorLog      /var/log/apache2/$domain-error.log
+  CustomLog     /var/log/apache2/$domain-access.log combined
+
+  <Directory />
+    AllowOverride All
+  </Directory>
+
+  <Directory $rootDir>
+    Options Indexes FollowSymLinks MultiViews
+    AllowOverride all
+    Require all granted
+  </Directory>
+
+</VirtualHost>"
