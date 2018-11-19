@@ -27,31 +27,22 @@ module.exports = {
     }
   },
   extends: [
-    'plugin:vue/recommended',
     'standard'
   ],
   rules: {
-    camelcase: [
+    'array-bracket-spacing': [2, 'always'],
+    'camelcase': [
       2, { properties: 'always' }
     ],
-    eolLast: [2],
-    indent: [2, 2],
-    keywordSpacing: [2],
-    linebreakStyle: [2, 'unix'],
-    noUnderscoreDangle: 0,
-    noVar: [2],
-    quotes: [2, 'single'],
-    semi: [2, 'always'],
-    // Vue (When Used)
-    'vue/max-attributes-per-line': [
-      2,
-      {
-        singleline: 10,
-        multiline: {
-          max: 10,
-          allowFirstLine: true
-        }
-      }
-    ]
+    'eol-last': [2],
+    'indent': [2, 2],
+    'keyword-spacing': [2],
+    'linebreak-style': [2, 'unix'],
+    'no-underscore-dangle': 0,
+    'no-var': [2],
+    'wrap-iife': [2],
+    'prefer-const': [2],
+    'quotes': [2, 'single'],
+    'semi': [2, 'always'],
   }
 }
