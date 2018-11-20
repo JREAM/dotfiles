@@ -23,6 +23,10 @@ PACKAGES=(
   # babel-loader        # (Use per-project)
   # babel-preset-env    # (Use per-project)
 
+  netlify
+  netlify-lambda
+  # netlify-cms         # (Use per-project)
+
   # ---------------
   # Ecma Abilities
   # ---------------
@@ -41,10 +45,11 @@ PACKAGES=(
   eslint-plugin-promise
   eslint-config-standard
   eslint-plugin-standard
+  eslint-plugin-import
   # eslint-loader       # (Use per-project/webpack)
-  # eslint-plugin-babel   # (Use per-project/webpack)
-  # eslint-plugin-html    # (Use per-project/webpack)
-  # eslint-plugin-react   # (Use per-project/webpack)
+  eslint-plugin-babel   # (Use per-project/webpack)
+  eslint-plugin-html    # (Use per-project/webpack)
+  eslint-plugin-react   # (Use per-project/webpack)
 
   jshint
   jslint
@@ -58,12 +63,6 @@ PACKAGES=(
   # sass-lint         # (Use per-project)
   tslint              # Typescript Lint
 
-  # ---------------
-  # Dependencies for eslint-config-standard
-  # ---------------
-  # eslint-plugin-import    # (Use per-project/webpack)
-  # eslint-plugin-node      # (Use per-project/webpack)
-  # eslint-plugin-promise   # (Use per-project/webpack)
 
   # ---------------
   # Config Setting Standards
