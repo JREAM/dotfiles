@@ -1,6 +1,7 @@
 [global_config]
   enabled_plugins = LaunchpadCodeURLHandler, APTURLHandler, LaunchpadBugURLHandler
-  title_font = Ubuntu Mono 13
+  suppress_multiple_term_dialog = True
+  title_font = Ubuntu Mono 15
   title_inactive_bg_color = "#70991f"
   title_receive_bg_color = "#fd971f"
   title_transmit_bg_color = "#a6e22e"
@@ -36,7 +37,7 @@
       order = 0
       parent = ""
       position = 513:279
-      size = 900, 600
+      size = 1000, 900
       title = /bin/bash
       type = Window
     [[[terminal1]]]
@@ -49,10 +50,10 @@
 [profiles]
   [[default]]
     background_color = "#272822"
-    background_darkness = 0.96
+    background_darkness = 0.79
     background_type = transparent
     cursor_blink = False
     cursor_color = "#9da189"
-    font = Ubuntu Mono 17
+    font = Envy Code R 16
     foreground_color = "#fdfdfd"
     use_system_font = False
