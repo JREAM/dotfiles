@@ -1,52 +1,74 @@
-module.exports = {
-  plugins: [
-    'react'
+{
+  "parser": "babel-eslint",
+  "extends": [
+    "prettier",
+    "airbnb"
   ],
-  parserOption: {
-    ecmaVersion: 6,
-    sourceType: 'module',
-    ecmaFeatures: {
-      jsx: true
-    }
-  },
-  env: {
-    es6: true,
-    browser: true,
-    node: true,
-    mocha: true
-  },
-  extends: [
-    'eslint:recommended',
-    'plugin:react/recommended'
+  "plugins": [
+    "import",
+    "jsx-a11y",
+    "react"
   ],
-  rules: {
-    // first argument: 0 - silent, 1 - warning, 2 - error
-    strict: [2, 'safe'],
-    noDebugger: 2,
-    braceStyle: [2, '1tbs', { allowSingleLine: true }],
-    noTrailingSpaces: 2,
-    keywordSpacing: 2,
-    spaceBeforeFunctionParen: [2, 'never'],
-    spacedComment: [2, 'always'],
-    varsOnTop: 2,
-    noUndef: 2,
-    noUndefined: 2,
-    commaDangle: [2, 'never'],
-    quotes: [2, 'single'],
-    semi: [2, 'always'],
-    GuardForIn: 2,
-    noEval: 2,
-    noWith: 2,
-    validTypeof: 2,
-    noUnusedVars: 2,
-    noContinue: 1,
-    noExtraSemi: 1,
-    noUnreachable: 1,
-    noUnusedExpressions: 1,
-    noMagicNumbers: 1,
-    maxLen: [
-      1, 80, 4
+  "globals": {
+    "graphql": true
+  },
+  "rules": {
+    "array-bracket-spacing": [
+      2,
+      "always"
     ],
-    'react/prefer-es6-class': 1,
+    "arrow-body-style": [
+      "error",
+      "as-needed",
+      {
+        "requireReturnForObjectLiteral": true
+      }
+    ],
+    "arrow-parens": [
+      "error",
+      "always"
+    ],
+    "comma-dangle": [
+      "error",
+      "always"
+    ],
+    "eol-last": [
+      2
+    ],
+    "indent": [
+      2,
+      2
+    ],
+    "linebreak-style": [
+      2,
+      "unix"
+    ],
+    "no-underscore-dangle": 0,
+    "no-var": [
+      2
+    ],
+    "quotes": [
+      2,
+      "single"
+    ],
+    "wrap-iife": [
+      2
+    ],
+    "prefer-const": [
+      2
+    ],
+    "function-paren-newline": "off",
+    "no-console": "off",
+    "prefer-destructuring": "off",
+    "semi": [
+      "error",
+      "always"
+    ],
+    "import/extensions": "off",
+    "import/no-extraneous-dependencies": "off",
+    "jsx-a11y/anchor-is-valid": "off",
+    "react/jsx-filename-extension": "off",
+    "react/prefer-stateless-function": "off",
+    "react/prop-types": "off"
   }
 }

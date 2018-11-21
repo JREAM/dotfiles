@@ -27,7 +27,7 @@ module.exports = {
     }
   },
   extends: [
-    'standard'
+    'airbnb'
   ],
   rules: {
     'array-bracket-spacing': [2, 'always'],
