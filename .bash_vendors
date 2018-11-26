@@ -27,9 +27,14 @@ fi
 # ├─────────────────────────────────────────────────────────────────┤
 # └─────────────────────────────────────────────────────────────────┘
 # Include local composer folder if exists
-export COMPOSER_HOME=""
+export COMPOSER_HOME="$HOME/.composer/vendor/bin"
 if [ -d ~/.composer/vendor/bin ]; then
   PATH=~/.composer/vendor/bin:$PATH
+  export COMPOSER_HOME=`composer config -g home`
+fi
+# Different Path (Not sure)
+if [ -d ~/.config/composer/vendor/bin ]; then
+  PATH=~/.config/composer/vendor/bin:$PATH
   export COMPOSER_HOME=`composer config -g home`
 fi
 
