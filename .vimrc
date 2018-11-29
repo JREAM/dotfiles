@@ -17,6 +17,7 @@ call vundle#rc()
 
 " vundle repo
 Bundle 'gmarik/Vundle.vim'
+Plugin 'jparise/vim-graphql'
 
 " productivity
 Plugin 'rking/ag.vim'
