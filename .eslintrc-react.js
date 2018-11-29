@@ -4,12 +4,12 @@
  * @Required
  -----------------------------------------------------
  yarn add -D eslint eslint-config-{airbnb,prettier} \
- eslint-plugin-{import,jsx-a11y,react,flowtype}
+ eslint-plugin-{import,jsx-a11y,react}
  * If you want to use flow for Type Checking:
  * @Optional
  -----------------------------------------------------
    npm i -g flow-bin \
-   && yarn add -D flow-bin babel-cli babel-preset-flow \
+   && yarn add -D flow-bin babel-cli babel-preset-flow eslint-plugin-flowtype \
    && echo '{"presets": ["flow"]}' > .babelrc \
    && yarn flow init && echo "It's common to have an empty .flowconfig"
    && yarn flow status
@@ -20,7 +20,7 @@ module.exports = {
   parser: 'espree',
   parserOptions: {
     ecmaVersion: 2017,
-    sourceType: 'script',
+    sourceType: 'module',
     ecmaFeatures: {
       experimentalObjectRestSpread: true,
     },
