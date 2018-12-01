@@ -115,8 +115,10 @@ alias h='history'
 alias j='jobs -l'
 
 # Use the Latest Python Version via "py"
-PYTHON_LATEST=$(ls -t /usr/bin/python* | head -1)
-alias py=$PYTHON_LATEST
+if [ "$(uname -n)" == "Linux" ]; then
+  PYTHON_LATEST=$(ls -t /usr/bin/python* | head -1)
+  alias py=$PYTHON_LATEST
+fi
 
 alias vi=vim
 alias ports='netstat -tulanp'
