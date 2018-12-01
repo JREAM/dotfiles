@@ -1,6 +1,10 @@
 /**
- * ESLint 5 Lints empty files, ensure
- * a .eslintignore file exists.
+ * ESLint for JS ECMA Script
+ * MIT / Jesse Boyer <JREAM>
+ * -----------------------------------
+ * @install
+    yarn add -D babel-eslint eslint eslint-plugin-import eslint-config-eslint \
+      eslint-config-node eslint-config-promise
  */
 module.exports = {
   root: true,
