@@ -50,6 +50,11 @@ Plugin 'httplog'
 Plugin 'ap/vim-css-color'
 Plugin 'othree/html5.vim'
 Plugin 'chiel92/vim-autoformat'
+Plugin 'evidens/vim-twig'
+Plugin 'ShowPairs'
+Plugin 'Autoclose'
+Plugin 'eslint/eslint'
+Plugin 'terryma/vim-multiple-cursors'
 
 " Syntax Languages
 Plugin 'mustache/vim-mustache-handlebars'
@@ -84,6 +89,16 @@ Plugin 'nathanaelkane/vim-indent-guides'
 Bundle "nvie/vim-flake8"
 Bundle "scrooloose/syntastic"
 
+" For Multicursor
+let g:multi_cursor_use_default_mapping=0
+let g:multi_cursor_start_word_key      = '<C-Up>'
+let g:multi_cursor_select_all_word_key = '<A-n>'
+let g:multi_cursor_start_key           = 'g<C-Up>'
+let g:multi_cursor_select_all_key      = 'g<C-a>'
+let g:multi_cursor_next_key            = '<C-n>'
+let g:multi_cursor_prev_key            = '<C-p>'
+let g:multi_cursor_skip_key            = '<C-x>'
+let g:multi_cursor_quit_key            = '<Esc>'
 
 " For Match Tag Always
 let g:rbpt_loadround = 1
