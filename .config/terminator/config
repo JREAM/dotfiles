@@ -2,9 +2,9 @@
   enabled_plugins = LaunchpadCodeURLHandler, APTURLHandler, LaunchpadBugURLHandler
   suppress_multiple_term_dialog = True
   title_font = Ubuntu Mono 15
-  title_inactive_bg_color = "#70991f"
+  title_inactive_bg_color = "#237cab"
   title_receive_bg_color = "#fd971f"
-  title_transmit_bg_color = "#a6e22e"
+  title_transmit_bg_color = "#2997d1"
   title_transmit_fg_color = "#000000"
   title_use_system_font = False
 [keybindings]
@@ -21,13 +21,23 @@
   split_vert = <Primary>bracketright
 [layouts]
   [[default]]
-    [[[child1]]]
-      parent = window0
-      profile = New Profile
-      type = Terminal
-    [[[window0]]]
+    [[[child0]]]
+      fullscreen = False
+      last_active_term = f458bdb9-fd06-46a1-8934-c766636e77e9
+      last_active_window = True
+      maximised = False
+      order = 0
       parent = ""
+      position = 150:100
+      size = 1000, 850
+      title = /bin/bash
       type = Window
+    [[[terminal1]]]
+      order = 0
+      parent = child0
+      profile = default
+      type = Terminal
+      uuid = f458bdb9-fd06-46a1-8934-c766636e77e9
   [[sub]]
     [[[child0]]]
       fullscreen = False
@@ -36,8 +46,8 @@
       maximised = False
       order = 0
       parent = ""
-      position = 513:279
-      size = 1000, 900
+      position = 150:100
+      size = 1000, 850
       title = /bin/bash
       type = Window
     [[[terminal1]]]
@@ -49,11 +59,14 @@
 [plugins]
 [profiles]
   [[default]]
-    background_color = "#272822"
-    background_darkness = 0.79
+    background_color = "#151515"
+    background_darkness = 0.85
     background_type = transparent
     cursor_blink = False
     cursor_color = "#9da189"
     font = Envy Code R 16
     foreground_color = "#fdfdfd"
+    palette = "#2e3436:#cc0000:#70991f:#c4a000:#237cab:#75507b:#06989a:#d3d7cf:#555753:#ef2929:#a6e22e:#fce94f:#2997d1:#ad7fa8:#34e2e2:#eeeeec"
+    scrollback_infinite = True
+    scrollback_lines = 502
     use_system_font = False
