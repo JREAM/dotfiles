@@ -32,17 +32,6 @@ if [ -d ~/.composer/vendor/bin ]; then
   PATH=~/.composer/vendor/bin:$PATH
   export COMPOSER_HOME=`composer config -g home`
 fi
-# Different Path (Not sure)
-if [ -d ~/.config/composer/vendor/bin ]; then
-  PATH=~/.config/composer/vendor/bin:$PATH
-  export COMPOSER_HOME=`composer config -g home`
-fi
-
-# Include composer autocomplete if exists
-if [ -d $COMPOSER_HOME/vendor/bamarni/symfony-console-autocomplete ]; then
-  eval "$(symfony-autocomplete)"
-fi
-
 
 # ┌─────────────────────────────────────────────────────────────────┐
 # │ (Optional) Wine Compat mode (XP) and Resize Font $ winecfg      │
