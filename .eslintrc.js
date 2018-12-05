@@ -3,8 +3,14 @@
  * MIT / Jesse Boyer <JREAM>
  * -----------------------------------
  * @install
-    yarn add -D babel-eslint eslint eslint-plugin-import eslint-config-eslint \
-      eslint-config-node eslint-config-promise
+    yarn add -D \
+    eslint \
+    babel-eslint \
+    eslint-plugin-import \
+    eslint-plugin-node \
+    eslint-config-eslint \
+    eslint-config-node \
+    eslint-config-promise
  */
 module.exports = {
   root: true,
@@ -43,6 +49,8 @@ module.exports = {
     'keyword-spacing': [2],
     'linebreak-style': [2, 'unix'],
     'no-underscore-dangle': 0,
+    'no-console': 0,
+    'comma-dangle': [2, 'only-multiline'],
     'no-var': [2],
     'wrap-iife': [2],
     'prefer-const': [2],
