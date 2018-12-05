@@ -15,6 +15,12 @@ PACKAGES=(
   npm@latest
 
   # ---------------
+  # Dep. Checkers
+  # ---------------
+  npm-check
+  yarn-check
+
+  # ---------------
   # Babel
   # ---------------
   babel-cli@next
