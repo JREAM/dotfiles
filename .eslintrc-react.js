@@ -5,6 +5,7 @@
  -----------------------------------------------------
  yarn add -D eslint eslint-config-{airbnb,prettier} \
  eslint-plugin-{import,jsx-a11y,react}
+
  * If you want to use flow for Type Checking:
  * @Optional
  -----------------------------------------------------
@@ -36,64 +37,36 @@ module.exports = {
   ],
   globals: {
     graphql: true,
+    window: true,
+    document: true
   },
   rules: {
-    'array-bracket-spacing': [
-      2,
-      'always',
-    ],
-    'arrow-body-style': [
-      'error',
-      'as-needed',
+    'array-bracket-spacing': [2, 'always'],
+    'arrow-body-style': [2, 'as-needed',
       {
         requireReturnForObjectLiteral: true,
       },
     ],
-    'arrow-parens': [
-      'error',
-      'always',
-    ],
-    'comma-dangle': [
-      'error',
-      'always',
-    ],
-    'eol-last': [
-      2,
-    ],
-    indent: [
-      2,
-      2,
-    ],
-    'linebreak-style': [
-      2,
-      'unix',
-    ],
-    'no-underscore-dangle': 0,
-    'no-var': [
-      2,
-    ],
-    quotes: [
-      2,
-      'single',
-    ],
-    'wrap-iife': [
-      2,
-    ],
-    'prefer-const': [
-      2,
-    ],
-    'function-paren-newline': 'off',
-    'no-console': 'off',
-    'prefer-destructuring': 'off',
-    semi: [
-      'error',
-      'always',
-    ],
-    'import/extensions': 'off',
+    'arrow-parens': [2, 'always',],
+    'comma-dangle': [2, 'only-multiline',],
+    'eol-last': [2,],
+    'function-paren-newline': 0,
+    'import/extensions': 0,
     'import/no-extraneous-dependencies': 'off',
     'jsx-a11y/anchor-is-valid': 'off',
+    'linebreak-style': [2, 'unix',],
+    'no-console': 'off',
+    'no-var': [2],
+    'no-underscore-dangle': 0,
+    'no-var': [2,],
+    'prefer-const': [2,],
+    'prefer-destructuring': 'off',
     'react/jsx-filename-extension': 'off',
     'react/prefer-stateless-function': 'off',
     'react/prop-types': 'off',
+    'wrap-iife': [2,],
+    indent: [2, 2,],
+    quotes: [2, 'single',],
+    semi: ['error', 'always',],
   },
 };
