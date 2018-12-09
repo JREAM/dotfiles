@@ -1,15 +1,21 @@
 #!/bin/bash
-### Set Language
 TEXTDOMAIN=virtualhost
+
+source config.sh
 
 ### Set default parameters
 action=$1
 domain=$2
 rootDir=$3
 owner=$(who am i | awk '{print $1}')
-sitesEnable='/etc/nginx/sites-enabled/'
-sitesAvailable='/etc/nginx/sites-available/'
-userDir='/var/www/'
+apacheUser=$(ps -ef | egrep '(httpd|apache2|apache)' | grep -v root | head -n1 | awk '{print $1}')
+email='webmaster@localhost'
+sitesEnabled='/etc/apache2/sites-enabled/'
+sitesAvailable='/etc/apache2/sites-available/'
+userDir='/home/jesse/projects/'
+sitesAvailabledomain=$sitesAvailable$domain.conf
+
+### don't modify from here unless you know what you are doing ####
 
 if [ "$(whoami)" != 'root' ]; then
 	echo $"You have no permission to run $0 as non-root user. Use sudo"
@@ -42,73 +48,48 @@ rootDir=$userDir$rootDir
 if [ "$action" == 'create' ]
 	then
 		### check if domain already exists
-		if [ -e $sitesAvailable$domain ]; then
+		if [ -e $sitesAvailabledomain ]; then
 			echo -e $"This domain already exists.\nPlease Try Another one"
 			exit;
 		fi
 
 		### check if directory exists or not
-		if ! [ -d $userDir$rootDir ]; then
+		if ! [ -d $rootDir ]; then
 			### create the directory
-			mkdir $userDir$rootDir
+			mkdir $rootDir
 			### give permission to root dir
-			chmod 755 $userDir$rootDir
+			chmod 755 $rootDir
 			### write test file in the new domain dir
-			if ! echo "<?php echo phpinfo(); ?>" > $userDir$rootDir/phpinfo.php
-				then
-					echo $"ERROR: Not able to write in file $userDir/$rootDir/phpinfo.php. Please check permissions."
-					exit;
+			if ! echo "<?php echo phpinfo(); ?>" > $rootDir/phpinfo.php
+			then
+				echo $"ERROR: Not able to write in file $rootDir/phpinfo.php. Please check permissions"
+				exit;
 			else
-					echo $"Added content to $userDir$rootDir/phpinfo.php."
+				echo $"Added content to $rootDir/phpinfo.php"
 			fi
 		fi
 
 		### create virtual host rules file
-		if ! echo "server {
-			listen   80;
-			root $userDir$rootDir;
-			index index.php index.html index.htm;
-			server_name $domain;
-
-			# serve static files directly
-			location ~* \.(jpg|jpeg|gif|css|png|js|ico|html)$ {
-				access_log off;
-				expires max;
-			}
-
-			# removes trailing slashes (prevents SEO duplicate content issues)
-			if (!-d \$request_filename) {
-				rewrite ^/(.+)/\$ /\$1 permanent;
-			}
-
-			# unless the request is for a valid file (image, js, css, etc.), send to bootstrap
-			if (!-e \$request_filename) {
-				rewrite ^/(.*)\$ /index.php?/\$1 last;
-				break;
-			}
-
-			# removes trailing 'index' from all controllers
-			if (\$request_uri ~* index/?\$) {
-				rewrite ^/(.*)/index/?\$ /\$1 permanent;
-			}
-
-			# catch all
-			error_page 404 /index.php;
-
-			location ~ \.php$ {
-				fastcgi_split_path_info ^(.+\.php)(/.+)\$;
-				fastcgi_pass 127.0.0.1:9000;
-				fastcgi_index index.php;
-				include fastcgi_params;
-			}
-
-			location ~ /\.ht {
-				deny all;
-			}
-
-		}" > $sitesAvailable$domain
+		if ! echo "
+		<VirtualHost *:80>
+			ServerAdmin $email
+			ServerName $domain
+			ServerAlias $domain
+			DocumentRoot $rootDir
+			<Directory />
+				AllowOverride All
+			</Directory>
+			<Directory $rootDir>
+				Options Indexes FollowSymLinks MultiViews
+				AllowOverride all
+				Require all granted
+			</Directory>
+			ErrorLog /var/log/apache2/$domain-error.log
+			LogLevel error
+			CustomLog /var/log/apache2/$domain-access.log combined
+		</VirtualHost>" > $sitesAvailabledomain
 		then
-			echo -e $"There is an ERROR create $domain file"
+			echo -e $"There is an ERROR creating $domain file"
 			exit;
 		else
 			echo -e $"\nNew Virtual Host Created\n"
@@ -116,14 +97,14 @@ if [ "$action" == 'create' ]
 
 		### Add domain in /etc/hosts
 		if ! echo "127.0.0.1	$domain" >> /etc/hosts
-			then
-				echo $"ERROR: Not able write in /etc/hosts"
-				exit;
+		then
+			echo $"ERROR: Not able to write in /etc/hosts"
+			exit;
 		else
-				echo -e $"Host added to /etc/hosts file \n"
+			echo -e $"Host added to /etc/hosts file \n"
 		fi
 
-        ### Add domain in /mnt/c/Windows/System32/drivers/etc/hosts (Windows Subsytem for Linux)
+		### Add domain in /mnt/c/Windows/System32/drivers/etc/hosts (Windows Subsytem for Linux)
 		if [ -e /mnt/c/Windows/System32/drivers/etc/hosts ]
 		then
 			if ! echo -e "\r127.0.0.1       $domain" >> /mnt/c/Windows/System32/drivers/etc/hosts
@@ -135,24 +116,29 @@ if [ "$action" == 'create' ]
 		fi
 
 		if [ "$owner" == "" ]; then
-			chown -R $(whoami):www-data $userDir$rootDir
+			iam=$(whoami)
+			if [ "$iam" == "root" ]; then
+				chown -R $apacheUser:$apacheUser $rootDir
+			else
+				chown -R $iam:$iam $rootDir
+			fi
 		else
-			chown -R $owner:www-data $userDir$rootDir
+			chown -R $owner:$owner $rootDir
 		fi
 
 		### enable website
-		ln -s $sitesAvailable$domain $sitesEnable$domain
+		a2ensite $domain
 
-		### restart Nginx
-		service nginx restart
+		### restart Apache
+		/etc/init.d/apache2 reload
 
 		### show the finished message
-		echo -e $"Complete! \nYou now have a new Virtual Host \nYour new host is: http://$domain \nAnd its located at $userDir$rootDir"
+		echo -e $"Complete! \nYou now have a new Virtual Host \nYour new host is: http://$domain \nAnd its located at $rootDir"
 		exit;
 	else
 		### check whether domain already exists
-		if ! [ -e $sitesAvailable$domain ]; then
-			echo -e $"This domain dont exists.\nPlease Try Another one"
+		if ! [ -e $sitesAvailabledomain ]; then
+			echo -e $"This domain does not exist.\nPlease try another one"
 			exit;
 		else
 			### Delete domain in /etc/hosts
@@ -167,23 +153,23 @@ if [ "$action" == 'create' ]
 			fi
 
 			### disable website
-			rm $sitesEnable$domain
+			a2dissite $domain
 
-			### restart Nginx
-			service nginx restart
+			### restart Apache
+			/etc/init.d/apache2 reload
 
 			### Delete virtual host rules files
-			rm $sitesAvailable$domain
+			rm $sitesAvailabledomain
 		fi
 
 		### check if directory exists or not
-		if [ -d $userDir$rootDir ]; then
-			echo -e $"Delete host root directory ? (s/n)"
+		if [ -d $rootDir ]; then
+			echo -e $"Delete host root directory ? (y/n)"
 			read deldir
 
-			if [ "$deldir" == 's' -o "$deldir" == 'S' ]; then
+			if [ "$deldir" == 'y' -o "$deldir" == 'Y' ]; then
 				### Delete the directory
-				rm -rf $userDir$rootDir
+				rm -rf $rootDir
 				echo -e $"Directory deleted"
 			else
 				echo -e $"Host directory conserved"
