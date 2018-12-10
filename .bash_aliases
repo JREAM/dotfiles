@@ -158,7 +158,7 @@ alias shutdown='sudo /sbin/shutdown'
 alias upgrade='sudo apt-get upgrade'
 alias update='sudo apt-get update'
 alias updatey='sudo apt-get update && sudo apt-get upgrade -y'
-alias autoremove='sudo apt autoremove'
+alias autoremove='sudo apt autoremove; sudo apt autoclean'
 alias autoclean='sudo apt autoclean'
 alias ppa='sudo apt-add-repository'
 
@@ -188,8 +188,6 @@ alias findfile="find . -name "      # Make find a little easier
 # Disk Related
 alias df='df -H | grep -v "/snap"'  # Remove the snap directories
 alias du='du -ch'
-
-
 
 # Utility: Get My IP
 alias myip="dig +short myip.opendns.com @resolver1.opendns.com"
@@ -275,53 +273,6 @@ alias a2access='tail -n 50 /var/log/apache2/access.log'
 alias a2ctl='sudo apachectl'
 alias apachectl='sudo apachectl'
 alias apache2ctl='sudo apache2ctl'
-# ___________________________________________________________________
-#
-#                           PYTHON
-#
-#            Virtualenvwrapper: Globally or Pyenv installation
-# ___________________________________________________________________
-
-if [ -d ~/.virtualenvs ]; then
-  export WORKON_HOME=~/.virtualenvs
-  export PROJECT_HOME=~/projects
-  export PIP_VIRTUALENV_BASE=~/.virtualenvs
-
-  USING_PYENV=false
-  FIND_VENVWRAP="/usr/local/bin/virtualenvwrapper.sh"
-
-  # Determine if pyenv is used.
-  if [[ $(which python) == *".pyenv"* ]]; then
-    USING_PYENV=true;
-    VERSION=$(python -c 'import sys; print(".".join(map(str, sys.version_info[:3])))')
-    FIND_VENVWRAP=~/.pyenv/versions/$VERSION/bin/virtualenvwrapper.sh
-  fi
-  #./.pyenv/versions/3.6.5/lib/python3.6/site-packages
-
-  if [[ -f "$FIND_VENVWRAP" ]]; then
-    source $FIND_VENVWRAP
-    eval "$(pyenv init -)"
-  fi
-
-  alias mkvirtualenv="mkvirtualenv --no-site-packages --distribute"
-
-  if [ -d ~/.pyenv/plugins/pyenv-virtualenvwrapper ]; then
-    # Allow PyEnv Virtualenvwrapper to create venvs
-    # Auto activate virtualenvs on directory change
-    eval "$(~/.pyenv/bin/pyenv virtualenv-init -)"
-    export PYENV_VIRTUALENVWRAPPER_PREFER_PYVENV="true"
-  fi
-fi
-
-export PYTHONDONTWRITEBYTECODE=1  # Stop Python from generating bytecode files
-
-# ___________________________________________________________________
-#
-#                          RBEnv
-# ___________________________________________________________________
-if [ -f ~/.rbenv ]; then
-  eval "$(rbenv init -)"
-fi
 
 # ___________________________________________________________________
 #

@@ -86,6 +86,34 @@ if [ -d $HOME/.pyenv ]; then
 
 fi
 
+
+# ___________________________________________________________________
+#
+#                           PYTHON
+#
+#            Virtualenvwrapper: Globally or Pyenv installation
+# ___________________________________________________________________
+
+if [ -d ~/.virtualenvs ]; then
+  export WORKON_HOME=~/.virtualenvs
+  export PROJECT_HOME=~/py-projects
+  export PIP_VIRTUALENV_BASE=~/.virtualenvs
+
+  eval "$(pyenv init -)"
+
+  alias mkvirtualenv="mkvirtualenv --no-site-packages --distribute"
+
+  if [ -d ~/.pyenv/plugins/pyenv-virtualenvwrapper ]; then
+    # Allow PyEnv Virtualenvwrapper to create venvs
+    # Auto activate virtualenvs on directory change
+    eval "$(~/.pyenv/bin/pyenv virtualenv-init -)"
+    export PYENV_VIRTUALENVWRAPPER_PREFER_PYVENV="true"
+  fi
+fi
+
+export PYTHONDONTWRITEBYTECODE=1  # Stop Python from generating bytecode files
+
+
 # ┌─────────────────────────────────────────────────────────────────┐
 # │ (Optional) RbEnv (Ruby Version Manager)                       │
 # ├─────────────────────────────────────────────────────────────────┤
