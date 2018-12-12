@@ -158,11 +158,10 @@ fi
 # ├─────────────────────────────────────────────────────────────────┤
 # └─────────────────────────────────────────────────────────────────┘
 if hash grc &>/dev/null; then
-  if [ -s ~/etc/grcbash ]; then
-    source ~/etc/grcbash
-  fi
-  if [ -f "$HOME/.grc/grc.bashrc" ]; then
+
+   if [ -f "$HOME/.grc/grc.bashrc" ]; then
     source "$HOME/.grc/grc.bashrc"
   fi
 fi
+
 
