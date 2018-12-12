@@ -5,13 +5,12 @@
 # ║ Entry Point to all Bash Utilities                               ║
 # ╚═════════════════════════════════════════════════════════════════╝
 
-
-if [ -d "$HOME/.cheat" ]; then
-  export DEFAULT_CHEAT_DIR="$HOME/.cheat/"
-  export CHEATCOLORS=true
-  export CHEAT_EDITOR=vim
-  #more cheatcheats
-  #export CHEATPATH=''
+# ┌─────────────────────────────────────────────────────────────────┐
+# │ (Optional) Miniconda                                            │
+# ├─────────────────────────────────────────────────────────────────┤
+# └─────────────────────────────────────────────────────────────────┘
+if [ -d "$HOME/miniconda*/bin" ]; then
+  export PATH=$HOME/miniconda*/bin:$PATH
 fi
 
 # ┌─────────────────────────────────────────────────────────────────┐
