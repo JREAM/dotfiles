@@ -214,6 +214,7 @@ if [ -f "/c/ProgramData/chocolatey/bin/choco" ]; then
 fi
 
 alias d-c='docker-compose'
+alias gc='gcloud'
 
 # a___________________________________________________________________
 #
