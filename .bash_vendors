@@ -9,8 +9,8 @@
 # │ (Optional) Miniconda                                            │
 # ├─────────────────────────────────────────────────────────────────┤
 # └─────────────────────────────────────────────────────────────────┘
-if [ -d "$HOME/miniconda*/bin" ]; then
-  export PATH=$HOME/miniconda*/bin:$PATH
+if [ -d "$HOME/miniconda3/bin" ]; then
+  export PATH=$HOME/miniconda3/bin:$PATH
 fi
 
 # ┌─────────────────────────────────────────────────────────────────┐
