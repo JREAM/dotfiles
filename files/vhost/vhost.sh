@@ -1,7 +1,6 @@
 #!/bin/bash
+### Set Language
 TEXTDOMAIN=virtualhost
-
-source config.sh
 
 ### Set default parameters
 action=$1
