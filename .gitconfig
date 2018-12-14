@@ -40,6 +40,11 @@
   fl = log -u
   filelog = log -u
 
+  # Quickies
+  ra = remote add origin
+  roa = remote add origin
+  us = --set-upstream origin
+
   # Main
   br = branch
   ci = commit
@@ -92,7 +97,7 @@
   pushInsteadOf = "git@gitlab.com:"
 
 [url "git@gitlab.com:"]
-  insteadOf = "gitLab"
+  insteadOf = "gitLab:"
 
 [url "git@github.com:"]
   insteadOf = "gh:"
@@ -102,10 +107,15 @@
 [url "git://github.com/"]
   insteadOf = "github:"
 
+[url "git://bitbucket.org/"]
+  insteadOf = "bitbucket:"
+
+[url "git@bitbucket.org:"]
+  insteadOf = "bb:",
+  pushInsteadOf = "bitbucket:"
+  pushInsteadOf = "git://bitbucket.org/"
+
 [url "git@gist.github.com:"]
   insteadOf = "gst:"
   pushInsteadOf = "gist:"
   pushInsteadOf = "git://gist.github.com/"
-
-[url "git://gist.github.com/"]
-  insteadOf = "gist:"
