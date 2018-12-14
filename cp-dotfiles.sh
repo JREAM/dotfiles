@@ -72,6 +72,13 @@ read -p "(2/2) Copy the above DIRECTORIES to ${HOME} folder [y/N]?: " ynDirs
 # Flag for output at the end
 DID_RUN=0
 
+echo "Ignore Private Files, Safety Precaution"
+if [ ! -f "$HOME/.gitconfig_private" ] && touch .gitconfig_private
+if [ ! -f "$HOME/.gitignore" ]; then
+  echo ".gitconfig_private" > $HOME/.gitignore
+  echo ".exports_private" >> $HOME/.gitignore
+fi
+
 # Copy Files
 [[ $ynFiles =~ ^([yY])+$ ]] && copyfiles && DID_RUN=1
 

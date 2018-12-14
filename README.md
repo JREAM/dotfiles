@@ -16,8 +16,41 @@
 | `.dockerrc`            | Provides many commands for Docker, easy loading several docker containers |
 | `.exports`             | Basic export options, perhaps colors and re-usable variables.                    |
 | `.exports_private`     | (Optional) Private export file to ignore with git & other when public |
+| `.gitconfig`           | Run your commands to customize (Below) |
+| `.gitconfig_private`   | (Optional) Include any tokens here, it should be gitignored, loaded from `~/.gitconfig` |
 
 > **How To Update**: All files are loaded from `.bashrc`, so if you change and sub-file simply reload it with `source ~/.bashrc` or `. ~/.bashrc`.
+
+## Git Quick Customize
+
+Run these commands to add your info:
+
+```
+git config --global user.name "Yourname"
+git config --global user.email "youremail@somewhere.com"
+
+# If your main SSH key is id_rsa set it like below, otherwise replace the name.
+git config --global user.IdentityFile "~/.ssh/id_rsa" 
+```
+
+A Few shortcuts (See `~/.gitconfig`) for more:
+
+| Command | Purpose |
+| ------- | ------- |
+| `gl:me/repo` | GitLab SSH |
+| `bb:me/repo` | BitBucket SSH |
+| `gh:me/repo` | GitHub SSH |
+| `git cl gh:me/repo` | Clone from GitHub: `git clone git@github.com:me/repo.git` |
+| `git cm "msg"` | `git commit -m "message"` |
+| `git r` | `git reset` |
+| `git br` | `git branch` |
+| `git ra` | `git remote add origin` |
+| `git ups` | `git --set-upstream origin` |
+| `git co` | `git checkout` |
+| `git st` | `git status` |
+
+> Note: This adds the shortcut in your `./git/config` file project as the short
+version so be aware of that when creating a new project. 
 
 ## Virtualhost Folder
 
