@@ -19,6 +19,7 @@ PACKAGES=(
   # ---------------
   npm-check
   yarn-check
+  npm-install-peer
 
   # ---------------
   # Babel
@@ -89,6 +90,7 @@ PACKAGES=(
   # ---------------
   nodemon
   pm2
+  serve
 
   # ---------------
   # Other
@@ -101,15 +103,15 @@ PACKAGES=(
   # ---------------
   # CLI Tools / Builders
   # ---------------
-  feathers-cli
-  strapi@alpha
+  #feathers-cli
+  #strapi@alpha
   yo
   generator-generator  # yeoman helper custom generator
   grunt-cli
   gulp
   gulp-cli
   karma-cli
-  parcel-bundler      # (Use per-project)
+  parcel-bundler      # (Use per-project as parcel)
   rollup              # (Use per-project)
   webpack-cli
   webpack@next
@@ -123,6 +125,9 @@ PACKAGES=(
   @vue/cli
   @vue/cli-init
   @vue/cli-service-global
+  gatsby              # Gatsby Awesome
+  @gridsome/cli       # Vue version of Gatsby
+  #vuepress
   vuejs-webpack-project
   create-react-app
   jscodeshift         # Make changes to code nicely
