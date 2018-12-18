@@ -214,7 +214,6 @@ if [ -f "/c/ProgramData/chocolatey/bin/choco" ]; then
 fi
 
 alias d-c='docker-compose'
-alias gc='gcloud'
 
 # a___________________________________________________________________
 #
@@ -279,6 +278,19 @@ alias apache2ctl='sudo apache2ctl'
 
 # ___________________________________________________________________
 #
+#                           PHP FPM
+# ___________________________________________________________________
+
+PHPFPM_VERSION='7.2'
+alias fpm="sudo php$PHPFPM_VERSION-fpm"
+alias fpm-restart="systemctl restart php$PHPFPM_VERSION-fpm.service"
+alias fpm-reload="systemctl reload php$PHPFPM_VERSION-fpm.service"
+alias fpm-reenable="systemctl restart php$PHPFPM_VERSION-fpm.service"
+alias fpm-restart="systemctl restart php$PHPFPM_VERSION-fpm.service"
+alias fpm-log="sudo tail /var/log/php$PHPFPM_VERSION-fpm.log"
+
+# ___________________________________________________________________
+#
 #                           GIT
 # ___________________________________________________________________
 
@@ -296,7 +308,7 @@ function gitshrink() {
     git clone --mirror $REMOTE
 
     echo "Running bfg utility for blobs larger than 50MB..."
-    java -jar "$HOME/apps/bfg-gitshrink.jar" --strip-blobs-bigger-than 50M .
+    java -jar "$HOME/apps/git-shrink/bfg-shrink.jar" --strip-blobs-bigger-than 50M .
 
     echo "Expiring and Pruning Git Cache"
     git reflog expire --expire=now --all && git gc --prune=now --aggressive
@@ -309,9 +321,9 @@ function gitshrink() {
   else
     echo -e "Oops! You don't have the bfg utility; download it from:\n"
     echo -e "1: https://rtyley.github.io/bfg-repo-cleaner/ (the .jar file)"
-    echo -e "2: Place it in $HOME/apps/bfg-gitshrink.jar"
+    echo -e "2: Place it in $HOME/apps/git-shrink/bfg-shrink.jar"
     echo -e "3: *You will need Java 8 installed"
-    echo -e "\t$ mkdir ~/apps &&  mv bfg*.jar ~/apps/bfg-gitshrink.jar"
+    echo -e "\t$ mkdir -p ~/apps/git-shrink &&  mv bfg*.jar ~/apps/git-shrink/bfg-shrink.jar"
     echo -e "\t$ source ~/.bash_aliases"
   fi
 }
