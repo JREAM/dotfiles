@@ -244,6 +244,11 @@ alias ngenstartup='sudo service nginx start && sudo update-rc.d nginx enable && 
 #                           APACHE2
 # ___________________________________________________________________
 
+alias a2ls-sites='ls /etc/apache2/sites-available'
+alias a2ls-sites-en='ls /etc/apache2/sites-enabled'
+alias a2ls-mods='ls /etc/apache2/mods-available'
+alias a2ls-mods-en='ls /etc/apache2/mods-enabled'
+
 alias a2graceful='sudo /usr/sbin/apachectl -k graceful'
 alias a2modules='sudo apachectl -t -D DUMP_MODULES'
 alias a2vhosts='sudo apachectl -t -D DUMP_VHOSTS'
