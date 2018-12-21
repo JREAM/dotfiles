@@ -34,6 +34,27 @@ DIR_CONF='/data/conf'
 
 DIR_WWW="${HOME}/projects"      # Local HTTP Content serve location.
 
+APP_PORTAINER=(
+  9500
+  "local-portainer_data"
+  "portainer/portainer"
+)
+
+dkutil-buildup()  {
+  if [[ $# -ne 3 ]]; then
+    echo '>> DKUtil: Build Up - Builds and Runs container in daemon mode.'
+    echo "[!] Error: Must have 3 arguments containing:"
+    echo "    $ build <container_name> <image/here> <local_port:container_port>"
+    echo "    $ build nginx-box nginx/alpine 8000:80"
+    return 0
+  fi
+
+  docker run -d --name=$NAME -p $PORTS -v /var/run/docker.sock:/var/run/docker.sock $IMAGE
+
+  echo '[?] Is your container listed and running?'
+  docker ps -l --size
+}
+
 MY_PORTAINER_PORT=9500
 MY_PORTAINER_NAME="local-portainer_data"
 IMAGE_PORTAINER="portainer/portainer"
