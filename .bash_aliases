@@ -227,10 +227,12 @@ alias ngreload='sudo service nginx reload'
 alias ngrestart='sudo service nginx restart'
 alias ngstart='sudo service nginx start'
 alias ngstop='sudo service nginx stop'
-alias ngpath='cd /etc/nginx/'
 
-alias ngavailable='cd /etc/nginx/sites-available'
-alias ngenabled='cd /etc/nginx/sites-enabled'
+alias ngpath='cd /etc/nginx/'
+alias ngsites='cd /etc/nginx/sites-available'
+
+alias ngls-sites='ls /etc/nginx/sites-available'
+alias ngls-sites-en='ls /etc/nginx/sites-enabled'
 
 alias nglog='tail -n 50 /var/log/nginx/error.log'
 alias ngaccess='tail -n 50 /var/log/nginx/access.log'
