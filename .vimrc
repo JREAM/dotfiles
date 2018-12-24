@@ -3,7 +3,6 @@
 set nocompatible
 filetype off
 
-
 " Use Bash shell, Avoid zsh/fish shell issues
 set shell=/bin/bash
 
@@ -11,7 +10,7 @@ set shell=/bin/bash
 " Plugins
 """"""""""""""""""""""""""""""""""""""""
 
-" vundle stuff
+" vundle plugins
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#rc()
 
@@ -19,28 +18,19 @@ call vundle#rc()
 Bundle 'gmarik/Vundle.vim'
 Plugin 'jparise/vim-graphql'
 
-" productivity
-Plugin 'rking/ag.vim'
-Plugin 'tpope/vim-pathogen'
-Plugin 'scrooloose/nerdtree'
-Plugin 'kien/ctrlp.vim'
-Plugin 'flazz/vim-colorschemes'
+" Color Schemes
 Plugin 'benjaminwhite/Benokai'
-Plugin 'bling/vim-airline'
-Plugin 'ervandew/supertab'
-Plugin 'nginx.vim'
+
+" productivity
+Plugin 'bling/vim-airline'    " Statusline
+"Plugin 'ervandew/supertab'    " Tab Completion
+Plugin 'flazz/vim-colorschemes'
 Plugin 'itspriddle/vim-stripper'
-
-" Default mapping
-let g:multi_cursor_next_key='<C-n>'
-let g:multi_cursor_prev_key='<C-p>'
-let g:multi_cursor_skip_key='<C-x>'
-let g:multi_cursor_quit_key='<Esc>'
-" Map start key separately from next key
-let g:multi_cursor_start_key='<F6>'
-
-" Surround Brackets
-Plugin 'tpope/vim-surround'
+Plugin 'kien/ctrlp.vim'
+Plugin 'nginx.vim'
+Plugin 'rking/ag.vim'           " The Silver Searcher (Superior to ack)
+Plugin 'scrooloose/nerdtree'    " Tree Style Dirs
+Plugin 'tpope/vim-pathogen'
 
 " JS Frameworks (Highlight)
 Plugin 'gregsexton/matchtag'
@@ -48,36 +38,35 @@ Plugin 'httplog'
 
 " Languages
 Plugin 'ap/vim-css-color'
-Plugin 'othree/html5.vim'
-Plugin 'chiel92/vim-autoformat'
-Plugin 'evidens/vim-twig'
-Plugin 'ShowPairs'
 Plugin 'Autoclose'
+Plugin 'chiel92/vim-autoformat'
 Plugin 'eslint/eslint'
-Plugin 'terryma/vim-multiple-cursors'
+Plugin 'evidens/vim-twig'
+Plugin 'othree/html5.vim'
+Plugin 'ShowPairs'
 
 " Syntax Languages
-Plugin 'mustache/vim-mustache-handlebars'
-Plugin 'kien/rainbow_parentheses.vim'
-Plugin 'hdima/python-syntax'
-Plugin 'mattn/emmet-vim'
-Plugin 'stephpy/vim-yaml'
-Plugin 'mxw/vim-jsx'
 Plugin 'cakebaker/scss-syntax.vim'
-Plugin 'moll/vim-node'
-Plugin 'hail2u/vim-css3-syntax'
-Plugin 'Glench/Vim-Jinja2-Syntax'
-Plugin 'StanAngeloff/php.vim'
-Plugin 'isruslan/vim-es6'
-Plugin 'pangloss/vim-javascript'
-Plugin 'othree/javascript-libraries-syntax.vim'
-Plugin 'plasticboy/vim-markdown'
 Plugin 'elzr/vim-json'
+Plugin 'Glench/Vim-Jinja2-Syntax'
+Plugin 'hail2u/vim-css3-syntax'
+Plugin 'hdima/python-syntax'
+Plugin 'isruslan/vim-es6'
+Plugin 'kien/rainbow_parentheses.vim'
+Plugin 'mattn/emmet-vim'
+Plugin 'moll/vim-node'
+Plugin 'mustache/vim-mustache-handlebars'
+Plugin 'mxw/vim-jsx'
+Plugin 'othree/javascript-libraries-syntax.vim'
+Plugin 'pangloss/vim-javascript'
+Plugin 'plasticboy/vim-markdown'
 Plugin 'posva/vim-vue'
+Plugin 'StanAngeloff/php.vim'
+Plugin 'stephpy/vim-yaml'
 
 " Docker
-Plugin 'ekalinin/dockerfile.vim'
 Plugin 'docker/docker'
+Plugin 'ekalinin/dockerfile.vim'
 
 " misc
 Bundle "editorconfig/editorconfig-vim"
@@ -88,17 +77,6 @@ Plugin 'nathanaelkane/vim-indent-guides'
 " error handling
 Bundle "nvie/vim-flake8"
 Bundle "scrooloose/syntastic"
-
-" For Multicursor
-let g:multi_cursor_use_default_mapping=0
-let g:multi_cursor_start_word_key      = '<C-Up>'
-let g:multi_cursor_select_all_word_key = '<A-n>'
-let g:multi_cursor_start_key           = 'g<C-Up>'
-let g:multi_cursor_select_all_key      = 'g<C-a>'
-let g:multi_cursor_next_key            = '<C-n>'
-let g:multi_cursor_prev_key            = '<C-p>'
-let g:multi_cursor_skip_key            = '<C-x>'
-let g:multi_cursor_quit_key            = '<Esc>'
 
 " For Match Tag Always
 let g:rbpt_loadround = 1
