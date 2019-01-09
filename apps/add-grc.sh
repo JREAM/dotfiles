@@ -1,6 +1,6 @@
 #!/bin/bash
 
-sudo apt install grc;
+sudo apt install grc -y;
 
 echo "[+] Check your ~/.grc path and ensure it exists."
 
