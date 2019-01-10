@@ -1,0 +1,138 @@
+{
+  "parser": "babel-eslint",
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended"
+  ],
+  "plugins": [
+    "react"
+  ],
+  "settings": {
+    "react": {
+      "createClass": "createReactClass",
+      "pragma": "React",
+      "version": "detect"
+    }
+  },
+  "parserOptions": {
+    "ecmaVersion": 2018,
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "sourceType": "module"
+  },
+  "env": {
+    "browser": true,
+    "node": true
+  },
+  "rules": {
+    "array-bracket-newline": [
+      0,
+      {
+        "multiline": 0
+      }
+    ],
+    "brace-style": [
+      2,
+      "1tbs"
+    ],
+    "comma-dangle": [
+      2,
+      "only-multiline",
+      {
+        "functions": "never"
+      }
+    ],
+    "eol-last": [
+      2,
+      "always"
+    ],
+    "semi": [
+      0,
+      "never",
+      {
+        "omitLastInOneLineBlock": true
+      }
+    ],
+    "quotes": [
+      2,
+      "single"
+    ],
+    "react/button-has-type": [
+      0,
+      {
+        "button": false,
+        "submit": false,
+        "reset": false
+      }
+    ],
+    "react/destructuring-assignment": 2,
+    "react/no-multi-comp": [
+      2,
+      {
+        "ignoreStateless": true
+      }
+    ],
+    "react/no-typos": 1,
+    "react/prefer-es6-class": [
+      2,
+      "always"
+    ],
+    "react/require-render-return": [
+      2
+    ],
+    "react/jsx-equals-spacing": [
+      2,
+      "never"
+    ],
+    "react/jsx-handler-names": [
+      2,
+      {
+        "eventHandlerPrefix": "on",
+        "eventHandlerPropPrefix": "handle"
+      }
+    ],
+    "react/jsx-indent": [
+      2,
+      2
+    ],
+    "react/jsx-indent-props": [
+      2,
+      2
+    ],
+    "react/jsx-no-bind": [
+      2,
+      {
+        "ignoreDOMComponents": false,
+        "ignoreRefs": false,
+        "allowArrowFunctions": false,
+        "allowFunctions": false,
+        "allowBind": false
+      }
+    ],
+    "react/jsx-no-duplicate-props": [
+      2,
+      {
+        "ignoreCase": false
+      }
+    ],
+    "react/jsx-pascal-case": [
+      2,
+      {
+        "allowAllCaps": false
+      }
+    ],
+    "react/jsx-sort-props": [
+      0,
+      {
+        "callbacksLast": false,
+        "shorthandFirst": false,
+        "shorthandLast": true,
+        "ignoreCase": true,
+        "noSortAlphabetically": false
+      }
+    ],
+    "react/jsx-uses-react": 2,
+    "react/jsx-uses-vars": 1
+  }
+}
