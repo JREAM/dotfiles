@@ -304,7 +304,7 @@ alias fpm-log="sudo tail /var/log/php$PHPFPM_VERSION-fpm.log"
 # Shrink Git Repo with Tool
 # @src: https://rtyley.github.io/bfg-repo-cleaner/
 function gitshrink() {
-  if [[ -f "$HOME/apps/bfg-gitshrink.jar" ]]; then
+  if [[ -f "$HOME/apps/git-shrink/bfg-shrink.jar" ]]; then
     REMOTE=$(git config --get remote.origin.url)
     echo $REMOTE
     [ -z $REMOTE ] && echo "Not a git repository" && return false;
