@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Android Studio
+GenericName=Android Studio
+Exec=/home/jesse/apps/android-studio/bin/studio.sh
+Terminal=false
+Icon=/home/jesse/apps/android-studio/bin/studio.png
+Type=Application
+Categories=Application;Network;X-Developer;
+Comment=
+# cp android-studio.desktop ~/.local/share/applications

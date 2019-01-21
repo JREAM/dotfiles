@@ -7,4 +7,4 @@ Icon=/home/jesse/apps/firefox/browser/chrome/icons/default/default128.png
 Type=Application
 Categories=Application;Network;X-Developer;
 Comment=Firefox Developer Edition Web Browser.
-# cp firefox-developer.desktop ~/.local/shared/applications
+# cp firefox-developer.desktop ~/.local/share/applications
