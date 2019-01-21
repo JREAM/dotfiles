@@ -9,6 +9,24 @@ if (( $+commands[direnv] )) > /dev/null 2>&1; then
   eval "$(direnv hook bash)"
 fi
 
+# ╔═════════════════════════════════════════════════════════════════╗
+# ║ JDK / Android SDK                                               ║
+# ╠═════════════════════════════════════════════════════════════════╣
+# ╚═════════════════════════════════════════════════════════════════╝
+
+if [ -d "/opt/jdk1.8" ]; then
+  export JAVA_HOME="/opt/jdk1.8"
+  export PATH=$PATH:$JAVA_HOME/bin
+fi
+
+if [ -d "$HOME/Android/Sdk" ]; then
+  export ANDROID_HOME=$HOME/Android/Sdk
+  export PATH=$PATH:$ANDROID_HOME/tools
+  export PATH=$PATH:$ANDROID_HOME/tools/bin
+  export PATH=$PATH:$ANDROID_HOME/platform-tools
+  export PATH=$PATH:$ANDROID_HOME/emulator
+fi
+
 # ┌─────────────────────────────────────────────────────────────────┐
 # │ (Optional) Miniconda                                            │
 # ├─────────────────────────────────────────────────────────────────┤
