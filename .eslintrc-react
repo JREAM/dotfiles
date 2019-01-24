@@ -1,40 +1,27 @@
 {
-  "parser": "babel-eslint",
-  "extends": [
-    "eslint:recommended",
-    "plugin:react/recommended"
-  ],
-  "plugins": [
-    "react"
-  ],
-  "settings": {
-    "react": {
-      "createClass": "createReactClass",
-      "pragma": "React",
-      "version": "detect"
-    }
-  },
-  "parserOptions": {
-    "ecmaVersion": 2018,
-    "ecmaFeatures": {
-      "jsx": true
-    },
-    "sourceType": "module"
-  },
   "env": {
     "browser": true,
     "node": true
   },
+  "extends": ["eslint:recommended", "plugin:react/recommended"],
+  "parser": "babel-eslint",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": 2018,
+    "sourceType": "module"
+  },
+  "plugins": ["react", "prettier"],
   "rules": {
-    "array-bracket-newline": [
-      0,
-      {
-        "multiline": 0
-      }
-    ],
+    "array-bracket-newline": [0, "never"],
+    "arrow-parens": [2, "always"],
     "brace-style": [
       2,
-      "1tbs"
+      "1tbs",
+      {
+        "allowSingleLine": true
+      }
     ],
     "comma-dangle": [
       2,
@@ -43,48 +30,40 @@
         "functions": "never"
       }
     ],
-    "eol-last": [
+    "keyword-spacing": [2],
+    "array-element-newline": [2, "never"],
+    "linebreak-style": [2, "unix"],
+    "array-bracket-spacing": [2, "always"],
+    "wrap-iife": [2],
+    "no-unused-vars": 0,
+    "object-property-newline": [
       2,
-      "always"
-    ],
-    "semi": [
-      0,
-      "never",
       {
-        "omitLastInOneLineBlock": true
+        "allowAllPropertiesOnSameLine": true
       }
     ],
-    "quotes": [
-      2,
-      "single"
+    "prettier/prettier": [
+      "error",
+      {
+        "bracketSpacing": true,
+        "printWidth": 120,
+        "semi": true,
+        "singleQuote": true,
+        "trailingComma": "all"
+      }
     ],
+    "quotes": [2, "single"],
     "react/button-has-type": [
       0,
       {
         "button": false,
-        "submit": false,
-        "reset": false
+        "reset": false,
+        "submit": false
       }
     ],
-    "react/destructuring-assignment": 2,
-    "react/no-multi-comp": [
-      2,
-      {
-        "ignoreStateless": true
-      }
-    ],
-    "react/no-typos": 1,
-    "react/prefer-es6-class": [
-      2,
-      "always"
-    ],
-    "react/require-render-return": [
-      2
-    ],
-    "react/jsx-equals-spacing": [
-      2,
-      "never"
-    ],
+    "padded-blocks": [2, { "classes": "always" }],
+    "react/destructuring-assignment": 0,
+    "react/jsx-equals-spacing": [2, "never"],
     "react/jsx-handler-names": [
       2,
       {
@@ -92,22 +71,16 @@
         "eventHandlerPropPrefix": "handle"
       }
     ],
-    "react/jsx-indent": [
-      2,
-      2
-    ],
-    "react/jsx-indent-props": [
-      2,
-      2
-    ],
+    "react/jsx-indent": [2, 2],
+    "react/jsx-indent-props": [2, 2],
     "react/jsx-no-bind": [
       2,
       {
-        "ignoreDOMComponents": false,
-        "ignoreRefs": false,
-        "allowArrowFunctions": false,
+        "allowArrowFunctions": true,
+        "allowBind": false,
         "allowFunctions": false,
-        "allowBind": false
+        "ignoreDOMComponents": false,
+        "ignoreRefs": false
       }
     ],
     "react/jsx-no-duplicate-props": [
@@ -126,13 +99,36 @@
       0,
       {
         "callbacksLast": false,
-        "shorthandFirst": false,
-        "shorthandLast": true,
         "ignoreCase": true,
-        "noSortAlphabetically": false
+        "noSortAlphabetically": false,
+        "shorthandFirst": false,
+        "shorthandLast": true
       }
     ],
     "react/jsx-uses-react": 2,
-    "react/jsx-uses-vars": 1
+    "react/jsx-uses-vars": 1,
+    "react/no-multi-comp": [
+      2,
+      {
+        "ignoreStateless": true
+      }
+    ],
+    "react/no-typos": 1,
+    "react/prefer-es6-class": [2, "always"],
+    "react/require-render-return": [2],
+    "semi": [
+      1,
+      "always",
+      {
+        "omitLastInOneLineBlock": true
+      }
+    ]
+  },
+  "settings": {
+    "react": {
+      "createClass": "createReactClass",
+      "pragma": "React",
+      "version": "detect"
+    }
   }
 }
