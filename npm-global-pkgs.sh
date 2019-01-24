@@ -69,6 +69,7 @@ PACKAGES=(
   # ---------------
   # Testing/Coverage
   # ---------------
+  ndb
   chai
   mocha
   sinon
