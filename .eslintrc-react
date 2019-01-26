@@ -31,7 +31,7 @@
       }
     ],
     "keyword-spacing": [2],
-    "array-element-newline": [2, "never"],
+    "array-element-newline": 0,
     "linebreak-style": [2, "unix"],
     "array-bracket-spacing": [2, "always"],
     "wrap-iife": [2],
@@ -40,16 +40,6 @@
       2,
       {
         "allowAllPropertiesOnSameLine": true
-      }
-    ],
-    "prettier/prettier": [
-      "error",
-      {
-        "bracketSpacing": true,
-        "printWidth": 120,
-        "semi": true,
-        "singleQuote": true,
-        "trailingComma": "all"
       }
     ],
     "quotes": [2, "single"],
