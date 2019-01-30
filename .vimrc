@@ -44,6 +44,7 @@ Plugin 'eslint/eslint'
 Plugin 'evidens/vim-twig'
 Plugin 'othree/html5.vim'
 Plugin 'ShowPairs'
+Plugin 'leafgarland/typescript-vim'
 
 " Syntax Languages
 Plugin 'cakebaker/scss-syntax.vim'
