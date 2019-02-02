@@ -1,10 +1,10 @@
+## Jesse's EditorConfig
 # http://editorconfig.org
 root = true
 
-## Jesse's EditorConfig,
-## > Favor 4 Tabs for Language Code
-## > Favor 2 Tabs for Everything Else
 
+#  All
+# ____________________________________________
 [*]
 indent_style = space
 indent_size = 2
@@ -13,81 +13,95 @@ charset = utf-8
 trim_trailing_whitespace = true
 insert_final_newline = true
 
-## ------------------------------------------- ##
-## Language
-## ------------------------------------------- ##
-[*.php]
-indent_size=4
 
-[*.{py,json}]
+#  JSON
+# ____________________________________________
+[*.{json}]
+indent_size = 2
+indent_style = space
 max_line_length = 120
 
 
-## ------------------------------------------- ##
-## Stylesheets
-## ------------------------------------------- ##
-[*.{css,sass,scss,less}]
+#  JavaScript
+# ____________________________________________
+[*.{js,jsx,ts,tsx,coffee,vue}]
+indent_style = space
+
+
+#  C, CPP, C#, Go, PHP
+# ____________________________________________
+[*.{c,cpp,cs,go,php}]
+indent_size = 4
+indent_style = space
+
+
+#  Ruby, Python
+# ____________________________________________
+[*.{rb,py}]
+indent_size = 2
+indent_style = space
+
+
+#  Stylesheets
+# ____________________________________________
+[*.{css,sass,scss,less,styl}]
 indent_size = 2
 
 
-## ------------------------------------------- ##
-## JavaScripts
-## ------------------------------------------- ##
-[*.{cs,coffee,es,es6,ls,js,jsx,ts,vue}]
+#  Generics
+# ____________________________________________
+[*.{md,txt,yaml,yml,toml}]
+indent_size = 2
 indent_style = space
-
-
-## ------------------------------------------- ##
-## Templates
-## ------------------------------------------- ##
-[*.{ejs,handlebars,hbs,jade,mustache}]
-indent_style = space
-
-[*.{htm,html,j2,jinj{a,a2},]
-indent_style = space
-
-[**.blade.php]
-[**.twig.php]
-[**.volt.php,*.volt]
-
-## ------------------------------------------- ##
-## Dotfiles
-## ------------------------------------------- ##
-[*.{babelrc,bashrc,bash_profile,bash{_}alias{es},env,env.{example,sample},envrc,exports,gitconfig,nvmrc,profile,vimrc}]
-insert_final_newline = ignore
-
-
-## ------------------------------------------- ##
-## Configs
-## ------------------------------------------- ##
-[*.{conf,htaccess,ini}]
-
-[*.{md,txt,yaml,yml}]
 trim_trailing_whitespace = false
 
 
-## ------------------------------------------- ##
-## (Ignore) Minified JS/CSS
-## ------------------------------------------- ##
+#  Templates / Markup
+# ____________________________________________
+[*.{ejs,handlebars,hbs,jade,mustache}]
+indent_style = space
+indent_size = 2
+
+[*.{htm,html,j2,jinj{a,a2},kjs,knunjucks}]
+indent_size = 2
+indent_style = space
+
+[**.{blade,twig,volt}.php}]
+[**.{blade,twig,volt}]
+indent_size = 2
+indent_style = space
+
+
+#  Dotfiles
+# ____________________________________________
+[*.{babelrc,env,envrc,exports,gitconfig,nvmrc}]
+[*.env.{example,sample}*]
+insert_final_newline = ignore
+
+[*.{bash*,sh,profile,vimrc,zsh}]
+indent_size = 2
+indent_style = space
+trim_trailing_whitespace = true
+insert_final_newline = ignore
+
+
+#  Configs
+# ____________________________________________
+[*.{conf,htaccess,ini}]
+indent_size = 2
+indent_style = space
+
+
+#  (Ignore) Minified JS/CSS
+# ____________________________________________
 [*.{min.js,.min.css}]
+indent_size = ignore
 indent_style = ignore
 insert_final_newline = ignore
 
 
-## ------------------------------------------- ##
-## Makefiles always use tabs for indentation
-## ------------------------------------------- ##
-[Makefile]
+# Makefile and Batch (Always Tab)
+# ____________________________________________
+[Makefile,*.bat]
 indent_style = tab
-
-
-## ------------------------------------------- ##
-## Bash/Bat Files
-## ------------------------------------------- ##
-[*.bat]
-indent_style = tab  # These always use tabs (Windows)
-
-[*.{bash*,sh,zsh}]
-trim_trailing_whitespace = true
-insert_final_newline = ignore
-
+indent_size = 4
