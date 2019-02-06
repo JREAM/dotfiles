@@ -22,6 +22,10 @@ parse_git_branch() {
 # Unobtrusive user@name[~/path (git-branch)]:~$
 export PS1="\u\[$(tput sgr0)\]\[\033[38;5;250m\]@\[$(tput sgr0)\]\[\033[38;5;15m\]\H[\[$(tput sgr0)\]\[\033[38;5;251m\]\w\[\033[33m\]\$(parse_git_branch)\[\033[00m\]\[$(tput sgr0)\]\[\033[38;5;15m\]]:~\\$ \[$(tput sgr0)\]"
 
+# Alternative, 2 line
+# export PS1="[$(tput sgr0)\]\[\033[38;5;251m\]\w\[\033[33m\]\]\$(parse_git_branch)\[\033[00m\]\[$(tput sgr0)\]\[\033[38;5;15m\]]\n\u\033[33m\]->\033[00m\] \[$(tput sgr0)\]"
+
+
 # ┌─────────────────────────────────────────────────────────────────┐
 # │ Source Other Files                                              │
 # ├─────────────────────────────────────────────────────────────────┤
