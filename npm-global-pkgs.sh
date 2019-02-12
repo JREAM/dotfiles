@@ -21,7 +21,6 @@ PACKAGES=(
   # ---------------
   npm-check
   yarn-check
-  npm-install-peer
 
   # ---------------
   # Babel
@@ -119,9 +118,7 @@ PACKAGES=(
   #@angular/cli
   @vue/cli
   @vue/cli-init
-  @vue/cli-service-global
   #vuepress
-  vuejs-webpack-project
   create-react-app
   create-next-app
   jscodeshift         # Make changes to code nicely
@@ -191,7 +188,7 @@ done
 
 for p in "${PACKAGES[@]}"
 do
-    echo "$YLW Installing: npm install --global $BOLD $p $NC"
+    echo -e "$YLW Installing: npm install --global $BOLD $p $NC"
     npm i -g $p
     continue
 done
