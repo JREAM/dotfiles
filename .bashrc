@@ -11,22 +11,6 @@
 
 
 # ┌─────────────────────────────────────────────────────────────────┐
-# │ Terminal Display                                                │
-# ├─────────────────────────────────────────────────────────────────┤
-# └─────────────────────────────────────────────────────────────────┘
-parse_git_branch() {
-  git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
-}
-
-# Unobtrusive user@name[~/path]:~$
-# Unobtrusive user@name[~/path (git-branch)]:~$
-export PS1="\u\[$(tput sgr0)\]\[\033[38;5;250m\]@\[$(tput sgr0)\]\[\033[38;5;15m\]\H[\[$(tput sgr0)\]\[\033[38;5;251m\]\w\[\033[33m\]\$(parse_git_branch)\[\033[00m\]\[$(tput sgr0)\]\[\033[38;5;15m\]]:~\\$ \[$(tput sgr0)\]"
-
-# Alternative, 2 line
-# export PS1="[$(tput sgr0)\]\[\033[38;5;251m\]\w\[\033[33m\]\]\$(parse_git_branch)\[\033[00m\]\[$(tput sgr0)\]\[\033[38;5;15m\]]\n\u\033[33m\]->\033[00m\] \[$(tput sgr0)\]"
-
-
-# ┌─────────────────────────────────────────────────────────────────┐
 # │ Source Other Files                                              │
 # ├─────────────────────────────────────────────────────────────────┤
 # │ Let Bash Variables come first to use within every area.         │
@@ -35,11 +19,30 @@ export PS1="\u\[$(tput sgr0)\]\[\033[38;5;250m\]@\[$(tput sgr0)\]\[\033[38;5;15m
 # For private exports [Don't place in git]
 # @ Load Before other items incase exports are needed.
 # ___________________________________________________________________
+
 [[ -f ~/.exports_private ]] && source ~/.exports_private # || echo 'Missing'
 [[ -f ~/.bash_vars ]] && source ~/.bash_vars
 [[ -f ~/.bash_aliases ]] && source ~/.bash_aliases
 [[ -f ~/.bash_vendors ]] && source ~/.bash_vendors
 [[ -f ~/.bash_snippets ]] && source ~/.bash_snippets
+# Unobtrusive user@name[~/path]:~$
+# ┌─────────────────────────────────────────────────────────────────┐
+# │ Terminal Display                                                │
+# ├─────────────────────────────────────────────────────────────────┤
+# └─────────────────────────────────────────────────────────────────┘
+parse_git_branch() {
+  git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
+}
+
+
+# Unobtrusive user@name[~/path (git-branch)]:~$
+cust1=$(echo -e "\u${yellow}->${ColorOff}")
+export PS1="${NoColor}[\[\033[38;5;251m\]\w\[\033[33m\]\$(parse_git_branch)\[\033[00m\]\[$(tput sgr0)\]\[\033[38;5;15m\]]\n ${cust1}\[$(tput sgr0)\] "
+
+# Alternative, 2 line
+#export PS1="[$(tput sgr0)\]\[\033[38;5;251m\]\w\[\033[33m\]\]\$(parse_git_branch)\[\033[00m\]\[$(tput sgr0)\]\[\033[38;5;15m\]]\n\u\033[33m\]->\033[00m\] \[$(tput sgr0)\]"
+cust2=$(echo -e "${yellow} -> ${ColorOff} ")
+export PS2="$cust2 "
 
 # Docker Related (Prevent error if docker is not installed)
 if hash docker 2>/dev/null; then
