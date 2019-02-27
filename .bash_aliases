@@ -27,13 +27,16 @@ export GREP_COLOR='1;32'
 # Personal Folder shortcuts
 [ -d ~/projects ] && alias p='cd ~/projects/'
 [ -d ~/dev ] && alias d='cd ~/dev/' && alias dev='cd ~/dev'
-[ -d ~/Dropbox ] && alias box='cd ~/Dropbox'
-[ -d ~/Downloads ] && alias dl='cd ~/Downloads' && alias downl='cd ~/Downloads'
+[ -d ~/Dropbox ] && alias box="~/Dropbox"
+[ -d ~/Downloads ] && alias dl="~/Downloads"
 
 # ___________________________________________________________________
 #
 #                           ACL
 # ___________________________________________________________________
+
+
+
 if type setfacl > /dev/null; then
 
   setfacl-user() {
@@ -303,10 +306,12 @@ alias fpm-log="sudo tail /var/log/php$PHPFPM_VERSION-fpm.log"
 #                           GIT
 # ___________________________________________________________________
 
+alias gitAddCmPush="git add . && git cm 'generic update' && git push"
+
 # Shrink Git Repo with Tool
 # @src: https://rtyley.github.io/bfg-repo-cleaner/
 function gitshrink() {
-  if [[ -f "$HOME/apps/bfg-gitshrink.jar" ]]; then
+  if [[ -f "$HOME/apps/git-shrink/bfg-shrink.jar" ]]; then
     REMOTE=$(git config --get remote.origin.url)
     echo $REMOTE
     [ -z $REMOTE ] && echo "Not a git repository" && return false;
