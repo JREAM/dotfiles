@@ -9,6 +9,10 @@ if (( $+commands[direnv] )) > /dev/null 2>&1; then
   eval "$(direnv hook bash)"
 fi
 
+if (( $+commands[dart] )) > /dev/null 2>&1; then
+  export PATH="$PATH:/usr/lib/dart/bin"
+fi
+
 if [ -d $HOME/apps/flutter ]; then
   export PATH="${PATH}:${HOME}/apps/flutter/bin"
 fi
