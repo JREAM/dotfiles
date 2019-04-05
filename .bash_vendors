@@ -79,6 +79,13 @@ if [ -f $HOME/.cargo/env ]; then
 fi
 
 # ┌─────────────────────────────────────────────────────────────────┐
+# │ (Optional) Yarn Globals (Faster than NPM                        │
+# └─────────────────────────────────────────────────────────────────┘
+if [ -d $HOME/.yarn/bin ]; then
+  export PATH=$PATH:$HOME/.yarn/bin
+fi
+
+# ┌─────────────────────────────────────────────────────────────────┐
 # │ (Optional) Node/Yarn Related                                    │
 # ├─────────────────────────────────────────────────────────────────┤
 # │ Place ~/.yarn before ~/.npm so is takes presedense.             │
