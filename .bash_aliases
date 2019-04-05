@@ -79,11 +79,6 @@ if type setfacl > /dev/null; then
 
 fi
 
-if (( $+commands[cheat] )) >/dev/null 2>&1; then
-  export CHEATCOLORS=true
-  export CHEAT_EDITOR=vim
-fi
-
 # ___________________________________________________________________
 #
 #                           COLORS
@@ -399,12 +394,5 @@ loopdir() {
 #
 # examples:     $  calc 5*500
 # ___________________________________________________________________
-calc() {
-  if (( $+commands[bc] )); then
-    echo "scale=3; $*" | bc -l
-  else
-    awk "BEGIN { print $* }"
-  fi
-}
 
 # End of File

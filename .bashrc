@@ -24,8 +24,8 @@
 [[ -f ~/.bash_vars ]] && source ~/.bash_vars
 [[ -f ~/.bash_aliases ]] && source ~/.bash_aliases
 [[ -f ~/.bash_vendors ]] && source ~/.bash_vendors
-[[ -f ~/.bash_snippets ]] && source ~/.bash_snippets
-# Unobtrusive user@name[~/path]:~$
+
+
 # ┌─────────────────────────────────────────────────────────────────┐
 # │ Terminal Display                                                │
 # ├─────────────────────────────────────────────────────────────────┤
@@ -41,16 +41,10 @@ export PS1="${NoColor}[\[\033[38;5;251m\]\w\[\033[33m\]\$(parse_git_branch)\[\03
 
 # Alternative, 2 line
 #export PS1="[$(tput sgr0)\]\[\033[38;5;251m\]\w\[\033[33m\]\]\$(parse_git_branch)\[\033[00m\]\[$(tput sgr0)\]\[\033[38;5;15m\]]\n\u\033[33m\]->\033[00m\] \[$(tput sgr0)\]"
-cust2=$(echo -e "${yellow} -> ${ColorOff} ")
-export PS2="$cust2 "
+#cust2=$(echo -e "${yellow} -> ${ColorOff} ")
+#export PS2="$cust2 "
 
 # Docker Related (Prevent error if docker is not installed)
-if hash docker 2>/dev/null; then
-  if [[ -f ~/.dockerrc ]]; then
-    source ~/.dockerrc
-  fi
-fi
-
 
 # ┌─────────────────────────────────────────────────────────────────┐
 # │ Preferences: History                                            │
