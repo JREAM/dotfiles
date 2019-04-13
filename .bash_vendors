@@ -112,6 +112,19 @@ if [ -d $HOME/.pyenv ]; then
   # Autocompelte
   if command -v pyenv 1>/dev/null 2>&1; then
     eval "$(pyenv init -)"
+
+    if [ ! -d ~/.pyenv/versions/3.7.3 ]; then
+      echo "[!] Need to install 2.7.16 (pyenv global 3.7.3 2.7.16)"
+      echo "    This will also fix gcloud tools"
+      pyenv install 3.7.3
+    fi
+    if [ ! -d ~/.pyenv/versions/2.7.16 ]; then
+      echo "[!] Need to install 2.7.16 (pyenv global 3.7.3 2.7.16)"
+      echo "    This will also fix gcloud tools"
+      pyenv install 2.7.16
+    fi
+
+    pyenv global 3.7.3 2.7.16
   fi
 fi
 
