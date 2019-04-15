@@ -27,8 +27,8 @@ export GREP_COLOR='1;32'
 # Personal Folder shortcuts
 [ -d ~/projects ] && alias p='cd ~/projects/'
 [ -d ~/dev ] && alias d='cd ~/dev/' && alias dev='cd ~/dev'
-[ -d ~/Dropbox ] && alias box="~/Dropbox"
-[ -d ~/Downloads ] && alias dl="~/Downloads"
+[ -d ~/Dropbox ] && alias box="cd ~/Dropbox"; alias dx="box";
+[ -d ~/Downloads ] && alias dl="cd ~/Downloads"
 
 # ___________________________________________________________________
 #
