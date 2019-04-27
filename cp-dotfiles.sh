@@ -6,6 +6,10 @@ ROOTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 # Get Array ( ) of the LS Grep
 DOTFILES=( $(ls -a $ROOTDIR | egrep "^\.[a-zA-Z]") )
 
+# Simple Colors
+NOCOLOR='\033[0m'
+YLW='\033[01;33m'
+
 # Empty Array to separate files/folders
 FILES=()
 DIRS=()
@@ -15,17 +19,6 @@ for item in "${DOTFILES[@]}"; do
   # Ignore the .git folder, that'll be bad!
   [[ -d "./${item}" && "${item}" != ".git" ]] && DIRS+=($ROOTDIR/$item)
 done
-
-# // Debugging //
-#echo "FILES"
-#for a in "${FILES[@]}"; do
-#  echo $a;
-#done
-
-#echo "DIRS"
-#for a in "${DIRS[@]}"; do
-#  echo $a;
-#done
 
 copyfiles() {
   echo -e "Copying Files.."
@@ -43,48 +36,57 @@ copydirs() {
   done
 }
 
-completed() {
-  echo -e "\n[+] Finished, make sure to run:"
-  echo -e "      $ source ~/.bashrc"
-}
-
 # Entry
-echo -e "\n -------------------------------------------"
-echo -e "         Copy Dotfiles to Home Folder"
-echo -e " -------------------------------------------"
+echo -e "\n ${YLW}-------------------------------------------${NOCOLOR}"
+echo -e "         ${YLW}Copy Dotfiles to Home Folder${NOCOLOR}"
+echo -e " ${YLW}-------------------------------------------${NOCOLOR}"
 
 # 8 column max array
-echo "[ Files ]"
+echo -e "${YLW}[ Files ]${NOCOLOR}"
 for f in "${FILES[@]}"; do
   printf "%-8s\n" "${f}"
 done | column
 
-echo -e "\n[ Directories ]"
+echo -e "\n${YLW}[ Directories ]${NOCOLOR}"
 for d in "${DIRS[@]}"; do
   printf "%-8s\n" "${d}"
 done | column
-echo -e "\n ------------------------------------------- \n"
+echo -e "\n ${YLW}------------------------------------------- ${NOCOLOR}\n"
 
 # User Prompt
-read -p "(1/2) Copy the above FILES to ${HOME} folder [y/N]?: " ynFiles
-read -p "(2/2) Copy the above DIRECTORIES to ${HOME} folder [y/N]?: " ynDirs
+echo -e "(1/2) Copy the above ${YLW}FILES${NOCOLOR} to ${HOME} folder ${YLW}[y/N]${NOCOLOR}?:"
+read -p "(1/2) Copy to $HOME?: " ynFiles
+echo -e "(2/2) Copy the above ${YLW}DIRECTORIES${NOCOLOR} to ${HOME} folder ${YLW}[y/N]${NOCOLOR}?" 
+read -p "(2/2) Copy to $HOME?: " ynDirs
 
 # Flag for output at the end
 DID_RUN=0
 
 echo "Ignore Private Files, Safety Precaution"
-if [ ! -f "$HOME/.gitconfig_private" ] && touch .gitconfig_private
-if [ ! -f "$HOME/.gitignore" ]; then
+if [ ! -f $HOME/.gitconfig_private ] && touch .gitconfig_private
+if [ ! -f $HOME/.gitignore ]; then
   echo ".gitconfig_private" > $HOME/.gitignore
   echo ".exports_private" >> $HOME/.gitignore
 fi
 
 # Copy Files
-[[ $ynFiles =~ ^([yY])+$ ]] && copyfiles && DID_RUN=1
+if [[ $ynFiles =~ ^([yY])+$ ]]; then
+  copyfiles
+  DID_RUN=1
+fi
 
 # Copy Dirs
-[[ $ynDirs =~ ^([yY])+$ ]] && copydirs && DID_RUN=1
+if [[ $ynDirs =~ ^([yY])+$ ]]; then 
+  copydirs 
+  DID_RUN=1;
+fi
 
 # Final Result
-[[ $DID_RUN == 1 ]] && completed || echo "Exiting..."
+if [[ $DID_RUN == 1 ]]; then 
+  echo -e "\n[+] Finished, make sure to run:"
+  echo -e "      $ source ~/.bashrc"
+  exit 1
+fi
 
+echo -e "\nExiting...\n"
+exit 1
