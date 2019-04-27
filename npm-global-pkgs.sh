@@ -43,22 +43,21 @@ PACKAGES=(
   # ---------------
   # Linters/Helpers
   # ---------------
-  babel-eslint
-  eslint
-  eslint-config-eslint
-  eslint-plugin-import
-  eslint-plugin-import
-  eslint-plugin-node
-  eslint-plugin-promise
-  # eslint-loader           # (Use per-project/webpack)
-  eslint-plugin-babel       # (Use per-project/webpack)
-  eslint-plugin-html        # (Use per-project/webpack)
-  eslint-plugin-react       # (Use per-project/webpack)
+  # babel-eslint
+  # eslint-config-eslint
+  # eslint-plugin-import
+  # eslint-plugin-node
+  # eslint-plugin-promise
+  # eslint-loader             # (Use per-project/webpack)
+  # eslint-plugin-babel       # (Use per-project/webpack)
+  # eslint-plugin-html        # (Use per-project/webpack)
+  # eslint-plugin-react       # (Use per-project/webpack)
 
+  eslint
   jshint
   jslint
   stylelint
-  stylelint-config-recommended
+  # stylelint-config-recommended
   prettier
   @starptech/prettyhtml     # Works w/Vue, Angular, React
   remark-lint               # Markdown Lint
@@ -86,7 +85,6 @@ PACKAGES=(
   tsutils
   typescript
 
-
   # ---------------
   # CLI Tools
   # ---------------
@@ -94,7 +92,7 @@ PACKAGES=(
   @gridsome/cli           # (Vue Page Builder) Much like Gatsby
   gatsby                  # (React Page Builder) Gatsby is Awesome
   generator-generator     # yeoman helper custom generator
-  grunt-cli
+  # grunt-cli
   gulp-cli
   strapi@alpha
   types-installer         # types-installer | types-installer install
@@ -104,7 +102,6 @@ PACKAGES=(
   # ---------------
   # Runners & Bundlers
   # ---------------
-  gulp
   poi                     # bundler
   parcel-bundler          # bundler
   rollup                  # bundler
@@ -115,21 +112,19 @@ PACKAGES=(
   # ---------------
   # FrontEnd
   # ---------------
-  #@angular/cli
+  # @angular/cli
   @vue/cli
   @vue/cli-init
-  #vuepress
+  # vuepress
   create-react-app
   create-next-app
   jscodeshift         # Make changes to code nicely
 
+  
   # ---------------
-  # System CLI Utils
+  # Misc Tools
   # ---------------
-  #fkill-cli
-  #localtunnel
-  #vtop
-  chalk
+  firebase-tools
 )
 
 # A few Colors
@@ -180,15 +175,15 @@ echo -e "═══════════════════════�
 
 # Brief Timeout incase mind is changed, regardless this is all no big deal.
 TIMEOUT=3
+echo -e "$YLW[+] Running in $TIMEOUT seconds... ( CTRL+C to cancel )$NC"
 while [ $TIMEOUT -gt 0 ]; do
-  echo -e "$YLW Running in $TIMEOUT seconds... ( CTRL+C to cancel )$NC"
   sleep 1
   : $((TIMEOUT--))
 done
 
 for p in "${PACKAGES[@]}"
 do
-    echo -e "$YLW Installing: npm install --global $BOLD $p $NC"
+    echo -e "$YLW[+] Installing: npm install --global $BOLD $p $NC"
     npm i -g $p
     continue
 done
