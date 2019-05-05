@@ -31,6 +31,9 @@ PACKAGES=(
   # babel-loader            # (Use per-project)
   # babel-preset-env        # (Use per-project)
 
+  # Like Webpack/Gulp but Easy and not too basic as parcel
+  brunch
+
   netlify
   netlify-lambda
   # netlify-cms             # (Use per-project)
@@ -120,7 +123,7 @@ PACKAGES=(
   create-next-app
   jscodeshift         # Make changes to code nicely
 
-  
+
   # ---------------
   # Misc Tools
   # ---------------
