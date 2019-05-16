@@ -1,0 +1,13 @@
+.env
+.env.**
+*.*rc/**
+/build/**
+/dist/**
+/coverage*/**
+/docs/**
+/jsdoc*/**
+/templates/**
+/tests/bench/**
+/tests/fixtures/**
+/tests/performance/**
+prettier.config**
