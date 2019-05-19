@@ -13,8 +13,8 @@ if (( $+commands[dart] )) > /dev/null 2>&1; then
   export PATH="$PATH:/usr/lib/dart/bin"
 fi
 
-if [ -d $HOME/apps/flutter ]; then
-  export PATH="${PATH}:${HOME}/apps/flutter/bin"
+if [ -d /opt/flutter ]; then
+  export PATH="$PATH:/opt/flutter/bin"
 fi
 
 # ╔═════════════════════════════════════════════════════════════════╗
