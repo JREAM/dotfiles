@@ -17,6 +17,10 @@ if [ -d /opt/flutter ]; then
   export PATH="$PATH:/opt/flutter/bin"
 fi
 
+if [ -d "$HOME/.sdkman/bin/sdkman-init.sh" ]; then
+  . "$HOME/.sdkman/bin/sdkman-init.sh"
+fi
+
 # ╔═════════════════════════════════════════════════════════════════╗
 # ║ JDK / Android SDK                                               ║
 # ╠═════════════════════════════════════════════════════════════════╣
@@ -27,12 +31,10 @@ if [ -d "/opt/jdk1.8" ]; then
   export PATH=$PATH:$JAVA_HOME/bin
 fi
 
-if [ -d "$HOME/Android/Sdk" ]; then
-  export ANDROID_HOME=$HOME/Android/Sdk
+if [ -d "/opt/android/" ]; then
+  export ANDROID_HOME=/opt/android
   export PATH=$PATH:$ANDROID_HOME/tools
   export PATH=$PATH:$ANDROID_HOME/tools/bin
-  export PATH=$PATH:$ANDROID_HOME/platform-tools
-  export PATH=$PATH:$ANDROID_HOME/emulator
 fi
 
 # ┌─────────────────────────────────────────────────────────────────┐
