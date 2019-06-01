@@ -31,7 +31,6 @@ Plugin 'nginx.vim'
 Plugin 'rking/ag.vim'           " The Silver Searcher (Superior to ack)
 Plugin 'scrooloose/nerdtree'    " Tree Style Dirs
 Plugin 'tpope/vim-pathogen'
-Plugin 'leafgarland/typescript-vim'
 Plugin 'dart-lang/dart-vim-plugin'
 
 " JS Frameworks (Highlight)
