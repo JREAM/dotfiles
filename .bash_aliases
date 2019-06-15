@@ -157,7 +157,7 @@ alias shutdown='sudo /sbin/shutdown'
 
 alias upgrade='sudo apt-get upgrade'
 alias update='sudo apt-get update'
-alias updatey='sudo apt-get update && sudo apt-get upgrade -y'
+alias updatey='sudo apt-get update && sudo apt-get upgrade -y && sudo apt autoremove -y && sudo apt autoclean'
 alias autoremove='sudo apt autoremove; sudo apt autoclean'
 alias autoclean='sudo apt autoclean'
 alias ppa='sudo apt-add-repository'
