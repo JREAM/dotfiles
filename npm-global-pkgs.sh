@@ -66,6 +66,7 @@ PACKAGES=(
   remark-lint               # Markdown Lint
   sass-lint                 # SASS Lint
   tslint                    # Typescript Lint
+  ts-node                   # TS REPL
 
   # ---------------
   # Testing/Coverage
@@ -81,6 +82,7 @@ PACKAGES=(
   nodemon
   pm2
   serve
+
 
   # ---------------
   # Other
