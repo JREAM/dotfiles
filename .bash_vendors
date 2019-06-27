@@ -11,6 +11,7 @@ fi
 
 if [ -d /usr/lib/dart/bin ]; then
   export PATH="$PATH:/usr/lib/dart/bin"
+  export PATH="$PATH:$HOME/.pub-cache/bin"
 fi
 
 if [ -d /opt/flutter ]; then
