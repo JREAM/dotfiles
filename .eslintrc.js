@@ -1,134 +1,75 @@
-/**
- * __________________________________________________________________
- * @help
- *    Acceteptable filenames:
- *      - .eslintrc
- *      - .eslintrc.js
- *      - .eslintrc.yml/yaml
- * @docs ESLint Configuration
- *    configuring:    https://eslint.org/docs/user-guide/configuring/
- *    formatters:     https://eslint.org/docs/user-guide/formatters/
- *    integrations:   https://eslint.org/docs/user-guide/integrations
- * __________________________________________________________________
- * @docs ESLint Ignore (.eslintignore):
- *    https://eslint.org/docs/user-guide/configuring#ignoring-files-and-directories
- *
- * @defaults
- *    $ yarn add -D  babel-eslint eslint-plugin-import eslint-config-eslint
- */
 module.exports = {
-
-  /**
-   * @docs
-   *    https://eslint.org/docs/user-guide/configuring#specifying-parser
-   */
-  parser: "babel-eslint",
-  /**
-   * @docs
-   *    https://eslint.org/docs/user-guide/configuring#using-eslintrecommended
-   *
-   *    preact    $ yarn add -D eslint-config-synacor
-   * > extends: ["eslint:recommended", "synacor"],
-   *
-   *    eslint    $ yarn add -D eslint-config-eslint
-   */
-  extends: ["eslint:recommended"],
-
-  plugins: [
-    /**
-     *  @docs
-     *    https://eslint.org/docs/user-guide/configuring#using-the-configuration-from-a-plugin
-     *    react     $ yarn add -D eslint-plugin-react
-     *
-     * "react"
-     */
-  ],
+  // @install
+  // $ yarn add -D eslint-config-eslint eslint-plugin-{import,react}',
   env: {
-    /**
-     * @docs
-     *    https://eslint.org/docs/user-guide/configuring#specifying-environments
-     */
     browser: true,
     node: true,
-    es6: true,
-    jest: true
+    jest: true,
   },
+  extends: [ 'eslint:recommended', 'plugin:react/recommended' ],
+  parser: 'babel-eslint',
   parserOptions: {
-    /**
-     * @docs
-     *    https://eslint.org/docs/user-guide/configuring#specifying-parser-options
-     */
     ecmaFeatures: {
+      jsx: true,
       modules: true,
-      jsx: true
-    }
+    },
+    ecmaVersion: 2017,
+    sourceType: 'module',
   },
-  // "settings": {
-    // "react": {
-      // Preact
-      // "pragma": "h"
-    // }
-  // },
-  globals: {
-    /**
-     * @docs
-     *    https://eslint.org/docs/user-guide/configuring#specifying-globals
-     */
-  },
+  plugins: [ 'react' ],
   rules: {
-    /**
-     * @docs
-     *    https://eslint.org/docs/rules/
-     */
-    "react/jsx-no-bind": [2, { "ignoreRefs": true }],
-    "react/jsx-no-duplicate-props": 2,
-    "react/self-closing-comp": 2,
-    "react/prefer-es6-class": 2,
-    "react/no-string-refs": 2,
-    "react/require-render-return": 2,
-    "react/no-find-dom-node": 2,
-    "react/no-is-mounted": 2,
-    "react/jsx-no-comment-textnodes": 2,
-    "react/jsx-curly-spacing": 2,
-    "react/jsx-no-undef": 2,
-    "react/jsx-uses-react": 2,
-    "react/jsx-uses-vars": 2,
-    "no-empty": 0,
-    "no-console": 0,
-    "no-empty-pattern": 0,
-    "no-cond-assign": 1,
-    "semi": 2,
-    "camelcase": 0,
-    "comma-style": 2,
-    "comma-dangle": [2, "never"],
-    "indent": [2, "tab", {"SwitchCase": 1}],
-    "no-trailing-spaces": [2, { "skipBlankLines": true }],
-    "max-nested-callbacks": [2, 3],
-    "no-eval": 2,
-    "no-implied-eval": 2,
-    "no-new-func": 2,
-    "guard-for-in": 2,
-    "eqeqeq": 1,
-    "no-else-return": 2,
-    "no-redeclare": 2,
-    "no-dupe-keys": 2,
-    "radix": 2,
-    "strict": [2, "never"],
-    "no-shadow": 0,
-    "no-delete-var": 2,
-    "no-undef-init": 2,
-    "no-shadow-restricted-names": 2,
-    "handle-callback-err": 0,
-    "no-lonely-if": 2,
-    "keyword-spacing": 2,
-    "constructor-super": 2,
-    "no-this-before-super": 2,
-    "no-dupe-class-members": 2,
-    "no-const-assign": 2,
-    "prefer-spread": 2,
-    "no-useless-concat": 2,
-    "no-var": 2,
-    "object-shorthand": 2,
-    "prefer-arrow-callback": 2
+    'array-bracket-newline': [ 0, 'never' ],
+    'array-bracket-spacing': [ 2, 'always' ],
+    'array-element-newline': 0,
+    'arrow-parens': [ 2, 'always' ],
+    'brace-style': [ 2, '1tbs', { 'allowSingleLine': true }  ],
+    'comma-dangle': [ 2, 'only-multiline', { 'functions': 'never' }  ],
+    'keyword-spacing': [ 2 ],
+    'linebreak-style': [ 2, 'unix' ],
+    'no-console': [ 0 ],
+    'no-unused-vars': [ 0 ],
+    'object-property-newline': [ 2, { 'allowAllPropertiesOnSameLine': true }  ],
+    'padded-blocks': [ 2, { 'classes': 'always' }  ],
+    'quotes': [ 2, 'single' ],
+    'react/button-has-type': [ 0, { 'button': false, 'reset': false, 'submit': false }  ],
+    'react/destructuring-assignment': [ 0 ],
+    'react/jsx-equals-spacing': [ 2, 'never' ],
+    'react/jsx-handler-names': [ 2, { 'eventHandlerPrefix': 'on', 'eventHandlerPropPrefix': 'handle' }  ],
+    'react/jsx-indent-props': [ 2, 2 ],
+    'react/jsx-indent': [ 2, 2 ],
+    'react/jsx-no-bind': [ 2, {
+        'allowArrowFunctions': true,
+        'allowBind': false,
+        'allowFunctions': false,
+        'ignoreDOMComponents': false,
+        'ignoreRefs': false
+      }
+    ],
+    'react/jsx-no-duplicate-props': [ 2, { 'ignoreCase': false }  ],
+    'react/jsx-pascal-case': [ 2, { 'allowAllCaps': false }  ],
+    'react/jsx-sort-props': [ 0, {
+        'callbacksLast': false,
+        'ignoreCase': true,
+        'noSortAlphabetically': false,
+        'shorthandFirst': false,
+        'shorthandLast': true
+      }
+     ],
+    'react/jsx-uses-react': [ 2 ],
+    'react/jsx-uses-vars': [ 1 ],
+    'react/no-multi-comp': [ 2, { 'ignoreStateless': true }  ],
+    'react/no-typos': 1,
+    'react/prop-types': [ 0 ],
+    'react/prefer-es6-class': [ 2, 'always' ],
+    'react/require-render-return': [ 2 ],
+    'semi': [ 1, 'always', { 'omitLastInOneLineBlock': true }  ],
+    'wrap-iife': [ 2 ]
+  },
+  settings: {
+    react: {
+      createClass: 'createReactClass',
+      pragma: 'React',
+      version: 'detect',
+    }
   }
-};
+}
