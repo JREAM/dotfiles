@@ -17,6 +17,8 @@ call vundle#rc()
 " vundle repo
 Bundle 'gmarik/Vundle.vim'
 Plugin 'jparise/vim-graphql'
+Plugin 'dart-lang/dart-vim-plugin'
+Plugin 'fatih/vim-go'
 
 " Color Schemes
 Plugin 'benjaminwhite/Benokai'
@@ -31,7 +33,6 @@ Plugin 'nginx.vim'
 Plugin 'rking/ag.vim'           " The Silver Searcher (Superior to ack)
 Plugin 'scrooloose/nerdtree'    " Tree Style Dirs
 Plugin 'tpope/vim-pathogen'
-Plugin 'dart-lang/dart-vim-plugin'
 
 " JS Frameworks (Highlight)
 Plugin 'gregsexton/matchtag'
@@ -76,6 +77,7 @@ Bundle "editorconfig/editorconfig-vim"
 Bundle "vim-scripts/gitignore"
 Plugin 'nathanaelkane/vim-indent-guides'
 
+Plugin 'tpope/vim-surround'
 
 " error handling
 Bundle "nvie/vim-flake8"
