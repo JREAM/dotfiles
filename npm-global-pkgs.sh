@@ -38,6 +38,7 @@ PACKAGES=(
   netlify-lambda
   # netlify-cms             # (Use per-project)
 
+  docusaurus-init@next      # Version 2.X
   # ---------------
   # Ecma Abilities
   # ---------------
@@ -59,9 +60,9 @@ PACKAGES=(
   eslint
   jshint
   jslint
-  stylelint
+  # stylelint
   # stylelint-config-recommended
-  prettier
+  # prettier
   @starptech/prettyhtml     # Works w/Vue, Angular, React
   remark-lint               # Markdown Lint
   sass-lint                 # SASS Lint
@@ -83,7 +84,6 @@ PACKAGES=(
   pm2
   serve
 
-
   # ---------------
   # Other
   # ---------------
@@ -94,12 +94,12 @@ PACKAGES=(
   # CLI Tools
   # ---------------
   @feathersjs/feathers
-  @gridsome/cli           # (Vue Page Builder) Much like Gatsby
+  # @gridsome/cli           # (Vue Page Builder) Much like Gatsby
   gatsby                  # (React Page Builder) Gatsby is Awesome
   generator-generator     # yeoman helper custom generator
   # grunt-cli
   gulp-cli
-  strapi@alpha
+  # strapi@alpha
   types-installer         # types-installer | types-installer install
   yo                      # yeoman
   npm-ls-scripts          # Read package.json scripts ( $ ls-scripts )
@@ -118,8 +118,8 @@ PACKAGES=(
   # FrontEnd
   # ---------------
   # @angular/cli
-  @vue/cli
-  @vue/cli-init
+  # @vue/cli
+  # @vue/cli-init
   # vuepress
   create-react-app
   create-next-app
