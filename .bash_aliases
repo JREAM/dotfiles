@@ -9,6 +9,7 @@
 # Note: See .exports for Color ENV variables
 #
 # Table of Contents:
+#   * CUSTOM CONFIG *
 #   - COLORS
 #   - COMMON
 #   - COMMON W/INSTALLS
@@ -18,6 +19,13 @@
 #   - GIT
 #   - LEGIT FUNCTIONS
 # ___________________________________________________________________
+
+# ___________________________________________________________________
+#
+#                           * CONFIG *
+# ___________________________________________________________________
+
+PHPFPM_VERSION='7.2'
 
 # Fix "GREP OPTIONS depcrated"
 #GREP_OPTIONS="$GREP_OPTIONS -r -d skip"
@@ -35,9 +43,7 @@ export GREP_COLOR='1;32'
 #                           ACL
 # ___________________________________________________________________
 
-
-
-if type setfacl > /dev/null; then
+if command_exists setfacl ; then
 
   setfacl-user() {
     if [ $# -ne 2 ]; then
@@ -84,18 +90,18 @@ fi
 #                           COLORS
 # ___________________________________________________________________
 if [[ ! -z DOTEXPORTS_SET_COLORS ]]; then
-tput sgr0   # Reset Colors While Setting Variables
-    BLACK=$(tput setaf 0)
-    RED=$(tput setaf 1)
-    GREEN=$(tput setaf 2)
-    YELLOW=$(tput setaf 3)
-    BLUE=$(tput setaf 4)
-    PURPLE=$(tput setaf 5)
-    CYAN=$(tput setaf 6)
-    WHITE=$(tput setaf 7)
+  tput sgr0   # Reset Colors While Setting Variables
+  BLACK=$(tput setaf 0)
+  RED=$(tput setaf 1)
+  GREEN=$(tput setaf 2)
+  YELLOW=$(tput setaf 3)
+  BLUE=$(tput setaf 4)
+  PURPLE=$(tput setaf 5)
+  CYAN=$(tput setaf 6)
+  WHITE=$(tput setaf 7)
 
-    BOLD=$(tput bold)
-    RESET=$(tput sgr0)
+  BOLD=$(tput bold)
+  RESET=$(tput sgr0)
 fi
 
 # ___________________________________________________________________
@@ -103,10 +109,10 @@ fi
 #                           COMMON
 # ___________________________________________________________________
 
-alias chmox='sudo chmod'  # always make this typo
-alias chmod='sudo chmod'
-alias chown='sudo chown'
 alias chgrp='sudo chown'
+alias chmod='sudo chmod'
+alias chmox='sudo chmod'  # always make this typo
+alias chown='sudo chown'
 alias service='sudo service'
 alias systemctl='sudo systemctl'
 
@@ -120,9 +126,9 @@ if [ "$(uname -n)" == "Linux" ]; then
   alias py=$PYTHON_LATEST
 fi
 
-alias vi=vim
 alias ports='netstat -tulanp'
 alias time="date +'%A, %B %m %Y at%l:%M%P %Z'"
+alias vi=vim
 
 
 # Listing
@@ -143,32 +149,34 @@ alias ....='cd ../../..'
 alias www='cd /var/www/'
 
 # Super User (SUDO) Shortcuts
-alias sudo='sudo '                  # Enable aliases to be sudo-ed
 alias apt-get='sudo apt-get'
 alias apt='sudo apt'
-alias service='sudo service'
 alias root='sudo -i'                # Become root
+alias service='sudo service'
 alias su='sudo -i'                  # Become root
+alias sudo='sudo '                  # Enable aliases to be sudo-ed
 
 # Reboot Bypass Wait
-alias reboot='sudo /sbin/reboot'
 alias poweroff='sudo /sbin/poweroff'
+alias reboot='sudo /sbin/reboot'
 alias shutdown='sudo /sbin/shutdown'
 
-alias upgrade='sudo apt-get upgrade'
+alias autoclean='sudo apt autoclean'
+alias autoremove='clean'
+alias clean='sudo apt autoremove; sudo apt autoclean'
 alias update='sudo apt-get update'
 alias updatey='sudo apt-get update && sudo apt-get upgrade -y && sudo apt autoremove -y && sudo apt autoclean'
-alias autoremove='sudo apt autoremove; sudo apt autoclean'
-alias autoclean='sudo apt autoclean'
+alias upgrade='sudo apt-get upgrade'
+
 alias ppa='sudo apt-add-repository'
 
 # Preserve / root folder permissions
-alias chown='chown --preserve-root'
-alias chmod='chmod --preserve-root'
 alias chgrp='chgrp --preserve-root'
+alias chmod='chmod --preserve-root'
+alias chown='chown --preserve-root'
 
 # Mount (Readable)
-alias mount='mount |column -t'
+alias mount='mount | column -t'
 
 # Ping
 alias ping='ping -c 5'  # Send X packets
@@ -198,144 +206,102 @@ alias myips="hostname -I"
 #                       COMMON W/INSTALLS
 # ___________________________________________________________________
 
-if (( $+commands[colordiff] )) >/dev/null 2>&1; then
-    # install: $ sudo apt install colordiff
-    alias diff='colordiff'
-fi
+# install: $ sudo apt install colordiff
+command_exists colordiff &&   alias diff='colordiff'
 
-if (( $+commands[nmap] )) >/dev/null 2>&1; then
-    # install: $ sudo apt install nmap
-    alias portsopen='nmap localhost --open'
-fi
+# install: $ sudo apt install nmap
+command_exists nmap &&        alias portsopen='nmap localhost --open'
 
 # For Windows | Make Shortcut Run as Administrator!
 if [ -f "/c/ProgramData/chocolatey/bin/choco" ]; then
     alias choco="/c/ProgramData/chocolatey/bin/choco"
 fi
 
-alias d-c='docker-compose'
-
-# a___________________________________________________________________
+# ___________________________________________________________________
 #
 #                           NGINX
 # ___________________________________________________________________
 
 function ngensite { sudo ln -s /etc/nginx/sites-available/$1 /etc/nginx/sites-enabled; }
 function ngdissite { sudo rm /etc/nginx/sites-enabled/$1; }
-alias ngtest='sudo nginx -t'
-alias ngreload='sudo service nginx reload'
-alias ngrestart='sudo service nginx restart'
-alias ngstart='sudo service nginx start'
-alias ngstop='sudo service nginx stop'
-
-alias ngpath='cd /etc/nginx/'
-alias ngsites='cd /etc/nginx/sites-available'
-
-alias ngls-sites='ls /etc/nginx/sites-available'
-alias ngls-sites-en='ls /etc/nginx/sites-enabled'
-
-alias nglog='tail -n 50 /var/log/nginx/error.log'
 alias ngaccess='tail -n 50 /var/log/nginx/access.log'
-
-alias ngstatus='systemctl status nginx.service'
-
 alias ngdisstartup='sudo service nginx stop && sudo update-rc.d nginx disable && echo "nginx set to NOT autostart"'
 alias ngenstartup='sudo service nginx start && sudo update-rc.d nginx enable && echo "nginx set to autostart"'
+alias nglog='tail -n 50 /var/log/nginx/error.log'
+alias ngls-sites-en='ls /etc/nginx/sites-enabled'
+alias ngls-sites='ls /etc/nginx/sites-available'
+alias ngpath='cd /etc/nginx/'
+alias ngreload='sudo service nginx reload'
+alias ngrestart='sudo service nginx restart'
+alias ngsites='cd /etc/nginx/sites-available'
+alias ngstart='sudo service nginx start'
+alias ngstatus='systemctl status nginx.service'
+alias ngstop='sudo service nginx stop'
+alias ngtest='sudo nginx -t'
+
 # ___________________________________________________________________
 #
 #                           APACHE2
 # ___________________________________________________________________
 
-alias a2ls-sites='ls /etc/apache2/sites-available'
-alias a2ls-sites-en='ls /etc/apache2/sites-enabled'
-alias a2ls-mods='ls /etc/apache2/mods-available'
 alias a2ls-mods-en='ls /etc/apache2/mods-enabled'
+alias a2ls-mods='ls /etc/apache2/mods-available'
+alias a2ls-sites-en='ls /etc/apache2/sites-enabled'
+alias a2ls-sites='ls /etc/apache2/sites-available'
 
 alias a2graceful='sudo /usr/sbin/apachectl -k graceful'
+alias a2log='sudo tail /var/log/apache2/error.log'
 alias a2modules='sudo apachectl -t -D DUMP_MODULES'
-alias a2vhosts='sudo apachectl -t -D DUMP_VHOSTS'
-alias a2version='sudo apachectl -v'
-alias a2test='sudo apachectl -t'
+alias a2path='cd /etc/apache2/'
 alias a2reload='sudo service apache2 reload'
 alias a2restart='sudo service apache2 restart'
 alias a2start='sudo service apache2 start'
-alias a2stop='sudo service apache2 stop'
-alias a2path='cd /etc/apache2/'
 alias a2status='systemctl status apache2.service'
-alias a2log='sudo tail /var/log/apache2/error.log'
+alias a2stop='sudo service apache2 stop'
+alias a2test='sudo apachectl -t'
+alias a2version='sudo apachectl -v'
+alias a2vhosts='sudo apachectl -t -D DUMP_VHOSTS'
 
 alias a2disconf='sudo a2disconf'
-alias a2enconf='sudo a2enconf'
 alias a2dismod='sudo a2dismod'
-alias a2enmod='sudo a2enmod'
 alias a2dissite='sudo a2dissite'
+alias a2enconf='sudo a2enconf'
+alias a2enmod='sudo a2enmod'
 alias a2ensite='sudo a2ensite'
 alias a2graceful='sudo a2graceful'
 alias a2modules='sudo a2modules'
 
-alias a2sa='cd /etc/apache2/sites-available'
-alias a2se='cd /etc/apache2/sites-enabled'
+alias a2avs='cd /etc/apache2/sites-available'
+alias a2ens='cd /etc/apache2/sites-enabled'
 
-alias a2log='tail -n 50 /var/log/apache2/error.log'
 alias a2access='tail -n 50 /var/log/apache2/access.log'
+alias a2log='tail -n 50 /var/log/apache2/error.log'
 
 alias a2ctl='sudo apachectl'
-alias apachectl='sudo apachectl'
 alias apache2ctl='sudo apache2ctl'
+alias apachectl='sudo apachectl'
 
 # ___________________________________________________________________
 #
 #                           PHP FPM
 # ___________________________________________________________________
 
-PHPFPM_VERSION='7.2'
-alias fpm="sudo php$PHPFPM_VERSION-fpm"
-alias fpm-restart="systemctl restart php$PHPFPM_VERSION-fpm.service"
-alias fpm-reload="systemctl reload php$PHPFPM_VERSION-fpm.service"
-alias fpm-reenable="systemctl restart php$PHPFPM_VERSION-fpm.service"
-alias fpm-restart="systemctl restart php$PHPFPM_VERSION-fpm.service"
 alias fpm-log="sudo tail /var/log/php$PHPFPM_VERSION-fpm.log"
+alias fpm-reenable="systemctl restart php$PHPFPM_VERSION-fpm.service"
+alias fpm-reload="systemctl reload php$PHPFPM_VERSION-fpm.service"
+alias fpm-restart="systemctl restart php$PHPFPM_VERSION-fpm.service"
+alias fpm-restart="systemctl restart php$PHPFPM_VERSION-fpm.service"
+alias fpm="sudo php$PHPFPM_VERSION-fpm"
 
 # ___________________________________________________________________
 #
 #                           GIT
 # ___________________________________________________________________
 
-alias gitAddCmPush="git add . && git cm 'generic update' && git push"
-
-# Shrink Git Repo with Tool
-# @src: https://rtyley.github.io/bfg-repo-cleaner/
-function gitshrink() {
-  if [[ -f "$HOME/apps/git-shrink/bfg-shrink.jar" ]]; then
-    REMOTE=$(git config --get remote.origin.url)
-    echo $REMOTE
-    [ -z $REMOTE ] && echo "Not a git repository" && return false;
-
-    SIZE_ORIG=$(git count-objects -vH | grep size-pack.*)
-
-    echo "Backing up $REMOTE as a Cloned Mirror before proceeding"
-    git clone --mirror $REMOTE
-
-    echo "Running bfg utility for blobs larger than 50MB..."
-    java -jar "$HOME/apps/git-shrink/bfg-shrink.jar" --strip-blobs-bigger-than 50M .
-
-    echo "Expiring and Pruning Git Cache"
-    git reflog expire --expire=now --all && git gc --prune=now --aggressive
-
-    SIZE_AFTER=$(git count-objects -vH | grep size-pack.*)
-
-    echo -e "[ Finished ] - Stats:"
-    echo -e "Original Repository Size:\t $SIZE_ORIG"
-    echo -e "Modified Repository Size:\t $SIZE_AFTER\n"
-  else
-    echo -e "Oops! You don't have the bfg utility; download it from:\n"
-    echo -e "1: https://rtyley.github.io/bfg-repo-cleaner/ (the .jar file)"
-    echo -e "2: Place it in $HOME/apps/git-shrink/bfg-shrink.jar"
-    echo -e "3: *You will need Java 8 installed"
-    echo -e "\t$ mkdir -p ~/apps/git-shrink &&  mv bfg*.jar ~/apps/git-shrink/bfg-shrink.jar"
-    echo -e "\t$ source ~/.bash_aliases"
-  fi
-}
+# Prefer To type gitA<Tab> for quick update
+alias gitAddPush="git add . && git cm 'Standard Update' && git push"
+alias gitPush="git push"
+alias gitPull="git pull"
 
 # ___________________________________________________________________
 #
@@ -345,6 +311,7 @@ function gitshrink() {
 # Find in file
 #
 # examples:  $ findinfile 'hello mom' .
+#            $ fif 'hello mom' .
 # ___________________________________________________________________
 function findinfile() {
   if [ -z "$1" ]; then
@@ -362,6 +329,8 @@ function findinfile() {
   grep -Elir "(${1}) ${search_path}"
 }
 
+alias fif="findinfile"
+
 # Directory Loop (All Children/Sub-Folders)
 #
 #   @TODO [ON HOLD, SEE BELOW] PASS -d=2 or --depth=<number> to allow over 1 level deep
@@ -370,7 +339,8 @@ function findinfile() {
 # ___________________________________________________________________
 loopdir() {
     if [ -z "$1" ]; then
-        echo -e "[!] Whoops! Provide a command,\n\t eg: loopdircmd git checkout development\n"
+        echo -e "[!] Error: Provide a command to run."
+        echo -e "[!] $ loopdircmd <command here>\n"
         return
     fi
 
@@ -389,10 +359,30 @@ loopdir() {
     # find . -maxdepth 1 -type d \( ! -name . \) -exec bash -c "cd '{}' && echo -e \"\n${BOLD}${GREEN}In Directory: ${PWD}${RESET}\" && $*" \;
 }
 
-# Calculator
-#   Simple calculator, cannot use spaces (MIGHT FIX)
-#
-# examples:     $  calc 5*500
+# Extract Files with one function <@DS>
+# ___________________________________________________________________
+extract () {
+  if [ -f "$1" ]; then
+    FILE=$1
+    case $FILE in
+      *.7z)       z x       "$FILE";;
+      *.bz2)      bunzip2 -v  "$FILE";;
+      *.gz)       unzip -v  "$FILE";;
+      *.rar)      unrar x   "$FILE";;
+      *.tar.bz2)  tar xjfv   "$FILE";;
+      *.tar.gz)   tar xzfv   "$FILE";;
+      *.tar)      tar xfv    "$FILE";;
+      *.tgz)      tar xzfv   "$FILE";;
+      *.zip)      unzip -v "$FILE";;
+      *)
+        echo -e "[!] Error: '$FILE' cannot be extracted with extract()"
+        echo -e "\t[!] Tried Formats: 7z, bz2, gz, rar, tar.bz2, tar.gz, tar, tgz, zip"
+        ;;
+    esac
+  else
+    echo "[Error]: Cannot extract '$FILE'"
+  fi
+}
 # ___________________________________________________________________
 
 # End of File
