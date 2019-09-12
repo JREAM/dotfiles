@@ -59,7 +59,7 @@ module.exports = {
    *      $ yarn add -D eslint-config-synacor
    *      > extends: ['synacor'],
    */
-  extends: ["eslint:recommended" /**, "react:recommended" */ /** 'synacor' */],
+  extends: ["eslint:recommended"],
 
   plugins: [
     /**
@@ -71,6 +71,7 @@ module.exports = {
      *      $ yarn add -D eslint-plugin-react
      *      > plugins: ['react'],
      */
+    "react"
   ],
 
   /**
@@ -131,7 +132,7 @@ module.exports = {
     "handle-callback-err": 0,
     indent: [2, "tab", { SwitchCase: 1 }],
     "keyword-spacing": 2,
-    "max-nested-callbacks": [2, 3],
+    "max-nested-callbacks": [2, 4],
     "no-cond-assign": 1,
     "no-console": 0,
     "no-const-assign": 2,
