@@ -102,13 +102,13 @@ module.exports = {
    * @section settings
    * @docs
    *    https://...
-   * @for preact
-   *  settings: {
-   *    react: {
-   *      pragma: 'h'
-   *    }
-   * },
    */
+  settings: {
+    react: {
+      // pragma: 'h',        // @for preact
+      version: "detect" // @required fpr react
+    }
+  },
 
   globals: {
     /**
@@ -123,8 +123,9 @@ module.exports = {
      * @docs
      *    https://eslint.org/docs/rules/
      */
+    "arrow-parens": 2,
     camelcase: 0,
-    "comma-dangle": [2, "always"],
+    "comma-dangle": [2, "always-multiline"],
     "comma-style": 2,
     "constructor-super": 2,
     eqeqeq: 1,
@@ -139,6 +140,7 @@ module.exports = {
     "no-delete-var": 2,
     "no-dupe-class-members": 2,
     "no-dupe-keys": 2,
+    "no-var": 2,
     "no-else-return": 2,
     "no-empty-pattern": 0,
     "no-empty": 0,
