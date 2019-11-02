@@ -56,14 +56,17 @@ echo -e "\n ${YLW}------------------------------------------- ${NOCOLOR}\n"
 # User Prompt
 echo -e "(1/2) Copy the above ${YLW}FILES${NOCOLOR} to ${HOME} folder ${YLW}[y/N]${NOCOLOR}?:"
 read -p "(1/2) Copy to $HOME?: " ynFiles
-echo -e "(2/2) Copy the above ${YLW}DIRECTORIES${NOCOLOR} to ${HOME} folder ${YLW}[y/N]${NOCOLOR}?" 
+echo -e "(2/2) Copy the above ${YLW}DIRECTORIES${NOCOLOR} to ${HOME} folder ${YLW}[y/N]${NOCOLOR}?"
 read -p "(2/2) Copy to $HOME?: " ynDirs
 
 # Flag for output at the end
 DID_RUN=0
 
 echo "Ignore Private Files, Safety Precaution"
-if [ ! -f $HOME/.gitconfig_private ] && touch .gitconfig_private
+if [ ! -f $HOME/.gitconfig_private ]; then
+  touch .gitconfig_private
+fi
+
 if [ ! -f $HOME/.gitignore ]; then
   echo ".gitconfig_private" > $HOME/.gitignore
   echo ".exports_private" >> $HOME/.gitignore
@@ -76,13 +79,13 @@ if [[ $ynFiles =~ ^([yY])+$ ]]; then
 fi
 
 # Copy Dirs
-if [[ $ynDirs =~ ^([yY])+$ ]]; then 
-  copydirs 
+if [[ $ynDirs =~ ^([yY])+$ ]]; then
+  copydirs
   DID_RUN=1;
 fi
 
 # Final Result
-if [[ $DID_RUN == 1 ]]; then 
+if [[ $DID_RUN == 1 ]]; then
   echo -e "\n[+] Finished, make sure to run:"
   echo -e "      $ source ~/.bashrc"
   exit 1
