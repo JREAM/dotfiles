@@ -38,6 +38,7 @@
  *      typescript \
  *      eslint-plugin-import \
  *      eslint-plugin-react \
+ *      eslint-plugin-react-hooks \
  *      eslint-config-eslint \
  *      eslint-config-react
  */
@@ -69,9 +70,10 @@ module.exports = {
      *
      *    react:
      *      $ yarn add -D eslint-plugin-react
-     *      > plugins: ['react'],
+     *      > plugins: ['react', 'react-hooks'],
      */
-    "react"
+    "react",
+    "react-hooks"
   ],
 
   /**
@@ -182,6 +184,12 @@ module.exports = {
     "react/no-string-refs": 2,
     "react/prefer-es6-class": 2,
     "react/require-render-return": 2,
-    "react/self-closing-comp": 2
+    "react/self-closing-comp": 2,
+
+    /**
+     * @section rules/react-hooks
+     */
+    "react-hooks/rules-of-hooks": "error", // Checks rules of Hooks
+    "react-hooks/exhaustive-deps": "warn" // Checks effect dependencies
   }
 };
