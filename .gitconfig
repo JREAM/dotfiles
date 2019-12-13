@@ -1,7 +1,7 @@
 [user]
   name = Jesse Boyer
   email = imboyus@gmail.com
-  IdentityFile = ~/.ssh/jream_rsa
+  IdentityFile = ~/.ssh/id_rsa
 [push]
   default = simple
 [apply]
@@ -46,7 +46,6 @@
   us = --set-upstream origin
 
   # Main
-  i = init
   br = branch
   ci = commit
   cm = commit -m
@@ -55,13 +54,9 @@
   cp = cherry-pick
   aa = add --all
   st = status
-  f = fetch
-  fa = fetch --all
-  p = push
-  pu = pull
 
   # Diff
-  diff = diff --word-diff
+  diff  = diff --word-diff
   ds = diff --stat
   dc = diff --cached
   dlc = diff --cached HEAD^
