@@ -390,6 +390,14 @@ function elk-install() {
     -p $MY_ELK_PORT_ELASTICSEARCH:9200 \
     -p $MY_ELK_PORT_LOGSTASH:5044 \
     $IMAGE_ELK;
+
+    echo -e "You may need to increase local vm.max_map_count by running:\n\
+    \t$ sudo sysctl -w vm.max_map_count=262144 \n\
+    (or) Edit Manually and append to bottom: \n\
+    \t$ sudo vim /etc/sysctl.conf \n\
+    \t$ vm.max_map_count=262144 \n\
+    (Requires Reboot) \n\n\
+    "
 }
 function elk-start()    { docker start $MY_ELK_NAME; }
 function elk-stop()     { docker stop $MY_ELK_NAME; }
