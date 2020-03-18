@@ -121,9 +121,11 @@ alias h='history'
 alias j='jobs -l'
 
 # Use the Latest Python Version via "py"
-if [ "$(uname -n)" == "Linux" ]; then
+if [ "$(uname)" == "Linux" ]; then
   PYTHON_LATEST=$(ls -t /usr/bin/python* | head -1)
   alias py=$PYTHON_LATEST
+
+  PIP_LATEST=$(ls -t /usr/bin/pip* | tail -1)
 fi
 
 alias ports='netstat -tulanp'
@@ -211,6 +213,9 @@ command_exists colordiff &&   alias diff='colordiff'
 
 # install: $ sudo apt install nmap
 command_exists nmap &&        alias portsopen='nmap localhost --open'
+
+# Figlet (CLI)
+command_exists lolcat &&   alias figlet-fonts="showfigfonts | lolcat" || alias figlet-fonts="showfigfonts"
 
 # For Windows | Make Shortcut Run as Administrator!
 if [ -f "/c/ProgramData/chocolatey/bin/choco" ]; then
@@ -331,6 +336,8 @@ function findinfile() {
 
 alias fif="findinfile"
 
+alias slugifydir="slugify -vud . && rename 'y/A-Z/a-z/' ."
+
 # Directory Loop (All Children/Sub-Folders)
 #
 #   @TODO [ON HOLD, SEE BELOW] PASS -d=2 or --depth=<number> to allow over 1 level deep
@@ -359,8 +366,9 @@ loopdir() {
     # find . -maxdepth 1 -type d \( ! -name . \) -exec bash -c "cd '{}' && echo -e \"\n${BOLD}${GREEN}In Directory: ${PWD}${RESET}\" && $*" \;
 }
 
-# Extract Files with one function <@DS>
+# Exty4yract Files with one function <@DS>
 # ___________________________________________________________________
+
 extract () {
   if [ -f "$1" ]; then
     FILE=$1
