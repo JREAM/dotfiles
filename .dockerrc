@@ -282,7 +282,7 @@ function redis-install() {
 function redis-stop()    { docker stop $MY_REDIS_NAME; }
 function redis-restart() { docker restart $MY_REDIS_NAME; }
 function redis-connect() { docker exec -it $MY_REDIS_NAME redis-cli; }
-docker exec -it redus-local redis-cli
+
 # ┌─────────────────────────────────────────────────────────────────┐
 # │ Apache                                                          │
 # ├─────────────────────────────────────────────────────────────────┤
