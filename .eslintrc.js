@@ -90,7 +90,7 @@ module.exports = {
    * @important COMMENT OUT With CRA; Do NOT add NPM 'babel-eslint' (Built-in)
    * @docs https://eslint.org/docs/user-guide/configuring#specifying-parser
    * ――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― */
-  parser: 'babel-eslint',
+  parser: "babel-eslint",
 
   /**
    * ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -112,7 +112,7 @@ module.exports = {
    * @docs https://eslint.org/docs/user-guide/configuring#using-eslintrecommended
    * ――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― */
   extends: [
-    'eslint:recommended'
+    "eslint:recommended"
     // 'eslint-config-synacore',  // For Preact Projects
   ],
 
@@ -148,7 +148,7 @@ module.exports = {
   settings: {
     react: {
       // pragma: 'h',       // [~] Preact Projects
-      version: 'detect'
+      version: "detect"
     }
   },
 
@@ -173,46 +173,46 @@ module.exports = {
     /**
      * ::Global
      * ――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― */
-    'arrow-parens': 2,
+    "arrow-parens": 2,
     camelcase: 0,
-    'comma-dangle': [2, 'always-multiline'],
-    'comma-style': 2,
-    'constructor-super': 2,
+    "comma-dangle": [2, "always-multiline"],
+    "comma-style": 2,
+    "constructor-super": 2,
     eqeqeq: 1,
-    'guard-for-in': 2,
-    'handle-callback-err': 0,
-    indent: [2, 'tab', { SwitchCase: 1 }],
-    'keyword-spacing': 2,
-    'max-nested-callbacks': [2, 4],
-    'no-cond-assign': 1,
-    'no-console': 0,
-    'no-const-assign': 2,
-    'no-delete-var': 2,
-    'no-dupe-class-members': 2,
-    'no-dupe-keys': 2,
-    'no-else-return': 2,
-    'no-empty-pattern': 0,
-    'no-empty': 0,
-    'no-eval': 2,
-    'no-implied-eval': 2,
-    'no-lonely-if': 2,
-    'no-new-func': 2,
-    'no-redeclare': 2,
-    'no-shadow-restricted-names': 2,
-    'no-shadow': 0,
-    'no-this-before-super': 2,
-    'no-trailing-spaces': [2, { skipBlankLines: true }],
-    'no-undef-init': 2,
-    'no-useless-concat': 2,
-    'no-var': 2,
-    'no-var': 2,
-    'object-shorthand': 2,
-    'prefer-arrow-callback': 2,
-    'prefer-spread': 2,
-    quotes: [2, 'single'],
+    "guard-for-in": 2,
+    "handle-callback-err": 0,
+    indent: [2, "tab", { SwitchCase: 1, ignoredNodes: ["TemplateLiteral"] }],
+    "keyword-spacing": 2,
+    "max-nested-callbacks": [2, 4],
+    "no-cond-assign": 1,
+    "no-console": 0,
+    "no-const-assign": 2,
+    "no-delete-var": 2,
+    "no-dupe-class-members": 2,
+    "no-dupe-keys": 2,
+    "no-else-return": 2,
+    "no-empty-pattern": 0,
+    "no-empty": 0,
+    "no-eval": 2,
+    "no-implied-eval": 2,
+    "no-lonely-if": 2,
+    "no-new-func": 2,
+    "no-redeclare": 2,
+    "no-shadow-restricted-names": 2,
+    "no-shadow": 0,
+    "no-this-before-super": 2,
+    "no-trailing-spaces": [2, { skipBlankLines: true }],
+    "no-undef-init": 2,
+    "no-useless-concat": 2,
+    "no-var": 2,
+    "no-var": 2,
+    "object-shorthand": 2,
+    "prefer-arrow-callback": 2,
+    "prefer-spread": 2,
+    quotes: [2, "single"],
     radix: 2,
     semi: 2,
-    strict: [2, 'never']
+    strict: [2, "never"]
 
     /**
      * ::React
