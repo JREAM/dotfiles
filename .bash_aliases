@@ -109,6 +109,11 @@ fi
 #                           COMMON
 # ___________________________________________________________________
 
+
+#function memusage {
+#  ps aux | awk '{print $4 "%\t" int($6/1024) " MB\t" $11}' | sort -n
+#}
+
 alias chgrp='sudo chown'
 alias chmod='sudo chmod'
 alias chmox='sudo chmod'  # always make this typo
