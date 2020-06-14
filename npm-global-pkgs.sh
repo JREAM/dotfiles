@@ -55,7 +55,7 @@ PACKAGES=(
   # eslint-loader             # (Use per-project/webpack)
   # eslint-plugin-babel       # (Use per-project/webpack)
   # eslint-plugin-html        # (Use per-project/webpack)
-  # eslint-plugin-react       # (Use per-project/webpack)
+  eslint-plugin-react       # (Use per-project/webpack)
 
   eslint
   jshint
