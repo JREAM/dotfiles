@@ -83,6 +83,7 @@
  */
 
 module.exports = {
+  root: true,
   /**
    * ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
    * 🠶 PARSER
@@ -101,8 +102,8 @@ module.exports = {
   parserOptions: {
     ecmaFeatures: {
       modules: true,
-      jsx: true // For React and Preact Projects, JSX
-    }
+      jsx: true, // For React and Preact Projects, JSX
+    },
   },
 
   /**
@@ -112,7 +113,7 @@ module.exports = {
    * @docs https://eslint.org/docs/user-guide/configuring#using-eslintrecommended
    * ――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― */
   extends: [
-    'eslint:recommended'
+    'eslint:recommended',
     // 'eslint-config-synacore',  // For Preact Projects
   ],
 
@@ -123,8 +124,8 @@ module.exports = {
    * @docs https://eslint.org/docs/user-guide/configuring#using-the-configuration-from-a-plugin
    * ――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― */
   plugins: [
-    'react',      // For React Projects
-    'react-hooks' // For React Projects
+    'react', // For React Projects
+    'react-hooks', // For React Projects
   ],
 
   /**
@@ -135,9 +136,10 @@ module.exports = {
    * ――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― */
   env: {
     browser: true,
+    commonjs: true,
     es6: true,
     jest: true,
-    node: true
+    node: true,
   },
 
   /**
@@ -148,8 +150,8 @@ module.exports = {
   settings: {
     react: {
       // pragma: 'h',       // [~] Preact Projects
-      version: 'detect'
-    }
+      version: 'detect',
+    },
   },
 
   /**
@@ -220,6 +222,7 @@ module.exports = {
      *  https://github.com/yannickcr/eslint-plugin-react#list-of-supported-rules
      *  https://github.com/yannickcr/eslint-plugin-react#jsx-specific-rules
      * ――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― */
+    'react/react-in-jsx-scope': 0, // For Next.js
     'react/jsx-curly-spacing': 2,
     'react/jsx-no-bind': [2, { ignoreRefs: true }],
     'react/jsx-no-comment-textnodes': 2,
@@ -239,6 +242,6 @@ module.exports = {
      * ::React-Hooks
      * ――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― */
     'react-hooks/rules-of-hooks': 2, // Checks rules of Hooks
-    'react-hooks/exhaustive-deps': 1 // Checks effect dependencies
-  }
+    'react-hooks/exhaustive-deps': 1, // Checks effect dependencies
+  },
 };
