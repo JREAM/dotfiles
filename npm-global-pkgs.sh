@@ -103,6 +103,7 @@ PACKAGES=(
   types-installer         # types-installer | types-installer install
   yo                      # yeoman
   npm-ls-scripts          # Read package.json scripts ( $ ls-scripts )
+  snyk                    # Security Check: synk test / synk wizard
 
   # ---------------
   # Runners & Bundlers
