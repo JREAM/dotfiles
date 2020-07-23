@@ -56,13 +56,14 @@ PACKAGES=(
   # eslint-plugin-babel       # (Use per-project/webpack)
   # eslint-plugin-html        # (Use per-project/webpack)
   eslint-plugin-react       # (Use per-project/webpack)
+  pug-lint
 
   eslint
   jshint
   jslint
   # stylelint
   # stylelint-config-recommended
-  # prettier
+  prettier
   @starptech/prettyhtml     # Works w/Vue, Angular, React
   remark-lint               # Markdown Lint
   sass-lint                 # SASS Lint
