@@ -126,12 +126,6 @@ alias h='history'
 alias j='jobs -l'
 
 # Use the Latest Python Version via "py"
-if [ "$(uname)" == "Linux" ]; then
-  PYTHON_LATEST=$(ls -t /usr/bin/python* | head -1)
-  alias py=$PYTHON_LATEST
-
-  PIP_LATEST=$(ls -t /usr/bin/pip* | tail -1)
-fi
 
 alias ports='netstat -tulanp'
 alias time="date +'%A, %B %m %Y at%l:%M%P %Z'"
@@ -382,10 +376,10 @@ extract () {
       *.bz2)      bunzip2 -v  "$FILE";;
       *.gz)       unzip -v  "$FILE";;
       *.rar)      unrar x   "$FILE";;
-      *.tar.bz2)  tar xjfv   "$FILE";;
-      *.tar.gz)   tar xzfv   "$FILE";;
-      *.tar)      tar xfv    "$FILE";;
-      *.tgz)      tar xzfv   "$FILE";;
+      *.tar.bz2)  tar -xzfv   "$FILE";;
+      *.tar.gz)   tar -xzfv   "$FILE";;
+      *.tar)      tar -xfv    "$FILE";;
+      *.tgz)      tar -xzfv   "$FILE";;
       *.zip)      unzip -v "$FILE";;
       *)
         echo -e "[!] Error: '$FILE' cannot be extracted with extract()"
