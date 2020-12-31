@@ -1,7 +1,0 @@
-[/]
-panel-main-menu=['<Alt>F1']
-switch-to-workspace-left=['']
-unmaximize=['<Control><Shift><Super>Down', '<Alt>F5']
-maximize=['<Control><Shift><Super>Up']
-show-desktop=['']
-switch-to-workspace-right=['']
