@@ -111,7 +111,6 @@ fi
 # ├─────────────────────────────────────────────────────────────────┤
 # └─────────────────────────────────────────────────────────────────┘
 if [ -d $HOME/.pyenv ]; then
-
   # @install https://github.com/pyenv/pyenv#installation
   export PYENV_ROOT="$HOME/.pyenv"
   export PATH="$PYENV_ROOT/bin:$PATH"
@@ -134,15 +133,16 @@ if [ -d ~/.virtualenvs ]; then
   export PROJECT_HOME=~/py-projects
   export PIP_VIRTUALENV_BASE=~/.virtualenvs
 
-  eval "$(pyenv init -)"
+  if (( $+commands[pyenv] )) >/dev/null 2>&1; then
+    eval "$(pyenv init -)"
+    alias mkvirtualenv="mkvirtualenv --no-site-packages --distribute"
 
-  alias mkvirtualenv="mkvirtualenv --no-site-packages --distribute"
-
-  if [ -d ~/.pyenv/plugins/pyenv-virtualenvwrapper ]; then
-    # Allow PyEnv Virtualenvwrapper to create venvs
-    # Auto activate virtualenvs on directory change
-    eval "$(~/.pyenv/bin/pyenv virtualenv-init -)"
-    export PYENV_VIRTUALENVWRAPPER_PREFER_PYVENV="true"
+    if [ -d ~/.pyenv/plugins/pyenv-virtualenvwrapper ]; then
+      # Allow PyEnv Virtualenvwrapper to create venvs
+      # Auto activate virtualenvs on directory change
+      eval "$(~/.pyenv/bin/pyenv virtualenv-init -)"
+      export PYENV_VIRTUALENVWRAPPER_PREFER_PYVENV="true"
+    fi
   fi
 fi
 
