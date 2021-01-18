@@ -13,6 +13,10 @@ if [ -d "$HOME/.deno" ]; then
   export PATH="$PATH:$HOME/.deno/bin"
 fi
 
+if [ -d /opt/gradle/gradle-6.8 ]; then
+  export PATH=$PATH:/opt/gradle/gradle-6.8/bin
+fi
+
 if [ -d /usr/lib/dart/bin ]; then
   export PATH="$PATH:/usr/lib/dart/bin"
   export PATH="$PATH:$HOME/.pub-cache/bin"
