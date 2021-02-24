@@ -87,25 +87,6 @@ fi
 
 # ___________________________________________________________________
 #
-#                           COLORS
-# ___________________________________________________________________
-if [[ ! -z DOTEXPORTS_SET_COLORS ]]; then
-  tput sgr0   # Reset Colors While Setting Variables
-  BLACK=$(tput setaf 0)
-  RED=$(tput setaf 1)
-  GREEN=$(tput setaf 2)
-  YELLOW=$(tput setaf 3)
-  BLUE=$(tput setaf 4)
-  PURPLE=$(tput setaf 5)
-  CYAN=$(tput setaf 6)
-  WHITE=$(tput setaf 7)
-
-  BOLD=$(tput bold)
-  RESET=$(tput sgr0)
-fi
-
-# ___________________________________________________________________
-#
 #                           COMMON
 # ___________________________________________________________________
 
@@ -356,7 +337,7 @@ loopdir() {
     # Go One Level Deep
     # @TODO Using this right now for CWD OUTPUT
     for d in ./*/; do
-        echo -e "\n${BOLD}${WHITE}${d}${RESET}"
+        echo -e "\n$d"
         (cd "$d" && $*);
     done
 
