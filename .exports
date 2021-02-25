@@ -26,7 +26,6 @@ export HISTFILESIZE="${HISTSIZE}";
 # Omit duplicates and commands that begin with a space from history.
 export HISTCONTROL='ignoreboth';
 
-
 # Highlight section titles in manual pages.
 export LESS_TERMCAP_md="${yellow}";
 
@@ -35,27 +34,5 @@ export MANPAGER='less -X';
 
 # Always enable colored `grep` output.
 export GREP_OPTIONS='--color=auto';
-
-# ___________________________________________________________________
-#
-#                        COLOR CODES
-# ___________________________________________________________________
-# Fetched from Stack Overflow; Should work on Windows too. (Lost URL)
-tput sgr0   # Reset Colors While Setting Variables
-
-  BLACK=$(tput setaf 0)
-  RED=$(tput setaf 1)
-  GREEN=$(tput setaf 2)
-  YELLOW=$(tput setaf 3)
-  BLUE=$(tput setaf 4)
-  PURPLE=$(tput setaf 5)
-  CYAN=$(tput setaf 6)
-  WHITE=$(tput setaf 7)
-
-  BOLD=$(tput bold)
-  RESET=$(tput sgr0)
-
-# Flag to tell this was already set
-DOTEXPORTS_SET_COLORS=true
 
 # End of File

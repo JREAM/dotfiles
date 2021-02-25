@@ -8,7 +8,7 @@ DOTFILES=( $(ls -a $ROOTDIR | egrep "^\.[a-zA-Z]") )
 
 # Simple Colors
 NOCOLOR='\033[0m'
-YLW='\033[01;33m'
+YELLOW='\033[01;33m'
 
 # Empty Array to separate files/folders
 FILES=()
@@ -37,26 +37,26 @@ copydirs() {
 }
 
 # Entry
-echo -e "\n ${YLW}-------------------------------------------${NOCOLOR}"
-echo -e "         ${YLW}Copy Dotfiles to Home Folder${NOCOLOR}"
-echo -e " ${YLW}-------------------------------------------${NOCOLOR}"
+echo -e "\n ${YELLOW}-------------------------------------------${NOCOLOR}"
+echo -e "         ${YELLOW}Copy Dotfiles to Home Folder${NOCOLOR}"
+echo -e " ${YELLOW}-------------------------------------------${NOCOLOR}"
 
 # 8 column max array
-echo -e "${YLW}[ Files ]${NOCOLOR}"
+echo -e "${YELLOW}[ Files ]${NOCOLOR}"
 for f in "${FILES[@]}"; do
   printf "%-8s\n" "${f}"
 done | column
 
-echo -e "\n${YLW}[ Directories ]${NOCOLOR}"
+echo -e "\n${YELLOW}[ Directories ]${NOCOLOR}"
 for d in "${DIRS[@]}"; do
   printf "%-8s\n" "${d}"
 done | column
-echo -e "\n ${YLW}------------------------------------------- ${NOCOLOR}\n"
+echo -e "\n ${YELLOW}------------------------------------------- ${NOCOLOR}\n"
 
 # User Prompt
-echo -e "(1/2) Copy the above ${YLW}FILES${NOCOLOR} to ${HOME} folder ${YLW}[y/N]${NOCOLOR}?:"
+echo -e "(1/2) Copy the above ${YELLOW}FILES${NOCOLOR} to ${HOME} folder ${YELLOW}[y/N]${NOCOLOR}?:"
 read -p "(1/2) Copy to $HOME?: " ynFiles
-echo -e "(2/2) Copy the above ${YLW}DIRECTORIES${NOCOLOR} to ${HOME} folder ${YLW}[y/N]${NOCOLOR}?"
+echo -e "(2/2) Copy the above ${YELLOW}DIRECTORIES${NOCOLOR} to ${HOME} folder ${YELLOW}[y/N]${NOCOLOR}?"
 read -p "(2/2) Copy to $HOME?: " ynDirs
 
 # Flag for output at the end

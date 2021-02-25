@@ -35,15 +35,13 @@ export GREP_COLOR='1;32'
 # Personal Folder shortcuts
 [ -d ~/projects ] && alias p='cd ~/projects/'
 [ -d ~/dev ] && alias d='cd ~/dev/' && alias dev='cd ~/dev'
-[ -d ~/Dropbox ] && alias box="cd ~/Dropbox"; alias dx="box";
 [ -d ~/Downloads ] && alias dl="cd ~/Downloads"
 
 # ___________________________________________________________________
 #
 #                           ACL
 # ___________________________________________________________________
-
-if command_exists setfacl ; then
+if hash setfacl 2>/dev/null; then
 
   setfacl-user() {
     if [ $# -ne 2 ]; then
@@ -189,13 +187,19 @@ alias myips="hostname -I"
 # ___________________________________________________________________
 
 # install: $ sudo apt install colordiff
-command_exists colordiff &&   alias diff='colordiff'
+if hash colordiff 2>/dev/null; then
+  alias diff='colordiff'
+fi
 
 # install: $ sudo apt install nmap
-command_exists nmap &&        alias portsopen='nmap localhost --open'
+if hash nmap 2>/dev/null; then
+  alias portsopen='nmap localhost --open'
+fi
 
 # Figlet (CLI)
-command_exists lolcat &&   alias figlet-fonts="showfigfonts | lolcat" || alias figlet-fonts="showfigfonts"
+if hash lolcat 2>/dev/null; then
+  alias figlet-fonts="showfigfonts | lolcat" || alias figlet-fonts="showfigfonts"
+fi
 
 # For Windows | Make Shortcut Run as Administrator!
 if [ -f "/c/ProgramData/chocolatey/bin/choco" ]; then

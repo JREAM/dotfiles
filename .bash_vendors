@@ -9,27 +9,34 @@ if (( $+commands[direnv] )) > /dev/null 2>&1; then
   eval "$(direnv hook bash)"
 fi
 
+# ┌─────────────────────────────────────────────────────────────────┐
+# │ (Optional) Deno Language                                        │
+# └─────────────────────────────────────────────────────────────────┘
 if [ -d "$HOME/.deno" ]; then
   export PATH="$PATH:$HOME/.deno/bin"
 fi
 
+# ┌─────────────────────────────────────────────────────────────────┐
+# │ (Optional) Java Grandle                                         │
+# └─────────────────────────────────────────────────────────────────┘
 if [ -d /opt/gradle/gradle-6.8 ]; then
   export PATH=$PATH:/opt/gradle/gradle-6.8/bin
 fi
 
+# ┌─────────────────────────────────────────────────────────────────┐
+# │ (Optional) Dart Language                                        │
+# └─────────────────────────────────────────────────────────────────┘
 if [ -d /usr/lib/dart/bin ]; then
   export PATH="$PATH:/usr/lib/dart/bin"
   export PATH="$PATH:$HOME/.pub-cache/bin"
 fi
 
+# ┌─────────────────────────────────────────────────────────────────┐
+# │ (Optional) Flutter Language                                     │
+# └─────────────────────────────────────────────────────────────────┘
 if [ -d /opt/flutter ]; then
   export PATH="$PATH:/opt/flutter/bin"
   export PATH="$PATH:/opt/flutter/.pub-cache/bin"
-
-fi
-
-if [ -d "$HOME/.sdkman/bin/sdkman-init.sh" ]; then
-  . "$HOME/.sdkman/bin/sdkman-init.sh"
 fi
 
 # ╔═════════════════════════════════════════════════════════════════╗
@@ -44,7 +51,7 @@ fi
 
 if [ -d "/opt/android/" ]; then
   export ANDROID_HOME=/opt/android
-  export PATH=$PATH:/usr/lib//android-sdk
+  export PATH=$PATH:/usr/lib/android-sdk
   export PATH=$PATH:$ANDROID_HOME/tools
   export PATH=$PATH:$ANDROID_HOME/tools/bin
 fi
@@ -58,13 +65,13 @@ if (( $+commands[kubectl] )) >/dev/null 2>&1; then
 fi
 
 # ┌─────────────────────────────────────────────────────────────────┐
-# │ (Optional) PHP Composer Related                                    │
+# │ (Optional) PHP Composer Related                                 │
 # ├─────────────────────────────────────────────────────────────────┤
 # └─────────────────────────────────────────────────────────────────┘
 # Include local composer folder if exists
 export COMPOSER_HOME="$HOME/.composer/vendor/bin"
-if [ -d ~/.composer/vendor/bin ]; then
-  PATH=~/.composer/vendor/bin:$PATH
+if [ -d $COMPOSER_HOME ]; then
+  PATH=$COMPOSER_HOME:$PATH
   export COMPOSER_HOME=`composer config -g home`
 fi
 
@@ -102,7 +109,6 @@ fi
 [[ -f ~/.npm-completion ]] && source ~/.npm-completion
 [[ -f ~/.yarn-completion ]] && source ~/.yarn-completion
 [[ -f ~/.docker-complete ]] && source ~/.docker-complete
-[[ -d ~/.yarn/bin ]] && export PATH=$PATH:~/.yarn/bin
 
 # ┌─────────────────────────────────────────────────────────────────┐
 # │ (Optional) GoLang                                               │
@@ -123,8 +129,8 @@ if [ -d $HOME/.pyenv ]; then
   export PYENV_ROOT="$HOME/.pyenv"
   export PATH="$PYENV_ROOT/bin:$PATH"
 
-  # Autocompelte
-  if command -v pyenv 1>/dev/null 2>&1; then
+  # Autocomplete
+  if hash pyenv 2>/dev/null; then
     eval "$(pyenv init -)"
   fi
 fi
@@ -163,23 +169,23 @@ export PYTHONDONTWRITEBYTECODE=1  # Stop Python from generating bytecode files
 # └─────────────────────────────────────────────────────────────────┘
 
 if [ -s $HOME/.gvm/scripts/gvm ]; then
-    source "$HOME/.gvm/scripts/gvm"
+  source "$HOME/.gvm/scripts/gvm"
 fi
 
 # ┌─────────────────────────────────────────────────────────────────┐
 # │ (Optional) NVM (Node Version Manager)                           │
 # ├─────────────────────────────────────────────────────────────────┤
 # └─────────────────────────────────────────────────────────────────┘
+
 if [ -d $HOME/.nvm ]; then
   export NVM_DIR="$HOME/.nvm"
-  [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" # This loads nvm
-  # Loads NVM bash_completion
-  [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+  [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # Load NVM
+  [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # Load NVM bash_completion
 
   load-nvmrc() {
     if [[ -f .nvmrc && -r .nvmrc ]]; then
       nvm use
-    elif [[ $(nvm version) != $(nvm version default)  ]]; then
+    elif [[ $(nvm version) != $(nvm version default) ]]; then
       echo "Reverting to nvm default version"
       nvm use default
     fi
