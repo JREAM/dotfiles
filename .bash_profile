@@ -10,25 +10,18 @@
 
 source $HOME/.bashrc
 
-if ! hash compdef >/dev/null 2>&1; then
-  alias compdef='echo 0 >/dev/null'
-fi
-
-# ---------------------------------------------------
-#
-# Fix compdef if not exists
-# ---------------------------------------------------
+# ┌─────────────────────────────────────────────────────────────────┐
+# │ Fix: compdef if not exists                                      │
+# └─────────────────────────────────────────────────────────────────┘
 if (!( $+commands[compdef] )) >/dev/null 2>&1; then
   alias compdef='1 >/dev/null'
 fi
 
-# ---------------------------------------------------
-# Final Export
-# ---------------------------------------------------
-export PATH
-
+# ┌─────────────────────────────────────────────────────────────────┐
+# │ Final Export                                                    │
+# └─────────────────────────────────────────────────────────────────┘
 if [ -d "$HOME/.local/bin" ]; then
-  export PATH="$HOME/.local/bin:$PATH"
+  PATH="$HOME/.local/bin:$PATH"
 fi
 
-export PATH="$HOME/.cargo/bin:$PATH"
+export PATH

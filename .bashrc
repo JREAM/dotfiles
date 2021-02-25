@@ -7,8 +7,12 @@
 
 # If not running interactively, don't do anything
 # ___________________________________________________________________
-[ -z "$PS1" ] && return
+[ -z "$PS1" ] && echo "n/a"
 
+# Disable Middle Mouse Button
+# ___________________________________________________________________
+
+xinput set-button-map 'Elan Touchpad' 1 0 3 4 5 6 7
 
 # ┌─────────────────────────────────────────────────────────────────┐
 # │ Ensure command exists for a program                             │
@@ -42,14 +46,13 @@ parse_git_branch() {
   git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
 }
 
-
 # Unobtrusive user@name[~/path (git-branch)]:~$
-cust1=$(echo -e "\u${lyellow}->${ColorOff}")
-export PS1="\n[\[\033[38;5;251m\]\w\[\033[33m\]\$(parse_git_branch)\[\033[00m\]\[$(tput sgr0)\]\[\033[38;5;15m\]]\n${cust1}\[$(tput sgr0)\] "
+cust1=$(echo -e "\u${lYELLOW}->${RESET}")
+export PS1="\n[\[\033[38;5;251m\]\w\[\033[33m\]\$(parse_git_branch)\[\033[00m\]\[$RESET\]\[\033[38;5;15m\]]\n${cust1}\[$RESET\] "
 
 # Alternative, 2 line
-#export PS1="[$(tput sgr0)\]\[\033[38;5;251m\]\w\[\033[33m\]\]\$(parse_git_branch)\[\033[00m\]\[$(tput sgr0)\]\[\033[38;5;15m\]]\n\u\033[33m\]->\033[00m\] \[$(tput sgr0)\]"
-#cust2=$(echo -e "${yellow} -> ${ColorOff} ")
+#export PS1="[$RESET\]\[\033[38;5;251m\]\w\[\033[33m\]\]\$(parse_git_branch)\[\033[00m\]\[$RESET\]\[\033[38;5;15m\]]\n\u\033[33m\]->\033[00m\] \[$RESET\]"
+#cust2=$(echo -e "${YELLOW} -> ${RESET} ")
 #export PS2="$cust2 "
 
 # Docker Related (Prevent error if docker is not installed)
@@ -89,9 +92,3 @@ shopt -s cdspell
 # Make less more friendly for non-text input files, see lesspipe(1)
 # ___________________________________________________________________
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
-
-
-
-#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
-export SDKMAN_DIR="/home/jesse/.sdkman"
-[[ -s "/home/jesse/.sdkman/bin/sdkman-init.sh" ]] && source "/home/jesse/.sdkman/bin/sdkman-init.sh"
