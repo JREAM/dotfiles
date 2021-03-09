@@ -27,7 +27,7 @@ PACKAGES=(
   # ---------------
   @babel/cli
   @babel/core
-  babel-eslint              # (Use per-project)
+  @babel/eslint-parser      # (Use per-project)
   # babel-loader            # (Use per-project)
   # babel-preset-env        # (Use per-project)
 
@@ -35,7 +35,6 @@ PACKAGES=(
   brunch
 
   netlify
-  netlify-lambda
   # netlify-cms             # (Use per-project)
 
   docusaurus-init@next      # Version 2.X
@@ -61,8 +60,6 @@ PACKAGES=(
   eslint
   jshint
   jslint
-  # stylelint
-  # stylelint-config-recommended
   prettier
   @starptech/prettyhtml     # Works w/Vue, Angular, React
   remark-lint               # Markdown Lint
@@ -84,10 +81,12 @@ PACKAGES=(
   nodemon
   pm2
   serve
+  http-server
 
   # ---------------
   # Other
   # ---------------
+  rimraf
   tsutils
   typescript
 
@@ -101,6 +100,7 @@ PACKAGES=(
   # grunt-cli
   gulp-cli
   # strapi@alpha
+  tinypng-cli
   types-installer         # types-installer | types-installer install
   yo                      # yeoman
   npm-ls-scripts          # Read package.json scripts ( $ ls-scripts )
