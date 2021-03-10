@@ -19,6 +19,7 @@ Bundle 'gmarik/Vundle.vim'
 Plugin 'jparise/vim-graphql'
 Plugin 'dart-lang/dart-vim-plugin'
 Plugin 'fatih/vim-go'
+Plugin 'evanleck/vim-svelte'
 
 " Color Schemes
 Plugin 'benjaminwhite/Benokai'
