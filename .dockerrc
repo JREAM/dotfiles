@@ -10,7 +10,7 @@
 # ║  $ docker system prune -a                                       ║
 # ╚═════════════════════════════════════════════════════════════════╝
 
-# Ensure docker exists, other don't use file.
+# Ensure docker exists, otherwise don't use file.
 if hash docker >&2 /dev/null; then
   :
 else
@@ -22,15 +22,15 @@ fi
 # ├─────────────────────────────────────────────────────────────────┤
 # Used for Settings, please do not change.
 # ___________________________________________________________________
-DIR_DATA="/data"
-DIR_DB="$DIR_DATA/db"
-DIR_CONF="$DIR_DATA/conf"
-DIR_WWW="$HOME/projects"      # Local HTTP Content serve location.
+DIR__DATA="/data"
+DIR__DB="$DIR__DATA/db"
+DIR__CONF="$DIR__DATA/conf"
+DIR__WWW="$HOME/projects"      # Local HTTP Content serve location.
 
 # ┌─────────────────────────────────────────────────────────────────┐
 # │ Messages                                                        │
 # └─────────────────────────────────────────────────────────────────┘
-MSG_HTTP="Using $DIR_WWW as web-root, change & restart if you wish."
+MSG__HTTP="Using $DIR__WWW as web-root, change & restart if you wish."
 function MSG_PERSIST() {
   echo -e "Creating local directory to persist data: $1"
 }
@@ -46,8 +46,7 @@ function MSG_PERSIST() {
 
 # @TODO: Add destroyable so its easier for user, multi instance maybe?
 
-
-APP_PORTAINER=(
+PORTAINER__APP=(
   9500
   "local-portainer_data"
   "portainer/portainer"
@@ -72,56 +71,51 @@ dkutil-buildup()  {
   docker ps -l --size
 }
 
-MY_PORTAINER_PORT=9500
-MY_PORTAINER_NAME="local-portainer_data"
-IMAGE_PORTAINER="portainer/portainer"
+PORTAINER__PORT=9500
+PORTAINER__NAME="local-portainer_data"
+PORTAINER__IMG="portainer/portainer"
 
-MY_RANCHER_NAME="local-rancher"
-MY_RANCHER_PORT=8080           # 8080 is default
-IMAGE_RANCHER=rancher/server:stable
+RANCHER__NAME="local-rancher"
+RANCHER__PORT=8080           # 8080 is default
+RANCHER__IMG=rancher/server:stable
 
-MY_SWAGGER_EDITOR_PORT=9600
-MY_SWAGGER_EDITOR_NAME="local-swagger-editor"
-IMAGE_SWAGGER_EDITOR="swaggerapi/swagger-editor"
+APACHE__NAME="local-apache"
+APACHE__PORT="82"            # 80 is default
+APACHE__IMG="httpd:2.4-alpine"
 
-MY_APACHE_NAME="local-apache"
-MY_APACHE_PORT="82"            # 80 is default
-IMAGE_APACHE="httpd:2.4-alpine"
+NGINX__NAME="local-nginx"
+NGINX__PORT="83"            # 80 is default
+NGINX__IMG="nginx:1-alpine"
 
-MY_NGINX_NAME="local-nginx"
-MY_NGINX_PORT="83"            # 80 is default
-IMAGE_NGINX="nginx:1-alpine"
+ELK__NAME="local-elk"
+ELK__PORT_KIBANA=5601        # 5601 is default
+ELK__PORT_ELASTICSEARCH=9200 # 9200 is default
+ELK__PORT_LOGSTASH=5044      # 9200 is default
+ELK__IMG="sebp/elk"
 
-MY_ELK_NAME="local-elk"
-MY_ELK_PORT_KIBANA=5601        # 5601 is default
-MY_ELK_PORT_ELASTICSEARCH=9200 # 9200 is default
-MY_ELK_PORT_LOGSTASH=5044      # 9200 is default
-IMAGE_ELK="sebp/elk"
+REDIS__NAME="local-redis"
+REDIS__PORT=6379             # 6379 is default
+REDIS__IMG="redis:alpine"
 
-MY_REDIS_NAME="local-redis"
-MY_REDIS_PORT=6379             # 6379 is default
-IMAGE_REDIS="redis:alpine"
+MONGO__NAME="local-mongo"
+MONGO__PORT=27017            # 27017 is default
+MONGO__IMG="mongo:4"
 
-MY_MONGO_NAME="local-mongo"
-MY_MONGO_PORT=27017            # 27017 is default
-IMAGE_MONGO="mongo:4"
+MYSQL__NAME="local-mysql"
+MYSQL__PORT=3306             # 3306 is default
+MYSQL__PASSWD="root"  # root Password
+MYSQL__IMG="mysql:5.7"        # You could swap w/Percona, Maria, Mysql.
 
-MY_MYSQL_NAME="local-mysql"
-MY_MYSQL_PORT=3306             # 3306 is default
-MY_MYSQL_ROOT_PASSWORD="root"  # root Password
-IMAGE_MYSQL="mysql:5.7"        # You could swap w/Percona, Maria, Mysql.
-
-MY_NATS_NAME="local-nats"
-MY_NATS_PORT=8222              # 8222 is default
-MY_NATS_PORT_CLIENT=4222       # 4222 is default
-#MY_NATS_PORT_CLUSTER=6220     # 6222 is default (Not Used)
-IMAGE_NATS="2-alpine"
+NATS__NAME="local-nats"
+NATS__PORT=8222              # 8222 is default
+NATS__PORT_CLIENT=4222       # 4222 is default
+#NATS__PORT_CLUSTER=6220     # 6222 is default (Not Used)
+NATS__IMG="2-alpine"
 
 # Simple way to keep track
 RUNNING=()
 RUNNING[PORTAINER]='off'
 RUNNING[RANCHER]='off'
-RUNNING[SWAGGER_EDITOR]='off'
 RUNNING[APACHE]='off'
 RUNNING[NGINX]='off'
 RUNNING[REDIS]='off'
@@ -135,16 +129,15 @@ function docker-ports() {
   ┌─────────────────────────────────────────────────┐;\n\
     $BOLD${YELLOW}Container Name$RESET \t; │ $BOLD${YELLOW}Port$RESET; | $BOLD${YELLOW}Status$RESET; \n\
   ├─────────────────────────────────────────────────┤;\n\
-    $MY_PORTAINER_NAME \t │ $MY_PORTAINER_PORT}\t  \n\
-    $MY_RANCHER_NAME \t │ $MY_RANCHER_PORT | s; \n\
-    $MY_SWAGGER_EDITOR_NAME \t │ $MY_SWAGGER_EDITOR_PORT; \n\
-    $MY_APACHE_NAME \t │ $MY_APACHE_PORT; \n\
-    $MY_NGINX_NAME \t │ $MY_NGINX_PORT; \n\
-    $MY_REDIS_NAME \t │ $MY_REDIS_PORT; \n\
-    $MY_MONGO_NAME \t │ $MY_MONGO_PORT; \n\
-    $MY_MYSQL_NAME \t │ $MY_MYSQL_PORT; \n\
-    $MY_NATS_NAME \t │ $MY_NATS_PORT; \n\
-    $MY_ELK_NAME \t │ $MY_ELK_PORT; \n\
+    $PORTAINER__NAME \t │ $PORTAINER__PORT}\t  \n\
+    $RANCHER__NAME \t │ $RANCHER__PORT | s; \n\
+    $APACHE__NAME \t │ $APACHE__PORT; \n\
+    $NGINX__NAME \t │ $NGINX__PORT; \n\
+    $REDIS__NAME \t │ $REDIS__PORT; \n\
+    $MYSQL__NAME \t │ $MYSQL__PORT; \n\
+    $MONGO__NAME \t │ $MONGO__PORT; \n\
+    $NATS__NAME \t │ $NATS__PORT; \n\
+    $ELK__NAME \t │ $ELK__PORT; \n\
   └──────────────────────────────────────────────────┘
   " | column -tx -s ';'
 }
@@ -175,7 +168,8 @@ alias dco-kill="docker-compose kill"
 # ───────────────────────────────────────────────────────────────────
 alias docker-kill-all="docker kill $(docker ps -q)"
 
-# Shortcut for docker compose without the dash
+# :: Shortcut for docker compose without the dash
+# ───────────────────────────────────────────────────────────────────
 function docker() {
   echo $1
   if [ "$1" = "compose" ]; then
@@ -185,8 +179,9 @@ function docker() {
   fi
 }
 
-
-# IMAGES: Does Container Exist?
+#
+# :: IMAGES | Does Container Exist?
+# ───────────────────────────────────────────────────────────────────
 function docker-exists() {
   if [ -z $1 ]; then
     echo "Missing argument for image name."; return;
@@ -197,6 +192,7 @@ function docker-exists() {
 # i = image(s)
 # v = volumes(s)
 # c = container(s)
+# ───────────────────────────────────────────────────────────────────
 function docker-kill-all        { docker kill $(docker ps -q); }
 function docker-last-id()       { docker ps -l -q; }
 function docker-rmc-all()       { docker kill $(docker ps -q); docker ps -aq | xargs docker rm -fv; }
@@ -212,15 +208,15 @@ function docker-stop-all        { docker stop $(docker ps -q); }
 function portainer-install() {
   docker volume create portainer_data
   docker run -d \
-    --name=$MY_PORTAINER_NAME \
-    -p $MY_PORTAINER_PORT:9000 \
+    --name=$PORTAINER__NAME \
+    -p $PORTAINER__PORT:9000 \
     -v /var/run/docker.sock:/var/run/docker.sock \
-    -v $DIR_DB/portainer_data:/data \
-    $IMAGE_PORTAINER;
+    -v $DIR__DB/portainer_data:/data \
+    $PORTAINER__IMG;
 }
-function portainer-start()   { docker start $MY_PORTAINER_NAME; }
-function portainer-stop()    { docker stop $MY_PORTAINER_NAME; }
-function portainer-restart() { docker restart $MY_PORTAINER_NAME; }
+function portainer-start()   { docker start $PORTAINER__NAME; }
+function portainer-stop()    { docker stop $PORTAINER__NAME; }
+function portainer-restart() { docker restart $PORTAINER__NAME; }
 
 # ┌─────────────────────────────────────────────────────────────────┐
 # │ Rancher                                                         │
@@ -230,29 +226,13 @@ function portainer-restart() { docker restart $MY_PORTAINER_NAME; }
 function rancher-install() {
   # docker volume create rancher_data
   docker run -d \
-    --name=$MY_RANCHER_NAME \
-    -p $MY_RANCHER_PORT:8080 \
-    $IMAGE_RANCHER;
+    --name=$RANCHER__NAME \
+    -p $RANCHER__PORT:8080 \
+    $RANCHER__IMG;
 }
-function rancher-start()   { docker start $MY_RANCHER_NAME; }
-function rancher-stop()    { docker stop $MY_RANCHER_NAME; }
-function rancher-restart() { docker restart $MY_RANCHER_NAME; }
-
-# ┌─────────────────────────────────────────────────────────────────┐
-# │ Swagger Editor                                                  │
-# ├─────────────────────────────────────────────────────────────────┤
-# │ @recommend  $ npm i -g swagger                                  │
-# └─────────────────────────────────────────────────────────────────┘
-function swagger-install() {
-  echo -e "@recommended: npm i -g swagger  (Additional CLI for Swagger)\n"
-  docker run -d \
-    --name=$MY_SWAGGER_EDITOR_NAME \
-    -p $MY_SWAGGER_EDITOR_PORT:8080 \
-    $IMAGE_SWAGGER_EDITOR;
-}
-function swagger-start()   { docker start $MY_SWAGGER_EDITOR_NAME; }
-function swagger-stop()    { docker stop $MY_SWAGGER_EDITOR_NAME; }
-function swagger-restart() { docker restart $MY_SWAGGER_EDITOR_NAME; }
+function rancher-start()   { docker start $RANCHER__NAME; }
+function rancher-stop()    { docker stop $RANCHER__NAME; }
+function rancher-restart() { docker restart $RANCHER__NAME; }
 
 # ┌─────────────────────────────────────────────────────────────────┐
 # │ Redis                                                           │
@@ -260,28 +240,28 @@ function swagger-restart() { docker restart $MY_SWAGGER_EDITOR_NAME; }
 # │ @desc  In Memory Database                                       │
 # └─────────────────────────────────────────────────────────────────┘
 function redis-install() {
-  if [ ! -d $DIR_DATA ]; then
-    sudo mkdir -p $DIR_DATA
+  if [ ! -d $DIR__DATA ]; then
+    sudo mkdir -p $DIR__DATA
   fi
-  if [ ! -f $DIR_CONF/redis.conf ]; then
-    echo "You need are missing $DIR_CONF/redis.conf, see https://github.com/jream/dotfiles.git under a docker folder"
+  if [ ! -f $DIR__CONF/redis.conf ]; then
+    echo "You need are missing $DIR__CONF/redis.conf, see https://github.com/jream/dotfiles.git under a docker folder"
     exit 1;
   fi
-  echo -e "Using $DIR_CONF/redis.conf, change & restart if you wish."
+  echo -e "Using $DIR__CONF/redis.conf, change & restart if you wish."
   docker run -d \
-    --name=$MY_REDIS_NAME \
-    -p $MY_REDIS_PORT:6379 \
-    -v $DIR_CONF/redis.conf:/usr/local/etc/redis/redis.conf \
-    $IMAGE_REDIS;
+    --name=$REDIS__NAME \
+    -p $REDIS__PORT:6379 \
+    -v $DIR__CONF/redis.conf:/usr/local/etc/redis/redis.conf \
+    $REDIS__IMG;
 }
 
 function redis-install() {
-  echo -e "Using $DIR_CONF/redis.conf, change & restart if you wish."
-  docker start $MY_REDIS_NAME;
+  echo -e "Using $DIR__CONF/redis.conf, change & restart if you wish."
+  docker start $REDIS__NAME;
 }
-function redis-stop()    { docker stop $MY_REDIS_NAME; }
-function redis-restart() { docker restart $MY_REDIS_NAME; }
-function redis-connect() { docker exec -it $MY_REDIS_NAME redis-cli; }
+function redis-stop()    { docker stop $REDIS__NAME; }
+function redis-restart() { docker restart $REDIS__NAME; }
+function redis-connect() { docker exec -it $REDIS__NAME redis-cli; }
 
 # ┌─────────────────────────────────────────────────────────────────┐
 # │ Apache                                                          │
@@ -289,17 +269,17 @@ function redis-connect() { docker exec -it $MY_REDIS_NAME redis-cli; }
 # │ @desc  HTTP Server                                              │
 # └─────────────────────────────────────────────────────────────────┘
 function apache-install() {
-  # echo -e "Using $DIR_CONF/apache.ini for configuration, change & restart if you wish."
-  echo -e $MSG_HTTP
+  # echo -e "Using $DIR__CONF/apache.ini for configuration, change & restart if you wish."
+  echo -e $MSG__HTTP
   docker run -d \
-    --name=$MY_APACHE_NAME \
-    -p $MY_APACHE_PORT:80 \
-    -v "$DIR_WWW":/usr/local/apache2/htdocs/ \
-    $IMAGE_APACHE;
+    --name=$APACHE__NAME \
+    -p $APACHE__PORT:80 \
+    -v "$DIR__WWW":/usr/local/apache2/htdocs/ \
+    $APACHE__IMG;
 }
-function apache-start()   { echo -e MSG_HTTP; docker start $MY_APACHE_NAME; }
-function apache-stop()    { docker stop $MY_APACHE_NAME; }
-function apache-restart() { docker restart $MY_APACHE_NAME; }
+function apache-start()   { echo -e MSG__HTTP; docker start $APACHE__NAME; }
+function apache-stop()    { docker stop $APACHE__NAME; }
+function apache-restart() { docker restart $APACHE__NAME; }
 
 # ┌─────────────────────────────────────────────────────────────────┐
 # │ Nginx                                                           │
@@ -307,17 +287,17 @@ function apache-restart() { docker restart $MY_APACHE_NAME; }
 # │ @desc  HTTP Server                                              │
 # └─────────────────────────────────────────────────────────────────┘
 function nginx-install() {
-  # docker run -d -v "$DIR_WWW":/usr/share/nginx/html --name=$MY_NGINX_NAME -p $MY_NGINX_PORT:80 $IMAGE_NGINX $CONF_DIR/nginx.conf:/etc/nginx/nginx.conf:ro
-  echo -e $MSG_HTTP;
+  # docker run -d -v "$DIR__WWW":/usr/share/nginx/html --name=$NGINX__NAME -p $NGINX__PORT:80 $NGINX__IMG $CONF_DIR/nginx.conf:/etc/nginx/nginx.conf:ro
+  echo -e $MSG__HTTP;
   docker run -d \
-    --name=$MY_NGINX_NAME \
-    -v "$DIR_WWW":/usr/share/nginx/html \
-    -p $MY_NGINX_PORT:80 \
-    $IMAGE_NGINX;
+    --name=$NGINX__NAME \
+    -v "$DIR__WWW":/usr/share/nginx/html \
+    -p $NGINX__PORT:80 \
+    $NGINX__IMG;
 }
-function nginx-start()   { docker start $MY_NGINX_NAME; }
-function nginx-stop()    { docker stop $MY_NGINX_NAME; }
-function nginx-restart() { docker restart $MY_NGINX_NAME; }
+function nginx-start()   { docker start $NGINX__NAME; }
+function nginx-stop()    { docker stop $NGINX__NAME; }
+function nginx-restart() { docker restart $NGINX__NAME; }
 
 # ┌─────────────────────────────────────────────────────────────────┐
 # │ Mongo                                                           │
@@ -325,20 +305,20 @@ function nginx-restart() { docker restart $MY_NGINX_NAME; }
 # │ @desc  NoSQL Database                                           │
 # └─────────────────────────────────────────────────────────────────┘
 function mongo-install() {
-  if [[ ! -d $DIR_DB/mongo/$MY_MONGO_NAME ]]; then
-    MSG_PERSIST "$DIR_DB/mongo/$MY_MONGO_NAME"
-    sudo mkdir $DIR_DB/mongo/$MY_MONGO_NAME;
+  if [[ ! -d $DIR__DB/mongo/$MONGO__NAME ]]; then
+    MSG_PERSIST "$DIR__DB/mongo/$MONGO__NAME"
+    sudo mkdir $DIR__DB/mongo/$MONGO__NAME;
   fi
   docker run -d \
-    --name=$MY_MONGO_NAME \
-    -p $MY_MONGO_PORT:27017 \
-    -v $DIR_DB/mongo/$MY_MONGO_NAME \
-    $IMAGE_MONGO;
+    --name=$MONGO__NAME \
+    -p $MONGO__PORT:27017 \
+    -v $DIR__DB/mongo/$MONGO__NAME \
+    $MONGO__IMG;
 }
-function mongo-start()   { docker start $MY_MONGO_NAME; }
-function mongo-stop()    { docker stop $MY_MONGO_NAME; }
-function mongo-restart() { docker restart $MY_MONGO_NAME; }
-function mongo-connect() { docker exec -it $MY_MONGO_NAME mongo; }
+function mongo-start()   { docker start $MONGO__NAME; }
+function mongo-stop()    { docker stop $MONGO__NAME; }
+function mongo-restart() { docker restart $MONGO__NAME; }
+function mongo-connect() { docker exec -it $MONGO__NAME mongo; }
 
 # ┌─────────────────────────────────────────────────────────────────┐
 # │ MySQL                                                           │
@@ -346,21 +326,21 @@ function mongo-connect() { docker exec -it $MY_MONGO_NAME mongo; }
 # │ @desc  Relational Database                                      │
 # └─────────────────────────────────────────────────────────────────┘
 function mysql-install() {
-  if [[ ! -d $DIR_DB/mysql/$MY_MYSQL_NAME ]]; then
-    MSG_PERSIST "$DIR_DB/mysql/$MY_MYSQL_NAME";
-    sudo mkdir $DIR_DB/mysql/$MY_MYSQL_NAME;
+  if [[ ! -d $DIR__DB/mysql/$MYSQL__NAME ]]; then
+    MSG_PERSIST "$DIR__DB/mysql/$MYSQL__NAME";
+    sudo mkdir $DIR__DB/mysql/$MYSQL__NAME;
   fi
   docker run -d \
-    --name=$MY_MYSQL_NAME \
-    -p $MY_MYSQL_PORT:3306 \
-    -e MYSQL_ROOT_PASSWORD=$MY_MYSQL_ROOT_PASSWORD \
-    -v $DIR_DB/mysql/$MY_MYSQL_NAME:/var/lib/mysql \
-    $IMAGE_MYSQL;
+    --name=$MYSQL__NAME \
+    -p $MYSQL__PORT:3306 \
+    -e MYSQL_PASSWD=$MYSQL__PASSWD \
+    -v $DIR__DB/mysql/$MYSQL__NAME:/var/lib/mysql \
+    $MYSQL__IMG;
 }
-function mysql-start()   { docker start $MY_MYSQL_NAME; }
-function mysql-stop()    { docker stop $MY_MYSQL_NAME; }
-function mysql-restart() { docker restart $MY_MYSQL_NAME; }
-function mysql-connect() { docker exec -it $MY_MYSQL_NAME mysql -uroot -p$MY_MYSQL_ROOT_PASSWORD; }
+function mysql-start()   { docker start $MYSQL__NAME; }
+function mysql-stop()    { docker stop $MYSQL__NAME; }
+function mysql-restart() { docker restart $MYSQL__NAME; }
+function mysql-connect() { docker exec -it $MYSQL__NAME mysql -uroot -p$MYSQL__PASSWD; }
 
 # ┌─────────────────────────────────────────────────────────────────┐
 # │ NATS                                                            │
@@ -369,14 +349,14 @@ function mysql-connect() { docker exec -it $MY_MYSQL_NAME mysql -uroot -p$MY_MYS
 # └─────────────────────────────────────────────────────────────────┘
 function nats-install() {
   docker run -d \
-    --name=$MY_NATS_NAME \
-    -p $MY_NATS_PORT:8222 \
-    $IMAGE_NATS;
+    --name=$NATS__NAME \
+    -p $NATS__PORT:8222 \
+    $NATS__IMG;
 }
-function nats-start()   { docker start $MY_NATS_NAME; }
-function nats-stop()    { docker stop $MY_NATS_NAME; }
-function nats-restart() { docker restart $MY_NATS_NAME; }
-function nats-connect() { docker exec -it $MY_NATS_NAME; }
+function nats-start()   { docker start $NATS__NAME; }
+function nats-stop()    { docker stop $NATS__NAME; }
+function nats-restart() { docker restart $NATS__NAME; }
+function nats-connect() { docker exec -it $NATS__NAME; }
 
 # ┌─────────────────────────────────────────────────────────────────┐
 # │ ELK                                                             │
@@ -385,11 +365,11 @@ function nats-connect() { docker exec -it $MY_NATS_NAME; }
 # └─────────────────────────────────────────────────────────────────┘
 function elk-install() {
   docker run -d \
-    --name=$MY_ELK_NAME \
-    -p $MY_ELK_PORT_KIBANA:5601 \
-    -p $MY_ELK_PORT_ELASTICSEARCH:9200 \
-    -p $MY_ELK_PORT_LOGSTASH:5044 \
-    $IMAGE_ELK;
+    --name=$ELK__NAME \
+    -p $ELK__PORT_KIBANA:5601 \
+    -p $ELK__PORT_ELASTICSEARCH:9200 \
+    -p $ELK__PORT_LOGSTASH:5044 \
+    $ELK__IMG;
 
     echo -e "You may need to increase local vm.max_map_count by running:\n\
     \t$ sudo sysctl -w vm.max_map_count=262144 \n\
@@ -399,7 +379,7 @@ function elk-install() {
     (Requires Reboot) \n\n\
     "
 }
-function elk-start()    { docker start $MY_ELK_NAME; }
-function elk-stop()     { docker stop $MY_ELK_NAME; }
-function elk-restart()  { docker restart $MY_ELK_NAME; }
-function nats-connect() { docker exec -it $MY_NATS_NAME; }
+function elk-start()    { docker start $ELK__NAME; }
+function elk-stop()     { docker stop $ELK__NAME; }
+function elk-restart()  { docker restart $ELK__NAME; }
+function nats-connect() { docker exec -it $NATS__NAME; }
