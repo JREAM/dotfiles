@@ -93,6 +93,7 @@ PACKAGES=(
   # ---------------
   # CLI Tools
   # ---------------
+  degit                   # npx degit (install git repo)
   @feathersjs/feathers
   # @gridsome/cli           # (Vue Page Builder) Much like Gatsby
   gatsby                  # (React Page Builder) Gatsby is Awesome
