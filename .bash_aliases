@@ -105,7 +105,7 @@ alias h='history'
 alias j='jobs -l'
 
 # Use the Latest Python Version via "py"
-
+alias py='python'
 alias ports='netstat -tulanp'
 alias time="date +'%A, %B %m %Y at%l:%M%P %Z'"
 alias vi=vim
