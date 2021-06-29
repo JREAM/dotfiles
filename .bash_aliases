@@ -1,46 +1,29 @@
 #!/bin/bash
-# ___________________________________________________________________
-#
-#
-#                       Bashalias [Sourced from .bashrc]
-#                        Speed up Commands in Terminal
-#
-# Suggested Apt Packages: pydf colordiff nmap
-# Note: See .exports for Color ENV variables
-#
-# Table of Contents:
-#   * CUSTOM CONFIG *
-#   - COLORS
-#   - COMMON
-#   - COMMON W/INSTALLS
-#   - NGINX
-#   - APACHE2
-#   - PYTHON
-#   - GIT
-#   - LEGIT FUNCTIONS
-# ___________________________________________________________________
+# ╔═════════════════════════════════════════════════════════════════╗
+# ║ BASH_ALIASES                                                    ║
+# ╚═════════════════════════════════════════════════════════════════╝
+#  (!) bash_alias is sourced from .bashrc
+#  (?) Suggested 'apt' Packages: pydf colordiff nmap
 
-# ___________________________________________________________________
-#
-#                           * CONFIG *
-# ___________________________________________________________________
+# ╔═════════════════════════════════════════════════════════════════╗
+# ║ Personal Folders                                                ║
+# ╚═════════════════════════════════════════════════════════════════╝
+[ -d ~/projects ] &&  alias p='cd ~/projects/'
+[ -d ~/dev ] &&       alias d='cd ~/dev/' && alias dev='cd ~/dev'
+[ -d ~/Downloads ] && alias dl='cd ~/Downloads'
 
-PHPFPM_VERSION='7.2'
 
+# ╔═════════════════════════════════════════════════════════════════╗
+# ║ Bug Fix                                                         ║
+# ╚═════════════════════════════════════════════════════════════════╝
 # Fix "GREP OPTIONS depcrated"
 #GREP_OPTIONS="$GREP_OPTIONS -r -d skip"
 export GREP_COLOR='1;32'
 
 
-# Personal Folder shortcuts
-[ -d ~/projects ] && alias p='cd ~/projects/'
-[ -d ~/dev ] && alias d='cd ~/dev/' && alias dev='cd ~/dev'
-[ -d ~/Downloads ] && alias dl="cd ~/Downloads"
-
-# ___________________________________________________________________
-#
-#                           ACL
-# ___________________________________________________________________
+# ╔═════════════════════════════════════════════════════════════════╗
+# ║ ACL                                                             ║
+# ╚═════════════════════════════════════════════════════════════════╝
 if hash setfacl 2>/dev/null; then
 
   setfacl-user() {
@@ -83,16 +66,9 @@ if hash setfacl 2>/dev/null; then
 
 fi
 
-# ___________________________________________________________________
-#
-#                           COMMON
-# ___________________________________________________________________
-
-
-#function memusage {
-#  ps aux | awk '{print $4 "%\t" int($6/1024) " MB\t" $11}' | sort -n
-#}
-
+# ╔═════════════════════════════════════════════════════════════════╗
+# ║ Command Commands                                                ║
+# ╚═════════════════════════════════════════════════════════════════╝
 alias chgrp='sudo chown'
 alias chmod='sudo chmod'
 alias chmox='sudo chmod'  # always make this typo
@@ -109,7 +85,6 @@ alias py='python'
 alias ports='netstat -tulanp'
 alias time="date +'%A, %B %m %Y at%l:%M%P %Z'"
 alias vi=vim
-
 
 # Listing
 alias l="ls -lh --color=auto"
@@ -128,7 +103,7 @@ alias ...='cd ../..'
 alias ....='cd ../../..'
 alias www='cd /var/www/'
 
-# Super User (SUDO) Shortcuts
+# Super User 'sudo' shortcuts
 alias apt-get='sudo apt-get'
 alias apt='sudo apt'
 alias root='sudo -i'                # Become root
@@ -141,13 +116,13 @@ alias poweroff='sudo /sbin/poweroff'
 alias reboot='sudo /sbin/reboot'
 alias shutdown='sudo /sbin/shutdown'
 
+# System Updates
 alias autoclean='sudo apt autoclean'
 alias autoremove='clean'
 alias clean='sudo apt autoremove; sudo apt autoclean'
 alias update='sudo apt-get update'
 alias updatey='sudo apt-get update && sudo apt-get upgrade -y && sudo apt autoremove -y && sudo apt autoclean'
 alias upgrade='sudo apt-get upgrade'
-
 alias ppa='sudo apt-add-repository'
 
 # Preserve / root folder permissions
@@ -181,11 +156,10 @@ alias du='du -ch'
 alias myip="dig +short myip.opendns.com @resolver1.opendns.com"
 alias myips="hostname -I"
 
-# ___________________________________________________________________
-#
-#                       COMMON W/INSTALLS
-# ___________________________________________________________________
 
+# ╔═════════════════════════════════════════════════════════════════╗
+# ║ Common Install Shortcuts                                        ║
+# ╚═════════════════════════════════════════════════════════════════╝
 # install: $ sudo apt install colordiff
 if hash colordiff 2>/dev/null; then
   alias diff='colordiff'
@@ -206,11 +180,10 @@ if [ -f "/c/ProgramData/chocolatey/bin/choco" ]; then
     alias choco="/c/ProgramData/chocolatey/bin/choco"
 fi
 
-# ___________________________________________________________________
-#
-#                           NGINX
-# ___________________________________________________________________
 
+# ╔═════════════════════════════════════════════════════════════════╗
+# ║ NGINX                                                           ║
+# ╚═════════════════════════════════════════════════════════════════╝
 function ngensite { sudo ln -s /etc/nginx/sites-available/$1 /etc/nginx/sites-enabled; }
 function ngdissite { sudo rm /etc/nginx/sites-enabled/$1; }
 alias ngaccess='tail -n 50 /var/log/nginx/access.log'
@@ -228,11 +201,10 @@ alias ngstatus='systemctl status nginx.service'
 alias ngstop='sudo service nginx stop'
 alias ngtest='sudo nginx -t'
 
-# ___________________________________________________________________
-#
-#                           APACHE2
-# ___________________________________________________________________
 
+# ╔═════════════════════════════════════════════════════════════════╗
+# ║ Apache2                                                         ║
+# ╚═════════════════════════════════════════════════════════════════╝
 alias a2ls-mods-en='ls /etc/apache2/mods-enabled'
 alias a2ls-mods='ls /etc/apache2/mods-available'
 alias a2ls-sites-en='ls /etc/apache2/sites-enabled'
@@ -270,34 +242,31 @@ alias a2ctl='sudo apachectl'
 alias apache2ctl='sudo apache2ctl'
 alias apachectl='sudo apachectl'
 
-# ___________________________________________________________________
-#
-#                           PHP FPM
-# ___________________________________________________________________
 
-alias fpm-log="sudo tail /var/log/php$PHPFPM_VERSION-fpm.log"
-alias fpm-reenable="systemctl restart php$PHPFPM_VERSION-fpm.service"
-alias fpm-reload="systemctl reload php$PHPFPM_VERSION-fpm.service"
-alias fpm-restart="systemctl restart php$PHPFPM_VERSION-fpm.service"
-alias fpm-restart="systemctl restart php$PHPFPM_VERSION-fpm.service"
-alias fpm="sudo php$PHPFPM_VERSION-fpm"
+# ╔═════════════════════════════════════════════════════════════════╗
+# ║ PHP FPM                                                         ║
+# ╚═════════════════════════════════════════════════════════════════╝
+# PHPFPM_VERSION=8.0
+# alias fpm-log="sudo tail /var/log/php$PHPFPM_VERSION-fpm.log"
+# alias fpm-reenable="systemctl restart php$PHPFPM_VERSION-fpm.service"
+# alias fpm-reload="systemctl reload php$PHPFPM_VERSION-fpm.service"
+# alias fpm-restart="systemctl restart php$PHPFPM_VERSION-fpm.service"
+# alias fpm-restart="systemctl restart php$PHPFPM_VERSION-fpm.service"
+# alias fpm="sudo php$PHPFPM_VERSION-fpm"
 
-# ___________________________________________________________________
-#
-#                           GIT
-# ___________________________________________________________________
-
+# ╔═════════════════════════════════════════════════════════════════╗
+# ║ Git                                                             ║
+# ╚═════════════════════════════════════════════════════════════════╝
 # Prefer To type gitA<Tab> for quick update
 alias gitAddPush="git add . && git cm 'Standard Update' && git push"
 alias gitPush="git push"
 alias gitPull="git pull"
 
-# ___________________________________________________________________
-#
-#                        LEGIT FUNCTIONS
-# ___________________________________________________________________
+# ╔═════════════════════════════════════════════════════════════════╗
+# ║ Custom Functions                                                ║
+# ╚═════════════════════════════════════════════════════════════════╝
 
-# Find in file
+# >> Find in file
 #
 # examples:  $ findinfile 'hello mom' .
 #            $ fif 'hello mom' .
@@ -322,11 +291,12 @@ alias fif="findinfile"
 
 alias slugifydir="slugify -vud . && rename 'y/A-Z/a-z/' ."
 
-# Directory Loop (All Children/Sub-Folders)
+# >> Directory Loop
+#    (All Children/Sub-Folders)
 #
 #   @TODO [ON HOLD, SEE BELOW] PASS -d=2 or --depth=<number> to allow over 1 level deep
 #
-# examples: $ loopdircmd git checkout development
+# examples: $ loopdir git checkout development
 # ___________________________________________________________________
 loopdir() {
     if [ -z "$1" ]; then
@@ -350,9 +320,8 @@ loopdir() {
     # find . -maxdepth 1 -type d \( ! -name . \) -exec bash -c "cd '{}' && echo -e \"\n${BOLD}${GREEN}In Directory: ${PWD}${RESET}\" && $*" \;
 }
 
-# Exty4yract Files with one function <@DS>
+# >> Extract Files with one function <@DS>
 # ___________________________________________________________________
-
 extract () {
   if [ -f "$1" ]; then
     FILE=$1
@@ -375,6 +344,3 @@ extract () {
     echo "[Error]: Cannot extract '$FILE'"
   fi
 }
-# ___________________________________________________________________
-
-# End of File

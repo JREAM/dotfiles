@@ -1,195 +1,119 @@
 #!/bin/bash
 # ╔═════════════════════════════════════════════════════════════════╗
-# ║ BASH_VEDNORS                                                    ║
-# ╠═════════════════════════════════════════════════════════════════╣
-# ║ Entry Point to all Bash Utilities                               ║
+# ║ BASH_VENDORS                                                    ║
 # ╚═════════════════════════════════════════════════════════════════╝
-
 if (( $+commands[direnv] )) > /dev/null 2>&1; then
   eval "$(direnv hook bash)"
 fi
 
-# ┌─────────────────────────────────────────────────────────────────┐
-# │ (Optional) Deno Language                                        │
-# └─────────────────────────────────────────────────────────────────┘
-if [ -d "$HOME/.deno" ]; then
-  export PATH="$PATH:$HOME/.deno/bin"
-fi
-
-# ┌─────────────────────────────────────────────────────────────────┐
-# │ (Optional) Java Grandle                                         │
-# └─────────────────────────────────────────────────────────────────┘
-if [ -d /opt/gradle/gradle-6.8 ]; then
-  export PATH=$PATH:/opt/gradle/gradle-6.8/bin
-fi
-
-# ┌─────────────────────────────────────────────────────────────────┐
-# │ (Optional) Dart Language                                        │
-# └─────────────────────────────────────────────────────────────────┘
-if [ -d /usr/lib/dart/bin ]; then
-  export PATH="$PATH:/usr/lib/dart/bin"
-  export PATH="$PATH:$HOME/.pub-cache/bin"
-fi
-
-# ┌─────────────────────────────────────────────────────────────────┐
-# │ (Optional) Flutter Language                                     │
-# └─────────────────────────────────────────────────────────────────┘
-if [ -d /opt/flutter ]; then
-  export PATH="$PATH:/opt/flutter/bin"
-  export PATH="$PATH:/opt/flutter/.pub-cache/bin"
-fi
 
 # ╔═════════════════════════════════════════════════════════════════╗
 # ║ JDK / Android SDK                                               ║
-# ╠═════════════════════════════════════════════════════════════════╣
 # ╚═════════════════════════════════════════════════════════════════╝
-
 if [ -d "/opt/jdk1.8" ]; then
-  export JAVA_HOME="/opt/jdk1.8"
+  export JAVA_HOME=/opt/jdk1.8
   export PATH=$PATH:$JAVA_HOME/bin
 fi
 
-if [ -d "/opt/android/" ]; then
-  export ANDROID_HOME=/opt/android
-# Android Studio: Default Location
-elif [ -d $HOME/Android/Sdk/ ]; then
-  export ANDROID_HOME="$HOME/Android/Sdk"
+if [ -d $HOME/Android/Sdk/ ]; then
+  # Android Studio: Default Location
+  export ANDROID_SDK=$HOME/Android/Sdk
 fi
 
-if [ -n "$ANDROID_HOME" ]; then
+if [ -n "$ANDROID_SDK" ]; then
   export PATH=$PATH:/usr/lib/android-sdk
-  export PATH=$PATH:$ANDROID_HOME/tools
-  export PATH=$PATH:$ANDROID_HOME/tools/bin
-  export PATH=$PATH:$ANDROID_HOME/platform-tools
+  export PATH=$PATH:$ANDROID_SDK/emulator
+  export PATH=$PATH:$ANDROID_SDK/tools
+  export PATH=$PATH:$ANDROID_SDK/tools/bin
+  export PATH=$PATH:$ANDROID_SDK/platform-tools
 fi
 
-# ┌─────────────────────────────────────────────────────────────────┐
-# │ (Optional) Kubernetes                                           │
-# ├─────────────────────────────────────────────────────────────────┤
-# └─────────────────────────────────────────────────────────────────┘
+
+# ╔═════════════════════════════════════════════════════════════════╗
+# ║ PHP Composer                                                    ║
+# ╚═════════════════════════════════════════════════════════════════╝
+export COMPOSER_HOME=$HOME/.composer/vendor/bin
+if [ -d $COMPOSER_HOME ]; then
+  PATH=$PATH:$COMPOSER_HOME
+  export COMPOSER_HOME=`composer config -g home`
+fi
+
+
+# ╔═════════════════════════════════════════════════════════════════╗
+# ║ Docker / Kubernetes                                             ║
+# ╚═════════════════════════════════════════════════════════════════╝
+if hash docker 2>/dev/null; then
+  [[ -f ~/.dockerrc ]] && source ~/.dockerrc
+  [[ -f ~/.docker-complete ]] && source ~/.docker-complete
+fi
+
 if (( $+commands[kubectl] )) >/dev/null 2>&1; then
   source <(kubectl completion bash)
 fi
 
-# ┌─────────────────────────────────────────────────────────────────┐
-# │ (Optional) PHP Composer Related                                 │
-# ├─────────────────────────────────────────────────────────────────┤
-# └─────────────────────────────────────────────────────────────────┘
-# Include local composer folder if exists
-export COMPOSER_HOME="$HOME/.composer/vendor/bin"
-if [ -d $COMPOSER_HOME ]; then
-  PATH=$COMPOSER_HOME:$PATH
-  export COMPOSER_HOME=`composer config -g home`
-fi
 
-# ┌─────────────────────────────────────────────────────────────────┐
-# │ (Optional) Wine Compat mode (XP) and Resize Font $ winecfg      │
-# └─────────────────────────────────────────────────────────────────┘
-if [ -f /usr/bin/wine ]; then
-  export WINEARCH=win32       # Use 32-bit to fix black boxes on some apps
-  export WINEPREFIX=~/.wine32 # This can be emplty
-  # winecfg # Run this after (see title few lines up)
-fi
-
-# ┌─────────────────────────────────────────────────────────────────┐
-# │ (Optional) Yarn Globals (Faster than NPM                        │
-# └─────────────────────────────────────────────────────────────────┘
-if [ -d $HOME/.yarn/bin ]; then
-  export PATH=$PATH:$HOME/.yarn/bin
-fi
-
-# ┌─────────────────────────────────────────────────────────────────┐
-# │ (Optional) Docker                                               │
-# └─────────────────────────────────────────────────────────────────┘
-if hash docker 2>/dev/null; then
-  if [[ -f ~/.dockerrc ]]; then
-    source ~/.dockerrc
-  fi
-fi
-
-# ┌─────────────────────────────────────────────────────────────────┐
-# │ (Optional) Node/Yarn Related                                    │
-# ├─────────────────────────────────────────────────────────────────┤
-# │ Place ~/.yarn before ~/.npm so is takes presedense.             │
-# └─────────────────────────────────────────────────────────────────┘
-# JS Package Manager Related
-[[ -f ~/.npm-completion ]] && source ~/.npm-completion
+# ╔═════════════════════════════════════════════════════════════════╗
+# ║  Node / NPM / Yarn                                              ║
+# ║  (!) Place ~/.yarn before ~/.npm so is takes precidence.        ║
+# ╚═════════════════════════════════════════════════════════════════╝
+[[ -f ~/.npm-completion ]]  && source ~/.npm-completion
 [[ -f ~/.yarn-completion ]] && source ~/.yarn-completion
-[[ -f ~/.docker-complete ]] && source ~/.docker-complete
+[[ -d $HOME/.yarn/bin ]]    && export PATH=$PATH:$HOME/.yarn/bin
 
-# ┌─────────────────────────────────────────────────────────────────┐
-# │ (Optional) GoLang                                               │
-# ├─────────────────────────────────────────────────────────────────┤
-# └─────────────────────────────────────────────────────────────────┘
+
+# ╔═════════════════════════════════════════════════════════════════╗
+# ║  GoLang                                                         ║
+# ╚═════════════════════════════════════════════════════════════════╝
 if [ -d /usr/local/go ]; then
   export GOPATH=$HOME/go
   export PATH=$PATH:/usr/local/go/bin
   export PATH=$PATH:$GOPATH/bin
 fi
 
-# ┌─────────────────────────────────────────────────────────────────┐
-# │ (Optional) PyEnv (Python Version Manager)                       │
-# ├─────────────────────────────────────────────────────────────────┤
-# └─────────────────────────────────────────────────────────────────┘
-if [ -d $HOME/.pyenv ]; then
-export PYENV_ROOT="$HOME/.pyenv"
-export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init --path)"
 
-  # @install https://github.com/pyenv/pyenv#installation
-  export PYENV_ROOT="$HOME/.pyenv"
-  export PATH="$PYENV_ROOT/bin:$PATH"
+# ╔═════════════════════════════════════════════════════════════════╗
+# ║  Python / PyEnv                                                 ║
+# ╚═════════════════════════════════════════════════════════════════╝
+# Stop Python from generating bytecode files
+export PYTHONDONTWRITEBYTECODE=1
+
+# Check for PyEnv Version Manager
+if [ -d $HOME/.pyenv ]; then
+  export PYENV_ROOT=$HOME/.pyenv
+  export PATH=$PATH:$PYENV_ROOT/bin:$PATH
   eval "$(pyenv init --path)"
 
+  # @install https://github.com/pyenv/pyenv#installation
+  export PYENV_ROOT=$HOME/.pyenv
+  export PATH=$PATH:$PYENV_ROOT/bin:$PATH
+  eval "$(pyenv init --path)"
 fi
 
-# ___________________________________________________________________
-#
-#                           PYTHON
-#
-#            Virtualenvwrapper: Globally or Pyenv installation
-# ___________________________________________________________________
+# Check for PyEnv Virtualenvwrapper
+if (( $+commands[pyenv] )) >/dev/null 2>&1; then
+  eval "$(pyenv init -)"
+  alias mkvirtualenv="mkvirtualenv --no-site-packages --distribute"
 
-if [ -d ~/.virtualenvs ]; then
-  export WORKON_HOME=~/.virtualenvs
-  export PROJECT_HOME=~/py-projects
-  export PIP_VIRTUALENV_BASE=~/.virtualenvs
-
-  if (( $+commands[pyenv] )) >/dev/null 2>&1; then
-    eval "$(pyenv init -)"
-    alias mkvirtualenv="mkvirtualenv --no-site-packages --distribute"
-
-    if [ -d ~/.pyenv/plugins/pyenv-virtualenvwrapper ]; then
-      # Allow PyEnv Virtualenvwrapper to create venvs
-      # Auto activate virtualenvs on directory change
-      eval "$(~/.pyenv/bin/pyenv virtualenv-init -)"
-      export PYENV_VIRTUALENVWRAPPER_PREFER_PYVENV="true"
-    fi
+  if [ -d ~/.pyenv/plugins/pyenv-virtualenvwrapper ]; then
+    # Allow PyEnv Virtualenvwrapper to create venvs
+    # Auto activate virtualenvs on directory change
+    eval "$(~/.pyenv/bin/pyenv virtualenv-init -)"
+    export PYENV_VIRTUALENVWRAPPER_PREFER_PYVENV="true"
   fi
 fi
 
-export PYTHONDONTWRITEBYTECODE=1  # Stop Python from generating bytecode files
 
-
-# ┌─────────────────────────────────────────────────────────────────┐
-# │ (Optional) GVM (GoLang Version Manager)                         │
-# ├─────────────────────────────────────────────────────────────────┤
-# └─────────────────────────────────────────────────────────────────┘
-
-if [ -s $HOME/.gvm/scripts/gvm ]; then
-  source "$HOME/.gvm/scripts/gvm"
-fi
-
-# ┌─────────────────────────────────────────────────────────────────┐
-# │ (Optional) NVM (Node Version Manager)                           │
-# ├─────────────────────────────────────────────────────────────────┤
-# └─────────────────────────────────────────────────────────────────┘
-
+# ╔═════════════════════════════════════════════════════════════════╗
+# ║  NVM (Node Version Manager)                                     ║
+# ╚═════════════════════════════════════════════════════════════════╝
 if [ -d $HOME/.nvm ]; then
-  export NVM_DIR="$HOME/.nvm"
-  [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # Load NVM
-  [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # Load NVM bash_completion
+  export NVM_DIR=$HOME/.nvm
 
+  # Load NVM (Node Version Manager) and NVM Bash Completion
+  [ -s $NVM_DIR/nvm.sh ] && \. $NVM_DIR/nvm.sh
+  [ -s $NVM_DIR/bash_completion ] && \. $NVM_DIR/bash_completion
+
+  # Check for an .nvmrc file if a specific version is in a folder.
   load-nvmrc() {
     if [[ -f .nvmrc && -r .nvmrc ]]; then
       nvm use
@@ -202,15 +126,20 @@ if [ -d $HOME/.nvm ]; then
   cd() { builtin cd "$@"; 'load-nvmrc'; }
 fi
 
-# ┌─────────────────────────────────────────────────────────────────┐
-# │ GRC Color Highlighting                                          │
-# ├─────────────────────────────────────────────────────────────────┤
-# └─────────────────────────────────────────────────────────────────┘
-if hash grc &>/dev/null; then
 
-   if [ -f "$HOME/.grc/grc.bashrc" ]; then
-    source "$HOME/.grc/grc.bashrc"
-  fi
+# ╔═════════════════════════════════════════════════════════════════╗
+# ║  GRC (Bash Color Highlights)                                    ║
+# ╚═════════════════════════════════════════════════════════════════╝
+if hash grc &>/dev/null; then
+  [ -f $HOME/.grc/grc.bashrc ] && source $HOME/.grc/grc.bashrc
 fi
 
 
+# ╔═════════════════════════════════════════════════════════════════╗
+# ║  Wine Compat Mode (XP) and Resize Fonts                         ║
+# ╚═════════════════════════════════════════════════════════════════╝
+if [ -f /usr/bin/wine ]; then
+  export WINEARCH=win32       # Use 32-bit to fix black boxes on some apps
+  export WINEPREFIX=~/.wine32 # This can be emplty
+  # $ winecfg -- Run this after (see title few lines up)
+fi
