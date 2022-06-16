@@ -35,8 +35,8 @@ parse_git_branch() {
 }
 
 # Unobtrusive user@name[~/path (git-branch)]:~$
-cust1=$(echo -e "\033[0;97m\]\u\033[1;97m\]->${RESET}")
-export PS1="\n[\[\033[0;94m\]\]\w\[$RESET\[\033[38;5;15m\]]\[\e[91m\]\$(parse_git_branch)\[\e[00m\]\n${cust1}\[$RESET\] "
+cust1=$(echo -e "\033[0;97m\]\u\033[1;97m\]->\033[0m")
+export PS1="\n[\[\033[0;94m\]\]\w\[\033[0m\[\033[38;5;15m\]]\[\033[0;93m\$(parse_git_branch)\[\e[00m\]\n${cust1}\[\033[0m\] "
 
 
 # ┌─────────────────────────────────────────────────────────────────┐
