@@ -30,14 +30,8 @@ xinput set-button-map 'Elan Touchpad' 1 0 3 4 5 6 7
 # ┌─────────────────────────────────────────────────────────────────┐
 # │ Terminal Display                                                │
 # └─────────────────────────────────────────────────────────────────┘
-parse_git_branch() {
-  git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
-}
-
-# Unobtrusive user@name[~/path (git-branch)]:~$
-cust1=$(echo -e "\033[0;97m\]\u\033[1;97m\]->\033[0m")
-export PS1="\n[\[\033[0;94m\]\]\w\[\033[0m\[\033[38;5;15m\]]\[\033[0;93m\$(parse_git_branch)\[\e[00m\]\n${cust1}\[\033[0m\] "
-
+# https://bashrcgenerator.com/
+export PS1="[\[$(tput sgr0)\]\[\033[0;94m\]\w\[$(tput sgr0)\]] \[$(tput sgr0)\]\[\033[0;93m\]\$(git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/')\[$(tput sgr0)\]\n\u-> \[$(tput sgr0)\]"
 
 # ┌─────────────────────────────────────────────────────────────────┐
 # │ Preferences: History                                            │
