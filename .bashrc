@@ -31,7 +31,7 @@ xinput set-button-map 'Elan Touchpad' 1 0 3 4 5 6 7
 # │ Terminal Display                                                │
 # └─────────────────────────────────────────────────────────────────┘
 # https://bashrcgenerator.com/
-export PS1="[\[$(tput sgr0)\]\[\033[0;94m\]\w\[$(tput sgr0)\]] \[$(tput sgr0)\]\[\033[0;93m\]\$(git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/')\[$(tput sgr0)\]\n\u-> \[$(tput sgr0)\]"
+export PS1="[\[\033[0m\]\[\033[0;94m\]\w\[\033[0m\]] \[\033[0m\]\[\033[0;93m\]\$(git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/')\[\033[0m\]\n\u-> \[\033[0m\]"
 
 # ┌─────────────────────────────────────────────────────────────────┐
 # │ Preferences: History                                            │
