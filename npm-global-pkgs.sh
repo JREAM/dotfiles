@@ -32,12 +32,13 @@ PACKAGES=(
   # babel-preset-env        # (Use per-project)
 
   # Like Webpack/Gulp but Easy and not too basic as parcel
-  brunch
+  # brunch
 
-  netlify
+  # netlify
   # netlify-cms             # (Use per-project)
 
-  docusaurus-init@next      # Version 2.X
+  # docusaurus-init@next      # Version 2.X
+
   # ---------------
   # Ecma Abilities
   # ---------------
@@ -54,15 +55,13 @@ PACKAGES=(
   # eslint-loader             # (Use per-project/webpack)
   # eslint-plugin-babel       # (Use per-project/webpack)
   # eslint-plugin-html        # (Use per-project/webpack)
-  eslint-plugin-react       # (Use per-project/webpack)
-  pug-lint
+  # eslint-plugin-react       # (Use per-project/webpack)
+  # pug-lint
 
   eslint
   jshint
   jslint
   prettier
-  @starptech/prettyhtml     # Works w/Vue, Angular, React
-  remark-lint               # Markdown Lint
   sass-lint                 # SASS Lint
   tslint                    # Typescript Lint
   ts-node                   # TS REPL
@@ -70,18 +69,19 @@ PACKAGES=(
   # ---------------
   # Testing/Coverage
   # ---------------
-  ndb
-  chai
-  mocha
-  sinon
+  # ndb
+  # chai
+  # mocha
+  # sinon
+  # jest
 
   # ---------------
   # Debug Server / System Runner
   # ---------------
   nodemon
   pm2
-  serve
-  http-server
+  # serve
+  # http-server
 
   # ---------------
   # Other
@@ -93,28 +93,27 @@ PACKAGES=(
   # ---------------
   # CLI Tools
   # ---------------
-  degit                   # npx degit (install git repo)
-  @feathersjs/feathers
+  # degit                   # npx degit (install git repo)
+  # @feathersjs/feathers
   # @gridsome/cli           # (Vue Page Builder) Much like Gatsby
-  gatsby                  # (React Page Builder) Gatsby is Awesome
-  generator-generator     # yeoman helper custom generator
+  # gatsby                  # (React Page Builder) Gatsby is Awesome
   # grunt-cli
-  gulp-cli
+  # gulp-cli
   # strapi@alpha
-  tinypng-cli
-  types-installer         # types-installer | types-installer install
-  yo                      # yeoman
+  # tinypng-cli
+  # types-installer         # types-installer | types-installer install
+  # yo                      # yeoman
   npm-ls-scripts          # Read package.json scripts ( $ ls-scripts )
-  snyk                    # Security Check: synk test / synk wizard
+  # snyk                    # Security Check: synk test / synk wizard
 
   # ---------------
   # Runners & Bundlers
   # ---------------
-  poi                     # bundler
-  parcel-bundler          # bundler
-  rollup                  # bundler
-  webpack-cli             # bundler
-  webpack@next            # bundler
+  # poi                     # bundler
+  # parcel-bundler          # bundler
+  # rollup                  # bundler
+  # webpack-cli             # bundler
+  # webpack@next            # bundler
   # webpack-dev-server    # bundler (Use per-project)
 
   # ---------------
@@ -124,15 +123,7 @@ PACKAGES=(
   # @vue/cli
   # @vue/cli-init
   # vuepress
-  create-react-app
-  create-next-app
-  jscodeshift         # Make changes to code nicely
-
-
-  # ---------------
-  # Misc Tools
-  # ---------------
-  firebase-tools
+  # jscodeshift         # Make changes to code nicely
 )
 
 # A few Colors

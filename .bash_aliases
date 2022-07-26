@@ -8,10 +8,10 @@
 # ╔═════════════════════════════════════════════════════════════════╗
 # ║ Personal Folders                                                ║
 # ╚═════════════════════════════════════════════════════════════════╝
-[ -d ~/projects ] &&  alias p='cd ~/projects/'
-[ -d ~/dev ] &&       alias d='cd ~/dev/' && alias dev='cd ~/dev'
+[ -d ~/projects ]  && alias p='cd ~/projects/'
+[ -d ~/dev ]       && alias d='cd ~/dev/' && alias dev='cd ~/dev'
 [ -d ~/Downloads ] && alias dl='cd ~/Downloads'
-
+[ -d ~/work ]      && alias w='cd ~/work/'
 
 # ╔═════════════════════════════════════════════════════════════════╗
 # ║ Bug Fix                                                         ║
@@ -158,6 +158,13 @@ alias myips="hostname -I"
 
 
 # ╔═════════════════════════════════════════════════════════════════╗
+# ║ Vendor Aliases                                                  ║
+# ╚═════════════════════════════════════════════════════════════════╝
+if [ -x "$(command -v vtop)" &> /dev/null ]; then
+  alias top="vtop"  # npm i -g vtop
+fi
+
+# ╔═════════════════════════════════════════════════════════════════╗
 # ║ Common Install Shortcuts                                        ║
 # ╚═════════════════════════════════════════════════════════════════╝
 # install: $ sudo apt install colordiff
@@ -262,6 +269,35 @@ alias gitAddPush="git add . && git cm 'Standard Update' && git push"
 alias gitPush="git push"
 alias gitPull="git pull"
 
+# Git Checkout Directory(ies) only
+# git_sparse_clone "http://github.com/tj/n" "./local/location" "/bin"
+function gitCloneDir() {
+  remoteUrl="$1"
+  localDir="$2"
+  depth="$3"
+
+  if [ -z "$2" ]; then
+    echo "[!] Please run: gitCloneDir <https://github.com/user/folder> <./localDir> <optional: depth (default: 1)>"
+    return
+  fi
+
+  if [ -z "$3" ]; then
+    depth=1
+  fi
+
+  if [ !-d "$d" ]; then
+    mkdir $d;
+  fi
+
+  git clone \
+    --depth $depth  \
+    --filter=blob:none  \
+    --sparse \
+    $remoteUrl
+    https://github.com/cirosantilli/test-git-partial-clone;
+}
+
+
 # ╔═════════════════════════════════════════════════════════════════╗
 # ║ Custom Functions                                                ║
 # ╚═════════════════════════════════════════════════════════════════╝
@@ -326,18 +362,18 @@ extract () {
   if [ -f "$1" ]; then
     FILE=$1
     case $FILE in
-      *.7z)       z x       "$FILE";;
-      *.bz2)      bunzip2 -v  "$FILE";;
-      *.gz)       unzip -v  "$FILE";;
-      *.rar)      unrar x   "$FILE";;
-      *.tar.bz2)  tar -xzfv   "$FILE";;
-      *.tar.gz)   tar -xzfv   "$FILE";;
-      *.tar)      tar -xfv    "$FILE";;
-      *.tgz)      tar -xzfv   "$FILE";;
-      *.zip)      unzip -v "$FILE";;
+      *.7z)       z x        "$FILE";;
+      *.bz2)      bunzip2 -v "$FILE";;
+      *.gz)       gunzip -v   "$FILE";;
+      *.rar)      unrar x    "$FILE";;
+      *.tar.bz2)  tar -xzfv  "$FILE";;
+      *.tar.gz)   tar -xzfv  "$FILE";;
+      *.tar)      tar -xfv   "$FILE";;
+      *.tgz)      tar -xzfv  "$FILE";;
+      *.zip)      unzip -v   "$FILE";;
       *)
-        echo -e "[!] Error: '$FILE' cannot be extracted with extract()"
-        echo -e "\t[!] Tried Formats: 7z, bz2, gz, rar, tar.bz2, tar.gz, tar, tgz, zip"
+        echo -e "[!] '$FILE' cannot be extracted with extract()"
+        echo -e "[!] Formats: 7z, bz2, gz, rar, tar.bz2, tar.gz, tar, tgz, zip"
         ;;
     esac
   else
