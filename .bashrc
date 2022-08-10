@@ -5,7 +5,8 @@
 
 # If not running interactively, don't do anything
 # ___________________________________________________________________
-[ -z "$PS1" ] && echo "n/a"
+# Prevent this from non-tty shell problem with output
+#[ -z "$PS1" ] && echo "n/a"
 
 #echo "DEBUG"
 #set -x
