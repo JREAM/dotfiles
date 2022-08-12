@@ -15,10 +15,17 @@ function DEBUG() {
 DEBUG echo 'DEBUG MODE ENABLED'
 DEBUG set -x
 
+# Disable Middle Mouse Button
+# (!) Find by running: $ xinput
 if [ $XDG_SESSION_TYPE != 'wayland' ]; then
   if [ $("xinput | grep Elan 2> /dev/null") ]; then
     xinput set-button-map 'Elan Touchpad' 1 0 3 4 5 6 7
   fi
+fi
+
+# Autoload Keychain SSH ID
+if (($ + commands[keychain])) >/dev/null 2>&1; then
+  keychain --clear $HOME/.ssh/id_rsa
 fi
 
 # ┌─────────────────────────────────────────────────────────────────┐
@@ -32,6 +39,7 @@ fi
 [[ -f ~/.bash_vars ]] && source ~/.bash_vars
 [[ -f ~/.bash_aliases ]] && source ~/.bash_aliases
 [[ -f ~/.bash_vendors ]] && source ~/.bash_vendors
+
 
 # ┌─────────────────────────────────────────────────────────────────┐
 # │ Terminal Display                                                │
@@ -55,15 +63,20 @@ if [ -z "$debian_chroot" ] && [ -r /etc/debian_chroot ]; then
   debian_chroot=$(cat /etc/debian_chroot)
 fi
 
+
 # ┌─────────────────────────────────────────────────────────────────┐
 # │ Bash Completion                                                 │
 # └─────────────────────────────────────────────────────────────────┘
-# Disable for now getting an error of _command_exists not found
-#[[ $PS1 && -f /usr/share/bash-completion/bash_completion ]] &&
-#  . /usr/share/bash-completion/bash_completion
+[[ $PS1 && -f /usr/share/bash-completion/bash_completion ]] && \
+  . /usr/share/bash-completion/bash_completion
 
 # Fix $ cd typing errors
 shopt -s cdspell
 
+
 # Make 'less' friendlier for non-text input files, see lesspipe(1)
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
