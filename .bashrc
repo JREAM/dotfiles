@@ -3,16 +3,25 @@
 # ║ BASHRC                                                          ║
 # ╚═════════════════════════════════════════════════════════════════╝
 
-# If not running interactively, don't do anything
-# ___________________________________________________________________
-[ -z "$PS1" ] && echo "n/a"
+# Debug any problems
+_DEBUG="off"
+function DEBUG() {
+  if [ "$_DEBUG" == 'on' ]; then
+     $@
+    PS4='+${LINENO}: $0 | '
+  fi
+}
 
-# function command_exists() { return }  # Not Needed (Old Hotfix)
+DEBUG echo 'DEBUG MODE ENABLED'
+DEBUG set -x
 
 # Disable Middle Mouse Button
 # (!) Find by running: $ xinput
-xinput set-button-map 'Elan Touchpad' 1 0 3 4 5 6 7
-
+if [ $XDG_SESSION_TYPE != 'wayland' ]; then
+  if [ $("xinput | grep Elan 2> /dev/null") ]; then
+    xinput set-button-map 'Elan Touchpad' 1 0 3 4 5 6 7
+  fi
+fi
 
 # ┌─────────────────────────────────────────────────────────────────┐
 # │ Source Other Files                                              │

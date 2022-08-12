@@ -5,6 +5,7 @@
 #  (!) bash_alias is sourced from .bashrc
 #  (?) Suggested 'apt' Packages: pydf colordiff nmap
 
+
 # ╔═════════════════════════════════════════════════════════════════╗
 # ║ Personal Folders                                                ║
 # ╚═════════════════════════════════════════════════════════════════╝
@@ -12,6 +13,15 @@
 [ -d ~/dev ]       && alias d='cd ~/dev/' && alias dev='cd ~/dev'
 [ -d ~/Downloads ] && alias dl='cd ~/Downloads'
 [ -d ~/work ]      && alias w='cd ~/work/'
+
+# ╔═════════════════════════════════════════════════════════════════╗
+# ║ Try to use GRC Colorizer                                        ║
+# ╚═════════════════════════════════════════════════════════════════╝
+COLORIZE="" # Empty by default, used in variables
+if [ -x "$(command -v grc)" &> /dev/null ]; then
+  COLORIZE='grc'
+fi
+
 
 # ╔═════════════════════════════════════════════════════════════════╗
 # ║ Bug Fix                                                         ║
@@ -22,69 +32,23 @@ export GREP_COLOR='1;32'
 
 
 # ╔═════════════════════════════════════════════════════════════════╗
-# ║ ACL                                                             ║
-# ╚═════════════════════════════════════════════════════════════════╝
-if hash setfacl 2>/dev/null; then
-
-  setfacl-user() {
-    if [ $# -ne 2 ]; then
-      echo "[!] Error: Missing Argument for \$user and \$path"
-      echo "[!] Example:  $ command user /any/path"
-      return 1
-    fi
-    if ! id -u "$1" > /dev/null 2>&1; then
-      echo "[!] Error: You provided a user $1 that does not exist"
-      return 1
-    fi
-    if [ ! -d "$2" ] && [ ! -f "$2" ]; then
-      echo "[!] Error: You provided a file or path $2 that does not exist"
-      return 1
-    fi
-
-    setfacl -R -m u:$1:rwx $2
-    setfacl -Rd -m u:$1:rwx $2
-  }
-
-  setfacl-group() {
-    if [ $# -ne 2 ]; then
-      echo "[!] Error: Missing Argument for \$user and \$path"
-      echo "[!] Example:  $ command user /any/path"
-      return 1
-    fi
-    if ! grep -q $1 /etc/group; then
-      echo "[!] Error: You provided a group $1 that does not exist."
-      return 0
-    fi
-    if [ ! -d "$2" ] && [ ! -f "$2" ]; then
-      echo "[!] Error: You provided a file or path $2 that does not exist"
-      return 0
-    fi
-
-    setfacl -R -m g:$1:rwx $2
-    setfacl -Rd -m g:$1:rwx $2
-  }
-
-fi
-
-# ╔═════════════════════════════════════════════════════════════════╗
 # ║ Command Commands                                                ║
 # ╚═════════════════════════════════════════════════════════════════╝
-alias chgrp='sudo chown'
-alias chmod='sudo chmod'
-alias chmox='sudo chmod'  # always make this typo
-alias chown='sudo chown'
-alias service='sudo service'
-alias systemctl='sudo systemctl'
-
 alias c='clear'
 alias h='history'
 alias j='jobs -l'
 
 # Use the Latest Python Version via "py"
 alias py='python'
-alias ports='netstat -tulanp'
+alias ports="netstat -tulanp"
 alias time="date +'%A, %B %m %Y at%l:%M%P %Z'"
 alias vi=vim
+
+# Navigation
+alias ..='cd ..'
+alias ...='cd ../..'
+alias ....='cd ../../..'
+alias www='cd /var/www/'
 
 # Listing
 alias l="ls -lh --color=auto"
@@ -97,11 +61,16 @@ alias ll.="ls -lhd .* --color=auto"               # Long List Hiddent
 alias llh="ll."                                   # <List Hiddent Files; Alias for Alias
 alias os="lsb_release -a"                         # Get OS Version
 
-# Navigation
-alias ..='cd ..'
-alias ...='cd ../..'
-alias ....='cd ../../..'
-alias www='cd /var/www/'
+# Utility
+alias mkdir='mkdir -pv'             # $ mkdir x/y/z
+alias wget="wget -c"                # Resume if failed by default
+alias findfile="find . -name "      # Make find a little easier
+alias xclip='xclip -sel clip'       # Copy to Clipboard $ cat file.txt | xclip
+
+# Grep
+alias grep='grep --color=auto'
+alias egrep='egrep --color=auto'
+alias fgrep='fgrep --color=auto'
 
 # Super User 'sudo' shortcuts
 alias apt-get='sudo apt-get'
@@ -110,6 +79,16 @@ alias root='sudo -i'                # Become root
 alias service='sudo service'
 alias su='sudo -i'                  # Become root
 alias sudo='sudo '                  # Enable aliases to be sudo-ed
+
+# Sudo Permissions
+alias chgrp='sudo chown --preserve-root'
+alias chmod='sudo chmod --preserve-root'
+alias chmox='sudo chmod --preserve-root'  # always make this typo
+alias chown='sudo chown --preserve-root'
+
+# Services
+alias service='sudo service'
+alias systemctl='sudo systemctl'
 
 # Reboot Bypass Wait
 alias poweroff='sudo /sbin/poweroff'
@@ -120,42 +99,44 @@ alias shutdown='sudo /sbin/shutdown'
 alias autoclean='sudo apt autoclean'
 alias autoremove='clean'
 alias clean='sudo apt autoremove; sudo apt autoclean'
-alias update='sudo apt-get update'
-alias updatey='sudo apt-get update && sudo apt-get upgrade -y && sudo apt autoremove -y && sudo apt autoclean'
-alias upgrade='sudo apt-get upgrade'
 alias ppa='sudo apt-add-repository'
-
-# Preserve / root folder permissions
-alias chgrp='chgrp --preserve-root'
-alias chmod='chmod --preserve-root'
-alias chown='chown --preserve-root'
+alias update='sudo apt-get update'
+alias updatey='sudo apt-get update && \
+  sudo apt-get upgrade -y && \
+  sudo apt autoremove -y && \
+  sudo apt autoclean'
+alias upgrade='sudo apt-get upgrade'
 
 # Mount (Readable)
 alias mount='mount | column -t'
 
-# Ping
-alias ping='ping -c 5'  # Send X packets
+# Ping / IP
 alias fastping='ping -c 100 -s.2'
-
-# Grep
-alias grep='grep --color=auto'
-alias egrep='egrep --color=auto'
-alias fgrep='fgrep --color=auto'
-
-# Utility
-alias mkdir='mkdir -pv'             # $ mkdir x/y/z
-alias xclip='xclip -sel clip'       # Copy to Clipboard $ cat file.txt | xclip
-alias wget="wget -c"                # Resume if failed by default
-alias findfile="find . -name "      # Make find a little easier
+alias iplist="sudo $COLORIZE /sbin/iptables -L -n -v --line-numbers"
+alias iptlistfw="sudo $COLORIZE /sbin/iptables -L FORWARD -n -v --line-numbers"
+alias iptlistin="sudo $COLORIZE /sbin/iptables -L INPUT -n -v --line-numbers"
+alias iptlistout="sudo $COLORIZE /sbin/iptables -L OUTPUT -n -v --line-numbers"
+alias myip="curl -s https://checkip.amazonaws.com"
+alias myips="hostname -I"
+alias ping='ping -c 5'  # Send X packets
 
 # Disk Related
 alias df='df -H | grep -v "/snap"'  # Remove the snap directories
 alias du='du -ch'
 
-# Utility: Get My IP
-alias myip="dig +short myip.opendns.com @resolver1.opendns.com"
-alias myips="hostname -I"
 
+# ╔═════════════════════════════════════════════════════════════════╗
+# ║ Hardware Aliases                                                ║
+# ╚═════════════════════════════════════════════════════════════════╝
+alias hardware-bios='sudo dmidecode -t bios'
+alias hardware-cache='sudo dmidecode -t cache'
+alias hardware-chassis='sudo dmidecode -t chassis'
+alias hardware-connector='sudo dmidecode -t connector'
+alias hardware-cpu='sudo dmidecode -t processor'
+alias hardware-memory='sudo dmidecode -t memory'
+alias hardware-motherboard='sudo dmidecode -t baseboard'
+alias hardware-slot='sudo dmidecode -t slot'
+alias hardware-system='sudo dmidecode -t system'
 
 # ╔═════════════════════════════════════════════════════════════════╗
 # ║ Vendor Aliases                                                  ║
@@ -175,16 +156,6 @@ fi
 # install: $ sudo apt install nmap
 if hash nmap 2>/dev/null; then
   alias portsopen='nmap localhost --open'
-fi
-
-# Figlet (CLI)
-if hash lolcat 2>/dev/null; then
-  alias figlet-fonts="showfigfonts | lolcat" || alias figlet-fonts="showfigfonts"
-fi
-
-# For Windows | Make Shortcut Run as Administrator!
-if [ -f "/c/ProgramData/chocolatey/bin/choco" ]; then
-    alias choco="/c/ProgramData/chocolatey/bin/choco"
 fi
 
 
@@ -218,7 +189,6 @@ alias a2ls-sites-en='ls /etc/apache2/sites-enabled'
 alias a2ls-sites='ls /etc/apache2/sites-available'
 
 alias a2graceful='sudo /usr/sbin/apachectl -k graceful'
-alias a2log='sudo tail /var/log/apache2/error.log'
 alias a2modules='sudo apachectl -t -D DUMP_MODULES'
 alias a2path='cd /etc/apache2/'
 alias a2reload='sudo service apache2 reload'
@@ -249,6 +219,36 @@ alias a2ctl='sudo apachectl'
 alias apache2ctl='sudo apache2ctl'
 alias apachectl='sudo apachectl'
 
+function phpswitchver() {
+  if [ -z $1 ]; then
+    echo "You must provide a version number, eg: 7.4"
+    return
+  fi
+
+  if [ -x "/usr/bin/php${1}" ]; then
+    echo "[+] /usr/bin/php${1} exists, changing symlink"
+
+    if [ -L /etc/alternatives/php ]; then
+      sudo rm /etc/alternatives/php
+    fi
+
+    sudo ln -s "/usr/bin/php$1" /etc/alternatives/php
+
+    hasApacheMod=$(ls -iq /etc/apache2/mods-available/php*.conf 2> /dev/null | wc -l)
+    if [ $hasApacheMod -gt 0 ]; then
+      sudo a2dismod php*
+      sudo a2enmod php$1
+      sudo systemctl restart apache2
+    fi
+
+  else
+    echo "[!] /usr/bin/php${1} does not exist"
+    versions=$(ls -m /etc/php)
+    echo "[+] Available PHP versions: $versions"
+  fi
+}
+
+alias mysqlvars="mysql -NBe 'SHOW VARIABLES'| sed 's,\t,^=,' | column -ts^"
 
 # ╔═════════════════════════════════════════════════════════════════╗
 # ║ PHP FPM                                                         ║
@@ -359,24 +359,88 @@ loopdir() {
 # >> Extract Files with one function <@DS>
 # ___________________________________________________________________
 extract () {
-  if [ -f "$1" ]; then
-    FILE=$1
-    case $FILE in
-      *.7z)       z x        "$FILE";;
-      *.bz2)      bunzip2 -v "$FILE";;
-      *.gz)       gunzip -v   "$FILE";;
-      *.rar)      unrar x    "$FILE";;
-      *.tar.bz2)  tar -xzfv  "$FILE";;
-      *.tar.gz)   tar -xzfv  "$FILE";;
-      *.tar)      tar -xfv   "$FILE";;
-      *.tgz)      tar -xzfv  "$FILE";;
-      *.zip)      unzip -v   "$FILE";;
+  if [ -f $1 ]; then
+    case $1 in
+      *.7z)       7z x       $1 ;;
+      *.bz2)      bunzip2 -v $1 ;;
+      *.gz)       gunzip -v  $1 ;;
+      *.rar)      unrar x    $1 ;;
+      *.tar.bz2)  tar -xzfv  $1 ;;
+      *.tar.gz)   tar -xzfv  $1 ;;
+      *.tar.xz)   tar -xf    $1 ;;
+      *.tar)      tar -xfv   $1 ;;
+      *.tgz)      tar -xzfv  $1 ;;
+      *.xz)       tar -xzf   $1 ;;
+      *.zip)      unzip -v   $1 ;;
       *)
         echo -e "[!] '$FILE' cannot be extracted with extract()"
-        echo -e "[!] Formats: 7z, bz2, gz, rar, tar.bz2, tar.gz, tar, tgz, zip"
+        echo -e "[!] Formats: 7z, bz2, gz, rar, tar.bz2, tar.gz, tar, tgz, zip, xz"
         ;;
     esac
   else
     echo "[Error]: Cannot extract '$FILE'"
   fi
+}
+
+
+# >> Create a tar.gz archive
+# ___________________________________________________________________
+function compress() {
+  if [[ -z $1 ]]; then
+    echo -e "[!] You must provide a filename or folder to archive."
+    echo -e "compress <name>.tar.gz <folder|file>"
+    return
+  fi
+
+  # Strip off the Extension
+  FILENAME=${1%.*}
+  tar -cvzf "$FILENAME.tar.gz" $1
+}
+
+
+# >> Find the largest files in current directory
+# ___________________________________________________________________
+function find_largest_files() {
+  du -h -x -s -- * | sort -r -h | head -20;
+}
+
+
+# >> Show the latest file in current directory
+# ___________________________________________________________________
+latest_file() {
+  local f latest
+  for f in "${1:-.}"/*
+    do
+      [[ $f -nt $latest ]] && latest="$f"
+    done
+   printf '%s\n' "$latest"
+}
+
+# >> Show the oldest file in current directory
+# ___________________________________________________________________
+oldest_file () {
+  local f oldest
+  for file in "${1:-.}"/*
+    do
+      [[ -z $oldest || $f -ot $oldest ]] && oldest="$f"
+    done
+  printf '%s\n' "$oldest"
+}
+
+
+# >> Display my system info
+# ___________________________________________________________________
+function sysinfo() {
+  clear
+  printf "   %s\n" "IP ADDR: $(curl ifconfig.me)"
+  printf "   %s\n" "USER: $(echo $USER)"
+  printf "   %s\n" "DATE: $(date)"
+  printf "   %s\n" "UPTIME: $(uptime -p)"
+  printf "   %s\n" "HOSTNAME: $(hostname -f)"
+  printf "   %s\n" "CPU: $(awk -F: '/model name/{print $2}' | head -1)"
+  printf "   %s\n" "KERNEL: $(uname -rms)"
+  printf "   %s\n" "PACKAGES: $(dpkg --get-selections | wc -l)"
+  printf "   %s\n" "RESOLUTION: $(xrandr | awk '/\*/{printf $1" "}')"
+  printf "   %s\n" "MEMORY: $(free -m -h | awk '/Mem/{print $3"/"$2}')"
+  printf "\n"
 }
