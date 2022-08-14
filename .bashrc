@@ -15,13 +15,6 @@ function DEBUG() {
 DEBUG echo 'DEBUG MODE ENABLED'
 DEBUG set -x
 
-# Disable Middle Mouse Button
-# (!) Find by running: $ xinput
-if [ $XDG_SESSION_TYPE != 'wayland' ]; then
-  if [ $("xinput | grep Elan 2> /dev/null") ]; then
-    xinput set-button-map 'Elan Touchpad' 1 0 3 4 5 6 7
-  fi
-fi
 
 # Autoload Keychain SSH ID
 if (($ + commands[keychain])) >/dev/null 2>&1; then
