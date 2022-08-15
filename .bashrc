@@ -15,13 +15,11 @@ function DEBUG() {
 DEBUG echo 'DEBUG MODE ENABLED'
 DEBUG set -x
 
-# Disable Middle Mouse Button
-# (!) Find by running: $ xinput
-if [ $XDG_SESSION_TYPE != 'wayland' ]; then
-  if [ $("xinput | grep Elan 2> /dev/null") ]; then
-    xinput set-button-map 'Elan Touchpad' 1 0 3 4 5 6 7
-  fi
-fi
+#if [ $XDG_SESSION_TYPE != 'wayland' ]; then
+#  if [ $("xinput | grep Elan 2> /dev/null") ]; then
+#    xinput set-button-map 'Elan Touchpad' 1 0 3 4 5 6 7
+#  fi
+#fi
 
 # Autoload Keychain SSH ID
 if (($ + commands[keychain])) >/dev/null 2>&1; then
@@ -45,7 +43,7 @@ fi
 # │ Terminal Display                                                │
 # └─────────────────────────────────────────────────────────────────┘
 # https://bashrcgenerator.com/
-export PS1="[\[\033[0m\]\[\033[0;94m\]\w\[\033[0m\]] \[\033[0m\]\[\033[0;93m\]\$(git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/')\[\033[0m\]\n\u-> \[\033[0m\]"
+export PS1="[\[\033[0m\]\[\033[0;94m\]\w\[\033[0m\]] \[\033[0m\]\[\033[0;93m\]\$(git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/')\[\033[0m\]\n\[\u@\h-> \[\033[0m\]"
 
 # ┌─────────────────────────────────────────────────────────────────┐
 # │ Preferences: History                                            │
