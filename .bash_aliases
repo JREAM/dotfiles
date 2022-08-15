@@ -9,10 +9,11 @@
 # ╔═════════════════════════════════════════════════════════════════╗
 # ║ Personal Folders                                                ║
 # ╚═════════════════════════════════════════════════════════════════╝
-[ -d ~/projects ]  && alias p='cd ~/projects/'
-[ -d ~/dev ]       && alias d='cd ~/dev/' && alias dev='cd ~/dev'
 [ -d ~/Downloads ] && alias dl='cd ~/Downloads'
-[ -d ~/work ]      && alias w='cd ~/work/'
+# These are now on NFS share
+[ -d ~/projects ]  && alias p='cd /srv/development/projects/'
+[ -d ~/dev ]       && alias d='cd /srv/development/dev/' && alias dev='cd ~/srv/development/dev'
+[ -d ~/work ]      && alias w='cd /srv/development/work'
 
 # ╔═════════════════════════════════════════════════════════════════╗
 # ║ Try to use GRC Colorizer                                        ║
@@ -125,10 +126,15 @@ alias df='df -H | grep -v "/snap"'  # Remove the snap directories
 alias du='du -ch'
 
 # SSH Related
+alias ssh-fingerprint='ssh-keygen -lf $1'
 alias ssh-permissions="chown -R $USER:$USER ~/.ssh; chmod -R 600 ~/.ssh; chmod -R 644 ~/.ssh/{*.pub,config,known_hosts}"
 
 # Utility
 alias permissions-octal="stat -c \"%a %n\" -- $1"
+
+# Network
+alias filesystem-reload='sudo systemctl start remote-fs.target local-fs.target && sudo systemctl daemon-reload' # FStab, mount -a doesn't work
+alias fsreload="filesystem-reload"
 
 # ╔═════════════════════════════════════════════════════════════════╗
 # ║ Hardware Aliases                                                ║
