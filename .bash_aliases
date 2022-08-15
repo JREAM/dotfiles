@@ -127,6 +127,9 @@ alias du='du -ch'
 # SSH Related
 alias ssh-permissions="chown -R $USER:$USER ~/.ssh; chmod -R 600 ~/.ssh; chmod -R 644 ~/.ssh/{*.pub,config,known_hosts}"
 
+# Utility
+alias permissions-octal="stat -c \"%a %n\" -- $1"
+
 # ╔═════════════════════════════════════════════════════════════════╗
 # ║ Hardware Aliases                                                ║
 # ╚═════════════════════════════════════════════════════════════════╝
