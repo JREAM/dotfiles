@@ -124,6 +124,11 @@ alias ping='ping -c 5'  # Send X packets
 alias df='df -H | grep -v "/snap"'  # Remove the snap directories
 alias du='du -ch'
 
+# SSH Related
+alias ssh-permissions="chown -R $USER:$USER ~/.ssh; chmod -R 600 ~/.ssh; chmod -R 644 ~/.ssh/{*.pub,config,known_hosts}"
+
+# Utility
+alias permissions-octal="stat -c \"%a %n\" -- $1"
 
 # ╔═════════════════════════════════════════════════════════════════╗
 # ║ Hardware Aliases                                                ║
