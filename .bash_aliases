@@ -128,7 +128,10 @@ alias du='du -ch'
 
 # SSH Related
 alias ssh-fingerprint='ssh-keygen -lf $1'
-alias ssh-permissions="chown -R $USER:$USER ~/.ssh; chmod -R 600 ~/.ssh; chmod -R 644 ~/.ssh/{*.pub,config,known_hosts}"
+alias ssh-permissions="chown -R $USER:$USER ~/.ssh && \
+  chmod 700 ~/.ssh && \
+  chmod 600 ~/.ssh/* && \
+  chmod 644 ~/.ssh/{*.pub,config,known_hosts}"
 
 # Utility
 alias permissions-octal="stat -c \"%a %n\" -- $1"
