@@ -19,8 +19,8 @@
   prev_tab = <Primary><Shift>Tab
   new_terminator = <Primary>n
   broadcast_off = <Alt>1
-  broadcast_group = None
-  broadcast_all = <Alt>semicolon
+  broadcast_group = <Alt>semicolin
+  broadcast_all = None
 [profiles]
   [[default]]
     background_color = "#151515"
@@ -28,10 +28,11 @@
     background_type = transparent
     cursor_blink = False
     cursor_color = "#f1e47a"
-    font = Envy Code R 16
+    font = agave Nerd Font Mono 13
     foreground_color = "#fdfdfd"
     scrollback_lines = 502
     scrollback_infinite = True
+    disable_mousewheel_zoom = True
     palette = "#2e3436:#cc0000:#70991f:#c4a000:#2997d1:#75507b:#06989a:#d3d7cf:#555753:#ef2929:#a6e22e:#fce94f:#59c6ff:#ad7fa8:#34e2e2:#eeeeec"
     use_system_font = False
 [layouts]

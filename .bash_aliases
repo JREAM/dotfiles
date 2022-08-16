@@ -11,10 +11,10 @@
 # ╚═════════════════════════════════════════════════════════════════╝
 [ -d ~/Downloads ] && alias dl='cd ~/Downloads'
 # These are now on NFS share
-[ -d /srv ]        && alias srv='cd /srv'
-[ -d ~/projects ]  && alias p='cd /srv/development/projects/'
-[ -d ~/dev ]       && alias d='cd /srv/development/dev/' && alias dev='cd ~/srv/development/dev'
-[ -d ~/work ]      && alias w='cd /srv/development/work'
+[ -d /server ]     && alias srv='cd /server/'
+[ -d ~/projects ]  && alias p='cd /srv/projects/'
+[ -d ~/dev ]       && alias d='cd /srv/dev/' && alias dev='cd ~/srv/dev'
+[ -d ~/work ]      && alias w='cd /srv/work'
 
 # ╔═════════════════════════════════════════════════════════════════╗
 # ║ Try to use GRC Colorizer                                        ║
