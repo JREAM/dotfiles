@@ -83,7 +83,7 @@ alias su='sudo -i'                  # Become root
 alias sudo='sudo '                  # Enable aliases to be sudo-ed
 
 # Sudo Permissions
-alias chgrp='sudo chown --preserve-root'
+alias chgrp='sudo chgrp --preserve-root'
 alias chmod='sudo chmod --preserve-root'
 alias chmox='sudo chmod --preserve-root'  # always make this typo
 alias chown='sudo chown --preserve-root'
