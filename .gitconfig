@@ -28,7 +28,7 @@
   # Automatically correct and execute mistyped commands
   autocorrect = 1
 [merge]
-  tool = meld
+	tool = tkdiff
 [mergetool]
   keepBackup = false
 [alias]
@@ -44,6 +44,11 @@
   ra = remote add origin
   roa = remote add origin
   us = --set-upstream origin
+
+  # Fetchall
+  fetchall = "!for remote in `git branch -r`; do git branch --track ${remote#origin/} $remote 2>/dev/null; done"
+
+
 
   # Main
   br = branch
@@ -88,6 +93,7 @@
 [core]
   excludesfile = ~/.gitignore
   filemode = false
+	preloadindex = true
 
 
 # URL shorthands
@@ -119,3 +125,5 @@
   insteadOf = "gst:"
   pushInsteadOf = "gist:"
   pushInsteadOf = "git://gist.github.com/"
+[init]
+	defaultBranch = master
