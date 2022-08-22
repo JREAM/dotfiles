@@ -142,10 +142,8 @@ fi
 # ╔═════════════════════════════════════════════════════════════════╗
 # ║  GRC (Bash Color Highlights)                                    ║
 # ╚═════════════════════════════════════════════════════════════════╝
-export GRC_ALIASES=true
-if [ -f "/etc/profile.d/grc.sh" ]; then
-  source /etc/profile.d/grc.sh
-fi
+# sudo vim /etc/default/grc  --  Set to true, doesn't work here.
+
 
 # ╔═════════════════════════════════════════════════════════════════╗
 # ║  Wine Compat Mode (XP) and Resize Fonts                         ║
