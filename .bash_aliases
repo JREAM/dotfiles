@@ -5,25 +5,23 @@
 #  (!) bash_alias is sourced from .bashrc
 #  (?) Suggested 'apt' Packages: pydf colordiff nmap
 
-
 # ╔═════════════════════════════════════════════════════════════════╗
 # ║ Personal Folders                                                ║
 # ╚═════════════════════════════════════════════════════════════════╝
 [ -d ~/Downloads ] && alias dl='cd ~/Downloads'
 # These are now on NFS share
-[ -d /server ]           && alias s='cd /server/'
-[ -d /server/projects ]  && alias p='cd /server/projects/'
-[ -d /server/dev ]       && alias d='cd /server/dev/' && alias dev='cd ~/server/dev'
-[ -d /server/work ]      && alias w='cd /server/work'
+[ -d /server ] && alias s='cd /server/'
+[ -d /server/projects ] && alias p='cd /server/projects/'
+[ -d /server/dev ] && alias d='cd /server/dev/' && alias dev='cd ~/server/dev'
+[ -d /server/work ] && alias w='cd /server/work'
 
 # ╔═════════════════════════════════════════════════════════════════╗
 # ║ Try to use GRC Colorizer                                        ║
 # ╚═════════════════════════════════════════════════════════════════╝
 COLORIZE="" # Empty by default, used in variables
-if [ -x "$(command -v grc)" &> /dev/null ]; then
+if [ -x "$(command -v grc)" ] &>/dev/null; then
   COLORIZE='grc'
 fi
-
 
 # ╔═════════════════════════════════════════════════════════════════╗
 # ║ Bug Fix                                                         ║
@@ -31,7 +29,6 @@ fi
 # Fix "GREP OPTIONS depcrated"
 #GREP_OPTIONS="$GREP_OPTIONS -r -d skip"
 export GREP_COLOR='1;32'
-
 
 # ╔═════════════════════════════════════════════════════════════════╗
 # ║ Command Commands                                                ║
@@ -54,8 +51,8 @@ alias www='cd /var/www/'
 
 # Listing
 alias l="ls -lh --color=auto"
-alias la="ls -lah --color=auto"                   # Long List
-alias ll="ls -lah --color=auto"                   # Long List
+alias la="ls -lah --color=auto" # Long List
+alias ll="ls -lah --color=auto" # Long List
 alias ls="ls --color=auto"
 alias l.="ls -d .* --color=auto | column -s='\n'" # List Hidden files
 alias lh="l."                                     # <List Hidden Files>; Alias for Alias
@@ -64,10 +61,10 @@ alias llh="ll."                                   # <List Hiddent Files; Alias f
 alias os="lsb_release -a"                         # Get OS Version
 
 # Utility
-alias mkdir='mkdir -pv'             # $ mkdir x/y/z
-alias wget="wget -c"                # Resume if failed by default
-alias findfile="find . -name "      # Make find a little easier
-alias xclip='xclip -sel clip'       # Copy to Clipboard $ cat file.txt | xclip
+alias mkdir='mkdir -pv'        # $ mkdir x/y/z
+alias wget="wget -c"           # Resume if failed by default
+alias findfile="find . -name " # Make find a little easier
+alias xclip='xclip -sel clip'  # Copy to Clipboard $ cat file.txt | xclip
 
 # Grep
 alias grep='grep --color=auto'
@@ -77,15 +74,15 @@ alias fgrep='fgrep --color=auto'
 # Super User 'sudo' shortcuts
 alias apt-get='sudo apt-get'
 alias apt='sudo apt'
-alias root='sudo -i'                # Become root
+alias root='sudo -i' # Become root
 alias service='sudo service'
-alias su='sudo -i'                  # Become root
-alias sudo='sudo '                  # Enable aliases to be sudo-ed
+alias su='sudo -i' # Become root
+alias sudo='sudo ' # Enable aliases to be sudo-ed
 
 # Sudo Permissions
 alias chgrp='sudo chgrp --preserve-root'
 alias chmod='sudo chmod --preserve-root'
-alias chmox='sudo chmod --preserve-root'  # always make this typo
+alias chmox='sudo chmod --preserve-root' # always make this typo
 alias chown='sudo chown --preserve-root'
 
 # Services
@@ -120,10 +117,10 @@ alias iptlistin="sudo $COLORIZE /sbin/iptables -L INPUT -n -v --line-numbers"
 alias iptlistout="sudo $COLORIZE /sbin/iptables -L OUTPUT -n -v --line-numbers"
 alias myip="curl -s https://checkip.amazonaws.com"
 alias myips="hostname -I"
-alias ping='ping -c 5'  # Send X packets
+alias ping='ping -c 5' # Send X packets
 
 # Disk Related
-alias df='df -H | grep -v "/snap"'  # Remove the snap directories
+alias df='df -H | grep -v "/snap"' # Remove the snap directories
 alias du='du -ch'
 
 # SSH Related
@@ -156,8 +153,8 @@ alias hardware-system='sudo dmidecode -t system'
 # ╔═════════════════════════════════════════════════════════════════╗
 # ║ Vendor Aliases                                                  ║
 # ╚═════════════════════════════════════════════════════════════════╝
-if [ -x "$(command -v vtop)" &> /dev/null ]; then
-  alias top="vtop"  # npm i -g vtop
+if [ -x "$(command -v vtop)" ] &>/dev/null; then
+  alias top="vtop" # npm i -g vtop
 fi
 
 # ╔═════════════════════════════════════════════════════════════════╗
@@ -173,43 +170,41 @@ if hash nmap 2>/dev/null; then
   alias portsopen='nmap localhost --open'
 fi
 
-
 # ╔═════════════════════════════════════════════════════════════════╗
 # ║ NGINX                                                           ║
 # ╚═════════════════════════════════════════════════════════════════╝
 function ngensite { sudo ln -s /etc/nginx/sites-available/$1 /etc/nginx/sites-enabled; }
 function ngdissite { sudo rm /etc/nginx/sites-enabled/$1; }
-alias ngaccess='tail -n 50 /var/log/nginx/access.log'
+alias ngacclog='tail -f /var/log/nginx/access.log'
 alias ngdisstartup='sudo service nginx stop && sudo update-rc.d nginx disable && echo "nginx set to NOT autostart"'
 alias ngenstartup='sudo service nginx start && sudo update-rc.d nginx enable && echo "nginx set to autostart"'
-alias nglog='tail -n 50 /var/log/nginx/error.log'
-alias ngls-sites-en='ls /etc/nginx/sites-enabled'
-alias ngls-sites='ls /etc/nginx/sites-available'
+alias ngerrlog='tail -f /var/log/nginx/error.log'
+alias ngsitesen='ls /etc/nginx/sites-enabled'
+alias ngsites='ls /etc/nginx/sites-available'
 alias ngpath='cd /etc/nginx/'
 alias ngreload='sudo service nginx reload'
 alias ngrestart='sudo service nginx restart'
-alias ngsites='cd /etc/nginx/sites-available'
+alias ngdir='cd /etc/nginx/sites-available'
 alias ngstart='sudo service nginx start'
-alias ngstatus='systemctl status nginx.service'
+alias ngstatus='sudo service nginx status'
 alias ngstop='sudo service nginx stop'
 alias ngtest='sudo nginx -t'
-
 
 # ╔═════════════════════════════════════════════════════════════════╗
 # ║ Apache2                                                         ║
 # ╚═════════════════════════════════════════════════════════════════╝
-alias a2ls-mods-en='ls /etc/apache2/mods-enabled'
-alias a2ls-mods='ls /etc/apache2/mods-available'
-alias a2ls-sites-en='ls /etc/apache2/sites-enabled'
-alias a2ls-sites='ls /etc/apache2/sites-available'
+alias a2modsen='ls /etc/apache2/mods-enabled'
+alias a2mods='ls /etc/apache2/mods-available'
+alias a2sitesen='ls /etc/apache2/sites-enabled'
+alias a2sites='ls /etc/apache2/sites-available'
 
 alias a2graceful='sudo /usr/sbin/apachectl -k graceful'
-alias a2modules='sudo apachectl -t -D DUMP_MODULES'
-alias a2path='cd /etc/apache2/'
+alias a2modlist='sudo apachectl -t -D DUMP_MODULES'
+alias a2dir='cd /etc/apache2/'
 alias a2reload='sudo service apache2 reload'
 alias a2restart='sudo service apache2 restart'
 alias a2start='sudo service apache2 start'
-alias a2status='systemctl status apache2.service'
+alias a2status='sudo service apache2 status'
 alias a2stop='sudo service apache2 stop'
 alias a2test='sudo apachectl -t'
 alias a2version='sudo apachectl -v'
@@ -221,126 +216,33 @@ alias a2dissite='sudo a2dissite'
 alias a2enconf='sudo a2enconf'
 alias a2enmod='sudo a2enmod'
 alias a2ensite='sudo a2ensite'
-alias a2graceful='sudo a2graceful'
-alias a2modules='sudo a2modules'
 
-alias a2avs='cd /etc/apache2/sites-available'
-alias a2ens='cd /etc/apache2/sites-enabled'
-
-alias a2access='tail -n 50 /var/log/apache2/access.log'
-alias a2log='tail -n 50 /var/log/apache2/error.log'
-
-alias a2ctl='sudo apachectl'
-alias apache2ctl='sudo apache2ctl'
-alias apachectl='sudo apachectl'
-
-function phpswitchver() {
-  if [ -z $1 ]; then
-    echo "You must provide a version number, eg: 7.4"
-    return
-  fi
-
-  if [ -x "/usr/bin/php${1}" ]; then
-    echo "[+] /usr/bin/php${1} exists, changing symlink"
-
-    if [ -L /etc/alternatives/php ]; then
-      sudo rm /etc/alternatives/php
-    fi
-
-    sudo ln -s "/usr/bin/php$1" /etc/alternatives/php
-
-    hasApacheMod=$(ls -iq /etc/apache2/mods-available/php*.conf 2> /dev/null | wc -l)
-    if [ $hasApacheMod -gt 0 ]; then
-      sudo a2dismod php*
-      sudo a2enmod php$1
-      sudo systemctl restart apache2
-    fi
-
-  else
-    echo "[!] /usr/bin/php${1} does not exist"
-    versions=$(ls -m /etc/php)
-    echo "[+] Available PHP versions: $versions"
-  fi
-}
+alias a2acclog='tail -n 50 /var/log/apache2/access.log'
+alias a2errlog='tail -n 50 /var/log/apache2/error.log'
 
 alias mysqlvars="mysql -NBe 'SHOW VARIABLES'| sed 's,\t,^=,' | column -ts^"
 
 # ╔═════════════════════════════════════════════════════════════════╗
 # ║ PHP FPM                                                         ║
 # ╚═════════════════════════════════════════════════════════════════╝
-# PHPFPM_VERSION=8.0
-# alias fpm-log="sudo tail /var/log/php$PHPFPM_VERSION-fpm.log"
-# alias fpm-reenable="systemctl restart php$PHPFPM_VERSION-fpm.service"
-# alias fpm-reload="systemctl reload php$PHPFPM_VERSION-fpm.service"
-# alias fpm-restart="systemctl restart php$PHPFPM_VERSION-fpm.service"
-# alias fpm-restart="systemctl restart php$PHPFPM_VERSION-fpm.service"
-# alias fpm="sudo php$PHPFPM_VERSION-fpm"
+export PHP_FPM_VERSION=8.1
+if [ -x "$(command -v php-fpm$PHP_FPM_VERSION)" ] &>/dev/null; then
+  alias phpfpm-dir="cd /etc/php/$PHP_FPM_VERSION/"
+  alias phpfpm-log="sudo tail -f /var/log/php$PHP_FPM_VERSION-fpm.log"
+  alias phpfpm-stop="sudo service php-fpm$PHP_FPM_VERSION stop"
+  alias phpfpm-reload="sudo service php-fpm$PHP_FPM_VERSION start"
+  alias phpfpm-restart="sudo service php-fpm$PHP_FPM_VERSION restart"
+  alias phpfpm-status="sudo service php-fpm$PHP_FPM_VERSION status"
+fi
 
 # ╔═════════════════════════════════════════════════════════════════╗
 # ║ Git                                                             ║
 # ╚═════════════════════════════════════════════════════════════════╝
-# Prefer To type gitA<Tab> for quick update
-alias gitAddPush="git add . && git cm 'Standard Update' && git push"
-alias gitPush="git push"
-alias gitPull="git pull"
-
-# Git Checkout Directory(ies) only
-# git_sparse_clone "http://github.com/tj/n" "./local/location" "/bin"
-function gitCloneDir() {
-  remoteUrl="$1"
-  localDir="$2"
-  depth="$3"
-
-  if [ -z "$2" ]; then
-    echo "[!] Please run: gitCloneDir <https://github.com/user/folder> <./localDir> <optional: depth (default: 1)>"
-    return
-  fi
-
-  if [ -z "$3" ]; then
-    depth=1
-  fi
-
-  if [ !-d "$d" ]; then
-    mkdir $d;
-  fi
-
-  git clone \
-    --depth $depth  \
-    --filter=blob:none  \
-    --sparse \
-    $remoteUrl
-    https://github.com/cirosantilli/test-git-partial-clone;
-}
-
+# ...
 
 # ╔═════════════════════════════════════════════════════════════════╗
 # ║ Custom Functions                                                ║
 # ╚═════════════════════════════════════════════════════════════════╝
-
-# >> Find in file
-#
-# examples:  $ findinfile 'hello mom' .
-#            $ fif 'hello mom' .
-# ___________________________________________________________________
-function findinfile() {
-  if [ -z "$1" ]; then
-    # display usage if no parameters given
-    echo "Usage: findinfile <text|text2> <path (defaults to \$PWD>"
-    return
-  fi
-
-  if [ -z "$2" ]; then
-    local search_path=$PWD
-  else
-    search_path=$2
-  fi
-
-  grep -Elir "(${1}) ${search_path}"
-}
-
-alias fif="findinfile"
-
-alias slugifydir="slugify -vud . && rename 'y/A-Z/a-z/' ."
 
 # >> Directory Loop
 #    (All Children/Sub-Folders)
@@ -350,53 +252,52 @@ alias slugifydir="slugify -vud . && rename 'y/A-Z/a-z/' ."
 # examples: $ loopdir git checkout development
 # ___________________________________________________________________
 loopdir() {
-    if [ -z "$1" ]; then
-        echo -e "[!] Error: Provide a command to run."
-        echo -e "[!] $ loopdircmd <command here>\n"
-        return
-    fi
+  if [ -z "$1" ]; then
+    echo -e "[!] Error: Provide a command to run."
+    echo -e "[!] $ loopdircmd <command here>\n"
+    return
+  fi
 
-    # $* joins all arguments as a string
-    echo "$*"
+  # $* joins all arguments as a string
+  echo "$*"
 
-    # Go One Level Deep
-    # @TODO Using this right now for CWD OUTPUT
-    for d in ./*/; do
-        echo -e "\n$d"
-        (cd "$d" && $*);
-    done
+  # Go One Level Deep
+  # @TODO Using this right now for CWD OUTPUT
+  for d in ./*/; do
+    echo -e "\n$d"
+    (cd "$d" && $*)
+  done
 
-    # @TODO: This works great, but I'd like to print out the directory im in better
-    # -name . skips running from the CWD
-    # find . -maxdepth 1 -type d \( ! -name . \) -exec bash -c "cd '{}' && echo -e \"\n${BOLD}${GREEN}In Directory: ${PWD}${RESET}\" && $*" \;
+  # @TODO: This works great, but I'd like to print out the directory im in better
+  # -name . skips running from the CWD
+  # find . -maxdepth 1 -type d \( ! -name . \) -exec bash -c "cd '{}' && echo -e \"\n${BOLD}${GREEN}In Directory: ${PWD}${RESET}\" && $*" \;
 }
 
 # >> Extract Files with one function <@DS>
 # ___________________________________________________________________
-extract () {
+extract() {
   if [ -f $1 ]; then
     case $1 in
-      *.7z)       7z x       $1 ;;
-      *.bz2)      bunzip2 -v $1 ;;
-      *.gz)       gunzip -v  $1 ;;
-      *.rar)      unrar x    $1 ;;
-      *.tar.bz2)  tar -xzfv  $1 ;;
-      *.tar.gz)   tar -xzfv  $1 ;;
-      *.tar.xz)   tar -xf    $1 ;;
-      *.tar)      tar -xfv   $1 ;;
-      *.tgz)      tar -xzfv  $1 ;;
-      *.xz)       tar -xzf   $1 ;;
-      *.zip)      unzip -v   $1 ;;
-      *)
-        echo -e "[!] '$FILE' cannot be extracted with extract()"
-        echo -e "[!] Formats: 7z, bz2, gz, rar, tar.bz2, tar.gz, tar, tgz, zip, xz"
-        ;;
+    *.7z) 7z x $1 ;;
+    *.bz2) bunzip2 -v $1 ;;
+    *.gz) gunzip -v $1 ;;
+    *.rar) unrar x $1 ;;
+    *.tar.bz2) tar -xzfv $1 ;;
+    *.tar.gz) tar -xzfv $1 ;;
+    *.tar.xz) tar -xf $1 ;;
+    *.tar) tar -xfv $1 ;;
+    *.tgz) tar -xzfv $1 ;;
+    *.xz) tar -xzf $1 ;;
+    *.zip) unzip -v $1 ;;
+    *)
+      echo -e "[!] '$FILE' cannot be extracted with extract()"
+      echo -e "[!] Formats: 7z, bz2, gz, rar, tar.bz2, tar.gz, tar, tgz, zip, xz"
+      ;;
     esac
   else
     echo "[Error]: Cannot extract '$FILE'"
   fi
 }
-
 
 # >> Create a tar.gz archive
 # ___________________________________________________________________
@@ -412,36 +313,31 @@ function compress() {
   tar -cvzf "$FILENAME.tar.gz" $1
 }
 
-
 # >> Find the largest files in current directory
 # ___________________________________________________________________
 function find_largest_files() {
-  du -h -x -s -- * | sort -r -h | head -20;
+  du -h -x -s -- * | sort -r -h | head -20
 }
-
 
 # >> Show the latest file in current directory
 # ___________________________________________________________________
 latest_file() {
   local f latest
-  for f in "${1:-.}"/*
-    do
-      [[ $f -nt $latest ]] && latest="$f"
-    done
-   printf '%s\n' "$latest"
+  for f in "${1:-.}"/*; do
+    [[ $f -nt $latest ]] && latest="$f"
+  done
+  printf '%s\n' "$latest"
 }
 
 # >> Show the oldest file in current directory
 # ___________________________________________________________________
-oldest_file () {
+oldest_file() {
   local f oldest
-  for file in "${1:-.}"/*
-    do
-      [[ -z $oldest || $f -ot $oldest ]] && oldest="$f"
-    done
+  for file in "${1:-.}"/*; do
+    [[ -z $oldest || $f -ot $oldest ]] && oldest="$f"
+  done
   printf '%s\n' "$oldest"
 }
-
 
 # >> Display my system info
 # ___________________________________________________________________
