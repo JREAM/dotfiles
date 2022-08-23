@@ -4,6 +4,8 @@
   IdentityFile = ~/.ssh/id_rsa
 [push]
   default = simple
+[push]
+  rebase = false
 [apply]
   # Detect whitespace errors when applying a patch
   whitespace = fix
