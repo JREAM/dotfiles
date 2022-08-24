@@ -129,3 +129,7 @@
   pushInsteadOf = "git://gist.github.com/"
 [init]
 	defaultBranch = master
+[pull]
+	ff = true
+[checkout]
+	workers = 6

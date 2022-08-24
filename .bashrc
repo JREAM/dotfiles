@@ -3,24 +3,6 @@
 # ║ BASHRC                                                          ║
 # ╚═════════════════════════════════════════════════════════════════╝
 
-# Debug any problems
-_DEBUG="off"
-function DEBUG() {
-  if [ "$_DEBUG" == 'on' ]; then
-     $@
-    PS4='+${LINENO}: $0 | '
-  fi
-}
-
-DEBUG echo 'DEBUG MODE ENABLED'
-DEBUG set -x
-
-#if [ $XDG_SESSION_TYPE != 'wayland' ]; then
-#  if [ $("xinput | grep Elan 2> /dev/null") ]; then
-#    xinput set-button-map 'Elan Touchpad' 1 0 3 4 5 6 7
-#  fi
-#fi
-
 # Autoload Keychain SSH ID
 if (($ + commands[keychain])) >/dev/null 2>&1; then
   keychain --clear $HOME/.ssh/id_rsa
@@ -33,10 +15,9 @@ fi
 # │ (!) Load exports first                                          │
 # └─────────────────────────────────────────────────────────────────┘
 # For private exports [Don't place in git]
-[[ -f ~/.exports_private ]] && source ~/.exports_private # || echo 'Missing'
-[[ -f ~/.bash_vars ]] && source ~/.bash_vars
-[[ -f ~/.bash_aliases ]] && source ~/.bash_aliases
-[[ -f ~/.bash_vendors ]] && source ~/.bash_vendors
+[[ -f ~/.bash_var ]] && source ~/.bash_vars
+[[ -f ~/.bash_alias ]] && source ~/.bash_aliases
+[[ -f ~/.bash_vendor ]] && source ~/.bash_vendors
 
 
 # ┌─────────────────────────────────────────────────────────────────┐
@@ -75,6 +56,3 @@ shopt -s cdspell
 # Make 'less' friendlier for non-text input files, see lesspipe(1)
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
