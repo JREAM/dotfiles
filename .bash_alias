@@ -157,6 +157,11 @@ if [ -x "$(command -v vtop)" ] &>/dev/null; then
   alias top="vtop" # npm i -g vtop
 fi
 
+function phpversion() {
+  echo "[!] This updates PHP CLI only, not your webserver."
+  sudo update-alternatives --config php
+}
+
 # ╔═════════════════════════════════════════════════════════════════╗
 # ║ Common Install Shortcuts                                        ║
 # ╚═════════════════════════════════════════════════════════════════╝
@@ -239,6 +244,15 @@ fi
 # ║ Git                                                             ║
 # ╚═════════════════════════════════════════════════════════════════╝
 # ...
+
+function git-filesize() {
+  git rev-list --objects --all |
+  git cat-file --batch-check='%(objecttype) %(objectname) %(objectsize) %(rest)' |
+  sed -n 's/^blob //p' |
+  sort --numeric-sort --key=2 |
+  cut -c 1-12,41- |
+  $(command -v gnumfmt || echo numfmt) --field=2 --to=iec-i --suffix=B --padding=7 --round=nearest
+}
 
 # ╔═════════════════════════════════════════════════════════════════╗
 # ║ Custom Functions                                                ║

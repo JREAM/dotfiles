@@ -15,9 +15,10 @@ fi
 # │ (!) Load exports first                                          │
 # └─────────────────────────────────────────────────────────────────┘
 # For private exports [Don't place in git]
-[[ -f ~/.bash_var ]] && source ~/.bash_vars
-[[ -f ~/.bash_alias ]] && source ~/.bash_aliases
-[[ -f ~/.bash_vendor ]] && source ~/.bash_vendors
+[[ -f ~/.bash_var ]] && source ~/.bash_var
+[[ -f ~/.bash_alias ]] && source ~/.bash_alias
+[[ -f ~/.bash_vendor ]] && source ~/.bash_vendor
+[[ -f ~/.bash_help ]] && source ~/.bash_help
 
 
 # ┌─────────────────────────────────────────────────────────────────┐
