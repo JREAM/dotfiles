@@ -6,10 +6,12 @@ if (($ + commands[direnv])) >/dev/null 2>&1; then
   eval "$(direnv hook bash)"
 fi
 
+
 # ╔═════════════════════════════════════════════════════════════════╗
 # ║ Node/JavaScriptvv                                               ║
 # ╚═════════════════════════════════════════════════════════════════╝
 NEXT_TELEMETRY_DISABLED=1 # [NextJS]
+
 
 # ╔═════════════════════════════════════════════════════════════════╗
 # ║ JDK / Android SDK                                               ║
@@ -32,6 +34,7 @@ if [ -n "$ANDROID_SDK" ]; then
   export PATH=$PATH:$ANDROID_SDK/platform-tools
 fi
 
+
 # ╔═════════════════════════════════════════════════════════════════╗
 # ║ PHP Composer                                                    ║
 # ╚═════════════════════════════════════════════════════════════════╝
@@ -49,6 +52,7 @@ if [ -d "$HOME/.phpenv/bin" ]; then
   eval "$(phpenv init -)"
 fi
 
+
 # ╔═════════════════════════════════════════════════════════════════╗
 # ║ Docker / Kubernetes                                             ║
 # ╚═════════════════════════════════════════════════════════════════╝
@@ -62,6 +66,7 @@ if (($ + commands[kubectl])) >/dev/null 2>&1; then
   source <(kubectl completion bash)
 fi
 
+
 # ╔═════════════════════════════════════════════════════════════════╗
 # ║  Node / NPM / Yarn                                              ║
 # ║  (!) Place ~/.yarn before ~/.npm so is takes precidence.        ║
@@ -72,6 +77,7 @@ fi
 [[ -f ~/.npm-completion ]] && source ~/.npm-completion
 [[ -f ~/.yarn-completion ]] && source ~/.yarn-completion
 
+
 # ╔═════════════════════════════════════════════════════════════════╗
 # ║  GoLang                                                         ║
 # ╚═════════════════════════════════════════════════════════════════╝
@@ -81,6 +87,17 @@ if [ -d /usr/local/go ]; then
   export PATH=$PATH:/usr/local/go/bin
   export PATH=$PATH:$GOPATH/bin
 fi
+
+
+# ╔═════════════════════════════════════════════════════════════════╗
+# ║ Bash Helpers                                                    ║
+# ╚═════════════════════════════════════════════════════════════════╝
+if [ -f $HOME/.local/bin/fuck ]; then
+  eval $(thefuck --alias)
+fi
+
+[[ -s "$HOME/.qfc/bin/qfc.sh" ]] && source "$HOME/.qfc/bin/qfc.sh"
+
 
 # ╔═════════════════════════════════════════════════════════════════╗
 # ║  Python / PyEnv                                                 ║
@@ -113,6 +130,7 @@ if (($ + commands[pyenv])) >/dev/null 2>&1; then
   fi
 fi
 
+
 # ╔═════════════════════════════════════════════════════════════════╗
 # ║  NVM (Node Version Manager)                                     ║
 # ╚═════════════════════════════════════════════════════════════════╝
@@ -139,10 +157,22 @@ if [ -d $HOME/.nvm ]; then
   }
 fi
 
+
 # ╔═════════════════════════════════════════════════════════════════╗
 # ║  GRC (Bash Color Highlights)                                    ║
 # ╚═════════════════════════════════════════════════════════════════╝
-# sudo vim /etc/default/grc  --  Set to true, doesn't work here.
+export GRC_ALIASES=true
+if [ -f "/etc/profile.d/grc.sh" ]; then
+  source /etc/profile.d/grc.sh
+fi
+
+
+# ╔═════════════════════════════════════════════════════════════════╗
+# ║ Bash Helpers                                                    ║
+# ╚═════════════════════════════════════════════════════════════════╝
+if [ -f $HOME/.local/bin/fuck ]; then
+  eval $(thefuck --alias)
+fi
 
 
 # ╔═════════════════════════════════════════════════════════════════╗
