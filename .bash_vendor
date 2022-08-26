@@ -42,7 +42,10 @@ export COMPOSER_HOME=$HOME/.composer
 if [ -d $COMPOSER_HOME ]; then
   PATH=$PATH:$COMPOSER_HOME
   export COMPOSER_HOME=$(composer config -g home)
+fi
 
+if [ -f "$HOME/.composer-autocomplete" ] ; then
+    . $HOME/.composer-autocomplete
 fi
 
 if [ -d "$HOME/.phpenv/bin" ]; then
@@ -96,8 +99,13 @@ if [ -f $HOME/.local/bin/fuck ]; then
   eval $(thefuck --alias)
 fi
 
-[[ -s "$HOME/.qfc/bin/qfc.sh" ]] && source "$HOME/.qfc/bin/qfc.sh"
+if [ -f /usr/share/doc/fzf/examples/key-bindings.bash ]; then
+  source /usr/share/doc/fzf/examples/key-bindings.bash ;
+fi
 
+if command -v batcat &> /dev/null; then
+  alias cat='batcat --paging=never'
+fi
 
 # ╔═════════════════════════════════════════════════════════════════╗
 # ║  Python / PyEnv                                                 ║

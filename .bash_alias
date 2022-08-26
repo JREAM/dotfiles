@@ -137,6 +137,9 @@ alias permissions-octal="stat -c \"%a %n\" -- $1"
 alias filesystem-reload='sudo systemctl start remote-fs.target local-fs.target && sudo systemctl daemon-reload' # FStab, mount -a doesn't work
 alias fsreload="filesystem-reload"
 
+# Reload Bashrc
+alias bashreload="source $HOME/.bashrc"
+
 # ╔═════════════════════════════════════════════════════════════════╗
 # ║ Hardware Aliases                                                ║
 # ╚═════════════════════════════════════════════════════════════════╝
