@@ -8,6 +8,7 @@ if (($ + commands[keychain])) >/dev/null 2>&1; then
   keychain --clear $HOME/.ssh/id_rsa
 fi
 
+
 # Local Bin to Path (Comes before other files)
 export PATH=$PATH:/home/$USER/.local/bin
 
@@ -67,5 +68,39 @@ shopt -s cdspell
 
 export PATH="${PATH}:/usr/local/bin/navi"
 
+# Color $ man page
+export LESS_TERMCAP_mb=$'\e[1;32m'
+export LESS_TERMCAP_md=$'\e[1;32m'
+export LESS_TERMCAP_me=$'\e[0m'
+export LESS_TERMCAP_se=$'\e[0m'
+export LESS_TERMCAP_so=$'\e[01;33m'
+export LESS_TERMCAP_ue=$'\e[0m'
+export LESS_TERMCAP_us=$'\e[1;4;31m'
+
+# z and fz
+if [ -d ~/.bash_completion.d ]; then
+  for file in ~/.bash_completion.d/*; do
+    . $file
+  done
+fi
 
 
+if [ -f ~/.fzf.bash ]; then
+  source ~/.fzf.bash
+  export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border'
+  #fzf --preview 'bat --style=numbers --color=always --line-range :500 {}'
+
+  _fzf_comprun() {
+    local command=$1
+    shift
+
+    case "$command" in
+      cd)           fzf "$@" --preview 'tree -C {} | head -200' ;;
+      *)            fzf "$@" ;;
+    esac
+  }
+fi
+
+
+export VAULT_ADDR='http://127.0.0.1:8200'
+export VAULT_TOKEN="hvs.NovIDqcMpSGCgefmGSTswxUD"

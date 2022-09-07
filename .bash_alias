@@ -35,6 +35,9 @@ export GREP_COLOR='1;32'
 # ╚═════════════════════════════════════════════════════════════════╝
 alias c='clear'
 alias h='history'
+if commmand -v hstr &> /dev/null; then
+  alias hh='hstr'
+fi
 alias j='jobs -l'
 
 # Use the Latest Python Version via "py"
