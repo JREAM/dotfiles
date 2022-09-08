@@ -60,7 +60,7 @@ alias j='jobs -l'
 # Use the Latest Python Version via "py"
 alias py='python'
 alias ports="netstat -tulanp"
-alias time="date +'%A, %B %m %Y at%l:%M%P %Z'"
+#alias time="date +'%A, %B %m %Y at%l:%M%P %Z'" breaks blesh
 alias vi=vim
 
 # Navigation
@@ -90,11 +90,6 @@ alias xclip='xclip -sel clip'  # Copy to Clipboard $ cat file.txt | xclip
 alias grep='grep --color=auto'
 alias egrep='egrep --color=auto'
 alias fgrep='fgrep --color=auto'
-
-# Remove (To trash first, not permanently)
-if command -v trash &>/dev/null; then
-  alias rm=trash
-fi
 
 # Super User 'sudo' shortcuts
 alias apt-get='sudo apt-get'
@@ -387,19 +382,3 @@ oldest_file() {
   printf '%s\n' "$oldest"
 }
 
-# >> Display my system info
-# ___________________________________________________________________
-function sysinfo() {
-  clear
-  printf "   %s\n" "IP ADDR: $(curl ifconfig.me)"
-  printf "   %s\n" "USER: $(echo $USER)"
-  printf "   %s\n" "DATE: $(date)"
-  printf "   %s\n" "UPTIME: $(uptime -p)"
-  printf "   %s\n" "HOSTNAME: $(hostname -f)"
-  printf "   %s\n" "CPU: $(awk -F: '/model name/{print $2}' | head -1)"
-  printf "   %s\n" "KERNEL: $(uname -rms)"
-  printf "   %s\n" "PACKAGES: $(dpkg --get-selections | wc -l)"
-  printf "   %s\n" "RESOLUTION: $(xrandr | awk '/\*/{printf $1" "}')"
-  printf "   %s\n" "MEMORY: $(free -m -h | awk '/Mem/{print $3"/"$2}')"
-  printf "\n"
-}

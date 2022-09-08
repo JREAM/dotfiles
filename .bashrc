@@ -101,6 +101,10 @@ if [ -f ~/.fzf.bash ]; then
   }
 fi
 
+if [ -f ~/.z.lua/z.lua ]; then
+  eval "$(lua ~/.z.lua/z.lua --init bash enhanced once)"
+fi
 
-export VAULT_ADDR='http://127.0.0.1:8200'
-export VAULT_TOKEN="hvs.NovIDqcMpSGCgefmGSTswxUD"
+#if [ -f ~/.local/share/blesh/ble.sh ]; then
+#  source ~/.local/share/blesh/ble.sh
+#fi
