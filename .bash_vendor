@@ -121,6 +121,10 @@ if [ -d $HOME/.pyenv ]; then
   eval "$(pyenv init --path)"
 fi
 
+if command -v pipx &>/dev/null; then
+  eval "$(register-python-argcomplete pipx)"
+fi
+
 # Check for PyEnv Virtualenvwrapper
 if (($ + commands[pyenv])) >/dev/null 2>&1; then
   eval "$(pyenv init -)"
