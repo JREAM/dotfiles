@@ -91,6 +91,11 @@ alias grep='grep --color=auto'
 alias egrep='egrep --color=auto'
 alias fgrep='fgrep --color=auto'
 
+# Remove (To trash first, not permanently)
+if command -v trash &>/dev/null; then
+  alias rm=trash
+fi
+
 # Super User 'sudo' shortcuts
 alias apt-get='sudo apt-get'
 alias apt='sudo apt'
