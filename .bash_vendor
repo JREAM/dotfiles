@@ -12,7 +12,14 @@ fi
 # ╚═════════════════════════════════════════════════════════════════╝
 NEXT_TELEMETRY_DISABLED=1 # [NextJS]
 
+# Phantom NPM (Faster/Smaller Dependencies)
+if [ -f /home/jesse/.local/share/pnpm ]; then
+  export PNPM_HOME="/home/jesse/.local/share/pnpm"
+  export PATH="$PNPM_HOME:$PATH"
+fi
 
+# TabTab (Autocomplete), Only have PNPM here right now.
+[ -f ~/.config/tabtab/bash/__tabtab.bash ] && . ~/.config/tabtab/bash/__tabtab.bash || true
 # ╔═════════════════════════════════════════════════════════════════╗
 # ║ JDK / Android SDK                                               ║
 # ╚═════════════════════════════════════════════════════════════════╝

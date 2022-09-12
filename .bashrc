@@ -8,7 +8,6 @@ if (($ + commands[keychain])) >/dev/null 2>&1; then
   keychain --clear $HOME/.ssh/id_rsa
 fi
 
-
 # Local Bin to Path (Comes before other files)
 export PATH=$PATH:/home/$USER/.local/bin
 
@@ -24,7 +23,6 @@ export PATH=$PATH:/home/$USER/.local/bin
 [[ -f ~/.bash_vendor ]] && source ~/.bash_vendor
 [[ -f ~/.bash_help ]] && source ~/.bash_help
 
-
 # ┌─────────────────────────────────────────────────────────────────┐
 # │ Terminal Display                                                │
 # └─────────────────────────────────────────────────────────────────┘
@@ -33,7 +31,6 @@ export PATH=$PATH:/home/$USER/.local/bin
 # Without color
 #export PS1="[\w]\$(git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/')\n\u@\h-> \[\033[0m\]"
 export PS1="[$IBLUE\w$RESET]\$(git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/($IYELLOW\1$RESET)/')\n\u@\h-> "
-
 
 # ┌─────────────────────────────────────────────────────────────────┐
 # │ Preferences: History                                            │
@@ -51,20 +48,17 @@ if [ -z "$debian_chroot" ] && [ -r /etc/debian_chroot ]; then
   debian_chroot=$(cat /etc/debian_chroot)
 fi
 
-
 # ┌─────────────────────────────────────────────────────────────────┐
 # │ Bash Completion                                                 │
 # └─────────────────────────────────────────────────────────────────┘
-[[ $PS1 && -f /usr/share/bash-completion/bash_completion ]] && \
+[[ $PS1 && -f /usr/share/bash-completion/bash_completion ]] &&
   . /usr/share/bash-completion/bash_completion
 
 # Fix $ cd typing errors
 shopt -s cdspell
 
-
 # Make 'less' friendlier for non-text input files, see lesspipe(1)
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
-
 
 export PATH="${PATH}:/usr/local/bin/navi"
 
@@ -84,7 +78,6 @@ if [ -d ~/.bash_completion.d ]; then
   done
 fi
 
-
 if [ -f ~/.fzf.bash ]; then
   source ~/.fzf.bash
   export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border'
@@ -95,8 +88,8 @@ if [ -f ~/.fzf.bash ]; then
     shift
 
     case "$command" in
-      cd)           fzf "$@" --preview 'tree -C {} | head -200' ;;
-      *)            fzf "$@" ;;
+    cd) fzf "$@" --preview 'tree -C {} | head -200' ;;
+    *) fzf "$@" ;;
     esac
   }
 fi
