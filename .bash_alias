@@ -32,6 +32,18 @@ function colors() {
 [ -d /server/dev ] && alias d='cd /server/dev/' && alias dev='cd ~/server/dev'
 [ -d /server/work ] && alias w='cd /server/work'
 
+function backup-gnome-settings() {
+  DATE=$(date +"%Y%m%d")
+  FILE="gnome-settings-$HOSTNAME-$DATE.backup"
+  SAVETO=$HOME/Dropbox/my-linux
+  echo -e "; To Restore Settings Run.. \n; $ dconf load /org/gnome < gnome-backup\n;
+  You may need to remove these comments!" > $FILE && dconf dump /org/gnome/ >> $FILE
+  mv $FILE $HOME/Dropbox/my-linux
+  echo -e "[+] File Saved to: $FILE"
+  echo -e "[+] Restoration instructions are in the file header."
+
+}
+
 # ╔═════════════════════════════════════════════════════════════════╗
 # ║ Try to use GRC Colorizer                                        ║
 # ╚═════════════════════════════════════════════════════════════════╝
@@ -185,6 +197,10 @@ if [ -x "$(command -v vtop)" ] &>/dev/null; then
   alias top="vtop" # npm i -g vtop
 fi
 
+if [ -x "$(command -v tre)" ] &>/dev/null; then
+  alias tree="tre"
+fi
+
 function phpversion() {
   echo "[!] This updates PHP CLI only, not your webserver."
   sudo update-alternatives --config php
@@ -254,6 +270,7 @@ alias a2acclog='tail -n 50 /var/log/apache2/access.log'
 alias a2errlog='tail -n 50 /var/log/apache2/error.log'
 
 alias mysqlvars="mysql -NBe 'SHOW VARIABLES'| sed 's,\t,^=,' | column -ts^"
+
 
 # ╔═════════════════════════════════════════════════════════════════╗
 # ║ PHP FPM                                                         ║

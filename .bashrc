@@ -11,6 +11,8 @@ fi
 # Local Bin to Path (Comes before other files)
 export PATH=$PATH:/home/$USER/.local/bin
 
+# Local Default Browser (VSCode also)
+export BROWSER="/usr/bin/brave-browser"
 # ┌─────────────────────────────────────────────────────────────────┐
 # │ Source Other Files                                              │
 # ├─────────────────────────────────────────────────────────────────┤
@@ -80,7 +82,9 @@ fi
 
 if [ -f ~/.fzf.bash ]; then
   source ~/.fzf.bash
-  export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border'
+  export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border=rounded --tabstop=4 --color=dark,info:bright-green,pointer:green,hl:bright-green'
+  export FZF_DEFAULT_COMMAND="fd . $HOME"
+  export FZF_ALT_C_COMMAND="fd -t d . $HOME"
   #fzf --preview 'bat --style=numbers --color=always --line-range :500 {}'
 
   _fzf_comprun() {
@@ -101,3 +105,6 @@ fi
 #if [ -f ~/.local/share/blesh/ble.sh ]; then
 #  source ~/.local/share/blesh/ble.sh
 #fi
+
+
+

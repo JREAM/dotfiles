@@ -16,33 +16,27 @@ call vundle#rc()
 
 " vundle repo
 Bundle 'gmarik/Vundle.vim'
-Plugin 'jparise/vim-graphql'
-Plugin 'dart-lang/dart-vim-plugin'
 Plugin 'fatih/vim-go'
-Plugin 'evanleck/vim-svelte'
 
-" Color Schemes
+" Color/Style Schemes
 Plugin 'benjaminwhite/Benokai'
+Plugin 'bling/vim-airline'        " Statusline
+Plugin 'httplog'                  " Highlight Apache/Nginx Logs
+Plugin 'nginx.vim'                " Highlight Nginx Config
+Plugin 'gregsexton/matchtag'
 
-" productivity
-Plugin 'bling/vim-airline'    " Statusline
-"Plugin 'ervandew/supertab'    " Tab Completion
-Plugin 'flazz/vim-colorschemes'
-Plugin 'itspriddle/vim-stripper'
+" Productivity
+"Plugin 'ervandew/supertab'       " Tab Completion
+Plugin 'itspriddle/vim-stripper'  " Trim Trailing Whitespaces
 Plugin 'kien/ctrlp.vim'
-Plugin 'nginx.vim'
-Plugin 'rking/ag.vim'           " The Silver Searcher (Superior to ack)
-Plugin 'scrooloose/nerdtree'    " Tree Style Dirs
-Plugin 'tpope/vim-pathogen'
+Plugin 'scrooloose/nerdtree'      " Tree Style Dirs
 
 " JS Frameworks (Highlight)
-Plugin 'gregsexton/matchtag'
-Plugin 'httplog'
 Plugin 'mtscout6/syntastic-local-eslint.vim'
 
 " Languages
 Plugin 'ap/vim-css-color'
-Plugin 'Autoclose'
+""Plugin 'Autoclose'
 Plugin 'chiel92/vim-autoformat'
 Plugin 'eslint/eslint'
 Plugin 'evidens/vim-twig'
@@ -53,16 +47,12 @@ Plugin 'leafgarland/typescript-vim'
 " Syntax Languages
 Plugin 'cakebaker/scss-syntax.vim'
 Plugin 'elzr/vim-json'
-Plugin 'Glench/Vim-Jinja2-Syntax'
 Plugin 'hail2u/vim-css3-syntax'
 Plugin 'hdima/python-syntax'
 Plugin 'isruslan/vim-es6'
 Plugin 'kien/rainbow_parentheses.vim'
-Plugin 'mattn/emmet-vim'
-Plugin 'moll/vim-node'
 Plugin 'mustache/vim-mustache-handlebars'
 Plugin 'mxw/vim-jsx'
-Plugin 'othree/javascript-libraries-syntax.vim'
 Plugin 'pangloss/vim-javascript'
 Plugin 'plasticboy/vim-markdown'
 Plugin 'posva/vim-vue'
@@ -74,11 +64,8 @@ Plugin 'docker/docker'
 Plugin 'ekalinin/dockerfile.vim'
 
 " misc
-Bundle "editorconfig/editorconfig-vim"
 Bundle "vim-scripts/gitignore"
 Plugin 'nathanaelkane/vim-indent-guides'
-
-Plugin 'tpope/vim-surround'
 
 " error handling
 Bundle "nvie/vim-flake8"
