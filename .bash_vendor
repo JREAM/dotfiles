@@ -125,6 +125,7 @@ fi
 # $ fzf -- Fuzzy Finder (Alt+C, Ctrl+R))
 if [ -f ~/.fzf.bash ]; then
   source ~/.fzf.bash
+  export PATH=$PATH:$HOME/.fzf/bin/fzf
   export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border=rounded --tabstop=4 --color=dark,info:bright-green,pointer:green,hl:bright-green'
   export FZF_DEFAULT_COMMAND="fd . $HOME"
   export FZF_ALT_C_COMMAND="fd -t d . $HOME"
