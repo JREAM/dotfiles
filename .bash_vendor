@@ -110,6 +110,37 @@ if command -v batcat &> /dev/null; then
   alias cat='batcat --paging=never'
 fi
 
+# Quick File - (Ctrl + P edit, Ctrl + B Go)
+if [[ -s "$HOME/.qfc/bin/qfc.sh" ]]; then
+   source "$HOME/.qfc/bin/qfc.sh"
+  qfc_quick_command 'cd' '\C-b' 'cd $0'o
+  qfc_quick_command 'vim' '\C-p' 'vim $0'
+fi
+
+# $ z  -- Recent Directoies
+if [ -f ~/.z.lua/z.lua ]; then
+  eval "$(lua ~/.z.lua/z.lua --init bash enhanced once)"
+fi
+
+# $ fzf -- Fuzzy Finder (Alt+C, Ctrl+R))
+if [ -f ~/.fzf.bash ]; then
+  source ~/.fzf.bash
+  export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border=rounded --tabstop=4 --color=dark,info:bright-green,pointer:green,hl:bright-green'
+  export FZF_DEFAULT_COMMAND="fd . $HOME"
+  export FZF_ALT_C_COMMAND="fd -t d . $HOME"
+  #fzf --preview 'bat --style=numbers --color=always --line-range :500 {}'
+
+  _fzf_comprun() {
+    local command=$1
+    shift
+
+    case "$command" in
+    cd) fzf "$@" --preview 'tree -C {} | head -200' ;;
+    *) fzf "$@" ;;
+    esac
+  }
+fi
+
 
 # ╔═════════════════════════════════════════════════════════════════╗
 # ║  Python / PyEnv                                                 ║

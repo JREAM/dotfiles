@@ -80,31 +80,3 @@ if [ -d ~/.bash_completion.d ]; then
   done
 fi
 
-if [ -f ~/.fzf.bash ]; then
-  source ~/.fzf.bash
-  export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border=rounded --tabstop=4 --color=dark,info:bright-green,pointer:green,hl:bright-green'
-  export FZF_DEFAULT_COMMAND="fd . $HOME"
-  export FZF_ALT_C_COMMAND="fd -t d . $HOME"
-  #fzf --preview 'bat --style=numbers --color=always --line-range :500 {}'
-
-  _fzf_comprun() {
-    local command=$1
-    shift
-
-    case "$command" in
-    cd) fzf "$@" --preview 'tree -C {} | head -200' ;;
-    *) fzf "$@" ;;
-    esac
-  }
-fi
-
-if [ -f ~/.z.lua/z.lua ]; then
-  eval "$(lua ~/.z.lua/z.lua --init bash enhanced once)"
-fi
-
-#if [ -f ~/.local/share/blesh/ble.sh ]; then
-#  source ~/.local/share/blesh/ble.sh
-#fi
-
-
-
