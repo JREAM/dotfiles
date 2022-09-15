@@ -111,7 +111,7 @@ if command -v batcat &> /dev/null; then
 fi
 
 # Quick File - (Ctrl + P edit, Ctrl + B Go)
-if [[ -s "$HOME/.qfc/bin/qfc.sh" ]]; then
+if [[ -s "$HOME/.qfc/bin/qfc.sh" && $INTERACTIVE_MODE ]]; then
    source "$HOME/.qfc/bin/qfc.sh"
   qfc_quick_command 'cd' '\C-b' 'cd $0'o
   qfc_quick_command 'vim' '\C-p' 'vim $0'

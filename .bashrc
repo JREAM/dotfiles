@@ -3,6 +3,11 @@
 # ║ BASHRC                                                          ║
 # ╚═════════════════════════════════════════════════════════════════╝
 
+
+# Set variable for Interactive to not load bashe-complete
+[ -v PS1 ] && i9e=true || i9e=false
+export INTERACTIVE_MODE=$i9e
+
 # Autoload Keychain SSH ID
 if (($ + commands[keychain])) >/dev/null 2>&1; then
   keychain --clear $HOME/.ssh/id_rsa
@@ -74,7 +79,8 @@ export LESS_TERMCAP_ue=$'\e[0m'
 export LESS_TERMCAP_us=$'\e[1;4;31m'
 
 # z and fz
-if [ -d ~/.bash_completion.d ]; then
+if [[ -d "$HOME/.bash_completion.d" && $INTERACTIVE_MODE ]]; then
+echo 1
   for file in ~/.bash_completion.d/*; do
     . $file
   done
