@@ -12,7 +12,7 @@
 [credential]
   helper = cache -- timeout=3600
 [color]
-  ui = auto
+	ui = auto
 [color "branch"]
   current = yellow reverse
   local = yellow
@@ -28,7 +28,7 @@
   untracked = cyan
 [help]
   # Automatically correct and execute mistyped commands
-  autocorrect = 1
+	autocorrect = 1
 [merge]
 	tool = tkdiff
 [mergetool]
@@ -36,6 +36,23 @@
 [alias]
   # List Aliases
   la = git alias
+
+  # See Global Config
+  gl = git --global -l
+
+  # One line list of commits
+  ls = log --oneline
+
+  last = log -1 HEAD --stat
+
+  w = "!f() { \
+    CMD=$1 \
+    [[ $1 == 'ls' ]] && CMD='list' \
+    [[ $1 == 'rm' ]] && CMD='remove' \
+    [[ $1 == 'mv' ]] && CMD='move' \
+    git worktree list; \
+  }; f"
+
 
   # Logs
   lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
@@ -49,8 +66,6 @@
 
   # Fetchall
   fetchall = "!for remote in `git branch -r`; do git branch --track ${remote#origin/} $remote 2>/dev/null; done"
-
-
 
   # Main
   br = branch
@@ -115,20 +130,12 @@
 [url "git://github.com/"]
   insteadOf = "github:"
 
-[url "git://bitbucket.org/"]
-  insteadOf = "bitbucket:"
-
-[url "git@bitbucket.org:"]
-  insteadOf = "bb:",
-  pushInsteadOf = "bitbucket:"
-  pushInsteadOf = "git://bitbucket.org/"
-
 [url "git@gist.github.com:"]
   insteadOf = "gst:"
   pushInsteadOf = "gist:"
   pushInsteadOf = "git://gist.github.com/"
 [init]
-	defaultBranch = master
+	defaultBranch = main
 [pull]
 	ff = true
 [checkout]
