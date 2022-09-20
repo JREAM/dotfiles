@@ -64,6 +64,7 @@ export GREP_COLOR='1;32'
 # ╚═════════════════════════════════════════════════════════════════╝
 alias c='clear'
 alias h='history'
+alias left='ls -t -1'   # See where I last left off
 if commmand -v hstr &> /dev/null; then
   alias hh='hstr'
 fi
@@ -74,22 +75,27 @@ alias py='python'
 alias ports="netstat -tulanp"
 #alias time="date +'%A, %B %m %Y at%l:%M%P %Z'" breaks blesh
 alias vi=vim
+alias ve='python3 -m venv ./venv'
+alias va='source ./venv/bin/activate'
 
 # Navigation
 alias ..='cd ..'
 alias ...='cd ../..'
 alias ....='cd ../../..'
+alias .3='cd ../../../'
+alias .4='cd ../../../../'
 alias www='cd /var/www/'
 
 # Listing
-alias l="ls -lh --color=auto"
-alias la="ls -lah --color=auto" # Long List
-alias ll="ls -lah --color=auto" # Long List
-alias ls="ls --color=auto"
+alias l="ls -lh --color=auto --classify"
+alias la="ls -lah --color=auto --classify" # Long List
+alias ll="ls -lah --color=auto --classify" # Long List
+alias ls="ls --color=auto --classify"
 alias l.="ls -d .* --color=auto | column -s='\n'" # List Hidden files
 alias lh="l."                                     # <List Hidden Files>; Alias for Alias
 alias ll.="ls -lhd .* --color=auto"               # Long List Hiddent
 alias llh="ll."                                   # <List Hiddent Files; Alias for Alias
+
 alias os="lsb_release -a"                         # Get OS Version
 
 # Utility
@@ -97,8 +103,16 @@ alias mkdir='mkdir -pv'        # $ mkdir x/y/z
 alias wget="wget -c"           # Resume if failed by default
 alias findfile="find . -name " # Make find a little easier
 alias xclip='xclip -sel clip'  # Copy to Clipboard $ cat file.txt | xclip
+alias cpv='rsync -ah --info=progress2' # Progress bar'
+# do not delete / or prompt if deleting more than 3 files at a time #
+alias rm='rm -I --preserve-root'
+
+alias cpuinfo='lscpu'
+alias df='df -h'
+alias du='du -ch'
 
 # Grep
+
 alias grep='grep --color=auto'
 alias egrep='egrep --color=auto'
 alias fgrep='fgrep --color=auto'
@@ -140,6 +154,7 @@ alias upgrade='sudo apt-get upgrade'
 
 # Mount (Readable)
 alias mount='mount | column -t'
+alias mnt="mount | awk -F' ' '{ printf \"%s\t%s\n\",\$1,\$3; }' | column -t | egrep ^/dev/ | sort"
 
 # Ping / IP
 alias fastping='ping -c 100 -s.2'
@@ -154,6 +169,22 @@ alias ping='ping -c 5' # Send X packets
 # Disk Related
 alias df='df -H | grep -v "/snap"' # Remove the snap directories
 alias du='du -ch'
+alias psmem="ps auxf | sort -nr -k 4"
+alias psmem10="ps auxf | sort -nr -k 4 | head -10"
+alias pscpu="ps auxf | sort -nr -k 3"
+alias pscpu10="ps auxf | sort -nr -k 3 | head -10"
+alias cpuinfo="lscpu"
+
+alias usage='du -ch | grep total'
+alias totalusage='df -hl --total | grep total'
+alias most='du -hsx * | sort -rh | head -10'
+
+
+urlencode()
+{
+  local args="$@"
+  jq -nr --arg v "$args" '$v|@uri';
+}
 
 # SSH Related
 alias ssh-fingerprint='ssh-keygen -lf $1'
@@ -269,8 +300,10 @@ alias a2ensite='sudo a2ensite'
 alias a2acclog='tail -n 50 /var/log/apache2/access.log'
 alias a2errlog='tail -n 50 /var/log/apache2/error.log'
 
+# ╔═════════════════════════════════════════════════════════════════╗
+# ║ MySQL                                                           ║
+# ╚═════════════════════════════════════════════════════════════════╝
 alias mysqlvars="mysql -NBe 'SHOW VARIABLES'| sed 's,\t,^=,' | column -ts^"
-
 
 # ╔═════════════════════════════════════════════════════════════════╗
 # ║ PHP FPM                                                         ║
@@ -285,11 +318,11 @@ if [ -x "$(command -v php-fpm$PHP_FPM_VERSION)" ] &>/dev/null; then
   alias phpfpm-status="sudo service php-fpm$PHP_FPM_VERSION status"
 fi
 
+
 # ╔═════════════════════════════════════════════════════════════════╗
 # ║ Git                                                             ║
 # ╚═════════════════════════════════════════════════════════════════╝
 # ...
-
 function git-filesize() {
   git rev-list --objects --all |
   git cat-file --batch-check='%(objecttype) %(objectname) %(objectsize) %(rest)' |
@@ -301,9 +334,23 @@ function git-filesize() {
 
 
 # ╔═════════════════════════════════════════════════════════════════╗
+# ║ Docker                                                          ║
+# ╚═════════════════════════════════════════════════════════════════╝
+dock-run() { sudo docker run -i -t --privileged $@ ;}
+dock-exec() { sudo docker exec -i -t $@ /bin/bash ;}
+dock-log() { sudo docker logs --tail=all -f $@ ;}
+dock-port() { sudo docker port $@ ;}
+dock-vol() { sudo docker inspect --format '{{ .Volumes }}' $@ ;}
+dock-ip() { sudo docker inspect --format '{{ .NetworkSettings.IPAddress }}' $@ ;}
+dock-rmc() { sudo docker rm sudo docker ps -qa --filter 'status=exited' ;}
+dock-rmi() { sudo docker rmi -f sudo docker images | grep '^<none>' | awk '{print $3}' ;}
+dock-stop() { sudo docker stop $(docker ps -a -q); }
+dock-rm() { sudo docker rm $(docker ps -a -q); }
+
+
+# ╔═════════════════════════════════════════════════════════════════╗
 # ║ Custom Functions                                                ║
 # ╚═════════════════════════════════════════════════════════════════╝
-
 # >> Directory Loop
 #    (All Children/Sub-Folders)
 #
@@ -333,8 +380,10 @@ loopdir() {
   # find . -maxdepth 1 -type d \( ! -name . \) -exec bash -c "cd '{}' && echo -e \"\n${BOLD}${GREEN}In Directory: ${PWD}${RESET}\" && $*" \;
 }
 
-# >> Extract Files with one function <@DS>
-# ___________________________________________________________________
+
+# ╔═════════════════════════════════════════════════════════════════╗
+# ║ Extract                                                         ║
+# ╚═════════════════════════════════════════════════════════════════╝
 extract() {
   if [ -f $1 ]; then
     case $1 in
@@ -359,8 +408,10 @@ extract() {
   fi
 }
 
-# >> Create a tar.gz archive
-# ___________________________________________________________________
+
+# ╔═════════════════════════════════════════════════════════════════╗
+# ║ Compress                                                        ║
+# ╚═════════════════════════════════════════════════════════════════╝
 function compress() {
   if [[ -z $1 ]]; then
     echo -e "[!] You must provide a filename or folder to archive."
@@ -373,14 +424,19 @@ function compress() {
   tar -cvzf "$FILENAME.tar.gz" $1
 }
 
-# >> Find the largest files in current directory
-# ___________________________________________________________________
-function find_largest_files() {
+
+# ╔═════════════════════════════════════════════════════════════════╗
+# ║ Find Largest Files                                              ║
+# ╚═════════════════════════════════════════════════════════════════╝
+function find-largest-files() {
   du -h -x -s -- * | sort -r -h | head -20
 }
 
+
+# ╔═════════════════════════════════════════════════════════════════╗
+# ║ lastest-File                                                    ║
+# ╚═════════════════════════════════════════════════════════════════╝
 # >> Show the latest file in current directory
-# ___________________________________________________________________
 latest_file() {
   local f latest
   for f in "${1:-.}"/*; do
@@ -389,6 +445,10 @@ latest_file() {
   printf '%s\n' "$latest"
 }
 
+
+# ╔═════════════════════════════════════════════════════════════════╗
+# ║ Oldest File                                                     ║
+# ╚═════════════════════════════════════════════════════════════════╝
 # >> Show the oldest file in current directory
 # ___________________________________________________________________
 oldest_file() {
