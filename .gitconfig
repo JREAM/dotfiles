@@ -45,14 +45,6 @@
 
   last = log -1 HEAD --stat
 
-  w = "!f() { \
-    CMD=$1 \
-    [[ $1 == 'ls' ]] && CMD='list' \
-    [[ $1 == 'rm' ]] && CMD='remove' \
-    [[ $1 == 'mv' ]] && CMD='move' \
-    git worktree list; \
-  }; f"
-
 
   # Logs
   lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
