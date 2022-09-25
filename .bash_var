@@ -1,4 +1,5 @@
 #!/bin/bash
+# shellcheck disable=SC1087
 # ╔═════════════════════════════════════════════════════════════════╗
 # ║  BASH VARIABLES                                                  ║
 # ╠═════════════════════════════════════════════════════════════════╣
@@ -6,12 +7,22 @@
 # ║ Ensure this is sourced from ~/.bashrc                           ║
 # ╚═════════════════════════════════════════════════════════════════╝
 
-# Misc
-NEXT_TELEMETRY_DISABLED=1
-
 if [ -z ${TERM+x} ]; then
-  export TERM="xterm-256color"
+  export TERM='xterm-256color'
 fi
+
+# ┌─────────────────────────────────────────────────────────────────┐
+# │ List Available Colors                                           │
+# └─────────────────────────────────────────────────────────────────┘
+function colors() {
+  echo -e "[ Standard colors ]\n"
+  for C in {40..47}; do echo -en "\e[${C}m$C "; done
+  echo -e "[ High intensity colors ]\n"
+  for C in {100..107}; do echo -en "\e[${C}m$C "; done
+  echo -e "[  256 colors ]\n"
+  for C in {16..255}; do echo -en "\e[48;5;${C}m$C "; done
+  echo -e "\e(B\e[m"
+}
 
 # ┌─────────────────────────────────────────────────────────────────┐
 # │ Colors                                                          │
@@ -30,67 +41,67 @@ fi
 
 ESC="\033"
 # [Reset]
-RESET="$ESC[0m" # Text Reset
+export RESET="$ESC[0m" # Text Reset
 
 # [Standard]
 MODE=0
 # eg: \033[0;30m
-BLACK="$ESC[$MODE;30m"  # Black
-RED="$ESC[$MODE;31m"    # Red
-GREEN="$ESC[$MODE;32m"  # Green
-YELLOW="$ESC[$MODE;33m" # Yellow
-BLUE="$ESC[$MODE;34m"   # Blue
-PURPLE="$ESC[$MODE;35m" # Purple
-CYAN="$ESC[$MODE;36m"   # Cyan
-WHITE="$ESC[$MODE;37m"  # White
+export BLACK="$ESC[$MODE;30m"  # Black
+export RED="$ESC[$MODE;31m"    # Red
+export GREEN="$ESC[$MODE;32m"  # Green
+export YELLOW="$ESC[$MODE;33m" # Yellow
+export BLUE="$ESC[$MODE;34m"   # Blue
+export PURPLE="$ESC[$MODE;35m" # Purple
+export CYAN="$ESC[$MODE;36m"   # Cyan
+export WHITE="$ESC[$MODE;37m"  # White
 
 # [Bold]
 # eg: \033[1;30m
 MODE=1
-BBLACK="$ESC[$MODE;30m"  # Black
-BWHITE="$ESC[$MODE;37m"  # White
-BRED="$ESC[$MODE;31m"    # Red
-BGREEN="$ESC[$MODE;32m"  # Green
-BBLUE="$ESC[$MODE;34m"   # Blue
-BCYAN="$ESC[$MODE;36m"   # Cyan
-BPURPLE="$ESC[$MODE;35m" # Purple
-BYELLOW="$ESC[$MODE;33m" # Yellow
+export BBLACK="$ESC[$MODE;30m"  # Black
+export BWHITE="$ESC[$MODE;37m"  # White
+export BRED="$ESC[$MODE;31m"    # Red
+export BGREEN="$ESC[$MODE;32m"  # Green
+export BBLUE="$ESC[$MODE;34m"   # Blue
+export BCYAN="$ESC[$MODE;36m"   # Cyan
+export BPURPLE="$ESC[$MODE;35m" # Purple
+export BYELLOW="$ESC[$MODE;33m" # Yellow
 
 # [Underline]
 # eg: \033[4;30m
 MODE=4
-UBLACK="$ESC[$MODE;30m"  # Black
-UWHITE="$ESC[$MODE;37m"  # White
-URED="$ESC[$MODE;31m"    # Red
-UGREEN="$ESC[$MODE;32m"  # Green
-UBLUE="$ESC[$MODE;34m"   # Blue
-OCYAN="$ESC[$MODE;36m"   # Cyan
-UPURPLE="$ESC[$MODE;35m" # Purple
-UYELLOW="$ESC[$MODE;33m" # Yellow
+export UBLACK="$ESC[$MODE;30m"  # Black
+export UWHITE="$ESC[$MODE;37m"  # White
+export URED="$ESC[$MODE;31m"    # Red
+export UGREEN="$ESC[$MODE;32m"  # Green
+export UBLUE="$ESC[$MODE;34m"   # Blue
+export OCYAN="$ESC[$MODE;36m"   # Cyan
+export UPURPLE="$ESC[$MODE;35m" # Purple
+export UYELLOW="$ESC[$MODE;33m" # Yellow
 
 # [Intense]
 # eg: \033[0;90m
 MODE=0
-IBLACK="$ESC[$MODE;90m"  # Black
-IWHITE="$ESC[$MODE;97m"  # White
-IRED="$ESC[$MODE;91m"    # Red
-IGREEN="$ESC[$MODE;92m"  # Green
-IBLUE="$ESC[$MODE;94m"   # Blue
-ICYAN="$ESC[$MODE;96m"   # Cyan
-IPURPLE="$ESC[$MODE;95m" # Purple
-IYELLOW="$ESC[$MODE;93m" # Yellow
+export IBLACK="$ESC[$MODE;90m"  # Black
+export IWHITE="$ESC[$MODE;97m"  # White
+export IRED="$ESC[$MODE;91m"    # Red
+export IGREEN="$ESC[$MODE;92m"  # Green
+export IBLUE="$ESC[$MODE;94m"   # Blue
+export ICYAN="$ESC[$MODE;96m"   # Cyan
+export IPURPLE="$ESC[$MODE;95m" # Purple
+export IYELLOW="$ESC[$MODE;93m" # Yellow
 
 # [Intense Bold]
 # eg: \033[1;90m
 MODE=1
-IBBLACK="$ESC[$MODE;90m"  # Black
-IBWHITE="$ESC[$MODE;97m"  # White
-IBRED="$ESC[$MODE;91m"    # Red
-IBGREEN="$ESC[$MODE;92m"  # Green
-IBBLUE="$ESC[$MODE;94m"   # Blue
-IBCYAN="$ESC[$MODE;96m"   # Cyan
-IBPURPLE="$ESC[$MODE;95m" # Purple
-IBYELLOW="$ESC[$MODE;93m" # Yellow
+export IBBLACK="$ESC[$MODE;90m"  # Black
+export IBWHITE="$ESC[$MODE;97m"  # White
+export IBRED="$ESC[$MODE;91m"    # Red
+export IBGREEN="$ESC[$MODE;92m"  # Green
+export IBBLUE="$ESC[$MODE;94m"   # Blue
+export IBCYAN="$ESC[$MODE;96m"   # Cyan
+export IBPURPLE="$ESC[$MODE;95m" # Purple
+export IBYELLOW="$ESC[$MODE;93m" # Yellow
 
 # ┌─────────────────────────────────────────────────────────────────┐
 # │ Lines                                                           │
@@ -138,21 +149,21 @@ IBYELLOW="$ESC[$MODE;93m" # Yellow
 # ├─────┼─────┤
 # │     │     │
 # └─────┴─────┘
-LnH="─"
-LnV="│"
-LnTL="┌"
-LnTR="┐"
-LnBL="└"
-LnBR="┘"
-LnMT="┬"
-LnMB="┴"
-LnML="├"
-LnMR="┤"
-LnMC="┼"
-LnRdTL="╭" # Rounded
-LnRdTR="╮" # Rounded
-LnRdBR="╯" # Rounded
-LnRdBL="╰" # Rounded
+export LnH="─"
+export LnV="│"
+export LnTL="┌"
+export LnTR="┐"
+export LnBL="└"
+export LnBR="┘"
+export LnMT="┬"
+export LnMB="┴"
+export LnML="├"
+export LnMR="┤"
+export LnMC="┼"
+export LnRdTL="╭" # Rounded
+export LnRdTR="╮" # Rounded
+export LnRdBR="╯" # Rounded
+export LnRdBL="╰" # Rounded
 
 # ┌─────────────────────────────────────────────────────────────────┐
 # │ Lines: Double                                                   │
@@ -163,17 +174,17 @@ LnRdBL="╰" # Rounded
 # ╠═════╬═════╣
 # ║     ║     ║
 # ╚═════╩═════╝
-Ln2xH="═"
-Ln2xV="║"
-Ln2xTL="╔"
-Ln2xTR="╗"
-Ln2xBL="╚"
-Ln2xBR="╝"
-Ln2xMT="╦"
-Ln2xMB="╩"
-Ln2xML="╠"
-Ln2xMR="╣"
-Ln2xMC="╬"
+export Ln2xH="═"
+export Ln2xV="║"
+export Ln2xTL="╔"
+export Ln2xTR="╗"
+export Ln2xBL="╚"
+export Ln2xBR="╝"
+export Ln2xMT="╦"
+export Ln2xMB="╩"
+export Ln2xML="╠"
+export Ln2xMR="╣"
+export Ln2xMC="╬"
 
 # ┌─────────────────────────────────────────────────────────────────┐
 # │ Lines: Fat                                                      │
@@ -184,50 +195,50 @@ Ln2xMC="╬"
 # ┣━━━━━━━━━━━┫
 # ┃     ┃     ┃
 # ┗━━━━━━━━━━━┛
-LnFH="━"
-LnFV="┃"
-LnFTL="┏"
-LnFTR="┓"
-LnFBL="┗"
-LnFBR="┛"
-LnFMT="┳"
-LnFMB="┻"
-LnFML="┣"
-LnFMR="┫"
-LnFMC="╋"
+export LnFH="━"
+export LnFV="┃"
+export LnFTL="┏"
+export LnFTR="┓"
+export LnFBL="┗"
+export LnFBR="┛"
+export LnFMT="┳"
+export LnFMB="┻"
+export LnFML="┣"
+export LnFMR="┫"
+export LnFMC="╋"
 
 # ┌─────────────────────────────────────────────────────────────────┐
 # │ Lines: Connectors                                               │
 # ├─────────────────────────────────────────────────────────────────┤
 # └─────────────────────────────────────────────────────────────────┘
 # Single to Double Connectors
-Ln1x2TL="╒"
-Ln1x2TR="╕"
-Ln1x2BL="╘"
-Ln1x2BR="╛"
-Ln1x2BC="╨"
-Ln1x2ML="╞"
-Ln1x2MR="╡"
-Ln1x2MT="╥"
-Ln1x2MB="╨"
-Ln1x2MC="╪"
+export Ln1x2TL="╒"
+export Ln1x2TR="╕"
+export Ln1x2BL="╘"
+export Ln1x2BR="╛"
+export Ln1x2BC="╨"
+export Ln1x2ML="╞"
+export Ln1x2MR="╡"
+export Ln1x2MT="╥"
+export Ln1x2MB="╨"
+export Ln1x2MC="╪"
 
 # Double to Single Connectors
-Ln2x1TL="╓"
-Ln2x1TR="╖"
-Ln2x1BL="╙"
-Ln2x1BR="╜"
-Ln2x1ML="╟"
-Ln2x1MR="╢"
-Ln2x1MT="╤"
-Ln2x1MB="╧"
-Ln2x1MC="╫"
+export Ln2x1TL="╓"
+export Ln2x1TR="╖"
+export Ln2x1BL="╙"
+export Ln2x1BR="╜"
+export Ln2x1ML="╟"
+export Ln2x1MR="╢"
+export Ln2x1MT="╤"
+export Ln2x1MB="╧"
+export Ln2x1MC="╫"
 
 # ┌─────────────────────────────────────────────────────────────────┐
 # │ Lines: Misc                                                     │
 # ├─────────────────────────────────────────────────────────────────┤
 # └─────────────────────────────────────────────────────────────────┘
-LnDshH="╌"
-LnDshV="┊"
-LnDshFatV="┅"
-LnDshFatH="┋"
+export LnDshH="╌"
+export LnDshV="┊"
+export LnDshFatV="┅"
+export LnDshFatH="┋"

@@ -1,129 +1,26 @@
 #!/bin/bash
+# shellcheck disable=SC2086,SC2032,SC2033,SC2142
 # ╔═════════════════════════════════════════════════════════════════╗
 # ║ BASH_ALIASES                                                    ║
 # ╚═════════════════════════════════════════════════════════════════╝
 #  (!) .bash_alias is sourced from .bashrc
 
-# ╔═════════════════════════════════════════════════════════════════╗
-# ║ Personal Folders                                                ║
-# ╚═════════════════════════════════════════════════════════════════╝
-[ -d ~/Downloads ] && alias dl='cd ~/Downloads'
-# These are now on NFS share
-[ -d /server ] && alias s='cd /server/'
-[ -d /server/projects ] && alias p='cd /server/projects/'
-[ -d /server/dev ] && alias d='cd /server/dev/' && alias dev='cd ~/server/dev'
-[ -d /server/work ] && alias w='cd /server/work'
+# ┌─────────────────────────────────────────────────────────────────┐
+# │ Personal Shortcuts                                              │
+# └─────────────────────────────────────────────────────────────────┘
+[ -d $HOME/Downloads ] && alias dl='cd $HOME/Downloads'
 
-function backup-gnome-settings() {
-  DATE=$(date +"%Y%m%d")
-  FILE="gnome-settings-$HOSTNAME-$DATE.backup"
-  SAVETO=$HOME/Dropbox/my-linux
-  echo -e "; To Restore Settings Run.. \n; $ dconf load /org/gnome < gnome-backup\n;
-  You may need to remove these comments!" >$FILE && dconf dump /org/gnome/ >>$FILE
-  mv $FILE $HOME/Dropbox/my-linux
-  echo -e "[+] File Saved to: $FILE"
-  echo -e "[+] Restoration instructions are in the file header."
-
-}
-
-# ╔═════════════════════════════════════════════════════════════════╗
-# ║ Try to use GRC Colorizer                                        ║
-# ╚═════════════════════════════════════════════════════════════════╝
-COLORIZE="" # Empty by default, used in variables
-if [ -x "$(command -v grc)" ] &>/dev/null; then
-  COLORIZE='grc'
-fi
-
-# ╔═════════════════════════════════════════════════════════════════╗
-# ║ Bug Fix                                                         ║
-# ╚═════════════════════════════════════════════════════════════════╝
-# Fix "GREP OPTIONS depcrated"
-#GREP_OPTIONS="$GREP_OPTIONS -r -d skip"
+# ┌─────────────────────────────────────────────────────────────────┐
+# │ Apply colors as much as possible                                │
+# └─────────────────────────────────────────────────────────────────┘
+COLORIZE=""
+[ -f /usr/bin/grc ] &>/dev/null && COLORIZE='grc'
 export GREP_COLOR='1;32'
 
-# ╔═════════════════════════════════════════════════════════════════╗
-# ║ Command Commands                                                ║
-# ╚═════════════════════════════════════════════════════════════════╝
-alias c='clear'
-alias h='history'
-alias left='ls -t -1' # See where I last left off
-if commmand -v hstr &>/dev/null; then
-  alias hh='hstr'
-fi
-alias j='jobs -l'
-
-# Use the Latest Python Version via "py"
-alias py='python'
-alias ports="netstat -tulanp"
-#alias time="date +'%A, %B %m %Y at%l:%M%P %Z'" breaks blesh
-alias vi=vim
-alias vims='sudo vim'
-alias ve='python3 -m venv ./venv'
-alias va='source ./venv/bin/activate'
-
-# Navigation
-alias ..='cd ..'
-alias ...='cd ../..'
-alias ....='cd ../../..'
-alias .3='cd ../../../'
-alias .4='cd ../../../../'
-alias www='cd /var/www/'
-
-# Listing
-alias l="ls -lh --color=auto --classify"
-alias la="ls -lah --color=auto --classify" # Long List
-alias ll="ls -lah --color=auto --classify" # Long List
-alias ls="ls --color=auto --classify"
-alias l.="ls -d .* --color=auto | column -s='\n'" # List Hidden files
-alias lh="l."                                     # <List Hidden Files>; Alias for Alias
-alias ll.="ls -lhd .* --color=auto"               # Long List Hiddent
-alias llh="ll."                                   # <List Hiddent Files; Alias for Alias
-
-alias os="lsb_release -a" # Get OS Version
-
-# Utility
-alias mkdir='mkdir -pv'                # $ mkdir x/y/z
-alias wget="wget -c"                   # Resume if failed by default
-alias findfile="find . -name "         # Make find a little easier
-alias xclip='xclip -sel clip'          # Copy to Clipboard $ cat file.txt | xclip
-alias cpv='rsync -ah --info=progress2' # Progress bar'
-# do not delete / or prompt if deleting more than 3 files at a time #
-alias rm='rm -I --preserve-root'
-
-alias cpuinfo='lscpu'
-alias df='df -h'
-alias du='du -ch'
-
-# Grep
-
-alias grep='grep --color=auto'
-alias egrep='egrep --color=auto'
-alias fgrep='fgrep --color=auto'
-
-# Super User 'sudo' shortcuts
-alias apt-get='sudo apt-get'
+# ┌─────────────────────────────────────────────────────────────────┐
+# │ Apt Package Manager                                             │
+# └─────────────────────────────────────────────────────────────────┘
 alias apt='sudo apt'
-alias root='sudo -i' # Become root
-alias service='sudo service'
-alias su='sudo -i' # Become root
-alias sudo='sudo ' # Enable aliases to be sudo-ed
-
-# Sudo Permissions
-alias chgrp='sudo chgrp --preserve-root'
-alias chmod='sudo chmod --preserve-root'
-alias chmox='sudo chmod --preserve-root' # always make this typo
-alias chown='sudo chown --preserve-root'
-
-# Services
-alias service='sudo service'
-alias systemctl='sudo systemctl'
-
-# Reboot Bypass Wait
-alias poweroff='sudo /sbin/poweroff'
-alias reboot='sudo /sbin/reboot'
-alias shutdown='sudo /sbin/shutdown'
-
-# System Updates
 alias autoclean='sudo apt autoclean'
 alias autoremove='clean'
 alias clean='sudo apt autoremove; sudo apt autoclean'
@@ -135,63 +32,123 @@ alias updatey='sudo apt-get update && \
   sudo apt autoclean'
 alias upgrade='sudo apt-get upgrade'
 
-# Mount (Readable)
-alias mount='mount | column -t'
-alias mnt="mount | awk -F' ' '{ printf \"%s\t%s\n\",\$1,\$3; }' | column -t | egrep ^/dev/ | sort"
+# ┌─────────────────────────────────────────────────────────────────┐
+# │ Common                                                      │
+# └─────────────────────────────────────────────────────────────────┘
+alias sudo='sudo '   # (1) Place above other sudo commands to enable aliases to be sudo-ed.
+alias root='sudo -i' # Become root
+alias su='sudo -i'   # Become root
 
-# Ping / IP
+alias h='history'
+alias c='clear'
+alias j='jobs -l'
+alias left='ls -t -1' # See where I last left off
+
+alias nv=nvim         # neovim
+alias vi=vim          # vim
+alias vims='sudo vim' # sudo mode vim
+
+alias bashreload='source $HOME/.bashrc'
+alias permissions-octal='stat -c \"%a %n\" -- $1'
+
+# ┌─────────────────────────────────────────────────────────────────┐
+# │ Navigation                                                      │
+# └─────────────────────────────────────────────────────────────────┘
+alias ..='cd ..'
+alias ...='cd ../..'
+alias ....='cd ../../..'
+alias .3='cd ../../../'
+alias .4='cd ../../../../'
+
+alias la="ls -lah --color=auto" # Horizontal List
+alias ll="ls -lah --color=auto" # Long/Vertical List
+alias ls="ls --color=auto "
+alias l.="ls -d .* --color=auto | column -s='\n'" # List Hidden files
+alias lh="l. --color=auto"                        # <List Hidden Files>; Alias for Alias
+alias ll.="ls -lhd .* --color=auto"               # Long List Hiddent
+alias llh="ll. --color=auto"                      # <List Hiddent Files; Alias for Alias
+
+# ┌─────────────────────────────────────────────────────────────────┐
+# │ Copy / Get / Remove                                             │
+# └─────────────────────────────────────────────────────────────────┘
+alias cpv='rsync -ah --info=progress2' # Progress bar'
+alias findfile="find . -name "         # Make find a little easier
+alias mkdir='mkdir -pv'                # $ mkdir x/y/z
+alias rm='rm -I --preserve-root'       # Prompt if deleting more than 3 files at a time
+alias wget="wget -c"                   # Resume if failed by default
+alias xclip='xclip -sel clip'          # Copy to Clipboard $ cat file.txt | xclip
+
+# ┌─────────────────────────────────────────────────────────────────┐
+# │ Grep                                                            │
+# └─────────────────────────────────────────────────────────────────┘
+alias grep='grep --color=auto'
+alias egrep='egrep --color=auto'
+alias fgrep='fgrep --color=auto'
+
+# ┌─────────────────────────────────────────────────────────────────┐
+# │ Permissions / Ownership                                         │
+# └─────────────────────────────────────────────────────────────────┘
+alias chgrp='sudo chgrp --preserve-root'
+alias chmod='sudo chmod --preserve-root'
+alias chmox='sudo chmod --preserve-root' # I always make this typo
+alias chown='sudo chown --preserve-root'
+
+# ┌─────────────────────────────────────────────────────────────────┐
+# │ Services                                                        │
+# └─────────────────────────────────────────────────────────────────┘
+alias service='sudo service'
+alias systemctl='sudo systemctl'
+
+alias poweroff='sudo /sbin/poweroff'
+alias reboot='sudo /sbin/reboot'
+alias shutdown='sudo /sbin/shutdown'
+
+# ┌─────────────────────────────────────────────────────────────────┐
+# │ Ping / IP / Network                                             │
+# └─────────────────────────────────────────────────────────────────┘
 alias fastping='ping -c 100 -s.2'
-alias iplist="sudo $COLORIZE /sbin/iptables -L -n -v --line-numbers"
-alias iptlistfw="sudo $COLORIZE /sbin/iptables -L FORWARD -n -v --line-numbers"
-alias iptlistin="sudo $COLORIZE /sbin/iptables -L INPUT -n -v --line-numbers"
-alias iptlistout="sudo $COLORIZE /sbin/iptables -L OUTPUT -n -v --line-numbers"
 alias myip="curl -s https://checkip.amazonaws.com"
 alias myips="hostname -I"
+alias iplist='sudo $COLORIZE /sbin/iptables -L -n -v --line-numbers'
+alias iptlistfw='sudo $COLORIZE /sbin/iptables -L FORWARD -n -v --line-numbers'
+alias iptlistin='sudo $COLORIZE /sbin/iptables -L INPUT -n -v --line-numbers'
+alias iptlistout='sudo $COLORIZE /sbin/iptables -L OUTPUT -n -v --line-numbers'
 alias ping='ping -c 5' # Send X packets
+alias ports="netstat -tulanp"
 
-# Disk Related
-alias df='df -H | grep -v "/snap"' # Remove the snap directories
-alias du='du -ch'
-alias psmem="ps auxf | sort -nr -k 4"
-alias psmem10="ps auxf | sort -nr -k 4 | head -10"
-alias pscpu="ps auxf | sort -nr -k 3"
-alias pscpu10="ps auxf | sort -nr -k 3 | head -10"
-alias cpuinfo="lscpu"
-
-alias usage='du -ch | grep total'
-alias totalusage='df -hl --total | grep total'
-alias most='du -hsx * | sort -rh | head -10'
-
-urlencode() {
-  local args="$@"
-  jq -nr --arg v "$args" '$v|@uri'
-}
-
-# SSH Related
-alias ssh-fingerprint='ssh-keygen -lf $1'
-alias ssh-permissions="chown -R $USER:$USER ~/.ssh && \
-  chmod 700 ~/.ssh && \
-  chmod 600 ~/.ssh/* && \
-  chmod 644 ~/.ssh/{*.pub,config,known_hosts}"
-
-# Utility
-alias permissions-octal="stat -c \"%a %n\" -- $1"
-
-# Network
 alias filesystem-reload='sudo systemctl start remote-fs.target local-fs.target && sudo systemctl daemon-reload' # FStab, mount -a doesn't work
 alias fsreload="filesystem-reload"
 
-# Reload Bashrc
-alias bashreload="source $HOME/.bashrc"
+# ┌─────────────────────────────────────────────────────────────────┐
+# │ HDD Related                                                     │
+# └─────────────────────────────────────────────────────────────────┘
+alias df='df -H | grep -v "/snap"' # Excloude /snap directories
+alias du='du -ch'                  # Disk Usage
+alias mount='mount | column -t'
+alias most='du -hsx * | sort -rh | head -10'
+alias usage='du -ch | grep total'
+alias totalusage='df -hl --total | grep total'
 
-# mkfile any/sub/dir/file.txt
-mkfile() {
-  mkdir -p $(dirname "$1") && touch "$1"
-}
+# ┌─────────────────────────────────────────────────────────────────┐
+# │ CPU / Memory Related                                            │
+# └─────────────────────────────────────────────────────────────────┘
+alias pscpu="ps auxf | sort -nr -k 3"
+alias pscpu10="ps auxf | sort -nr -k 3 | head -10"
+alias psmem="ps auxf | sort -nr -k 4"
+alias psmem10="ps auxf | sort -nr -k 4 | head -10"
 
-# ╔═════════════════════════════════════════════════════════════════╗
-# ║ Hardware Aliases                                                ║
-# ╚═════════════════════════════════════════════════════════════════╝
+# ┌─────────────────────────────────────────────────────────────────┐
+# │ SSH                                                             │
+# └─────────────────────────────────────────────────────────────────┘
+alias ssh-fingerprint='ssh-keygen -lf $1'
+alias ssh-permissions='chown -R $USER:$USER ~/.ssh && \
+  chmod 700 ~/.ssh && \
+  chmod 600 ~/.ssh/* && \
+  chmod 644 ~/.ssh/{*.pub,config,known_hosts}'
+
+# ┌─────────────────────────────────────────────────────────────────┐
+# │ Hardware Info                                                   │
+# └─────────────────────────────────────────────────────────────────┘
 alias hardware-bios='sudo dmidecode -t bios'
 alias hardware-cache='sudo dmidecode -t cache'
 alias hardware-chassis='sudo dmidecode -t chassis'
@@ -202,45 +159,43 @@ alias hardware-motherboard='sudo dmidecode -t baseboard'
 alias hardware-slot='sudo dmidecode -t slot'
 alias hardware-system='sudo dmidecode -t system'
 
-# ╔═════════════════════════════════════════════════════════════════╗
-# ║ Vendor Aliases                                                  ║
-# ╚═════════════════════════════════════════════════════════════════╝
-if [ -x "$(command -v vtop)" ] &>/dev/null; then
-  alias top="vtop" # npm i -g vtop
-fi
+# ┌─────────────────────────────────────────────────────────────────┐
+# │ Utility Packages                                                │
+# └─────────────────────────────────────────────────────────────────┘
+# [Pkg]     apt install tre-command
+[ -f /usr/bin/tre ] && alias tree="tre"
 
-if [ -x "$(command -v tre)" ] &>/dev/null; then
-  alias tree="tre"
-fi
+# [Pkg]     apt install colordiff
+[ -f /usr/bin/colordiff ] && alias diff='colordiff'
 
-# ╔═════════════════════════════════════════════════════════════════╗
-# ║ Common Install Shortcuts                                        ║
-# ╚═════════════════════════════════════════════════════════════════╝
-# install: $ sudo apt install colordiff
-if hash colordiff 2>/dev/null; then
-  alias diff='colordiff'
-fi
+# [Pkg]     apt install nmap
+[ -f /usr/bin/nmap ] && alias portsopen='nmap localhost --open'
 
-# install: $ sudo apt install nmap
-if hash nmap 2>/dev/null; then
-  alias portsopen='nmap localhost --open'
-fi
+# [Pkg]     npm i -g vtop
+# Directory can change w/NVM Versions so check: -x
+[ -x "$(command -v vtop)" ] &>/dev/null && alias top="vtop"
 
 # ╔═════════════════════════════════════════════════════════════════╗
-# ║ NGINX                                                           ║
+# ║ Python                                                          ║
 # ╚═════════════════════════════════════════════════════════════════╝
-function ngensite { sudo ln -s /etc/nginx/sites-available/$1 /etc/nginx/sites-enabled; }
-function ngdissite { sudo rm /etc/nginx/sites-enabled/$1; }
-alias ngacclog='tail -f /var/log/nginx/access.log'
-alias ngdisstartup='sudo service nginx stop && sudo update-rc.d nginx disable && echo "nginx set to NOT autostart"'
-alias ngenstartup='sudo service nginx start && sudo update-rc.d nginx enable && echo "nginx set to autostart"'
-alias ngerrlog='tail -f /var/log/nginx/error.log'
-alias ngsitesen='ls /etc/nginx/sites-enabled'
+alias py='python'
+alias ve='python3 -m venv ./venv'     # Creates VirtualEnv
+alias va='source ./venv/bin/activate' # Activates VirtualEnv
+
+# ╔═════════════════════════════════════════════════════════════════╗
+# ║ Nginx                                                           ║
+# ╚═════════════════════════════════════════════════════════════════╝
+function ngensite { sudo ln -s "/etc/nginx/sites-available/$1" /etc/nginx/sites-enabled; }
+function ngdissite { sudo rm "/etc/nginx/sites-enabled/$1"; }
+alias nginx='sudo nginx'
+
+alias ngdir='cd /etc/nginx/'
+alias nglog-access='tail -f /var/log/nginx/access.log'
+alias nglog-error='tail -f /var/log/nginx/error.log'
 alias ngsites='ls /etc/nginx/sites-available'
-alias ngpath='cd /etc/nginx/'
+alias ngsitesen='ls /etc/nginx/sites-enabled'
 alias ngreload='sudo service nginx reload'
 alias ngrestart='sudo service nginx restart'
-alias ngdir='cd /etc/nginx/sites-available'
 alias ngstart='sudo service nginx start'
 alias ngstatus='sudo service nginx status'
 alias ngstop='sudo service nginx stop'
@@ -284,27 +239,39 @@ alias mysqlvars="mysql -NBe 'SHOW VARIABLES'| sed 's,\t,^=,' | column -ts^"
 # ╔═════════════════════════════════════════════════════════════════╗
 # ║ PHP FPM                                                         ║
 # ╚═════════════════════════════════════════════════════════════════╝
-export PHP_FPM_VERSION=$(php -r 'echo PHP_MAJOR_VERSION .".". PHP_MINOR_VERSION;')
+function get_phpversion() {
+  local version
+  version=$(php -r 'echo PHP_MAJOR_VERSION .".". PHP_MINOR_VERSION;')
+  echo "$version"
+}
 
-function reload_php_aliases() {
+# Run once when unset, let phpversion() change the value
+if [ -z "$PHP_FPM_VERSION" ]; then
+  PHP_FPM_VERSION=$(get_phpversion)
+  export PHP_FPM_VERSION
+fi
+
+function _reload_php_aliases() {
   if [ -x "$(command -v php-fpm$PHP_FPM_VERSION)" ] &>/dev/null; then
     # Get Linux friendly version, eg: 7.4, 8.1
-    alias phpfpm-dir="cd /etc/php/$PHP_FPM_VERSION/"
-    alias phpfpm-log="sudo tail -f /var/log/php$PHP_FPM_VERSION-fpm.log"
-    alias phpfpm-stop="sudo service php-fpm$PHP_FPM_VERSION stop"
-    alias phpfpm-reload="sudo service php-fpm$PHP_FPM_VERSION start"
-    alias phpfpm-restart="sudo service php-fpm$PHP_FPM_VERSION restart"
-    alias phpfpm-status="sudo service php-fpm$PHP_FPM_VERSION status"
+    alias phpfpm-dir='cd /etc/php/$PHP_FPM_VERSION/'
+    alias phpfpm-log='sudo tail -f /var/log/php$PHP_FPM_VERSION-fpm.log'
+    alias phpfpm-stop='sudo service php-fpm$PHP_FPM_VERSION stop'
+    alias phpfpm-reload='sudo service php-fpm$PHP_FPM_VERSION start'
+    alias phpfpm-restart='sudo service php-fpm$PHP_FPM_VERSION restart'
+    alias phpfpm-status='sudo service php-fpm$PHP_FPM_VERSION status'
   fi
 }
-reload_php_aliases
+_reload_php_aliases
 
-# This could use some work, See setup notes at bottom for composer
+# Change PHP Version using update-alternatives
+# Will affect the composer installation version also
+# ** See setup notes at bottom for composer
 function phpversion() {
   echo "[!] This updates PHP CLI only, not your webserver."
-  if [ ! -z $1 ]; then
-    if [ -f /usr/bin/php$1 ]; then
-      sudo update-alternatives --set php /usr/bin/php$1
+  if [ -n "$1" ]; then
+    if [ -f "/usr/bin/php$1" ]; then
+      sudo update-alternatives --set php "/usr/bin/php$1"
     else
       echo "[!] Error: File does not exist at /usr/bin/php$1"
       return 0
@@ -312,14 +279,16 @@ function phpversion() {
   else
     sudo update-alternatives --config php
   fi
-  export PHP_FPM_VERSION=$(php -r 'echo PHP_MAJOR_VERSION .".". PHP_MINOR_VERSION;')
+  PHP_FPM_VERSION=$(get_phpversion)
+  export PHP_FPM_VERSION
 
-  # Set composre to use the same PHP Version to avoid problems
-  sudo update-alternatives --set composer /usr/bin/composer$PHP_FPM_VERSION
+  # Set composer to use the same PHP Version to avoid problems
+  # **Assumes installed the way described at bottom
+  sudo update-alternatives --set composer "/usr/bin/composer$PHP_FPM_VERSION"
   echo -e "\n[+] switched composer to current version."
   echo -e "\n[+] exported variable: \$PHP_FPM_VERSION ($PHP_FPM_VERSION)"
   echo -e "[+] use the phpfpm-<commands>\n"
-  reload_php_aliases
+  _reload_php_aliases
 }
 
 # ╔═════════════════════════════════════════════════════════════════╗
@@ -338,16 +307,30 @@ function git-filesize() {
 # ╔═════════════════════════════════════════════════════════════════╗
 # ║ Docker Aliases                                                  ║
 # ╚═════════════════════════════════════════════════════════════════╝
-dock-run() { sudo docker run -i -t --privileged $@; }
-dock-exec() { sudo docker exec -i -t $@ /bin/bash; }
-dock-log() { sudo docker logs --tail=all -f $@; }
-dock-port() { sudo docker port $@; }
-dock-vol() { sudo docker inspect --format '{{ .Volumes }}' $@; }
-dock-ip() { sudo docker inspect --format '{{ .NetworkSettings.IPAddress }}' $@; }
+dock-run() { sudo docker run -i -t --privileged "$@"; }
+dock-exec() { sudo docker exec -i -t "$@" /bin/bash; }
+dock-log() { sudo docker logs --tail=all -f "$@"; }
+dock-port() { sudo docker port "$@"; }
+dock-vol() { sudo docker inspect --format '{{ .Volumes }}' "$@"; }
+dock-ip() { sudo docker inspect --format '{{ .NetworkSettings.IPAddress }}' "$@"; }
 dock-rmc() { sudo docker rm sudo docker ps -qa --filter 'status=exited'; }
 dock-rmi() { sudo docker rmi -f sudo docker images | grep '^<none>' | awk '{print $3}'; }
-dock-stop() { sudo docker stop $(docker ps -a -q); }
-dock-rm() { sudo docker rm $(docker ps -a -q); }
+dock-stop() { sudo docker stop '$(docker ps -a -q)'; }
+dock-rm() { sudo docker rm '$(docker ps -a -q)'; }
+
+# ┌─────────────────────────────────────────────────────────────────┐
+# │ Gnome Backup                                                    │
+# └─────────────────────────────────────────────────────────────────┘
+# Run a dconf dump of /org/gnome into Dropbox location
+function backup-gnome-settings() {
+  DATE=$(date +"%Y%m%d")
+  FILE="gnome-settings-$HOSTNAME-$DATE.backup"
+  echo -e "; To Restore Settings Run.. \n; $ dconf load /org/gnome < gnome-backup\n;
+  You may need to remove these comments!" >"$FILE" && dconf dump /org/gnome/ >>"$FILE"
+  mv $FILE $HOME/Dropbox/my-linux
+  echo -e "[+] File Saved to: $FILE"
+  echo -e "[+] Restoration instructions are in the file header."
+}
 
 # ╔═════════════════════════════════════════════════════════════════╗
 # ║ Archive Aliases                                                 ║
@@ -362,24 +345,24 @@ function compress() {
 
   # Strip off the Extension
   FILENAME=${1%.*}
-  tar -cvzf "$FILENAME.tar.gz" $1
+  tar -cvzf "$FILENAME.tar.gz" "$1"
 }
 
-# >> Extract any compressed file
+# >> Extract any compressed file (Does not Work How I want)
 extract() {
-  if [ -f $1 ]; then
+  if [ -f "$1" ]; then
     case $1 in
-    *.7z) 7z x $1 ;;
-    *.bz2) bunzip2 -v $1 ;;
-    *.gz) gunzip -v $1 ;;
-    *.rar) unrar x $1 ;;
-    *.tar.bz2) tar -xzfv $1 ;;
-    *.tar.gz) tar -xzfv $1 ;;
-    *.tar.xz) tar -xf $1 ;;
-    *.tar) tar -xfv $1 ;;
-    *.tgz) tar -xzfv $1 ;;
-    *.xz) tar -xzf $1 ;;
-    *.zip) unzip -v $1 ;;
+    *.7z) 7z x "$1" ;;
+    *.tar.bz2) tar -xzfv "$1" ;;
+    *.bz2) bunzip2 -v" $1" ;;
+    *.tar.gz) tar -xzfv "$1" ;;
+    *.gz) gunzip -v "$1" ;;
+    *.rar) unrar x "$1" ;;
+    *.tar.xz) tar -xf "$1" ;;
+    *.tar) tar -xfv "$1" ;;
+    *.tgz) tar -xzfv "$1" ;;
+    *.xz) tar -xzf "$1" ;;
+    *.zip) unzip -v "$1" ;;
     *)
       echo -e "[!] '$FILE' cannot be extracted with extract()"
       echo -e "[!] Formats: 7z, bz2, gz, rar, tar.bz2, tar.gz, tar, tgz, zip, xz"
@@ -407,36 +390,11 @@ latest-file() {
   printf '%s\n' "$latest"
 }
 
-# >>Show the OLDEST file in current directory                       ║
-oldest-file() {
-  local f oldest
-  for file in "${1:-.}"/*; do
-    [[ -z $oldest || $f -ot $oldest ]] && oldest="$f"
-  done
-  printf '%s\n' "$oldest"
-}
-
 # ╔═════════════════════════════════════════════════════════════════╗
-# ║ Generic                                                         ║
+# ║ Instructions                                                    ║
 # ╚═════════════════════════════════════════════════════════════════╝
-# >> List Availale Terminal Colors
-function colors() {
-  echo -e "[ Standard colors ]\n"
-  for C in {40..47}; do
-    echo -en "\e[${C}m$C "
-  done
-  echo -e "[ High intensity colors ]\n"
-  for C in {100..107}; do
-    echo -en "\e[${C}m$C "
-  done
-  echo -e "[  256 colors ]\n"
-  for C in {16..255}; do
-    echo -en "\e[48;5;${C}m$C "
-  done
-  echo -e "\e(B\e[m"
-}
-
-# Notes to setup Composer Alternative w/PHP Version
+# ** Notes to setup Composer Alternative w/PHP Version
+# ═══════════════════════════════════════════════════════════════════
 # Switch to version 7.4
 # phpversion
 # php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
