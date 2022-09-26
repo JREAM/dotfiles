@@ -60,6 +60,7 @@ alias ....='cd ../../..'
 alias .3='cd ../../../'
 alias .4='cd ../../../../'
 
+alias l="ls --color=auto"
 alias la="ls -lah --color=auto" # Horizontal List
 alias ll="ls -lah --color=auto" # Long/Vertical List
 alias ls="ls --color=auto "
