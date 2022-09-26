@@ -76,8 +76,9 @@ alias cpv='rsync -ah --info=progress2' # Progress bar'
 alias findfile="find . -name "         # Make find a little easier
 alias mkdir='mkdir -pv'                # $ mkdir x/y/z
 alias rm='rm -I --preserve-root'       # Prompt if deleting more than 3 files at a time
-alias wget="wget -c"                   # Resume if failed by default
+alias wget="wget -c - --hsts-file='$XDG_CACHE_HOME/wget-hsts'" # Resume if failed by default
 alias xclip='xclip -sel clip'          # Copy to Clipboard $ cat file.txt | xclip
+alias tmux="tmux -f "$XDG_CONFIG_HOME"/tmux/tmux.conf"
 
 # ┌─────────────────────────────────────────────────────────────────┐
 # │ Grep                                                            │

@@ -15,9 +15,23 @@ export INTERACTIVE_MODE=$i9e
 export PATH=$PATH:/home/$USER/.local/bin # Set: Local bin to $PATH
 export BROWSER=/usr/bin/brave-browser    # Set: Local Browser (Affects: VSCode)
 
+# XDG Directory Paths
+# [Spec]    https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html
+# ───────────────────────────────────────────────────────────────────
+export XDG_CONFIG_HOME=$HOME/.config      # Config Files
+export XDG_DATA_HOME=$HOME/.local/share   # Shared Data
+export XDG_STATE_HOME=$HOME/.local/state  # Actions History, Logs, Recent Files
+export XDG_CONFIG_DIRS=$XDG_CONFIG_DIRS:$XDG_CONFIG_HOME
+export XDG_DATA_DIRS=$XDG_DATA_DIRS:$XDG_DATA_HOME
+# [Example]
+# ~/.config/bash_completions
+# ~/.config/zsh
+# ~/.config/docker
+
+
 # Autoload Keychain SSH ID
 if (($ + commands[keychain])) >/dev/null 2>&1; then
-  keychain --clear $HOME/.ssh/id_rsa
+  keychain --clear $HOME/.ssh/id_rsa --absolute --dir "$XDG_RUNTIME_DIR"/keychain
 fi
 
 # ┌─────────────────────────────────────────────────────────────────┐
@@ -69,6 +83,12 @@ fi
 [[ $PS1 && -f /usr/share/bash-completion/bash_completion ]] &&
   source /usr/share/bash-completion/bash_completion
 
+if [[ -d "$XDG_CONFIG_HOME/bash_completion" ]]; then
+  for FILE in "$XDG_CONFIG_HOME/bash_completion/*"; do
+    source $FILE;
+  done
+fi
+
 # ┌─────────────────────────────────────────────────────────────────┐
 # │ Colorized 'man' Pages                                           │
 # └─────────────────────────────────────────────────────────────────┘
@@ -80,3 +100,5 @@ export LESS_TERMCAP_se=$'\e[0m'
 export LESS_TERMCAP_so=$'\e[01;33m'
 export LESS_TERMCAP_ue=$'\e[0m'
 export LESS_TERMCAP_us=$'\e[1;4;31m'
+
+
