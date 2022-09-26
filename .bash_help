@@ -1,6 +1,0 @@
-#!/bin/bash
-
-function help-nfs() {
-  echo -e "NSF Server Export Shares: exportfs -r"
-
-}
