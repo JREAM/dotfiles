@@ -48,7 +48,7 @@ alias nv=nvim         # neovim
 alias vi=vim          # vim
 alias vims='sudo vim' # sudo mode vim
 
-alias bashreload='source $HOME/.bashrc'
+alias reload='source $HOME/.bashrc'
 alias permissions-octal='stat -c \"%a %n\" -- $1'
 
 # ┌─────────────────────────────────────────────────────────────────┐
