@@ -12,7 +12,6 @@
 [ -v PS1 ] && i9e=true || i9e=false
 export INTERACTIVE_MODE=$i9e
 
-export PATH=$PATH:/home/$USER/.local/bin # Set: Local bin to $PATH
 export BROWSER=/usr/bin/brave-browser    # Set: Local Browser (Affects: VSCode)
 
 # Autoload Keychain SSH ID
@@ -31,9 +30,11 @@ fi
 # ║ (3) ...rest                                                     ║
 # ╚═════════════════════════════════════════════════════════════════╝
 # For private exports [Don't place in git]
-[[ -f $HOME/.bash_var ]] && source $HOME/.bash_var
-[[ -f $HOME/.bash_vendor ]] && source $HOME/.bash_vendor
-[[ -f $HOME/.bash_alias ]] && source $HOME/.bash_alias
+source $HOME/.config/bash/xdg
+source $home/.config/bash/vars
+source $home/.config/bash/vendors
+source $home/.config/bash/aliases
+
 
 # ┌─────────────────────────────────────────────────────────────────┐
 # │ Display: PS1 Prompt                                             │

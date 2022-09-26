@@ -1,9 +1,0 @@
-[core]
-account = email@addr.com
-project = project-name
-
-[project]
-account = email@addr.com
-project = project-name2
-zone = (Optional)
-region = (optional)
