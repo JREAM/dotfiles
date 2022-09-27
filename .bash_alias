@@ -247,14 +247,14 @@ function get_phpversion() {
 
 function _reload_php_aliases() {
   VERSION=$(get_phpversion)
-  if [ -x "$(command -v php-fpm$PHP_FPM_VERSION)" ] &>/dev/null; then
+  if [ -x "$(command -v php-fpm$VERSION)" ] &>/dev/null; then
     # Get Linux friendly version, eg: 7.4, 8.1
     alias phpfpm-dir='cd /etc/php/$VERSION/'
     alias phpfpm-log='sudo tail -f /var/log/php$VERSION-fpm.log'
-    alias phpfpm-stop='sudo service php-fpm$VERSION stop'
-    alias phpfpm-reload='sudo service php-fpm$VERSION start'
-    alias phpfpm-restart='sudo service php-fpm$VERSION restart'
-    alias phpfpm-status='sudo service php-fpm$VERSION status'
+    alias phpfpm-stop='sudo service php$VERSION-fpm stop'
+    alias phpfpm-reload='sudo service php$VERSION-fpm start'
+    alias phpfpm-restart='sudo service php$VERSION-fpm restart'
+    alias phpfpm-status='sudo service php$VERSION-fpm status'
   fi
 }
 
