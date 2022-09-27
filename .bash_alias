@@ -242,28 +242,23 @@ alias mysqlvars="mysql -NBe 'SHOW VARIABLES'| sed 's,\t,^=,' | column -ts^"
 # ║ PHP FPM                                                         ║
 # ╚═════════════════════════════════════════════════════════════════╝
 function get_phpversion() {
-  local version
-  version=$(php -r 'echo PHP_MAJOR_VERSION .".". PHP_MINOR_VERSION;')
-  echo "$version"
+  echo $(php -r 'echo PHP_MAJOR_VERSION .".". PHP_MINOR_VERSION;')
 }
-
-# Run once when unset, let phpversion() change the value
-if [ -z "$PHP_FPM_VERSION" ]; then
-  PHP_FPM_VERSION=$(get_phpversion)
-  export PHP_FPM_VERSION
-fi
 
 function _reload_php_aliases() {
+  VERSION=$(get_phpversion)
   if [ -x "$(command -v php-fpm$PHP_FPM_VERSION)" ] &>/dev/null; then
     # Get Linux friendly version, eg: 7.4, 8.1
-    alias phpfpm-dir='cd /etc/php/$PHP_FPM_VERSION/'
-    alias phpfpm-log='sudo tail -f /var/log/php$PHP_FPM_VERSION-fpm.log'
-    alias phpfpm-stop='sudo service php-fpm$PHP_FPM_VERSION stop'
-    alias phpfpm-reload='sudo service php-fpm$PHP_FPM_VERSION start'
-    alias phpfpm-restart='sudo service php-fpm$PHP_FPM_VERSION restart'
-    alias phpfpm-status='sudo service php-fpm$PHP_FPM_VERSION status'
+    alias phpfpm-dir='cd /etc/php/$VERSION/'
+    alias phpfpm-log='sudo tail -f /var/log/php$VERSION-fpm.log'
+    alias phpfpm-stop='sudo service php-fpm$VERSION stop'
+    alias phpfpm-reload='sudo service php-fpm$VERSION start'
+    alias phpfpm-restart='sudo service php-fpm$VERSION restart'
+    alias phpfpm-status='sudo service php-fpm$VERSION status'
   fi
 }
+
+# On loading of this script, load the proper php version
 _reload_php_aliases
 
 # Change PHP Version using update-alternatives
@@ -281,15 +276,15 @@ function phpversion() {
   else
     sudo update-alternatives --config php
   fi
-  PHP_FPM_VERSION=$(get_phpversion)
-  export PHP_FPM_VERSION
 
+  # This is not working to allow me to update the exported PHP_FPM_VERSION
+  # So I call it for the overall Environment, but this script portion does update
+  VERSION=$(get_phpversion)
   # Set composer to use the same PHP Version to avoid problems
   # **Assumes installed the way described at bottom
-  sudo update-alternatives --set composer "/usr/bin/composer$PHP_FPM_VERSION"
-  echo -e "\n[+] switched composer to current version."
-  echo -e "\n[+] exported variable: \$PHP_FPM_VERSION ($PHP_FPM_VERSION)"
-  echo -e "[+] use the phpfpm-<commands>\n"
+  sudo update-alternatives --set composer "/usr/bin/composer$VERSION"
+  echo -e "\n[+] Switched composer to version: /usr/bin/composer$VERSION"
+  echo -e "[+] use the $ phpfpm-<commands>\n"
   _reload_php_aliases
 }
 

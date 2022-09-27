@@ -4,6 +4,9 @@
 # ║ BASH_VENDORS                                                    ║
 # ╚═════════════════════════════════════════════════════════════════╝
 
+# https://github.com/cheat/cheat
+export CHEAT_USE_FZF=true
+
 # ╔═════════════════════════════════════════════════════════════════╗
 # ║ Java JDK                                                        ║
 # ╚═════════════════════════════════════════════════════════════════╝
@@ -77,17 +80,26 @@ if command -v pipx &>/dev/null; then
 fi
 
 # ╔═════════════════════════════════════════════════════════════════╗
+# ║  FNM (Faster Node Version Manager)                                     ║
+# ╚═════════════════════════════════════════════════════════════════╝
+# [Pkg]     https://github.com/Schniz/fnm
+# [Install] $ curl -fsSL https://fnm.vercel.app/install | bash -s -- --install-dir ".local/bin/" --skip-shell
+#             fnm completions --shell bash > .config/bash_completion/fnm.bash
+
+# [Use]     $ fvm -h
+if [ $(which fnm) >&/dev/null ]; then
+  # --use-on-cd allows to load .nvmrc to a projcet
+  eval "$(fnm env --use-on-cd)"
+fi
+
+# ╔═════════════════════════════════════════════════════════════════╗
 # ║  NVM (Node Version Manager)                                     ║
 # ╚═════════════════════════════════════════════════════════════════╝
 # [Pkg]     https://github.com/nvm-sh/nvm
 # [Install] $ curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
 # [Use]     $ nvm -h
-if [ -d $HOME/.nvm ]; then
-  export NVM_DIR=$HOME/.nvm
-  # Load NVM (Node Version Manager) and NVM Bash Completion
-  [ -s $NVM_DIR/nvm.sh ] && source $NVM_DIR/nvm.sh
-  [ -s $NVM_DIR/bash_completion ] && source $NVM_DIR/bash_completion
-fi
+# (Not Used) This is to remind me to change to $ fnm by being reminded
+alias nvm="echo 'use $ fnm'"
 
 # ╔═════════════════════════════════════════════════════════════════╗
 # ║ Bash Helpers                                                    ║

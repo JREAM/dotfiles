@@ -102,3 +102,7 @@ export LESS_TERMCAP_ue=$'\e[0m'
 export LESS_TERMCAP_us=$'\e[1;4;31m'
 
 
+
+# fnm
+export PATH=/home/jesse/.fnm:$PATH
+eval "`fnm env`"
