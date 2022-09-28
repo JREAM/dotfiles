@@ -141,13 +141,13 @@ fi
 # FZF Fuzzy Finder (Very Powerful Tool)
 # ───────────────────────────────────────────────────────────────────
 # [Pkg]   https://github.com/junegunn/fzf
+#         apt install fzf
 # [Use]   $ fzf
 #         $ cat anyfile | fzf
 #         <ALT> + C   Fuzzy Directory Jump
 #         <CTRL> + R  History Fuzzy Search
-if [ -f $HOME/.fzf.bash ]; then
-  source $HOME/.fzf.bash
-  export PATH=$PATH:$HOME/.fzf/bin/fzf
+if [ -f $(which fzf) >& /dev/null ]; then
+
   export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border=rounded --tabstop=4 --color=dark,info:bright-green,pointer:green,hl:bright-green'
   export FZF_DEFAULT_COMMAND="fd . $HOME"
   export FZF_ALT_C_COMMAND="fd -t d . $HOME"
