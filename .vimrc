@@ -126,6 +126,8 @@ autocmd Syntax * RainbowParenthesesLoadBraces
 " General VIM
 """"""""""""""""""""""""""""""""""""""""
 
+" mouse selections will not copy line numbers
+set mouse=a
 
 " allow backspacing over everything in insert mode
 set backspace=indent,eol,start
