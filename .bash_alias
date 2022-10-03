@@ -121,6 +121,21 @@ alias ports="netstat -tulanp"
 alias filesystem-reload='sudo systemctl start remote-fs.target local-fs.target && sudo systemctl daemon-reload' # FStab, mount -a doesn't work
 alias fsreload="filesystem-reload"
 
+function convertgpgkey() {
+  if [ -z $1 ]; then
+    echo -e "[!] You must pass a file, such as filename.asc"
+    return 0
+  fi
+  if [ ! -f $1 ]; then
+    echo -e "[!] The first argument must be a file."
+  fi
+
+  echo -e "[+] Example downloading to file:"
+  echo -e "wget -qO - https://www.mongodb.org/static/pgp/server-6.0.asc > server-6.0.asc"
+  echo -e "cat server-6.0.asc | gpg --dearmor | sudo tee /usr/share/keyrings/mongodb-org-6.0.gpg | > /dev/null 2&1"
+  cat $1 | grg --dearmor > "${1%.*}.gpg" # New File Name
+}
+
 # ┌─────────────────────────────────────────────────────────────────┐
 # │ HDD Related                                                     │
 # └─────────────────────────────────────────────────────────────────┘
