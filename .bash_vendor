@@ -51,6 +51,8 @@ fi
 # ───────────────────────────────────────────────────────────────────
 [ -f $HOME/.npm-completion ] && source ~/.npm-completion
 [ -f $HOME/.yarn-completion ] && source ~/.yarn-completion
+
+# For PNPM
 [ -f $HOME/.config/tabtab/bash/__tabtab.bash ] && source $HOME/.config/tabtab/bash/__tabtab.bash
 
 # ╔═════════════════════════════════════════════════════════════════╗
@@ -71,6 +73,7 @@ fi
 # ╚═════════════════════════════════════════════════════════════════╝
 # Stop generating bytecode files
 export PYTHONDONTWRITEBYTECODE=1
+export WORKON_HOME="$XDG_DATA_HOME/virtualenvs"
 
 # Pipx is for installing pythong commands (not packages)
 # ───────────────────────────────────────────────────────────────────
@@ -153,10 +156,11 @@ if [ -f $(which fzf) >& /dev/null ]; then
   export FZF_ALT_C_COMMAND="fd -t d . $HOME"
   #fzf --preview 'bat --style=numbers --color=always --line-range :500 {}'
 
+  source ~/.config/bash_completion/fzf-key-bindings.bash
+
   _fzf_comprun() {
     local command=$1
     shift
-
     case "$command" in
     cd) fzf "$@" --preview 'tree -C {} | head -200' ;;
     *) fzf "$@" ;;

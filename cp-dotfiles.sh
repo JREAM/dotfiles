@@ -20,6 +20,7 @@ for item in "${DOTFILES[@]}"; do
   [[ -d "./${item}" && "${item}" != ".git" ]] && DIRS+=($ROOTDIR/$item)
 done
 
+
 copyfiles() {
   echo -e "Copying Files.."
   for file in "${FILES[@]}"; do
@@ -34,8 +35,15 @@ copydirs() {
       echo "[+] Copy: ${dir} to ${HOME}"
       cp -r $dir $HOME
   done
+
+  # Copy the config files into ~/.config $XDG_CONFIG_HOME
+  cp -R config/* ~/.config
+  echo "[+] Copy: config/* to ~/.config/"
 }
 
+for d in "${DIRS[@]}"; do
+  printf "%-8s\n" "${d}"
+done | printf "%-8s\n" "config" | column
 # Entry
 echo -e "\n ${YELLOW}-------------------------------------------${NOCOLOR}"
 echo -e "         ${YELLOW}Copy Dotfiles to Home Folder${NOCOLOR}"
@@ -51,6 +59,7 @@ echo -e "\n${YELLOW}[ Directories ]${NOCOLOR}"
 for d in "${DIRS[@]}"; do
   printf "%-8s\n" "${d}"
 done | column
+echo "Also: config/ will populate ~/.config/"
 echo -e "\n ${YELLOW}------------------------------------------- ${NOCOLOR}\n"
 
 # User Prompt
@@ -61,16 +70,6 @@ read -p "(2/2) Copy to $HOME?: " ynDirs
 
 # Flag for output at the end
 DID_RUN=0
-
-echo "Ignore Private Files, Safety Precaution"
-if [ ! -f $HOME/.gitconfig_private ]; then
-  touch .gitconfig_private
-fi
-
-if [ ! -f $HOME/.gitignore ]; then
-  echo ".gitconfig_private" > $HOME/.gitignore
-  echo ".exports_private" >> $HOME/.gitignore
-fi
 
 # Copy Files
 if [[ $ynFiles =~ ^([yY])+$ ]]; then
