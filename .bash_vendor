@@ -36,6 +36,8 @@ fi
 # [Install] $ npm i -g yarn
 # ───────────────────────────────────────────────────────────────────
 [[ -d $HOME/.yarn/bin ]] && export PATH=$PATH:$HOME/.yarn/bin
+alias yarn='yarn --use-yarnrc "$XDG_CONFIG_HOME/yarn/config"'
+
 
 # pnpm (Phantom NPM) (NPM Alternative)
 # ───────────────────────────────────────────────────────────────────
@@ -63,7 +65,7 @@ fi
 # [Use]       $ go -h
 if [ -d /usr/local/go ]; then
   # Do GO development in $GOPATH
-  export GOPATH=$HOME/go
+  export GOPATH=$XDG_DATA_HOME/go
   export PATH=$PATH:/usr/local/go/bin
   export PATH=$PATH:$GOPATH/bin
 fi
@@ -90,7 +92,7 @@ fi
 #             fnm completions --shell bash > .config/bash_completion/fnm.bash
 
 # [Use]     $ fvm -h
-if [ $(which fnm) >&/dev/null ]; then
+if command -v fnm  &>/dev/null; then
   # --use-on-cd allows to load .nvmrc to a projcet
   eval "$(fnm env --use-on-cd)"
 fi
