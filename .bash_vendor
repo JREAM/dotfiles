@@ -95,6 +95,8 @@ fi
 if command -v fnm  &>/dev/null; then
   # --use-on-cd allows to load .nvmrc to a projcet
   eval "$(fnm env --use-on-cd)"
+  # Export current versions Bin dir
+  export PATH=$PATH:$FNM_NODE_DIST_MIRROR/bin
 fi
 
 # ╔═════════════════════════════════════════════════════════════════╗
