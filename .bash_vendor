@@ -82,7 +82,7 @@ export WORKON_HOME="$XDG_DATA_HOME/virtualenvs"
 # [Pkg]   pip install pipx
 if command -v pipx &>/dev/null; then
   eval "$(register-python-argcomplete pipx)"
-fi
+fia
 
 # ╔═════════════════════════════════════════════════════════════════╗
 # ║  FNM (Faster Node Version Manager)                                     ║
@@ -94,7 +94,8 @@ fi
 # [Use]     $ fvm -h
 if command -v fnm  &>/dev/null; then
   # --use-on-cd allows to load .nvmrc to a projcet
-  eval "$(fnm env --use-on-cd)"
+  #eval "$(fnm env --use-on-cd)"
+  eval "$(fnm env --multi --use-on-cd 2> /dev/null)"
   # Export current versions Bin dir
   export PATH=$PATH:$FNM_NODE_DIST_MIRROR/bin
 fi

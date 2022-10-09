@@ -39,7 +39,15 @@ export DOCKER_CONFIG="$XDG_CONFIG_HOME"/docker
 
 export GNUPGHOME=$XDG_DATA_HOME/gnupg
 export CARGO_HOME=$XDG_DATA_HOME/cargo
-# GOPATH set in .bash_vendor
+export ZDOTDIR="$XDG_CONFIG_HOME/zsh/"
+
+# NPM (Uncertain on how effective)
+# see npm config ls -l | grep /
+export NPM_CONFIG_USERCONFIG=$XDG_CONFIG_HOME/npm/config
+export NPM_CONFIG_CACHE=$XDG_CACHE_HOME/npm
+export NPM_CONFIG_TMP=$XDG_RUNTIME_DIR/npm
+
+#GOPATH set in .bash_vendor
 
 
 # ┌─────────────────────────────────────────────────────────────────┐
