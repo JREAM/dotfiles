@@ -18,16 +18,15 @@ export BROWSER=/usr/bin/brave-browser    # Set: Local Browser (Affects: VSCode)
 # XDG Directory Paths
 # [Spec]    https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html
 # ───────────────────────────────────────────────────────────────────
-export XDG_CONFIG_HOME=$HOME/.config      # Config Files
-export XDG_DATA_HOME=$HOME/.local/share   # Shared Data
-export XDG_STATE_HOME=$HOME/.local/state  # Actions History, Logs, Recent Files
+export XDG_CONFIG_HOME=$HOME/.config     # Config Files
+export XDG_DATA_HOME=$HOME/.local/share  # Shared Data
+export XDG_STATE_HOME=$HOME/.local/state # Actions History, Logs, Recent Files
 export XDG_CONFIG_DIRS=$XDG_CONFIG_DIRS:$XDG_CONFIG_HOME
 export XDG_DATA_DIRS=$XDG_DATA_DIRS:$XDG_DATA_HOME
 # [Example]
 # ~/.config/bash_completions
 # ~/.config/zsh
 # ~/.config/docker
-
 
 # Autoload Keychain SSH ID
 if (($ + commands[keychain])) >/dev/null 2>&1; then
@@ -56,7 +55,7 @@ fi
 # [NoColor] export PS1="[\w]\$(git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/')\n\u@\h-> \[\033[0m\]"
 IN_SSH=""
 [[ -n $SSH_CLIENT ]] && IN_SSH="[${IBYELLOW}SSH$RESET]"
-export PS1="$IN_SSH[$IBLUE\w$RESET]\$(git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/($IYELLOW\1$RESET)/')\n\u@\h-> "
+export PS1="$IN_SSH\[$IBLUE\w$RESET\]\$(git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/($IYELLOW\1$RESET)/')\n\u@\h-> "
 
 # ┌─────────────────────────────────────────────────────────────────┐
 # │ Shell Options                                                   │
@@ -83,9 +82,10 @@ fi
 [[ $PS1 && -f /usr/share/bash-completion/bash_completion ]] &&
   source /usr/share/bash-completion/bash_completion
 
-if [[ -d "$XDG_CONFIG_HOME/bash_completion" ]]; then
-  for FILE in "$XDG_CONFIG_HOME/bash_completion/*"; do
-    source $FILE;
+if [ -d $XDG_CONFIG_HOME/bash_completion ]; then
+  for FILE in "$XDG_CONFIG_HOME"/bash_completion/*; do
+    # shellcheck source=.config/bash_completion/$FILE
+    source $FILE
   done
 fi
 
@@ -100,9 +100,3 @@ export LESS_TERMCAP_se=$'\e[0m'
 export LESS_TERMCAP_so=$'\e[01;33m'
 export LESS_TERMCAP_ue=$'\e[0m'
 export LESS_TERMCAP_us=$'\e[1;4;31m'
-
-
-
-# fnm
-export PATH=/home/jesse/.fnm:$PATH
-eval "`fnm env`"

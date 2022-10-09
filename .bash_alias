@@ -33,7 +33,7 @@ alias updatey='sudo apt-get update && \
 alias upgrade='sudo apt-get upgrade'
 
 # ┌─────────────────────────────────────────────────────────────────┐
-# │ Common                                                      │
+# │ Common                                                          │
 # └─────────────────────────────────────────────────────────────────┘
 alias sudo='sudo '   # (1) Place above other sudo commands to enable aliases to be sudo-ed.
 alias root='sudo -i' # Become root
@@ -72,13 +72,13 @@ alias llh="ll. --color=auto"                      # <List Hiddent Files; Alias f
 # ┌─────────────────────────────────────────────────────────────────┐
 # │ Copy / Get / Remove                                             │
 # └─────────────────────────────────────────────────────────────────┘
-alias cpv='rsync -ah --info=progress2' # Progress bar'
-alias findfile="find . -name "         # Make find a little easier
-alias mkdir='mkdir -pv'                # $ mkdir x/y/z
-alias rm='rm -I --preserve-root'       # Prompt if deleting more than 3 files at a time
+alias cpv='rsync -ah --info=progress2'                         # Progress bar'
+alias findfile="find . -name "                                 # Make find a little easier
+alias mkdir='mkdir -pv'                                        # $ mkdir x/y/z
+alias rm='rm -I --preserve-root'                               # Prompt if deleting more than 3 files at a time
 alias wget="wget -c - --hsts-file='$XDG_CACHE_HOME/wget-hsts'" # Resume if failed by default
-alias xclip='xclip -sel clip'          # Copy to Clipboard $ cat file.txt | xclip
-alias tmux="tmux -f "$XDG_CONFIG_HOME"/tmux/tmux.conf"
+alias xclip='xclip -sel clip'                                  # Copy to Clipboard $ cat file.txt | xclip
+alias tmux="tmux -f $XDG_CONFIG_HOME/tmux/tmux.conf"
 
 # ┌─────────────────────────────────────────────────────────────────┐
 # │ Grep                                                            │
@@ -133,7 +133,7 @@ function convertgpgkey() {
   echo -e "[+] Example downloading to file:"
   echo -e "wget -qO - https://www.mongodb.org/static/pgp/server-6.0.asc > server-6.0.asc"
   echo -e "cat server-6.0.asc | gpg --dearmor | sudo tee /usr/share/keyrings/mongodb-org-6.0.gpg | > /dev/null 2&1"
-  cat $1 | grg --dearmor > "${1%.*}.gpg" # New File Name
+  cat $1 | grg --dearmor >"${1%.*}.gpg" # New File Name
 }
 
 # ┌─────────────────────────────────────────────────────────────────┐

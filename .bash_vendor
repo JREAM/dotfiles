@@ -19,16 +19,6 @@ if [ -L /usr/bin/java ]; then
 fi
 
 # ╔═════════════════════════════════════════════════════════════════╗
-# ║ Docker                                                          ║
-# ╚═════════════════════════════════════════════════════════════════╝
-# [Pkg]     docker docker-compose
-# [Use]     $ docker -h | $ docker-compose -h
-if hash docker 2>/dev/null; then
-  [ -f $HOME/.dockerrc ] && source $HOME/.dockerrc
-  [ -f $HOME/.docker-complete ] && source ~/.docker-complete
-fi
-
-# ╔═════════════════════════════════════════════════════════════════╗
 # ║  Node / NPM / Yarn / PNPM                                       ║
 # ║  (!) Place ~/.yarn before ~/.npm so is takes precidence.        ║
 # ╚═════════════════════════════════════════════════════════════════╝
@@ -37,7 +27,6 @@ fi
 # ───────────────────────────────────────────────────────────────────
 [[ -d $HOME/.yarn/bin ]] && export PATH=$PATH:$HOME/.yarn/bin
 alias yarn='yarn --use-yarnrc "$XDG_CONFIG_HOME/yarn/config"'
-
 
 # pnpm (Phantom NPM) (NPM Alternative)
 # ───────────────────────────────────────────────────────────────────
@@ -48,14 +37,6 @@ if [ -d $HOME/.local/share/pnpm ]; then
   export PNPM_HOME="$HOME/.local/share/pnpm"
   export PATH="$PNPM_HOME:$PATH"
 fi
-
-# Completions
-# ───────────────────────────────────────────────────────────────────
-[ -f $HOME/.npm-completion ] && source ~/.npm-completion
-[ -f $HOME/.yarn-completion ] && source ~/.yarn-completion
-
-# For PNPM
-[ -f $HOME/.config/tabtab/bash/__tabtab.bash ] && source $HOME/.config/tabtab/bash/__tabtab.bash
 
 # ╔═════════════════════════════════════════════════════════════════╗
 # ║  GoLang                                                         ║
@@ -80,9 +61,9 @@ export WORKON_HOME="$XDG_DATA_HOME/virtualenvs"
 # Pipx is for installing pythong commands (not packages)
 # ───────────────────────────────────────────────────────────────────
 # [Pkg]   pip install pipx
-if command -v pipx &>/dev/null; then
+if [ -x $HOME/.local/bin/pipx ]; then
   eval "$(register-python-argcomplete pipx)"
-fia
+fi
 
 # ╔═════════════════════════════════════════════════════════════════╗
 # ║  FNM (Faster Node Version Manager)                                     ║
@@ -92,10 +73,10 @@ fia
 #             fnm completions --shell bash > .config/bash_completion/fnm.bash
 
 # [Use]     $ fvm -h
-if command -v fnm  &>/dev/null; then
+if command -v fnm &>/dev/null; then
   # --use-on-cd allows to load .nvmrc to a projcet
   #eval "$(fnm env --use-on-cd)"
-  eval "$(fnm env --multi --use-on-cd 2> /dev/null)"
+  eval "$(fnm env --multi --use-on-cd 2>/dev/null)"
   # Export current versions Bin dir
   export PATH=$PATH:$FNM_NODE_DIST_MIRROR/bin
 fi
@@ -113,12 +94,7 @@ alias nvm="echo 'use $ fnm'"
 # ║ Bash Helpers                                                    ║
 # ╚═════════════════════════════════════════════════════════════════╝
 
-# Git CLI Completions
 # ───────────────────────────────────────────────────────────────────
-if [ -f $HOME/.git-completion.bash ]; then
-  source $HOME/.git-completion.bash
-fi
-
 #  GRC (Bash Color Highlights)
 # ───────────────────────────────────────────────────────────────────
 # [Pkg]     apt install grc
@@ -128,6 +104,7 @@ if [ -f /etc/profile.d/grc.sh ]; then
   source /etc/profile.d/grc.sh
 fi
 
+# ───────────────────────────────────────────────────────────────────
 # Better concat (cat) function  with colors
 # ───────────────────────────────────────────────────────────────────
 # [Pkg]   https://github.com/sharkdp/bat
@@ -138,6 +115,7 @@ if command -v batcat &>/dev/null; then
   alias cat='batcat --theme="Monokai Extended Origin" --plain --paging=never'
 fi
 
+# ───────────────────────────────────────────────────────────────────
 # Z Directory Jumper - Easily Finds Recent Paths
 # ───────────────────────────────────────────────────────────────────
 # [Pkg]   https://github.com/skywind3000/z.lua
@@ -146,6 +124,7 @@ if [ -f $HOME/.z.lua/z.lua ]; then
   eval "$(lua $HOME/.z.lua/z.lua --init bash enhanced once)"
 fi
 
+# ───────────────────────────────────────────────────────────────────
 # FZF Fuzzy Finder (Very Powerful Tool)
 # ───────────────────────────────────────────────────────────────────
 # [Pkg]   https://github.com/junegunn/fzf
@@ -154,14 +133,12 @@ fi
 #         $ cat anyfile | fzf
 #         <ALT> + C   Fuzzy Directory Jump
 #         <CTRL> + R  History Fuzzy Search
-if [ -f $(which fzf) >& /dev/null ]; then
-
+if [ -x /usr/bin/fzf ]; then
+  return 0 # Check .profile -- issue with keybinding in wrong path
   export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border=rounded --tabstop=4 --color=dark,info:bright-green,pointer:green,hl:bright-green'
   export FZF_DEFAULT_COMMAND="fd . $HOME"
   export FZF_ALT_C_COMMAND="fd -t d . $HOME"
   #fzf --preview 'bat --style=numbers --color=always --line-range :500 {}'
-
-  source ~/.config/bash_completion/fzf-key-bindings.bash
 
   _fzf_comprun() {
     local command=$1
@@ -171,12 +148,4 @@ if [ -f $(which fzf) >& /dev/null ]; then
     *) fzf "$@" ;;
     esac
   }
-fi
-
-# DirEnv Configures directory specific environment settings
-# ───────────────────────────────────────────────────────────────────
-# [Pkg]   https://direnv.net/
-# [Use]   touch .envrc
-if (($ + commands[direnv])) >/dev/null 2>&1; then
-  eval "$(direnv hook bash)"
 fi

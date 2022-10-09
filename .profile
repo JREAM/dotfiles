@@ -3,7 +3,6 @@
 # exists.
 # see /usr/share/doc/bash/examples/startup-files for examples.
 # the files are located in the bash-doc package.
-
 # the default umask is set in /etc/profile; for setting the umask
 # for ssh logins, install and configure the libpam-umask package.
 #umask 022
@@ -30,8 +29,7 @@ export LESSHISTFILE="${XDG_CONFIG_HOME}/less/history"
 export LESSKEY="${XDG_CONFIG_HOME}/less/keys"
 export WGETRC="$XDG_CONFIG_HOME/wgetrc"
 
-export GVIMINIT='let $MYGVIMRC="$XDG_CONFIG_HOME/vim/gvimrc" | source $MYGVIMRC'
-export VIMINIT='let $MYVIMRC="$XDG_CONFIG_HOME/vim/vimrc" | source $MYVIMRC'
+export VIMINIT="let $MYVIMRC=\"$XDG_CONFIG_HOME/vim/vimrc\"|| source $MYVIMRC"
 
 export PYLINTHOME="$XDG_CACHE_HOME"/pylint,
 export PYLINTRC="$XDG_CONFIG_HOME"/pylint/pylintrc
@@ -48,7 +46,6 @@ export NPM_CONFIG_CACHE=$XDG_CACHE_HOME/npm
 export NPM_CONFIG_TMP=$XDG_RUNTIME_DIR/npm
 
 #GOPATH set in .bash_vendor
-
 
 # ┌─────────────────────────────────────────────────────────────────┐
 # │ If Bash; Load .bashrc                                           │
