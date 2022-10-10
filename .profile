@@ -29,7 +29,7 @@ export LESSHISTFILE="${XDG_CONFIG_HOME}/less/history"
 export LESSKEY="${XDG_CONFIG_HOME}/less/keys"
 export WGETRC="$XDG_CONFIG_HOME/wgetrc"
 
-export VIMINIT="let $MYVIMRC=\"$XDG_CONFIG_HOME/vim/vimrc\"|| source $MYVIMRC"
+export VIMINIT='let $MYVIMRC="$XDG_CONFIG_HOME/vim/vimrc" | source $MYVIMRC'
 
 export PYLINTHOME="$XDG_CACHE_HOME"/pylint,
 export PYLINTRC="$XDG_CONFIG_HOME"/pylint/pylintrc

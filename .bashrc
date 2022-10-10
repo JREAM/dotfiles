@@ -56,7 +56,7 @@ fi
 # [NoColor] export PS1="[\w]\$(git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/')\n\u@\h-> \[\033[0m\]"
 IN_SSH=""
 [[ -n $SSH_CLIENT ]] && IN_SSH="[${IBYELLOW}SSH$RESET]"
-export PS1="$IN_SSH\[$IBLUE\w$RESET\]\$(git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/($IYELLOW\1$RESET)/')\n\u@\h-> "
+export PS1="$IN_SSH[$IBLUE\w$RESET]\$(git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/($IYELLOW\1$RESET)/')\n\u@\h-> "
 
 # ┌─────────────────────────────────────────────────────────────────┐
 # │ Shell Options                                                   │
