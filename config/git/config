@@ -30,7 +30,7 @@
   # Automatically correct and execute mistyped commands
 	autocorrect = 1
 [merge]
-	tool = tkdiff
+  conflictstyle = diff3
 [mergetool]
   keepBackup = false
 [alias]
@@ -68,6 +68,7 @@
   cp = cherry-pick
   aa = add --all
   st = status
+  aa = add .
 
   # Diff
   diff  = diff --word-diff
@@ -103,7 +104,17 @@
   excludesfile = ~/.config/git/ignore
   filemode = false
 	preloadindex = true
+  pager = delta
 
+# delta is a better plugin: https://github.com/dandavison/delta
+[interactive]
+  diffFilter = delta --color-only
+
+[delta]
+  navigate = true # n and N to move schemas
+  light = false # bg color
+[diff]
+  colorMoved = default
 
 # URL shorthands
 [url "git@gitlab.com:"]

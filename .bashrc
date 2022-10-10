@@ -14,6 +14,7 @@ export INTERACTIVE_MODE=$i9e
 
 export PATH=$PATH:/home/$USER/.local/bin # Set: Local bin to $PATH
 export BROWSER=/usr/bin/brave-browser    # Set: Local Browser (Affects: VSCode)
+export EDITOR=vim
 
 # XDG Directory Paths
 # [Spec]    https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html
