@@ -3,6 +3,9 @@
 set nocompatible
 filetype off
 
+set runtimepath=~/.config/vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,~/.vim/other-path
+set packpath=~/.config/vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,~/.vim/other-path
+
 " Use Bash shell, Avoid zsh/fish shell issues
 set shell=/bin/bash
 
@@ -10,9 +13,9 @@ set shell=/bin/bash
 " Plugins
 """"""""""""""""""""""""""""""""""""""""
 
-" vundle plugins
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#rc()
+" vundle plugins (Move to XDG Path)
+set rtp+=~/.config/vim/bundle/Vundle.vim
+call vundle#rc("~/.config/vim/bundle")
 
 " vundle repo
 Bundle 'gmarik/Vundle.vim'
@@ -21,12 +24,12 @@ Plugin 'fatih/vim-go'
 " Color/Style Schemes
 Plugin 'benjaminwhite/Benokai'
 Plugin 'bling/vim-airline'        " Statusline
+Plugin 'vim-airline/vim-airline-themes' " Themes
 Plugin 'httplog'                  " Highlight Apache/Nginx Logs
 Plugin 'nginx.vim'                " Highlight Nginx Config
 Plugin 'gregsexton/matchtag'
 
 " Productivity
-"Plugin 'ervandew/supertab'       " Tab Completion
 Plugin 'itspriddle/vim-stripper'  " Trim Trailing Whitespaces
 Plugin 'kien/ctrlp.vim'
 Plugin 'scrooloose/nerdtree'      " Tree Style Dirs
@@ -76,6 +79,7 @@ let g:rbpt_loadround = 1
 
 " For vim-airline
 let g:airline#extensions#tabline#enabled = 1
+let g:airline_powerline_fonts = 1
 
 " Indent Guides
 let g:indent_guides_enable_on_vim_startup = 1
@@ -177,6 +181,9 @@ set shiftwidth=2  " indent size
 set expandtab     " use space instead of tab
 set smarttab
 
+autocmd Filetype php setlocal tabstop=4
+autocmd Filetype nginx setlocal tabstop=2
+
 " ignore these nonsense files
 set wildignore=*.swp,*.bak,*.pyc,*.class,*.docx,*.jpg,*.png,*.gif,*.pdf,*.pyc,*.exe,*.flv,*.img,*.xlsx
 
@@ -205,15 +212,6 @@ set wildmode=list:longest
 
 " clipboard fusion!
 set clipboard^=unnamed clipboard^=unnamedplus
-
-" Source the vimrc file after saving it.
-" This way, you don't have to reload Vim to see the changes.
-if has("autocmd")
- augroup myvimrchooks
-  au!
-  autocmd bufwritepost .vimrc source ~/.vimrc
- augroup END
-endif
 
 """"""""""""""""""""""""""""""""""""""""
 " Hotkeys

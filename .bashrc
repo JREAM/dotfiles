@@ -16,6 +16,8 @@ export PATH=$PATH:/home/$USER/.local/bin # Set: Local bin to $PATH
 export BROWSER=/usr/bin/brave-browser    # Set: Local Browser (Affects: VSCode)
 export EDITOR=vim
 
+export GREP_COLORS='ms=01;38;5;190:mc=01;31:sl=:cx=:fn=35:ln=32:bn=32:se=36'
+
 # XDG Directory Paths
 # [Spec]    https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html
 # ───────────────────────────────────────────────────────────────────
@@ -101,3 +103,5 @@ export LESS_TERMCAP_se=$'\e[0m'
 export LESS_TERMCAP_so=$'\e[01;33m'
 export LESS_TERMCAP_ue=$'\e[0m'
 export LESS_TERMCAP_us=$'\e[1;4;31m'
+
+#eval "$(starship init bash)"
