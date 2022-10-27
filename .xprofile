@@ -1,9 +1,13 @@
-synclient PalmDetect=1
-synclient PalmMinWidth=2
-synclient PalmMinZ=80
-synclient HorizEdgeScroll=0
-synclient HorizTwoFingerScroll=1
-synclient VertEdgeScroll=0
-synclient LeftEdge=122
-synclient RightEdge=2500
-synclient AreaRightEdge=2500
+#!/bin/bash
+
+if [[ $HOSTNAME != 'boxy' ]]; then
+  synclient PalmDetect=1
+  synclient PalmMinWidth=2
+  synclient PalmMinZ=80
+  synclient HorizEdgeScroll=0
+  synclient HorizTwoFingerScroll=1
+  synclient VertEdgeScroll=0
+  synclient LeftEdge=122
+  synclient RightEdge=2500
+  synclient AreaRightEdge=2500
+fi
