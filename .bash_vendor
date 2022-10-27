@@ -19,6 +19,13 @@ if [ -L /usr/bin/java ]; then
 fi
 
 # ╔═════════════════════════════════════════════════════════════════╗
+# ║  Rust Language                                                  ║
+# ╚═════════════════════════════════════════════════════════════════╝
+# [Pkg]     Rust 
+# [Install] $ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+[[ -d $XDG_DATA_HOME/cargo/bin ]] && export PATH=$PATH:$XDG_DATA_HOME/cargo/bin
+
+# ╔═════════════════════════════════════════════════════════════════╗
 # ║  Node / NPM / Yarn / PNPM                                       ║
 # ║  (!) Place ~/.yarn before ~/.npm so is takes precidence.        ║
 # ╚═════════════════════════════════════════════════════════════════╝
@@ -78,7 +85,8 @@ if command -v fnm &>/dev/null; then
   #eval "$(fnm env --use-on-cd)"
   eval "$(fnm env --multi --use-on-cd 2>/dev/null)"
   # Export current versions Bin dir
-  export PATH=$PATH:$FNM_NODE_DIST_MIRROR/bin
+
+  #export PATH=$PATH:$FNM_NODE_DIST_MIRROR/bin
 fi
 
 # ╔═════════════════════════════════════════════════════════════════╗
