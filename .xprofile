@@ -10,4 +10,6 @@ if [[ $HOSTNAME != 'boxy' ]]; then
   synclient LeftEdge=122
   synclient RightEdge=2500
   synclient AreaRightEdge=2500
+  synclient AreaLeftEdge=100
+  synclient AreaTopEdge=71
 fi
