@@ -21,7 +21,7 @@ fi
 # ╔═════════════════════════════════════════════════════════════════╗
 # ║  Rust Language                                                  ║
 # ╚═════════════════════════════════════════════════════════════════╝
-# [Pkg]     Rust 
+# [Pkg]     Rust
 # [Install] $ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 [[ -d $XDG_DATA_HOME/cargo/bin ]] && export PATH=$PATH:$XDG_DATA_HOME/cargo/bin
 
@@ -43,6 +43,7 @@ alias yarn='yarn --use-yarnrc "$XDG_CONFIG_HOME/yarn/config"'
 if [ -d $HOME/.local/share/pnpm ]; then
   export PNPM_HOME="$HOME/.local/share/pnpm"
   export PATH="$PNPM_HOME:$PATH"
+  alias pn=pnpm
 fi
 
 # ╔═════════════════════════════════════════════════════════════════╗
@@ -58,12 +59,23 @@ if [ -d /usr/local/go ]; then
   export PATH=$PATH:$GOPATH/bin
 fi
 
+# VSCode Devcontainer CLI
+if [ -d $XDG_CONFIG_HOME/Code/User/globalStorage/ms-vscode-remote.remote-containers/cli-bin ]; then
+  PATH=$PATH:$XDG_CONFIG_HOME/Code/User/globalStorage/ms-vscode-remote.remote-containers/cli-bin
+fi
+
 # ╔═════════════════════════════════════════════════════════════════╗
 # ║  Python / PyEnv                                                 ║
 # ╚═════════════════════════════════════════════════════════════════╝
 # Stop generating bytecode files
 export PYTHONDONTWRITEBYTECODE=1
 export WORKON_HOME="$XDG_DATA_HOME/virtualenvs"
+
+
+# ╔═════════════════════════════════════════════════════════════════╗
+# ║  Composer / PHP                                                 ║
+# ╚═════════════════════════════════════════════════════════════════╝
+[ -d $XDG_CONFIG_HOME/composer/vendor/bin ] && PATH=$PATH:$XDG_CONFIG_HOME/composer/vendor/bin
 
 # Pipx is for installing pythong commands (not packages)
 # ───────────────────────────────────────────────────────────────────
@@ -73,30 +85,14 @@ if [ -x $HOME/.local/bin/pipx ]; then
 fi
 
 # ╔═════════════════════════════════════════════════════════════════╗
-# ║  FNM (Faster Node Version Manager)                                     ║
-# ╚═════════════════════════════════════════════════════════════════╝
-# [Pkg]     https://github.com/Schniz/fnm
-# [Install] $ curl -fsSL https://fnm.vercel.app/install | bash -s -- --install-dir ".local/bin/" --skip-shell
-#             fnm completions --shell bash > .config/bash_completion/fnm.bash
-
-# [Use]     $ fvm -h
-if command -v fnm &>/dev/null; then
-  # --use-on-cd allows to load .nvmrc to a projcet
-  #eval "$(fnm env --use-on-cd)"
-  eval "$(fnm env --multi --use-on-cd 2>/dev/null)"
-  # Export current versions Bin dir
-
-  #export PATH=$PATH:$FNM_NODE_DIST_MIRROR/bin
-fi
-
-# ╔═════════════════════════════════════════════════════════════════╗
 # ║  NVM (Node Version Manager)                                     ║
 # ╚═════════════════════════════════════════════════════════════════╝
 # [Pkg]     https://github.com/nvm-sh/nvm
-# [Install] $ curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
+# [Install] $ curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.2/install.sh | bash
 # [Use]     $ nvm -h
-# (Not Used) This is to remind me to change to $ fnm by being reminded
-alias nvm="echo 'use $ fnm'"
+export NVM_DIR="$HOME/.config/nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 # ╔═════════════════════════════════════════════════════════════════╗
 # ║ Bash Helpers                                                    ║
