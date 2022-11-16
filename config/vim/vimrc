@@ -42,12 +42,20 @@ Plugin 'itspriddle/vim-stripper'  " Trim Trailing Whitespaces
 Plugin 'kien/ctrlp.vim'
 Plugin 'scrooloose/nerdtree'      " Tree Style Dirs
 
+" Comment Plugin
+Plugin 'tomtom/tcomment_vim'
+
 " JS Frameworks (Highlight)
 Plugin 'mtscout6/syntastic-local-eslint.vim'
 
 " Languages
 Plugin 'ap/vim-css-color'
-""Plugin 'Autoclose'
+Plugin 'chr4/nginx'
+
+" FZF (Requires FZF Installed)
+Plugin 'junegunn/fzf'
+
+"Plugin 'Autoclose'
 Plugin 'chiel92/vim-autoformat'
 Plugin 'eslint/eslint'
 Plugin 'evidens/vim-twig'
@@ -182,12 +190,13 @@ set tm=500
 " allow background buffers
 set hidden
 
-" global tab settings
+" global tab settinga
+set tabline=2
 set tabstop=2
 set softtabstop=2
 set shiftwidth=2  " indent size
 set expandtab     " use space instead of tab
-set smarttab
+set smarttab<BS>
 
 autocmd Filetype php setlocal tabstop=4
 autocmd Filetype nginx setlocal tabstop=2
@@ -224,8 +233,28 @@ set clipboard^=unnamed clipboard^=unnamedplus
 """"""""""""""""""""""""""""""""""""""""
 " Hotkeys
 """"""""""""""""""""""""""""""""""""""""
+" Mode Mappings
+" The 'r' represents non-recursive
+" :map   :noremap  :unmap     Normal, Visual, Select, Operator-pending
+" :nmap  :nnoremap :nunmap    Normal
+" :vmap  :vnoremap :vunmap    Visual and Select
+" :smap  :snoremap :sunmap    Select
+" :xmap  :xnoremap :xunmap    Visual
+" :omap  :onoremap :ounmap    Operator-pending
+" :map!  :noremap! :unmap!    Insert and Command-line
+" :imap  :inoremap :iunmap    Insert
+" :lmap  :lnoremap :lunmap    Insert, Command-line, Lang-Arg
+" r:cmap :cnoremap :cunmap    Command-line
+" :tmap  :tnoremap :tunmap    Terminal-Job
+"o
+" Examples
+" .. :nmap x dd  -- Map x to dd in normal mode
+" .. :inoremap jk <esc> -- Maps  'jk' to <esc> key, exits insert mode
+
 
 map <C-n> :NERDTreeToggle<CR>
+
+inoremap <C+y> <c-o>:redo</cr>
 
 " easier window navigation
 nmap <C-h> <C-w>h
