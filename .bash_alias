@@ -290,7 +290,9 @@ function _reload_php_aliases() {
 }
 
 # On loading of this script, load the proper php version
-_reload_php_aliases
+if [ -L /usr/bin/php ]; then
+  _reload_php_aliases
+fi
 
 # Change PHP Version using update-alternatives
 # Will affect the composer installation version also
