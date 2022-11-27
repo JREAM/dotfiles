@@ -4,6 +4,13 @@
 
 ---
 
+## Crontab
+
+I should use `inotifywait`, but this is a lazy way to make backups of my cheatsheets
+```bash
+0 * * * * [ -d ~/.config/cheat/cheatsheets/personal ] && cp -R ~/.config/cheat/cheatsheets/personal/* ~/dotfiles/config/cheat/cheatsheets/personal/
+```
+
 ## Main Dotfiles
 
 | File                   | Purpose                                  |
