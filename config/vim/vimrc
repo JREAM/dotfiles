@@ -196,7 +196,6 @@ set tabstop=2
 set softtabstop=2
 set shiftwidth=2  " indent size
 set expandtab     " use space instead of tab
-set smarttab<BS>
 
 autocmd Filetype php setlocal tabstop=4
 autocmd Filetype nginx setlocal tabstop=2

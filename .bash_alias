@@ -290,7 +290,9 @@ function _reload_php_aliases() {
 }
 
 # On loading of this script, load the proper php version
-_reload_php_aliases
+if [ -L /usr/bin/php ]; then
+  _reload_php_aliases
+fi
 
 # Change PHP Version using update-alternatives
 # Will affect the composer installation version also
@@ -317,6 +319,18 @@ function phpversion() {
   echo -e "\n[+] Switched composer to version: /usr/bin/composer$VERSION"
   echo -e "[+] use the $ phpfpm-<commands>\n"
   _reload_php_aliases
+}
+
+
+# ╔═════════════════════════════════════════════════════════════════╗
+# ║ Fix apt Legacy Keys                                             ║
+# ╚═════════════════════════════════════════════════════════════════╝
+# >> Get the Repository file size
+function fix-apt-legacy-keys() {
+  for KEY in $(apt-key list | grep -E "(([ ]{1,2}(([0-9A-F]{4}))){10})" | tr -d " " | grep -E "([0-9A-F]){8}\b"); do
+    K=${KEY:(-8)}
+    apt-key export $K | sudo gpg --dearmour -o /etc/apt/trusted.gpg.d/imported-from-trusted-gpg-$K.gpg
+  done
 }
 
 # ╔═════════════════════════════════════════════════════════════════╗
