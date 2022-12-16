@@ -57,13 +57,17 @@ is_mounted() {
 
 toggle-server() {
   if is_mounted "server"; then
-    sudo umount -l /server
+    sudo umount -lf /server
     echo -e "[!] /server is now unmounted"
   else
     sudo sshfs jesse@10.10.10.200:/server /server -o reconnect,allow_other,workaround=rename,_netdev,idmap=user,uid=1000,gid=1000,IdentityFile=/home/jesse/.ssh/server-local,Cipher=arcfour,compression=no
     echo -e "[+] /server is mounted"
   fi
+}
 
+
+server-mount() {
+  sudo sshfs jesse@10.10.10.200:/server /server -o reconnect,allow_other,workaround=rename,_netdev,idmap=user,uid=1000,gid=1000,IdentityFile=/home/jesse/.ssh/server-local,Cipher=arcfour,compression=no
 }
 
 # ┌─────────────────────────────────────────────────────────────────┐
