@@ -349,6 +349,12 @@ function git-filesize() {
 # ╔═════════════════════════════════════════════════════════════════╗
 # ║ Docker Aliases                                                  ║
 # ╚═════════════════════════════════════════════════════════════════╝
+alias docker-restart='sudo systemctl restart docker'
+alias docker-kill='sudo systemctl kill docker'
+alias docker-start='sudo systemctl start docker'
+alias docker-stop='sudo systemctl stop docker'
+alias docker-reload='sudo systemctl reload docker'
+alias docker-status='sudo systemctl status docker'
 dock-run() { sudo docker run -i -t --privileged "$@"; }
 dock-exec() { sudo docker exec -i -t "$@" /bin/bash; }
 dock-log() { sudo docker logs --tail=all -f "$@"; }
