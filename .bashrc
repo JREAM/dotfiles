@@ -82,9 +82,6 @@ fi
 # ┌─────────────────────────────────────────────────────────────────┐
 # │ Bash Completion                                                 │
 # └─────────────────────────────────────────────────────────────────┘
-[[ $PS1 && -f /usr/share/bash-completion/bash_completion ]] &&
-  source /usr/share/bash-completion/bash_completion
-
 if [ -d $XDG_CONFIG_HOME/bash_completion ]; then
   for FILE in "$XDG_CONFIG_HOME"/bash_completion/*; do
     # shellcheck source=.config/bash_completion/$FILE
