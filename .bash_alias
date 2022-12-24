@@ -51,24 +51,9 @@ alias vims='sudo vim' # sudo mode vim
 alias reload='source $HOME/.bashrc'
 alias permissions-octal='stat -c \"%a %n\" -- $1'
 
-is_mounted() {
-    mount | awk -v DIR="$1" '{if ($3 == DIR) { exit 0}} ENDFILE{exit -1}'
-}
+alias server-mount='sudo sshfs jesse@10.10.10.200:/server /server -o reconnect,allow_other,workaround=rename,_netdev,idmap=user,uid=1000,gid=1000,IdentityFile=/home/jesse/.ssh/server-local,Cipher=arcfour,compression=no'
+alias server-umount='sudo umount -lf /server'
 
-toggle-server() {
-  if is_mounted "server"; then
-    sudo umount -lf /server
-    echo -e "[!] /server is now unmounted"
-  else
-    sudo sshfs jesse@10.10.10.200:/server /server -o reconnect,allow_other,workaround=rename,_netdev,idmap=user,uid=1000,gid=1000,IdentityFile=/home/jesse/.ssh/server-local,Cipher=arcfour,compression=no
-    echo -e "[+] /server is mounted"
-  fi
-}
-
-
-server-mount() {
-  sudo sshfs jesse@10.10.10.200:/server /server -o reconnect,allow_other,workaround=rename,_netdev,idmap=user,uid=1000,gid=1000,IdentityFile=/home/jesse/.ssh/server-local,Cipher=arcfour,compression=no
-}
 
 # ┌─────────────────────────────────────────────────────────────────┐
 # │ Navigation                                                      │
