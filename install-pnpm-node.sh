@@ -7,6 +7,7 @@ pnpm add -g @pnpm/exe \
   pm2@latest \
   vtop@latest \
   esbuild@latest \
+  eslint@latest \
   typescript@latest \
   ts-node@latest \
   fastify-cli@latest

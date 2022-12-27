@@ -19,6 +19,7 @@ export EDITOR=vim
 export GREP_COLORS='ms=01;38;5;190:mc=01;31:sl=:cx=:fn=35:ln=32:bn=32:se=36'
 
 # XDG Directory Paths
+# [See] ~/.profile for other app paths.
 # [Spec]    https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html
 # ───────────────────────────────────────────────────────────────────
 export XDG_CONFIG_HOME=$HOME/.config     # Config Files
@@ -82,11 +83,22 @@ fi
 # ┌─────────────────────────────────────────────────────────────────┐
 # │ Bash Completion                                                 │
 # └─────────────────────────────────────────────────────────────────┘
-if [ -d $XDG_CONFIG_HOME/bash_completion ]; then
-  for FILE in "$XDG_CONFIG_HOME"/bash_completion/*; do
-    # shellcheck source=.config/bash_completion/$FILE
-    source $FILE
-  done
+# Only run for interactive shells
+if ! shopt -oq posix; then
+  # Local
+  if [ -d $XDG_CONFIG_HOME/bash_completion ]; then
+    for FILE in "$XDG_CONFIG_HOME"/bash_completion/*; do
+      # shellcheck source=.config/bash_completion/$FILE
+      source $FILE
+    done
+  fi
+
+  # System
+  if [ -f /usr/share/bash-completion/bash_completion ]; then
+    source /usr/share/bash-completion/bash_completion
+  elif [ -f /etc/bash_completion ]; then
+    source /etc/bash_completion
+  fi
 fi
 
 # ┌─────────────────────────────────────────────────────────────────┐

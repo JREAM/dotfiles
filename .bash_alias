@@ -257,6 +257,12 @@ alias a2errlog='tail -n 50 /var/log/apache2/error.log'
 # ║ MySQL                                                           ║
 # ╚═════════════════════════════════════════════════════════════════╝
 alias mysqlvars="mysql -NBe 'SHOW VARIABLES'| sed 's,\t,^=,' | column -ts^"
+alias mysqlstart='sudo service mysql start'
+alias mysqlstop='sudo service mysql stop'
+alias mysqlrestart='sudo service mysql restart'
+alias mysqlreload='sudo service mysql reload'
+alias mysqlforcereload='sudo service mysql force-reload'
+alias mysqlstatus='sudo service mysql status'
 
 # ╔═════════════════════════════════════════════════════════════════╗
 # ║ PHP FPM                                                         ║
