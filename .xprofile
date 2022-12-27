@@ -1,15 +1,18 @@
 #!/bin/bash
+# apt install xserver-xorg-input-synaptics -y
 
-if [[ $HOSTNAME != 'boxy' ]]; then
-  synclient PalmDetect=1
-  synclient PalmMinWidth=2
-  synclient PalmMinZ=80
-  synclient HorizEdgeScroll=0
-  synclient HorizTwoFingerScroll=1
-  synclient VertEdgeScroll=0
-  synclient LeftEdge=122
-  synclient RightEdge=2500
-  synclient AreaRightEdge=2500
-  synclient AreaLeftEdge=100
-  synclient AreaTopEdge=71
+if [[ $XDG_SESSION_TYPE != 'wayland' ]]; then
+  if [ -e /usr/bin/synclient ]; then
+    synclient PalmDetect=1
+    synclient PalmMinWidth=2
+    synclient PalmMinZ=80
+    synclient HorizEdgeScroll=0
+    synclient HorizTwoFingerScroll=1
+    synclient VertEdgeScroll=0
+    synclient LeftEdge=122
+    synclient RightEdge=2500
+    synclient AreaRightEdge=2500
+    synclient AreaLeftEdge=100
+    synclient AreaTopEdge=71
+  fi
 fi
