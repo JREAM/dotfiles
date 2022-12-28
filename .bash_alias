@@ -257,12 +257,6 @@ alias a2errlog='tail -n 50 /var/log/apache2/error.log'
 # ║ MySQL                                                           ║
 # ╚═════════════════════════════════════════════════════════════════╝
 alias mysqlvars="mysql -NBe 'SHOW VARIABLES'| sed 's,\t,^=,' | column -ts^"
-alias mysqlstart='sudo service mysql start'
-alias mysqlstop='sudo service mysql stop'
-alias mysqlrestart='sudo service mysql restart'
-alias mysqlreload='sudo service mysql reload'
-alias mysqlforcereload='sudo service mysql force-reload'
-alias mysqlstatus='sudo service mysql status'
 
 # ╔═════════════════════════════════════════════════════════════════╗
 # ║ PHP FPM                                                         ║
@@ -360,6 +354,19 @@ dock-rmc() { sudo docker rm sudo docker ps -qa --filter 'status=exited'; }
 dock-rmi() { sudo docker rmi -f sudo docker images | grep '^<none>' | awk '{print $3}'; }
 dock-stop() { sudo docker stop '$(docker ps -a -q)'; }
 dock-rm() { sudo docker rm '$(docker ps -a -q)'; }
+
+function docker-compose-from-container() {
+  docker pull ghcr.io/red5d/docker-autocompose:latest
+  if [[ -z $1 ]]; then
+    echo -e "\n [ START: output single running container ]"
+    docker run --rm -v /var/run/docker.sock:/var/run/docker.sock ghcr.io/red5d/docker-autocompose $1
+    echo -e "\n [ END: output single running container ]"
+  else
+    echo -e "\n [ START: output all running containers ]"
+    docker run --rm -v /var/run/docker.sock:/var/run/docker.sock ghcr.io/red5d/docker-autocompose $(docker ps -aq)
+    echo -e "\n [ END: output all running containers ]"
+  fi
+}
 
 # ┌─────────────────────────────────────────────────────────────────┐
 # │ Gnome Backup                                                    │
