@@ -27,7 +27,6 @@ call vundle#rc("~/.config/vim/bundle")
 
 " vundle repo
 Bundle 'gmarik/Vundle.vim'
-Plugin 'fatih/vim-go'
 
 " Color/Style Schemes
 Plugin 'benjaminwhite/Benokai'
@@ -38,7 +37,6 @@ Plugin 'nginx.vim'                " Highlight Nginx Config
 Plugin 'gregsexton/matchtag'
 
 " Productivity
-Plugin 'itspriddle/vim-stripper'  " Trim Trailing Whitespaces
 Plugin 'kien/ctrlp.vim'
 Plugin 'scrooloose/nerdtree'      " Tree Style Dirs
 
@@ -50,7 +48,6 @@ Plugin 'mtscout6/syntastic-local-eslint.vim'
 
 " Languages
 Plugin 'ap/vim-css-color'
-Plugin 'chr4/nginx'
 
 " FZF (Requires FZF Installed)
 Plugin 'junegunn/fzf'
@@ -74,7 +71,6 @@ Plugin 'mustache/vim-mustache-handlebars'
 Plugin 'mxw/vim-jsx'
 Plugin 'pangloss/vim-javascript'
 Plugin 'plasticboy/vim-markdown'
-Plugin 'posva/vim-vue'
 Plugin 'StanAngeloff/php.vim'
 Plugin 'stephpy/vim-yaml'
 
@@ -89,6 +85,10 @@ Plugin 'nathanaelkane/vim-indent-guides'
 " error handling
 Bundle "nvie/vim-flake8"
 Bundle "scrooloose/syntastic"
+
+" Editing nginx files
+au BufRead,BufNewFile /etc/nginx/*,/usr/local/nginx/conf/*,nginx.conf if &ft == '' | setfiletype nginx | endif
+" autocmd BufRead,BufNewFile /etc/nginx/sites-*/* setfiletype conf
 
 " For Match Tag Always
 let g:rbpt_loadround = 1
@@ -145,6 +145,9 @@ autocmd Syntax * RainbowParenthesesLoadBraces
 """"""""""""""""""""""""""""""""""""""""
 " General VIM
 """"""""""""""""""""""""""""""""""""""""
+
+" Auto strip trailing white space when :w
+autocmd BufWritePre * :%s/\s\+$//e
 
 " mouse selections will not copy line numbers
 " set mouse+=a
