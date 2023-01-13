@@ -10,4 +10,5 @@ pnpm add -g @pnpm/exe \
   eslint@latest \
   typescript@latest \
   ts-node@latest \
+  turbo\
   fastify-cli@latest
