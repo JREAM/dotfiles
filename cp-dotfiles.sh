@@ -81,6 +81,12 @@ fi
 if [[ $ynDirs =~ ^([yY])+$ ]]; then
   copydirs
   DID_RUN=1;
+
+  # Vundle
+  if [ -d ~/.config/vim ]; then
+    git clone https://github.com/VundleVim/Vundle.vim.git ~/.config/vim/bundle/Vundle.vim
+    vim +PluginInstall +qall
+  fi
 fi
 
 # Final Result
@@ -89,6 +95,7 @@ if [[ $DID_RUN == 1 ]]; then
   echo -e "      $ source ~/.bashrc"
   exit 1
 fi
+
 
 echo -e "\nExiting...\n"
 exit 1

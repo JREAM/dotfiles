@@ -8,7 +8,7 @@
   title_inactive_bg_color = "#237cab"
   suppress_multiple_term_dialog = True
   title_use_system_font = False
-  title_font = Myriad Set Pro Semi-Bold 15
+  title_font = Myriad Set Pro Semi-Bold 16
 [keybindings]
   zoom_out = ""
   new_tab = <Primary>t
@@ -29,7 +29,7 @@
     background_type = transparent
     cursor_blink = False
     cursor_color = "#f1e47a"
-    font = FiraCode NF weight=453 12
+    font = agave Nerd Font Mono 16
     foreground_color = "#fdfdfd"
     show_titlebar = False
     scrollback_lines = 502
