@@ -1,0 +1,4 @@
+#!/bin/bash
+# Rename to .private, enabled from .bashrc
+
+export SSH_PORT=1
