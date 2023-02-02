@@ -74,6 +74,7 @@ alias server-mount='sudo sshfs jesse@10.10.10.200:/server /server -o reconnect,a
 alias server-umount='sudo umount -lf /server'
 
 
+
 # ┌─────────────────────────────────────────────────────────────────┐
 # │ Navigation                                                      │
 # └─────────────────────────────────────────────────────────────────┘
