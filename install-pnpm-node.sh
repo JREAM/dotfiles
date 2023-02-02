@@ -3,7 +3,7 @@ wget -qO- https://get.pnpm.io/install.sh | sh -
 cd ~
 pnpm env use --global lts
 pnpm add -g @pnpm/exe \
-  sl \
+  snyk@latest \
   pm2@latest \
   vtop@latest \
   esbuild@latest \
