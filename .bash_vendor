@@ -44,7 +44,6 @@ if [ -d $HOME/.local/share/pnpm ]; then
   export PNPM_HOME="$HOME/.local/share/pnpm"
   export PATH="$PNPM_HOME:$PATH"
   alias pn=pnpm
-  alias pnpx='pnpm dlx'
 fi
 
 # ╔═════════════════════════════════════════════════════════════════╗
@@ -138,6 +137,9 @@ fi
 #         $ cat anyfile | fzf
 #         <ALT> + C   Fuzzy Directory Jump
 #         <CTRL> + R  History Fuzzy Search
+if [ -x /usr/bin/fdfind ]; then
+  alias fd='fdfind'
+fi
 if [ -x /usr/bin/fzf ]; then
   return 0 # Check .profile -- issue with keybinding in wrong path
   export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border=rounded --tabstop=4 --color=dark,info:bright-green,pointer:green,hl:bright-green'
