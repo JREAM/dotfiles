@@ -4,6 +4,7 @@ cd ~
 pnpm env use --global lts
 pnpm add -g @pnpm/exe \
   zx@latest \
+  pkg@latest \
   hyperfine@latest \
   snyk@latest \
   pm2@latest \
