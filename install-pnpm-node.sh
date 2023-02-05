@@ -6,12 +6,14 @@ pnpm add -g @pnpm/exe \
   zx@latest \
   pkg@latest \
   hyperfine@latest \
-  snyk@latest \
   pm2@latest \
   vtop@latest \
   esbuild@latest \
   eslint@latest \
   typescript@latest \
   ts-node@latest \
-  turbo\
-  fastify-cli@latest
+  turbo@latest \
+  fastify-cli@latest\
+  @types/node\
+  @types/tap\
+  tap
