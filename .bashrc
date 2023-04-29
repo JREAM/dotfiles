@@ -60,7 +60,7 @@ fi
 IN_SSH=""
 if [[ -n $SSH_CLIENT ]]; then
   HOSTNAME=$(hostname)
-  IN_SSH="[${IBYELLOW}SSH@${IBLUE}@${HOSTNAME}$RESET]"
+  IN_SSH="[${IBYELLOW}SSH$RESET][${IBLUE}@${HOSTNAME}$RESET]"
 fi
 export PS1="$IN_SSH[$IBLUE\w$RESET]\$(git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/($IYELLOW\1$RESET)/')\n\u@\h-> "
 
