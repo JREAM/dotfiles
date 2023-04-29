@@ -58,7 +58,10 @@ fi
 # [Help]    https://bashrcgenerator.com/
 # [NoColor] export PS1="[\w]\$(git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/')\n\u@\h-> \[\033[0m\]"
 IN_SSH=""
-[[ -n $SSH_CLIENT ]] && IN_SSH="[${IBYELLOW}SSH$RESET]"
+if [[ -n $SSH_CLIENT ]]; then
+  HOSTNAME=$(hostname)
+  IN_SSH="[${IBYELLOW}SSH@${IBLUE}@${HOSTNAME}$RESET]"
+fi
 export PS1="$IN_SSH[$IBLUE\w$RESET]\$(git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/($IYELLOW\1$RESET)/')\n\u@\h-> "
 
 # ┌─────────────────────────────────────────────────────────────────┐
@@ -114,3 +117,5 @@ export LESS_TERMCAP_ue=$'\e[0m'
 export LESS_TERMCAP_us=$'\e[1;4;31m'
 
 #eval "$(starship init bash)"
+
+source /home/jesse/.config/broot/launcher/bash/br
