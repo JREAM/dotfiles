@@ -15,14 +15,13 @@ fi
 # │ List Available Colors                                           │
 # └─────────────────────────────────────────────────────────────────┘
 function colors() {
-  echo -e "[ Standard colors ]\n"
-  for C in {40..47}; do echo -en "\e[${C}m$C "; done
-  echo -e "[ High intensity colors ]\n"
-  for C in {100..107}; do echo -en "\e[${C}m$C "; done
-  echo -e "[  256 colors ]\n"
-  for C in {16..255}; do echo -en "\e[48;5;${C}m$C "; done
-  echo -e "\e(B\e[m"
+  for((i=16; i<256; i++)); do
+    printf "\e[48;5;${i}m%03d" $i;
+    printf '\e[0m';
+    [ ! $((($i - 15) % 6)) -eq 0 ] && printf ' ' || printf '\n'
+  done
 }
+alias list-colors='colors'
 
 # ┌─────────────────────────────────────────────────────────────────┐
 # │ Colors                                                          │
