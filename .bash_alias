@@ -74,7 +74,6 @@ alias server-mount='sudo sshfs jesse@10.10.10.200:/server /server -o reconnect,a
 alias server-umount='sudo umount -lf /server'
 
 
-
 # ┌─────────────────────────────────────────────────────────────────┐
 # │ Navigation                                                      │
 # └─────────────────────────────────────────────────────────────────┘
@@ -482,6 +481,22 @@ latest-file() {
     [[ $f -nt $latest ]] && latest="$f"
   done
   printf '%s\n' "$latest"
+}
+# ╔═════════════════════════════════════════════════════════════════╗
+# ║ Mouse Move                                                      ║
+# ╚═════════════════════════════════════════════════════════════════╝
+# ═══════════════════════════════════════════════════════════════════
+mm() {
+  DELAY=5
+
+  while true
+    do
+      for ANGLE in 0 90 180 270
+        do
+          xdotool mousemove_relative --polar $ANGLE $LENGTH
+          sleep $DELAY
+        done
+    done
 }
 
 # ╔═════════════════════════════════════════════════════════════════╗
