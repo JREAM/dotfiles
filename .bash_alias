@@ -70,7 +70,8 @@ alias reload='source $HOME/.bashrc'
 alias permissions-octal='stat -c \"%a %n\" -- $1'
 
 # Copy contents to /etc/network/if-up.d/sshfs-mount
-alias server-mount='sudo sshfs jesse@10.10.10.200:/server /server -o reconnect,allow_other,workaround=rename,_netdev,idmap=user,uid=1000,gid=1000,IdentityFile=/home/jesse/.ssh/server-local,Cipher=arcfour,compression=no'
+
+alias server-mount='sudo sshfs jesse@10.10.10.200:/server /server -o ControlMaster=yes,reconnect,allow_other,workaround=rename,_netdev,idmap=user,uid=1000,gid=1000,IdentityFile=/home/jesse/.ssh/server-local,Cipher=arcfour,compression=no'
 alias server-umount='sudo umount -lf /server'
 
 
