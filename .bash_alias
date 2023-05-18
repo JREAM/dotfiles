@@ -71,7 +71,7 @@ alias permissions-octal='stat -c \"%a %n\" -- $1'
 
 # Copy contents to /etc/network/if-up.d/sshfs-mount
 
-alias mountserver='sudo sshfs jesse@10.10.10.200:/server /server -o ControlMaster=yes,reconnect,allow_other,workaround=rename,_netdev,idmap=user,uid=1000,gid=1000,IdentityFile=/home/jesse/.ssh/server-local,Cipher=arcfour,compression=no'
+alias mountserver='sudo sshfs jesse@10.10.10.200:/server /server -o ControlMaster=yes,reconnect,allow_other,workaround=rename,idmap=user,uid=1000,gid=1000,IdentityFile=/home/jesse/.ssh/server-local,Cipher=arcfour,compression=no'
 alias umountserver='sudo umount -lf /server'
 
 
@@ -531,3 +531,7 @@ mm() {
 # # Auto way, works best when combined with PHP switch alternative
 # sudo update-alternatives --set composer /usr/bin/composer7.4
 # sudo update-alternatives --set composer /usr/bin/composer8.1
+
+export DENO_INSTALL="/home/jesse/.deno"
+export PATH="$DENO_INSTALL/bin:$PATH"
+
