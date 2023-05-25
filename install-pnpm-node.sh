@@ -4,6 +4,7 @@ cd ~
 pnpm env use --global lts
 pnpm add -g @pnpm/exe \
   zx@latest \
+  @builder.io/ai-shell \
   pkg@latest \
   hyperfine@latest \
   pm2@latest \
@@ -17,3 +18,6 @@ pnpm add -g @pnpm/exe \
   @types/node\
   @types/tap\
   tap
+
+echo "[ Run ] $ ai config set OPENAI_KEY=keyhere"
+echo "[ Run ] $ ai config   (Change settings)"

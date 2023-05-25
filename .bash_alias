@@ -71,10 +71,8 @@ alias reload='source $HOME/.bashrc'
 alias permissions-octal='stat -c \"%a %n\" -- $1'
 
 # Copy contents to /etc/network/if-up.d/sshfs-mount
-alias server-mount='sudo sshfs jesse@10.10.10.200:/server /server -o ControlMaster=yes,reconnect,allow_other,workaround=rename,_netdev,idmap=user,uid=1000,gid=1000,IdentityFile=/home/jesse/.ssh/server-local,Cipher=arcfour,compression=no'
-#alias server-mount='sudo sshfs jesse@10.10.10.200:/server /server -o reconnect,allow_other,workaround=rename,_netdev,idmap=user,uid=1000,gid=1000,IdentityFile=/home/jesse/.ssh/server-local,Cipher=arcfour,compression=no'
-alias server-umount='sudo umount -lf /server'
-
+alias mountserver='sudo sshfs jesse@10.10.10.200:/server /server -o ControlMaster=yes,reconnect,allow_other,workaround=rename,idmap=user,uid=1000,gid=1000,IdentityFile=/home/jesse/.ssh/server-local,Cipher=arcfour,compression=no'
+alias umountserver='sudo umount -lf /server'
 
 # ┌─────────────────────────────────────────────────────────────────┐
 # │ Navigation                                                      │
@@ -418,6 +416,23 @@ latest-file() {
   done
   printf '%s\n' "$latest"
 }
+# ╔═════════════════════════════════════════════════════════════════╗
+# ║ Mouse Move                                                      ║
+# ╚═════════════════════════════════════════════════════════════════╝
+# ═══════════════════════════════════════════════════════════════════
+mm() {
+  LENGTH=1
+  DELAY=5
+
+  while true
+    do
+      for ANGLE in 0 90 180 270
+        do
+          xdotool mousemove_relative --polar $ANGLE $LENGTH
+          sleep $DELAY
+        done
+    done
+}
 
 # ╔═════════════════════════════════════════════════════════════════╗
 # ║ Instructions                                                    ║
@@ -450,3 +465,7 @@ latest-file() {
 # # Auto way, works best when combined with PHP switch alternative
 # sudo update-alternatives --set composer /usr/bin/composer7.4
 # sudo update-alternatives --set composer /usr/bin/composer8.1
+
+export DENO_INSTALL="/home/jesse/.deno"
+export PATH="$DENO_INSTALL/bin:$PATH"
+

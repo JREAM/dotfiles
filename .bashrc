@@ -118,4 +118,12 @@ export LESS_TERMCAP_us=$'\e[1;4;31m'
 
 #eval "$(starship init bash)"
 
+
+# pnpm
+export PNPM_HOME="/home/jesse/.local/share/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end
 source /home/jesse/.config/broot/launcher/bash/br
