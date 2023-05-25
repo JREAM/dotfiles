@@ -85,24 +85,6 @@ if [ -x $HOME/.local/bin/pipx ]; then
 fi
 
 # ╔═════════════════════════════════════════════════════════════════╗
-# ║  NVM (Node Version Manager)                                     ║
-# ╚═════════════════════════════════════════════════════════════════╝
-# [Pkg]     https://github.com/nvm-sh/nvm
-# [Install] $ curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.2/install.sh | bash
-# [Use]     $ nvm -h
-export NVM_DIR="$HOME/.config/nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
-# ╔═════════════════════════════════════════════════════════════════╗
-# ║ Deno                                                            ║
-# ╚═════════════════════════════════════════════════════════════════╝
-if [ -d ~/.deno ]; then
-  export DENO_INSTALL=~/.deno
-  export PATH="$DENO_INSTALL/bin:$PATH"
-fi
-
-# ╔═════════════════════════════════════════════════════════════════╗
 # ║ Bash Helpers                                                    ║
 # ╚═════════════════════════════════════════════════════════════════╝
 
@@ -145,9 +127,6 @@ fi
 #         $ cat anyfile | fzf
 #         <ALT> + C   Fuzzy Directory Jump
 #         <CTRL> + R  History Fuzzy Search
-if [ -x /usr/bin/fdfind ]; then
-  alias fd='fdfind'
-fi
 if [ -x /usr/bin/fzf ]; then
   return 0 # Check .profile -- issue with keybinding in wrong path
   export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border=rounded --tabstop=4 --color=dark,info:bright-green,pointer:green,hl:bright-green'

@@ -41,6 +41,7 @@ alias sudo='sudo '   # (1) Place above other sudo commands to enable aliases to 
 alias root='sudo -i' # Become root
 alias su='sudo -i'   # Become root
 
+alias sk='eval `ssh-agent` && ssh-add ~/.ssh/id_rsa'
 alias www='cd /wwww'
 
 # Work
@@ -70,9 +71,9 @@ alias reload='source $HOME/.bashrc'
 alias permissions-octal='stat -c \"%a %n\" -- $1'
 
 # Copy contents to /etc/network/if-up.d/sshfs-mount
-alias server-mount='sudo sshfs jesse@10.10.10.200:/server /server -o reconnect,allow_other,workaround=rename,_netdev,idmap=user,uid=1000,gid=1000,IdentityFile=/home/jesse/.ssh/server-local,Cipher=arcfour,compression=no'
+alias server-mount='sudo sshfs jesse@10.10.10.200:/server /server -o ControlMaster=yes,reconnect,allow_other,workaround=rename,_netdev,idmap=user,uid=1000,gid=1000,IdentityFile=/home/jesse/.ssh/server-local,Cipher=arcfour,compression=no'
+#alias server-mount='sudo sshfs jesse@10.10.10.200:/server /server -o reconnect,allow_other,workaround=rename,_netdev,idmap=user,uid=1000,gid=1000,IdentityFile=/home/jesse/.ssh/server-local,Cipher=arcfour,compression=no'
 alias server-umount='sudo umount -lf /server'
-
 
 
 # ┌─────────────────────────────────────────────────────────────────┐
@@ -358,23 +359,6 @@ function git-filesize() {
 # ╔═════════════════════════════════════════════════════════════════╗
 # ║ Docker Aliases                                                  ║
 # ╚═════════════════════════════════════════════════════════════════╝
-alias docker-restart='sudo systemctl restart docker'
-alias docker-kill='sudo systemctl kill docker'
-alias docker-start='sudo systemctl start docker'
-alias docker-stop='sudo systemctl stop docker'
-alias docker-reload='sudo systemctl reload docker'
-alias docker-status='sudo systemctl status docker'
-dock-run() { sudo docker run -i -t --privileged "$@"; }
-dock-exec() { sudo docker exec -i -t "$@" /bin/bash; }
-dock-log() { sudo docker logs --tail=all -f "$@"; }
-dock-port() { sudo docker port "$@"; }
-dock-vol() { sudo docker inspect --format '{{ .Volumes }}' "$@"; }
-dock-ip() { sudo docker inspect --format '{{ .NetworkSettings.IPAddress }}' "$@"; }
-dock-rmc() { sudo docker rm sudo docker ps -qa --filter 'status=exited'; }
-dock-rmi() { sudo docker rmi -f sudo docker images | grep '^<none>' | awk '{print $3}'; }
-dock-stop() { sudo docker stop '$(docker ps -a -q)'; }
-dock-rm() { sudo docker rm '$(docker ps -a -q)'; }
-
 function docker-compose-from-container() {
   docker pull ghcr.io/red5d/docker-autocompose:latest
   if [[ -z $1 ]]; then
@@ -417,55 +401,6 @@ function compress() {
   FILENAME=${1%.*}
   tar -cvzf "$FILENAME.tar.gz" "$1"
 }
-
-# >> Extract any compressed file (Does not Work How I want)
-SAVEIFS=$IFS
-IFS="$(printf '\n\t')"
-
-function extract {
- if [ -z "$1" ]; then
-    # display usage if no parameters given
-    echo "Usage: extract <path/file_name>.<zip|rar|bz2|gz|tar|tbz2|tgz|Z|7z|xz|ex|tar.bz2|tar.gz|tar.xz|.zlib|.cso>"
-    echo "       extract <path/file_name_1.ext> [path/file_name_2.ext] [path/file_name_3.ext]"
- else
-    for n in "$@"
-    do
-      if [ -f "$n" ] ; then
-          case "${n%,}" in
-            *.cbt|*.tar.bz2|*.tar.gz|*.tar.xz|*.tbz2|*.tgz|*.txz|*.tar)
-                         tar xvf "$n"       ;;
-            *.lzma)      unlzma ./"$n"      ;;
-            *.bz2)       bunzip2 ./"$n"     ;;
-            *.cbr|*.rar) unrar x -ad ./"$n" ;;
-            *.gz)        gunzip ./"$n"      ;;
-            *.cbz|*.epub|*.zip) unzip ./"$n"   ;;
-            *.z)         uncompress ./"$n"  ;;
-            *.7z|*.apk|*.arj|*.cab|*.cb7|*.chm|*.deb|*.dmg|*.iso|*.lzh|*.msi|*.pkg|*.rpm|*.udf|*.wim|*.xar)
-                         7z x ./"$n"        ;;
-            *.xz)        unxz ./"$n"        ;;
-            *.exe)       cabextract ./"$n"  ;;
-            *.cpio)      cpio -id < ./"$n"  ;;
-            *.cba|*.ace) unace x ./"$n"     ;;
-            *.zpaq)      zpaq x ./"$n"      ;;
-            *.arc)       arc e ./"$n"       ;;
-            *.cso)       ciso 0 ./"$n" ./"$n.iso" && \
-                              extract "$n.iso" && \rm -f "$n" ;;
-            *.zlib)      zlib-flate -uncompress < ./"$n" > ./"$n.tmp" && \
-                              mv ./"$n.tmp" ./"${n%.*zlib}" && rm -f "$n"   ;;
-            *)
-                         echo "extract: '$n' - unknown archive method"
-                         return 1
-                         ;;
-          esac
-      else
-          echo "'$n' - file doesn't exist"
-          return 1
-      fi
-    done
-fi
-}
-IFS=$SAVEIFS
-
 
 # ╔═════════════════════════════════════════════════════════════════╗
 # ║ File Aliases                                                    ║
