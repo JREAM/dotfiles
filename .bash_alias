@@ -129,6 +129,8 @@ alias reboot='sudo /sbin/reboot'
 alias shutdown='sudo /sbin/shutdown'
 alias gtkversion='gtk-launch --version'
 
+alias snap='sudo snap'
+
 # ┌─────────────────────────────────────────────────────────────────┐
 # │ Ping / IP / Network                                             │
 # └─────────────────────────────────────────────────────────────────┘
