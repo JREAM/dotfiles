@@ -29,15 +29,13 @@
     background_type = transparent
     cursor_blink = False
     cursor_color = "#f1e47a"
-    font = agave Nerd Font Mono 16
+    font = agave Nerd Font Mono 14
     foreground_color = "#fdfdfd"
     show_titlebar = False
     scrollback_lines = 502
     scrollback_infinite = True
-    disable_mousewheel_zoom = True
     palette = "#2e3436:#cc0000:#70991f:#c4a000:#2997d1:#75507b:#06989a:#d3d7cf:#555753:#ef2929:#a6e22e:#fce94f:#59c6ff:#ad7fa8:#34e2e2:#eeeeec"
     use_system_font = False
-    bold_is_bright = True
 [layouts]
   [[default]]
     [[[child0]]]
