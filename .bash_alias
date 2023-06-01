@@ -199,42 +199,6 @@ alias hardware-motherboard='hardware baseboard'
 alias hardware-slot='hardware slot'
 alias hardware-system='hardware system'
 
-# ┌─────────────────────────────────────────────────────────────────┐
-# │ Utility Packages                                                │
-# └─────────────────────────────────────────────────────────────────┘
-# Allows you to pass --owner value --group dev
-# Extends ls
-
-myls() {
-  local flag_owner=''
-  local flag_group=''
-
-  # Parse command line arguments
-  while [[ $# -gt 0 ]]; do
-    key="$1"
-
-    case $key in
-    --user | -u)
-      flag_owner="--user $2"
-      shift
-      shift
-      ;;
-    --group | -g)
-      flag_group="--group $2"
-      shift
-      shift
-      ;;
-    *)
-      # Ignore unknown flags/options
-      shift
-      ;;
-    esac
-  done
-
-  # Execute the ls command with the specified flags
-  ls $flag_owner $flag_group "$@"
-}
-alias ls='myls'
 
 # ┌─────────────────────────────────────────────────────────────────┐
 # │ Utility Packages                                                │
