@@ -65,6 +65,7 @@ alias permissions-octal='stat -c \"%a %n\" -- $1'
 
 # Copy contents to /etc/network/if-up.d/sshfs-mount
 
+alias sshreload='eval `ssh-agent` && ssh-add ~/.ssh/id_rsa'
 alias mountserver='sudo sshfs jesse@10.10.10.200:/server /server -o ControlMaster=yes,reconnect,allow_other,workaround=rename,idmap=user,uid=1000,gid=1000,IdentityFile=/home/jesse/.ssh/server-local,Cipher=arcfour,compression=no'
 alias umountserver='sudo umount -lf /server'
 
@@ -347,6 +348,7 @@ ls-latest() {
   done
   printf '%s\n' "$latest"
 }
+
 # ╔═════════════════════════════════════════════════════════════════╗
 # ║ Mouse Move                                                      ║
 # ╚═════════════════════════════════════════════════════════════════╝
