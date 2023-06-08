@@ -1,7 +1,9 @@
 # apt install xsel xbindkeys xdotool
 # remove middle click paste xORG universal
-"echo -n | xsel -n -i; pkill xbindkeys; xdotool click 2; xbindkeys"
+#"echo -n | xsel -n -i; pkill xbindkeys; xdotool click 2; xbindkeys"
+"echo -n | xsel -n -i; pkill xbindkeys; xdotool mousemove_relative --polar 90 1; xbindkeys"
 b:2 + Release
+
 
 # Restart
 # xbindkeys -p && xbindkeys
