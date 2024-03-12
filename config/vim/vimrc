@@ -3,6 +3,9 @@
 set nocompatible
 filetype off
 
+" Clone Vundle (Package Manager)
+" $ git clone https://github.com/VundleVim/Vundle.vim.git $XDG_CONFIG_HOME/.vim/bundle/Vundle.vim
+
 " XDG Paths
 " mkdir -p $XDG_CACHE_HOME/vim/{undo,swap,backup} $XDG_CONFIG_HOME/vim
 set directory=$XDG_CACHE_HOME/vim/swap,~/,/tmp
@@ -22,8 +25,8 @@ set shell=/bin/bash
 """"""""""""""""""""""""""""""""""""""""
 
 " vundle plugins (Move to XDG Path)
-set rtp+=~/.config/vim/bundle/Vundle.vim
-call vundle#rc("~/.config/vim/bundle")
+set rtp+=$XDG_CONFIG_HOME/vim/bundle/Vundle.vim
+call vundle#rc("$XDG_CONFIG_HOME/vim/bundle")
 
 " vundle repo
 Bundle 'gmarik/Vundle.vim'
@@ -58,9 +61,9 @@ Plugin 'eslint/eslint'
 Plugin 'evidens/vim-twig'
 Plugin 'othree/html5.vim'
 Plugin 'ShowPairs'
-Plugin 'leafgarland/typescript-vim'
 
 " Syntax Languages
+Plugin 'leafgarland/typescript-vim'
 Plugin 'cakebaker/scss-syntax.vim'
 Plugin 'elzr/vim-json'
 Plugin 'hail2u/vim-css3-syntax'
