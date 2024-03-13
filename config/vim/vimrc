@@ -4,7 +4,7 @@ set nocompatible
 filetype off
 
 " Clone Vundle (Package Manager)
-" $ git clone https://github.com/VundleVim/Vundle.vim.git $XDG_CONFIG_HOME/.vim/bundle/Vundle.vim
+" $ git clone https://github.com/VundleVim/Vundle.vim.git $XDG_CONFIG_HOME/vim/bundle/Vundle.vim
 
 " XDG Paths
 " mkdir -p $XDG_CACHE_HOME/vim/{undo,swap,backup} $XDG_CONFIG_HOME/vim
