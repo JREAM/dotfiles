@@ -137,6 +137,14 @@ alias iptlistout='sudo $COLORIZE /sbin/iptables -L OUTPUT -n -v --line-numbers'
 alias ping='ping -c 5' # Send X packets
 alias ports="netstat -tulanp"
 
+function portcheck() {
+  if [ -z $1 ]; then
+    echo -e "[!] You must pass a port number, such as 1234"
+    return 0
+  fi
+  sudo lsof -i :$1
+}
+
 alias filesystem-reload='sudo systemctl start remote-fs.target local-fs.target && sudo systemctl daemon-reload' # FStab, mount -a doesn't work
 alias fsreload="filesystem-reload"
 alias fontreload='fc-cache -f'
