@@ -19,6 +19,20 @@ if [ -L /usr/bin/java ]; then
 fi
 
 # ╔═════════════════════════════════════════════════════════════════╗
+# ║ Dotnet JDK                                                      ║
+# ╚═════════════════════════════════════════════════════════════════╝
+# [Pkg]       dotnet-install.sh
+# [Locate]    $ readlink -f `which javac` | sed "s:/bin/javac::"
+# [Notes]     wget https://dot.net/v1/dotnet-install.sh -O dotnet-install.sh
+#             chmod +x ./dotnet-install.sh && ./dotnet-install.sh
+#             (See ~/.dotnet folder)
+if [ -d $HOME/.dotnet ]; then
+  export DOTNET_ROOT=$HOME/.dotnet
+  export PATH=$PATH:$DOTNET_ROOT/tools
+  alias dotnet=$DOTNET_ROOT/dotnet
+fi
+
+# ╔═════════════════════════════════════════════════════════════════╗
 # ║  Rust Language                                                  ║
 # ╚═════════════════════════════════════════════════════════════════╝
 # [Pkg]     Rust
