@@ -19,7 +19,7 @@ export EDITOR=vim
 export GREP_COLORS='ms=01;38;5;190:mc=01;31:sl=:cx=:fn=35:ln=32:bn=32:se=36'
 
 # XDG Directory Paths
-# [See] ~/.profile for other app paths.
+# [See]     ~/.profile for other app paths.
 # [Spec]    https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html
 # ───────────────────────────────────────────────────────────────────
 export XDG_CONFIG_HOME=$HOME/.config     # Config Files
@@ -27,6 +27,7 @@ export XDG_DATA_HOME=$HOME/.local/share  # Shared Data
 export XDG_STATE_HOME=$HOME/.local/state # Actions History, Logs, Recent Files
 export XDG_CONFIG_DIRS=$XDG_CONFIG_DIRS:$XDG_CONFIG_HOME
 export XDG_DATA_DIRS=$XDG_DATA_DIRS:$XDG_DATA_HOME
+
 # [Example]
 # ~/.config/bash_completions
 # ~/.config/zsh
@@ -54,6 +55,7 @@ fi
 
 # ┌─────────────────────────────────────────────────────────────────┐
 # │ Display: PS1 Prompt                                             │
+# │ (Useful when on another server w/this .bash config              │
 # └─────────────────────────────────────────────────────────────────┘
 # [Help]    https://bashrcgenerator.com/
 # [NoColor] export PS1="[\w]\$(git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/')\n\u@\h-> \[\033[0m\]"
@@ -70,6 +72,10 @@ export PS1="$IN_SSH[$IBLUE\w$RESET]\$(git branch 2> /dev/null | sed -e '/^[^*]/d
 HISTCONTROL=ignoreboth
 HISTSIZE=10000
 HISTFILESIZE=20000
+
+[ command -v shopt >/dev/null 2>&1 ] && echo -e "[!] Use Bash for 'shopt' command, are you using zsh?"
+
+
 shopt -s histappend # Append history file (Don't overwrite), must set HISTFILE
 shopt -s cdspell    # Auto fix 'cd' command typos
 shopt -s autocd     # Type in a folder name to auto CD into it
@@ -126,4 +132,12 @@ case ":$PATH:" in
   *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
 # pnpm end
-source /home/jesse/.config/broot/launcher/bash/br
+
+UTIL_BR=$XDG_CONFIG_HOME/broot/bash/br
+[ -e $UTIL_BR ] && source $UTIL_BR
+
+# bun
+if command -v executable_name > /dev/null 2>&1; then
+  export BUN_INSTALL="$HOME/.bun"
+  export PATH=$BUN_INSTALL/bin:$PATH
+fi

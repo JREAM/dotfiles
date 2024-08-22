@@ -102,6 +102,31 @@ export IBCYAN="$ESC[$MODE;96m"   # Cyan
 export IBPURPLE="$ESC[$MODE;95m" # Purple
 export IBYELLOW="$ESC[$MODE;93m" # Yellow
 
+function __deverror() {
+  echo -e "$IBRED(!)$__RESET Developer Error!"
+}
+
+# Message Commands
+function success() {
+  [ -z "$1" ] && __deverror
+  echo -e "$IBGREEN(+)$RESET $1"
+}
+
+function info() {
+  [ -z "$1" ] && __deverror
+  echo -e "$IBBLUE(+)$RESET $1"
+}
+
+function warn() {
+  [ -z "$1" ] && __deverror
+  echo -e "${IBYELLOW}[!]$RESET $1"
+}
+
+function danger() {
+  [ -z "$1" ] && __deverror
+  echo -e "${IBRED}[!]$RESET $1"
+}
+
 # ┌─────────────────────────────────────────────────────────────────┐
 # │ Lines                                                           │
 # ├─────────────────────────────────────────────────────────────────┤
