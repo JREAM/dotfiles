@@ -85,18 +85,17 @@ fi
 export PYTHONDONTWRITEBYTECODE=1
 export WORKON_HOME="$XDG_DATA_HOME/virtualenvs"
 
-
-# ╔═════════════════════════════════════════════════════════════════╗
-# ║  Composer / PHP                                                 ║
-# ╚═════════════════════════════════════════════════════════════════╝
-[ -d $XDG_CONFIG_HOME/composer/vendor/bin ] && PATH=$PATH:$XDG_CONFIG_HOME/composer/vendor/bin
-
-# Pipx is for installing pythong commands (not packages)
+# Pipx is for installing python commands (not packages)
 # ───────────────────────────────────────────────────────────────────
 # [Pkg]   pip install pipx
 if [ -x $HOME/.local/bin/pipx ]; then
   eval "$(register-python-argcomplete pipx)"
 fi
+
+# ╔═════════════════════════════════════════════════════════════════╗
+# ║  Composer / PHP                                                 ║
+# ╚═════════════════════════════════════════════════════════════════╝
+[ -d $XDG_CONFIG_HOME/composer/vendor/bin ] && PATH=$PATH:$XDG_CONFIG_HOME/composer/vendor/bin
 
 # ╔═════════════════════════════════════════════════════════════════╗
 # ║ Bash Helpers                                                    ║
@@ -142,7 +141,6 @@ fi
 #         <ALT> + C   Fuzzy Directory Jump
 #         <CTRL> + R  History Fuzzy Search
 if [ -x /usr/bin/fzf ]; then
-  return 0 # Check .profile -- issue with keybinding in wrong path
   export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border=rounded --tabstop=4 --color=dark,info:bright-green,pointer:green,hl:bright-green'
   export FZF_DEFAULT_COMMAND="fd . $HOME"
   export FZF_ALT_C_COMMAND="fd -t d . $HOME"

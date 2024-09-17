@@ -1,268 +1,103 @@
 #!/bin/bash
 # shellcheck disable=SC1087
+
 # ╔═════════════════════════════════════════════════════════════════╗
-# ║  BASH VARIABLES                                                  ║
+# ║  BASH VARIABLES                                                 ║
 # ╠═════════════════════════════════════════════════════════════════╣
 # ║ May be used in other scripts.                                   ║
 # ║ Ensure this is sourced from ~/.bashrc                           ║
 # ╚═════════════════════════════════════════════════════════════════╝
 
-if [ -z ${TERM+x} ]; then
-  export TERM='xterm-256color'
-fi
+# Set TERM if not already set
+[ -z "${TERM+x}" ] && export TERM='xterm-256color'
 
 # ┌─────────────────────────────────────────────────────────────────┐
-# │ List Available Colors                                           │
+# │ Colors and Formatting                                           │
 # └─────────────────────────────────────────────────────────────────┘
-function colors() {
-  for((i=16; i<256; i++)); do
-    printf "\e[48;5;${i}m%03d" $i;
-    printf '\e[0m';
+
+ESC="\033"
+RESET="$ESC[0m"
+
+# Function to define color variables
+define_colors() {
+  local mode=$1
+  local prefix=$2
+  local colors=("BLACK" "RED" "GREEN" "YELLOW" "BLUE" "PURPLE" "CYAN" "WHITE")
+  local start=${3:-30}
+
+  for i in "${!colors[@]}"; do
+    export "${prefix}${colors[$i]}=${ESC}[$mode;$((start + i))m"
+  done
+}
+
+# Define color sets
+define_colors 0 ""      # Standard
+define_colors 1 "B"     # Bold
+define_colors 4 "U"     # Underline
+define_colors 0 "I" 90  # Intense
+define_colors 1 "IB" 90 # Intense Bold
+
+# ┌─────────────────────────────────────────────────────────────────┐
+# │ Utility Functions                                               │
+# └─────────────────────────────────────────────────────────────────┘
+
+__deverror() { echo -e "${IBRED}(!)${RESET} Developer Error!"; }
+
+message() {
+  local color=$1 symbol=$2 text=$3
+  [ -z "$text" ] && __deverror || echo -e "${!color}${symbol}${RESET} $text"
+}
+
+success() { message "IBGREEN" "(+)" "$1"; }
+info() { message "IBBLUE" "(+)" "$1"; }
+warn() { message "IBYELLOW" "[!]" "$1"; }
+danger() { message "IBRED" "[!]" "$1"; }
+
+# Function to list available colors
+colors() {
+  for ((i = 16; i < 256; i++)); do
+    printf "\e[48;5;${i}m%03d" $i
+    printf '\e[0m'
     [ ! $((($i - 15) % 6)) -eq 0 ] && printf ' ' || printf '\n'
   done
 }
 alias list-colors='colors'
 
 # ┌─────────────────────────────────────────────────────────────────┐
-# │ Colors                                                          │
+# │ Box Drawing Characters                                          │
 # └─────────────────────────────────────────────────────────────────┘
 
-# ESC[mode;color
-# \033[0;XXm" - color
-# \033[1;XXm" - color bold
-# \033[2;XXm" - color dim
-# \033[3;XXm" - color italic
-# \033[4;XXm" - color underline
-# \033[5;XXm" - color blink
-# \033[7;XXm" - bg color blink
-# \033[23;XXm" - italic off
-# \033[24;XXm" - underline off
+# Single line
+declare -A Ln=(
+  [H]="─" [V]="│" [TL]="┌" [TR]="┐" [BL]="└" [BR]="┘"
+  [MT]="┬" [MB]="┴" [ML]="├" [MR]="┤" [MC]="┼"
+  [RdTL]="╭" [RdTR]="╮" [RdBR]="╯" [RdBL]="╰"
+)
 
-ESC="\033"
-# [Reset]
-export RESET="$ESC[0m" # Text Reset
+# Double line
+declare -A Ln2x=(
+  [H]="═" [V]="║" [TL]="╔" [TR]="╗" [BL]="╚" [BR]="╝"
+  [MT]="╦" [MB]="╩" [ML]="╠" [MR]="╣" [MC]="╬"
+)
 
-# [Standard]
-MODE=0
-# eg: \033[0;30m
-export BLACK="$ESC[$MODE;30m"  # Black
-export RED="$ESC[$MODE;31m"    # Red
-export GREEN="$ESC[$MODE;32m"  # Green
-export YELLOW="$ESC[$MODE;33m" # Yellow
-export BLUE="$ESC[$MODE;34m"   # Blue
-export PURPLE="$ESC[$MODE;35m" # Purple
-export CYAN="$ESC[$MODE;36m"   # Cyan
-export WHITE="$ESC[$MODE;37m"  # White
+# Fat line
+declare -A LnF=(
+  [H]="━" [V]="┃" [TL]="┏" [TR]="┓" [BL]="┗" [BR]="┛"
+  [MT]="┳" [MB]="┻" [ML]="┣" [MR]="┫" [MC]="╋"
+)
 
-# [Bold]
-# eg: \033[1;30m
-MODE=1
-export BBLACK="$ESC[$MODE;30m"  # Black
-export BWHITE="$ESC[$MODE;37m"  # White
-export BRED="$ESC[$MODE;31m"    # Red
-export BGREEN="$ESC[$MODE;32m"  # Green
-export BBLUE="$ESC[$MODE;34m"   # Blue
-export BCYAN="$ESC[$MODE;36m"   # Cyan
-export BPURPLE="$ESC[$MODE;35m" # Purple
-export BYELLOW="$ESC[$MODE;33m" # Yellow
+# Connectors and misc
+declare -A LnMisc=(
+  [1x2TL]="╒" [1x2TR]="╕" [1x2BL]="╘" [1x2BR]="╛" [1x2ML]="╞" [1x2MR]="╡" [1x2MT]="╥" [1x2MB]="╨" [1x2MC]="╪"
+  [2x1TL]="╓" [2x1TR]="╖" [2x1BL]="╙" [2x1BR]="╜" [2x1ML]="╟" [2x1MR]="╢" [2x1MT]="╤" [2x1MB]="╧" [2x1MC]="╫"
+  [DshH]="╌" [DshV]="┊" [DshFatH]="┅" [DshFatV]="┋"
+)
 
-# [Underline]
-# eg: \033[4;30m
-MODE=4
-export UBLACK="$ESC[$MODE;30m"  # Black
-export UWHITE="$ESC[$MODE;37m"  # White
-export URED="$ESC[$MODE;31m"    # Red
-export UGREEN="$ESC[$MODE;32m"  # Green
-export UBLUE="$ESC[$MODE;34m"   # Blue
-export OCYAN="$ESC[$MODE;36m"   # Cyan
-export UPURPLE="$ESC[$MODE;35m" # Purple
-export UYELLOW="$ESC[$MODE;33m" # Yellow
+# Export all variables
 
-# [Intense]
-# eg: \033[0;90m
-MODE=0
-export IBLACK="$ESC[$MODE;90m"  # Black
-export IWHITE="$ESC[$MODE;97m"  # White
-export IRED="$ESC[$MODE;91m"    # Red
-export IGREEN="$ESC[$MODE;92m"  # Green
-export IBLUE="$ESC[$MODE;94m"   # Blue
-export ICYAN="$ESC[$MODE;96m"   # Cyan
-export IPURPLE="$ESC[$MODE;95m" # Purple
-export IYELLOW="$ESC[$MODE;93m" # Yellow
-
-# [Intense Bold]
-# eg: \033[1;90m
-MODE=1
-export IBBLACK="$ESC[$MODE;90m"  # Black
-export IBWHITE="$ESC[$MODE;97m"  # White
-export IBRED="$ESC[$MODE;91m"    # Red
-export IBGREEN="$ESC[$MODE;92m"  # Green
-export IBBLUE="$ESC[$MODE;94m"   # Blue
-export IBCYAN="$ESC[$MODE;96m"   # Cyan
-export IBPURPLE="$ESC[$MODE;95m" # Purple
-export IBYELLOW="$ESC[$MODE;93m" # Yellow
-
-function __deverror() {
-  echo -e "$IBRED(!)$__RESET Developer Error!"
-}
-
-# Message Commands
-function success() {
-  [ -z "$1" ] && __deverror
-  echo -e "$IBGREEN(+)$RESET $1"
-}
-
-function info() {
-  [ -z "$1" ] && __deverror
-  echo -e "$IBBLUE(+)$RESET $1"
-}
-
-function warn() {
-  [ -z "$1" ] && __deverror
-  echo -e "${IBYELLOW}[!]$RESET $1"
-}
-
-function danger() {
-  [ -z "$1" ] && __deverror
-  echo -e "${IBRED}[!]$RESET $1"
-}
-
-# ┌─────────────────────────────────────────────────────────────────┐
-# │ Lines                                                           │
-# ├─────────────────────────────────────────────────────────────────┤
-# └─────────────────────────────────────────────────────────────────┘
-#
-# [naming]
-#   Ln      =   Line (Single)
-#               LnH ─ or LnV │
-#
-#   Ln2x    = Two Lines
-#             Ln2xH ═ or Ln2xV ║
-#
-#   LnF     = Fat Line
-#             LnFH = ━ or LnFV ┃
-#
-#   Rd      = Round(ed) Corners Only
-#             LnRdTL ╭ or LnRdBL ╰
-# [misc]
-#       Dsh = Dash
-#       Fat = Thicker Line
-# ___________________________________________________________________
-#
-# @desc
-#
-#       H   =  Horizontal
-#       V   =  Vertical
-#       TL  =  TopLeft
-#       TR  =  TopRight
-#       BL  =  BottomLeft
-#       BR  =  BottomRight
-#       MC  =  MidCenter (Mid-pieces separate boxes like tables)
-#              [ MT, MB, ML, MR ]
-#
-#       TL1x2  for TopLeft Single to Double
-#       TL2x1  for TopLeft Double to Single
-# ___________________________________________________________________
-
-# ┌─────────────────────────────────────────────────────────────────┐
-# │ Lines: Single                                                   │
-# ├─────────────────────────────────────────────────────────────────┤
-# └─────────────────────────────────────────────────────────────────┘
-# ┌─────┬─────┐
-# │ box │ box │
-# ├─────┼─────┤
-# │     │     │
-# └─────┴─────┘
-export LnH="─"
-export LnV="│"
-export LnTL="┌"
-export LnTR="┐"
-export LnBL="└"
-export LnBR="┘"
-export LnMT="┬"
-export LnMB="┴"
-export LnML="├"
-export LnMR="┤"
-export LnMC="┼"
-export LnRdTL="╭" # Rounded
-export LnRdTR="╮" # Rounded
-export LnRdBR="╯" # Rounded
-export LnRdBL="╰" # Rounded
-
-# ┌─────────────────────────────────────────────────────────────────┐
-# │ Lines: Double                                                   │
-# ├─────────────────────────────────────────────────────────────────┤
-# └─────────────────────────────────────────────────────────────────┘
-# ╔═════╦═════╗
-# ║ box ║ box ║
-# ╠═════╬═════╣
-# ║     ║     ║
-# ╚═════╩═════╝
-export Ln2xH="═"
-export Ln2xV="║"
-export Ln2xTL="╔"
-export Ln2xTR="╗"
-export Ln2xBL="╚"
-export Ln2xBR="╝"
-export Ln2xMT="╦"
-export Ln2xMB="╩"
-export Ln2xML="╠"
-export Ln2xMR="╣"
-export Ln2xMC="╬"
-
-# ┌─────────────────────────────────────────────────────────────────┐
-# │ Lines: Fat                                                      │
-# ├─────────────────────────────────────────────────────────────────┤
-# └─────────────────────────────────────────────────────────────────┘
-# ┏━━━━━━━━━━━┓
-# ┃ box ┃ box ┃
-# ┣━━━━━━━━━━━┫
-# ┃     ┃     ┃
-# ┗━━━━━━━━━━━┛
-export LnFH="━"
-export LnFV="┃"
-export LnFTL="┏"
-export LnFTR="┓"
-export LnFBL="┗"
-export LnFBR="┛"
-export LnFMT="┳"
-export LnFMB="┻"
-export LnFML="┣"
-export LnFMR="┫"
-export LnFMC="╋"
-
-# ┌─────────────────────────────────────────────────────────────────┐
-# │ Lines: Connectors                                               │
-# ├─────────────────────────────────────────────────────────────────┤
-# └─────────────────────────────────────────────────────────────────┘
-# Single to Double Connectors
-export Ln1x2TL="╒"
-export Ln1x2TR="╕"
-export Ln1x2BL="╘"
-export Ln1x2BR="╛"
-export Ln1x2BC="╨"
-export Ln1x2ML="╞"
-export Ln1x2MR="╡"
-export Ln1x2MT="╥"
-export Ln1x2MB="╨"
-export Ln1x2MC="╪"
-
-# Double to Single Connectors
-export Ln2x1TL="╓"
-export Ln2x1TR="╖"
-export Ln2x1BL="╙"
-export Ln2x1BR="╜"
-export Ln2x1ML="╟"
-export Ln2x1MR="╢"
-export Ln2x1MT="╤"
-export Ln2x1MB="╧"
-export Ln2x1MC="╫"
-
-# ┌─────────────────────────────────────────────────────────────────┐
-# │ Lines: Misc                                                     │
-# ├─────────────────────────────────────────────────────────────────┤
-# └─────────────────────────────────────────────────────────────────┘
-export LnDshH="╌"
-export LnDshV="┊"
-export LnDshFatV="┅"
-export LnDshFatH="┋"
+for array in Ln Ln2x LnF LnMisc; do
+  declare -n arr=$array
+  for key in "${!arr[@]}"; do
+    export "${array}${key}=${arr[$key]}"
+  done
+done

@@ -34,8 +34,8 @@ export XDG_DATA_DIRS=$XDG_DATA_DIRS:$XDG_DATA_HOME
 # ~/.config/docker
 
 # Autoload Keychain SSH ID
-if (($ + commands[keychain])) >/dev/null 2>&1; then
-  keychain --clear $HOME/.ssh/id_rsa --absolute --dir "$XDG_RUNTIME_DIR"/keychain
+if command -v keychain >/dev/null 2>&1; then
+  keychain --clear $HOME/.ssh/id_rsa --absolute --dir "${XDG_RUNTIME_DIR:-/tmp}/keychain"
 fi
 
 # ┌─────────────────────────────────────────────────────────────────┐
@@ -73,12 +73,11 @@ HISTCONTROL=ignoreboth
 HISTSIZE=10000
 HISTFILESIZE=20000
 
-[ command -v shopt >/dev/null 2>&1 ] && echo -e "[!] Use Bash for 'shopt' command, are you using zsh?"
-
-
-shopt -s histappend # Append history file (Don't overwrite), must set HISTFILE
-shopt -s cdspell    # Auto fix 'cd' command typos
-shopt -s autocd     # Type in a folder name to auto CD into it
+if [[ $SHELL =~ bash$ ]]; then
+  shopt -s histappend cdspell autocd
+else
+  echo -e "[!] Use Bash for 'shopt' command, are you using zsh?"
+fi
 
 # Set variable identifying the chroot you work in
 #                      (used in the prompt below)
@@ -95,19 +94,16 @@ fi
 # Only run for interactive shells
 if ! shopt -oq posix; then
   # Local
-  if [ -d $XDG_CONFIG_HOME/bash_completion ]; then
-    for FILE in "$XDG_CONFIG_HOME"/bash_completion/*; do
-      # shellcheck source=.config/bash_completion/$FILE
-      source $FILE
+  if [ -d "$XDG_CONFIG_HOME/bash_completion" ]; then
+    for file in "$XDG_CONFIG_HOME"/bash_completion/*; do
+      [[ -f $file ]] && source "$file"
     done
   fi
 
   # System
-  if [ -f /usr/share/bash-completion/bash_completion ]; then
-    source /usr/share/bash-completion/bash_completion
-  elif [ -f /etc/bash_completion ]; then
-    source /etc/bash_completion
-  fi
+  for file in /usr/share/bash-completion/bash_completion /etc/bash_completion; do
+    [[ -f $file ]] && source "$file" && break
+  done
 fi
 
 # ┌─────────────────────────────────────────────────────────────────┐
@@ -124,20 +120,15 @@ export LESS_TERMCAP_us=$'\e[1;4;31m'
 
 #eval "$(starship init bash)"
 
-
 # pnpm
-export PNPM_HOME="/home/jesse/.local/share/pnpm"
-case ":$PATH:" in
-  *":$PNPM_HOME:"*) ;;
-  *) export PATH="$PNPM_HOME:$PATH" ;;
-esac
-# pnpm end
+export PNPM_HOME="$HOME/.local/share/pnpm"
+[[ ":$PATH:" != *":$PNPM_HOME:"* ]] && export PATH="$PNPM_HOME:$PATH"
 
-UTIL_BR=$XDG_CONFIG_HOME/broot/bash/br
-[ -e $UTIL_BR ] && source $UTIL_BR
+UTIL_BR="$XDG_CONFIG_HOME/broot/bash/br"
+[[ -e $UTIL_BR ]] && source "$UTIL_BR"
 
 # bun
-if command -v executable_name > /dev/null 2>&1; then
+if command -v bun >/dev/null 2>&1; then
   export BUN_INSTALL="$HOME/.bun"
-  export PATH=$BUN_INSTALL/bin:$PATH
+  export PATH="$BUN_INSTALL/bin:$PATH"
 fi

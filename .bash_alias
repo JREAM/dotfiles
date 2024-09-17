@@ -36,7 +36,7 @@ alias sudo='sudo '   # (1) Place above other sudo commands to enable aliases to 
 alias root='sudo -i' # Become root
 alias su='sudo -i'   # Become root
 
-alias www='cd /wwww'
+alias www='cd /www'
 
 # Work
 [ -d /server/work ] && alias w='cd /server/work'
@@ -45,11 +45,7 @@ alias www='cd /wwww'
 [ -d /docker ] && alias d='cd /docker'
 
 # Projects
-if [ -d /server/projects ]; then
-  alias p='cd /server/projects'
-elif [ -d ~/projects ]; then
-  alias p='cd ~/projects'
-fi
+alias p='cd ${HOME}/projects 2>/dev/null || cd /server/projects 2>/dev/null'
 
 alias h='history'
 alias c='clear'
@@ -68,6 +64,9 @@ alias permissions-octal='stat -c \"%a %n\" -- $1'
 alias sshreload='eval `ssh-agent` && ssh-add ~/.ssh/id_rsa'
 alias mountserver='sudo sshfs jesse@10.10.10.200:/server /server -o ControlMaster=yes,reconnect,allow_other,workaround=rename,idmap=user,uid=1000,gid=1000,IdentityFile=/home/jesse/.ssh/server-local,Cipher=arcfour,compression=no'
 alias umountserver='sudo umount -lf /server'
+
+# Laravel Sail
+alias sail='sh $([ -f sail ] && echo sail || echo vendor/bin/sail)'
 
 # ┌─────────────────────────────────────────────────────────────────┐
 # │ Navigation                                                      │
@@ -176,7 +175,7 @@ alias totalusage='df -hl --total | grep total'
 
 # ┌─────────────────────────────────────────────────────────────────┐
 # │ CPU / Memory Related                                            │
-# └─────────────────────────────────────────────────────────────────┘
+# └──────────────────────────────────────────────────────────────���──┘
 alias pscpu="ps auxf | sort -nr -k 3"
 alias pscpu10="ps auxf | sort -nr -k 3 | head -10"
 alias psmem="ps auxf | sort -nr -k 4"
@@ -194,9 +193,7 @@ alias ssh-permissions='chown -R $USER:$USER ~/.ssh && \
 # ┌─────────────────────────────────────────────────────────────────┐
 # │ Hardware Info                                                   │
 # └─────────────────────────────────────────────────────────────────┘
-hardware() {
-  sudo dmidecode -t "$1"
-}
+hardware() { sudo dmidecode -t "$1"; }
 
 alias hardware-bios='hardware bios'
 alias hardware-cache='hardware cache'
@@ -207,7 +204,6 @@ alias hardware-memory='hardware memory'
 alias hardware-motherboard='hardware baseboard'
 alias hardware-slot='hardware slot'
 alias hardware-system='hardware system'
-
 
 # ┌─────────────────────────────────────────────────────────────────┐
 # │ Utility Packages                                                │
@@ -229,8 +225,8 @@ alias hardware-system='hardware system'
 # ║ Python                                                          ║
 # ╚═════════════════════════════════════════════════════════════════╝
 alias py='python'
-alias ve='python3 -m venv ./venv'     # Creates VirtualEnv
-alias va='source ./venv/bin/activate' # Activates VirtualEnv
+alias ve='python3 -m venv ./venv' # Creates VirtualEnv
+alias va='. ./venv/bin/activate'  # Activates VirtualEnv
 
 # ╔═════════════════════════════════════════════════════════════════╗
 # ║ MySQL                                                           ║
@@ -252,11 +248,11 @@ function fix-apt-legacy-keys() {
 # ║ Git Alaias (Also see .gitconfig [alias])                        ║
 # ╚═════════════════════════════════════════════════════════════════╝
 # >> Get the Repository file size
-function git-filesize() {
+git-filesize() {
   git rev-list --objects --all |
     git cat-file --batch-check='%(objecttype) %(objectname) %(objectsize) %(rest)' |
     sed -n 's/^blob //p' |
-    sort --numeric-sort --key=2 |
+    sort -n -k2 |
     cut -c 1-12,41- |
     $(command -v gnumfmt || echo numfmt) --field=2 --to=iec-i --suffix=B --padding=7 --round=nearest
 }
@@ -264,23 +260,6 @@ function git-filesize() {
 # ╔═════════════════════════════════════════════════════════════════╗
 # ║ Docker Aliases                                                  ║
 # ╚═════════════════════════════════════════════════════════════════╝
-alias docker-restart='sudo systemctl restart docker'
-alias docker-kill='sudo systemctl kill docker'
-alias docker-start='sudo systemctl start docker'
-alias docker-stop='sudo systemctl stop docker'
-alias docker-reload='sudo systemctl reload docker'
-alias docker-status='sudo systemctl status docker'
-dock-run() { sudo docker run -i -t --privileged "$@"; }
-dock-exec() { sudo docker exec -i -t "$@" /bin/bash; }
-dock-log() { sudo docker logs --tail=all -f "$@"; }
-dock-port() { sudo docker port "$@"; }
-dock-vol() { sudo docker inspect --format '{{ .Volumes }}' "$@"; }
-dock-ip() { sudo docker inspect --format '{{ .NetworkSettings.IPAddress }}' "$@"; }
-dock-rmc() { sudo docker rm sudo docker ps -qa --filter 'status=exited'; }
-dock-rmi() { sudo docker rmi -f sudo docker images | grep '^<none>' | awk '{print $3}'; }
-dock-stop() { sudo docker stop '$(docker ps -a -q)'; }
-dock-rm() { sudo docker rm '$(docker ps -a -q)'; }
-
 docker-compose-from-container() {
   docker pull ghcr.io/red5d/docker-autocompose:latest
   echo -e "\n [ START: output $([[ -z $1 ]] && echo 'single' || echo 'all') running container ]"
@@ -292,33 +271,25 @@ docker-compose-from-container() {
 # ║ Archive Aliases                                                 ║
 # ╚═════════════════════════════════════════════════════════════════╝
 # >> Compress contents into a <name>tar.gz
-function compress() {
-  if [[ -z $1 ]]; then
-    echo -e "[!] You must provide a filename or folder to archive."
-    echo -e "compress <name>.tar.gz <folder|file>"
-    return
-  fi
-
-  # Strip off the Extension
-  FILENAME=${1%.*}
-  tar -cvzf "$FILENAME.tar.gz" "$1"
+compress() {
+  [[ -z $1 ]] && {
+    echo "Usage: compress <name>.tar.gz <folder|file>"
+    return 1
+  }
+  tar -cvzf "${1%.*}.tar.gz" "$2"
 }
 
 # ╔═════════════════════════════════════════════════════════════════╗
 # ║ File Aliases                                                    ║
 # ╚═════════════════════════════════════════════════════════════════╝
 # >> Find a list of the 20 largest files
-function ls-largest() {
+ls-largest() {
   du -h -x -s -- * | sort -r -h | head -20
 }
 
 # >> Show the LATEST file in current directory
 ls-latest() {
-  local f latest
-  for f in "${1:-.}"/*; do
-    [[ $f -nt $latest ]] && latest="$f"
-  done
-  printf '%s\n' "$latest"
+  ls -t "${1:-.}"/* | head -1
 }
 
 # ╔═════════════════════════════════════════════════════════════════╗
