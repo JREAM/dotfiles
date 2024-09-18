@@ -1,0 +1,31 @@
+# -----------------------------------------------------
+# Gestures
+# -----------------------------------------------------
+# $ apt install libinput-tools xdotool wmctrl
+# $ xinput
+# $ xinput --list-props 10
+# $ sudo libinput debug-gui
+#
+# Add user to input group:
+# $ sudo gpasswd -a $USER input
+#
+# Above requires a logout
+#
+# Clone and Install
+# $ git clone https://github.com/bulletmark/libinput-gestures.git && cd libinput-gestures
+# $ sudo make install
+# $ apt install python3 python3-gi python-gobject meson xdotool libinput-tools gettext
+# $ sudo apt install pip -y && sudo pip install gobject
+#
+# For keycodes run:
+# $ xev
+
+# To get rid of the annoying zoom in firefox, the only way that works for me is:
+# URL: about:config
+#   zoom.maxPercent  100
+#   zoom.minPercent  100
+
+sudo gpasswd -a $USER input
+
+gesture swipe up "xdotool key ctrl+Up"
+gesture swipe down "xdotool key ctrl+Down
