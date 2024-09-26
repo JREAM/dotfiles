@@ -92,6 +92,16 @@ if [ -d $HOME/.local/share/pnpm ]; then
 fi
 
 # ╔═════════════════════════════════════════════════════════════════╗
+# ║  Laravel Sail                                                   ║
+# ╚═════════════════════════════════════════════════════════════════╝
+# [Pkg]       https://laravel.com/docs/11.x/sail
+# [Req]       Docker
+# [Install]   curl -s "https://laravel.build/NameYourApp" | bash
+#             sail up && sail migrate
+# [Use]       $ sail
+alias sail='sh $([ -f sail ] && echo sail || echo vendor/bin/sail)'
+
+# ╔═════════════════════════════════════════════════════════════════╗
 # ║  GoLang                                                         ║
 # ╚═════════════════════════════════════════════════════════════════╝
 # [Pkg]       https://go.dev/
