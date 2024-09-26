@@ -40,6 +40,37 @@ fi
 [[ -d $XDG_DATA_HOME/cargo/bin ]] && export PATH=$PATH:$XDG_DATA_HOME/cargo/bin
 
 # ╔═════════════════════════════════════════════════════════════════╗
+# ║  Bun (Node)                                                     ║
+# ╚═════════════════════════════════════════════════════════════════╝
+# [Pkg]     Bun (Node alternative)
+# [Install] curl -fsSL https://deno.land/install.sh | sh
+# ───────────────────────────────────────────────────────────────────
+if command -v bun >/dev/null 2>&1; then
+  export BUN_INSTALL="$HOME/.bun"
+  export PATH="$BUN_INSTALL/bin:$PATH"
+fi
+
+# ╔═════════════════════════════════════════════════════════════════╗
+# ║  Deno (Node)                                                     ║
+# ╚═════════════════════════════════════════════════════════════════╝
+# [Pkg]     Deno (Node alternative)
+# [Install] curl -fsSL https://deno.land/install.sh | sh
+# ───────────────────────────────────────────────────────────────────
+[[ -f "$HOME/.deno/env" ]] && . "$HOME/.deno/env"
+
+# ╔═════════════════════════════════════════════════════════════════╗
+# ║  asdf (Version Mgr)                                             ║
+# ╚═════════════════════════════════════════════════════════════════╝
+# [Pkg]     asdf (Node alternative)
+# [Install] git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.14.1
+# ───────────────────────────────────────────────────────────────────
+# Disalbe for now
+#if [[ -f "$HOME/.asdf/asdf.sh" ]]; then
+# . "$HOME/.asdf/asdf.sh"
+#  . "$HOME/.asdf/completions/asdf.bash"
+#fi
+
+# ╔═════════════════════════════════════════════════════════════════╗
 # ║  Node / NPM / Yarn / PNPM                                       ║
 # ║  (!) Place ~/.yarn before ~/.npm so is takes precidence.        ║
 # ╚═════════════════════════════════════════════════════════════════╝
@@ -107,9 +138,7 @@ fi
 # [Pkg]     apt install grc
 # [Toggle]  sudo sed -i 's/^GRC_ALIASES.*/GRC_ALIASES=true/' /etc/default/grc
 export GRC_ALIASES=true
-if [ -f /etc/profile.d/grc.sh ]; then
-  source /etc/profile.d/grc.sh
-fi
+[[ -s "/etc/profile.d/grc.sh" ]] && source /etc/profile.d/grc.sh
 
 # ───────────────────────────────────────────────────────────────────
 # Better concat (cat) function  with colors

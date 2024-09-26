@@ -65,3 +65,8 @@ fi
 if ( ! ($+commands[compdef])) >/dev/null 2>&1; then
   alias compdef='1 >/dev/null'
 fi
+
+# ┌─────────────────────────────────────────────────────────────────┐
+# │ Autoload X11 Touchpad Options                                   │
+# └─────────────────────────────────────────────────────────────────┘
+[ -f $HOME/.xinitrc ] && . $HOME/.xinitrc
