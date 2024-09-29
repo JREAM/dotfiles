@@ -4,9 +4,6 @@
 # ║ BASH_VENDORS                                                    ║
 # ╚═════════════════════════════════════════════════════════════════╝
 
-# https://github.com/cheat/cheat
-export CHEAT_USE_FZF=true
-
 # ╔═════════════════════════════════════════════════════════════════╗
 # ║ Java JDK                                                        ║
 # ╚═════════════════════════════════════════════════════════════════╝
@@ -155,10 +152,10 @@ export GRC_ALIASES=true
 # ───────────────────────────────────────────────────────────────────
 # [Pkg]   https://github.com/sharkdp/bat
 # [Use]   $ batcat -h
-if command -v batcat &>/dev/null; then
+if type batcat >/dev/null 2>&1; then
   # --plain for no line numbers
   # --paging never (because I can't copy/paste so nicely)
-  alias cat='batcat --theme="Monokai Extended Origin" --plain --paging=never'
+  alias bat='batcat --theme="Monokai Extended Origin" --plain --paging=never'
 fi
 
 # ───────────────────────────────────────────────────────────────────
@@ -174,15 +171,21 @@ fi
 # FZF Fuzzy Finder (Very Powerful Tool)
 # ───────────────────────────────────────────────────────────────────
 # [Pkg]   https://github.com/junegunn/fzf
-#         apt install fzf
+#         git clone instead of apt for working version
+
 # [Use]   $ fzf
 #         $ cat anyfile | fzf
 #         <ALT> + C   Fuzzy Directory Jump
 #         <CTRL> + R  History Fuzzy Search
-if [ -x /usr/bin/fzf ]; then
-  export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border=rounded --tabstop=4 --color=dark,info:bright-green,pointer:green,hl:bright-green'
-  export FZF_DEFAULT_COMMAND="fd . $HOME"
-  export FZF_ALT_C_COMMAND="fd -t d . $HOME"
+# Set Alias for fd before FZF
+[ -x /usr/bin/fdfind ] && alias fd='fdfind'
+
+
+export PATH=$PATH:$HOME/.fzf/bin
+if [ -x $HOME/.fzf/bin/fzf ]; then
+  export FZF_DEFAULT_OPTS="--height 40% --layout=reverse --preview 'cat {}' --info=inline --margin=0 --padding=0 --border=rounded --tabstop=4 --color=dark,info:bright-green,pointer:green,hl:bright-green"
+  export FZF_DEFAULT_COMMAND="fdfind . $HOME"
+  export FZF_ALT_C_COMMAND="fdfind -t d . $HOME"
   #fzf --preview 'bat --style=numbers --color=always --line-range :500 {}'
 
   _fzf_comprun() {
@@ -195,7 +198,6 @@ if [ -x /usr/bin/fzf ]; then
   }
 fi
 
-[ -x /usr/bin/fdfind ] && alias fd='fdfind'
 
 # ───────────────────────────────────────────────────────────────────
 # DirEnv

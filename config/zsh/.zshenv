@@ -1,5 +1,5 @@
 # this is the bare bones setup to move everything to XDG dir
-ZDOTDIR=$HOME/.config/zsh
+ZDOTDIR=$XDG_CONFIG_HOME/zsh
 export TERM=xterm-256color
 
 # Other XDG paths
