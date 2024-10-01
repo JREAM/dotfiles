@@ -16,7 +16,7 @@
 # This slows down the crazy scroll, X11 anyways
 synclient \
   VertScrollDelta=500 \
-  HorizScrollDelta=700 \
+  HorizScrollDelta=600 \
   VertTwoFingerScroll=1 \
   HorizTwoFingerScroll=1 \
   VertEdgeScroll=0 \
@@ -24,7 +24,7 @@ synclient \
   SingleTapTimeout=100 \
   MaxTapTime=100 \
   MaxTapMove=150 \
-  CoastingSpeed=10 \
+  CoastingSpeed=20 \
   CoastingFriction=20 \
   PalmDetect=1 \
   #FingerLow=15 \
@@ -58,7 +58,7 @@ synclient \
 
 # Disables the touchpad for 0.2 seconds when typing
 if ! pgrep -x syndaemon >/dev/null; then
-  syndaemon -K -i 0.2 -R -d
+  syndaemon -K -i 0.4 -R -d
   echo -e "[+] Starting: syndaemon (touchpad/keyboard ~/.xinitrc)"
 fi
 

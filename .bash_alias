@@ -59,7 +59,6 @@ alias vims='sudo vim' # sudo mode vim
 alias reload='source $HOME/.bashrc; [[ -f $HOME/.xinitrc ]] && . $HOME/.xinitrc'
 alias reloadtp='sudo /usr/bin/udevadm trigger'
 
-
 alias permissions-octal='stat -c \"%a %n\" -- $1'
 
 # Copy contents to /etc/network/if-up.d/sshfs-mount
@@ -140,11 +139,11 @@ alias ping='ping -c 5' # Send X packets
 alias ports="netstat -tulanp"
 
 function portcheck() {
-  if [ -z $1 ]; then
-    echo -e "[!] You must pass a port number, such as 1234"
-    return 0
-  fi
-  sudo lsof -i :$1
+    if [ -z $1 ]; then
+        echo -e "[!] You must pass a port number, such as 1234"
+        return 0
+    fi
+    sudo lsof -i :$1
 }
 
 alias filesystem-reload='sudo systemctl start remote-fs.target local-fs.target && sudo systemctl daemon-reload' # FStab, mount -a doesn't work
@@ -152,18 +151,18 @@ alias fsreload="filesystem-reload"
 alias fontreload='fc-cache -f'
 
 function convertgpgkey() {
-  if [ -z $1 ]; then
-    echo -e "[!] You must pass a file, such as filename.asc"
-    return 0
-  fi
-  if [ ! -f $1 ]; then
-    echo -e "[!] The first argument must be a file."
-  fi
+    if [ -z $1 ]; then
+        echo -e "[!] You must pass a file, such as filename.asc"
+        return 0
+    fi
+    if [ ! -f $1 ]; then
+        echo -e "[!] The first argument must be a file."
+    fi
 
-  echo -e "[+] Example downloading to file:"
-  echo -e "wget -qO - https://www.mongodb.org/static/pgp/server-6.0.asc > server-6.0.asc"
-  echo -e "cat server-6.0.asc | gpg --dearmor | sudo tee /usr/share/keyrings/mongodb-org-6.0.gpg | > /dev/null 2&1"
-  cat $1 | grg --dearmor >"${1%.*}.gpg" # New File Name
+    echo -e "[+] Example downloading to file:"
+    echo -e "wget -qO - https://www.mongodb.org/static/pgp/server-6.0.asc > server-6.0.asc"
+    echo -e "cat server-6.0.asc | gpg --dearmor | sudo tee /usr/share/keyrings/mongodb-org-6.0.gpg | > /dev/null 2&1"
+    cat $1 | grg --dearmor >"${1%.*}.gpg" # New File Name
 }
 
 # ┌─────────────────────────────────────────────────────────────────┐
@@ -178,7 +177,7 @@ alias totalusage='df -hl --total | grep total'
 
 # ┌─────────────────────────────────────────────────────────────────┐
 # │ CPU / Memory Related                                            │
-# └──────────────────────────────────────────────────────────────���──┘
+# └────────────────────────────────────────────────────────────────┘
 alias pscpu="ps auxf | sort -nr -k 3"
 alias pscpu10="ps auxf | sort -nr -k 3 | head -10"
 alias psmem="ps auxf | sort -nr -k 4"
@@ -241,10 +240,10 @@ alias mysqlvars="mysql -NBe 'SHOW VARIABLES'| sed 's,\t,^=,' | column -ts^"
 # ╚═════════════════════════════════════════════════════════════════╝
 # >> Get the Repository file size
 function fix-apt-legacy-keys() {
-  for KEY in $(apt-key list | grep -E "(([ ]{1,2}(([0-9A-F]{4}))){10})" | tr -d " " | grep -E "([0-9A-F]){8}\b"); do
-    K=${KEY:(-8)}
-    apt-key export $K | sudo gpg --dearmour -o /etc/apt/trusted.gpg.d/imported-from-trusted-gpg-$K.gpg
-  done
+    for KEY in $(apt-key list | grep -E "(([ ]{1,2}(([0-9A-F]{4}))){10})" | tr -d " " | grep -E "([0-9A-F]){8}\b"); do
+        K=${KEY:(-8)}
+        apt-key export $K | sudo gpg --dearmour -o /etc/apt/trusted.gpg.d/imported-from-trusted-gpg-$K.gpg
+    done
 }
 
 # ╔═════════════════════════════════════════════════════════════════╗
@@ -252,22 +251,22 @@ function fix-apt-legacy-keys() {
 # ╚═════════════════════════════════════════════════════════════════╝
 # >> Get the Repository file size
 git-filesize() {
-  git rev-list --objects --all |
-    git cat-file --batch-check='%(objecttype) %(objectname) %(objectsize) %(rest)' |
-    sed -n 's/^blob //p' |
-    sort -n -k2 |
-    cut -c 1-12,41- |
-    $(command -v gnumfmt || echo numfmt) --field=2 --to=iec-i --suffix=B --padding=7 --round=nearest
+    git rev-list --objects --all |
+        git cat-file --batch-check='%(objecttype) %(objectname) %(objectsize) %(rest)' |
+        sed -n 's/^blob //p' |
+        sort -n -k2 |
+        cut -c 1-12,41- |
+        $(command -v gnumfmt || echo numfmt) --field=2 --to=iec-i --suffix=B --padding=7 --round=nearest
 }
 
 # ╔═════════════════════════════════════════════════════════════════╗
 # ║ Docker Aliases                                                  ║
 # ╚═════════════════════════════════════════════════════════════════╝
 docker-compose-from-container() {
-  docker pull ghcr.io/red5d/docker-autocompose:latest
-  echo -e "\n [ START: output $([[ -z $1 ]] && echo 'single' || echo 'all') running container ]"
-  docker run --rm -v /var/run/docker.sock:/var/run/docker.sock ghcr.io/red5d/docker-autocompose ${1:-$(docker ps -aq)}
-  echo -e "\n [ END: output $([[ -z $1 ]] && echo 'single' || echo 'all') running containers ]"
+    docker pull ghcr.io/red5d/docker-autocompose:latest
+    echo -e "\n [ START: output $([[ -z $1 ]] && echo 'single' || echo 'all') running container ]"
+    docker run --rm -v /var/run/docker.sock:/var/run/docker.sock ghcr.io/red5d/docker-autocompose ${1:-$(docker ps -aq)}
+    echo -e "\n [ END: output $([[ -z $1 ]] && echo 'single' || echo 'all') running containers ]"
 }
 
 # ╔═════════════════════════════════════════════════════════════════╗
@@ -275,11 +274,11 @@ docker-compose-from-container() {
 # ╚═════════════════════════════════════════════════════════════════╝
 # >> Compress contents into a <name>tar.gz
 compress() {
-  [[ -z $1 ]] && {
-    echo "Usage: compress <name>.tar.gz <folder|file>"
-    return 1
-  }
-  tar -cvzf "${1%.*}.tar.gz" "$2"
+    [[ -z $1 ]] && {
+        echo "Usage: compress <name>.tar.gz <folder|file>"
+        return 1
+    }
+    tar -cvzf "${1%.*}.tar.gz" "$2"
 }
 
 # ╔═════════════════════════════════════════════════════════════════╗
@@ -287,25 +286,25 @@ compress() {
 # ╚═════════════════════════════════════════════════════════════════╝
 # >> Find a list of the 20 largest files
 ls-largest() {
-  du -h -x -s -- * | sort -r -h | head -20
+    du -h -x -s -- * | sort -r -h | head -20
 }
 
 # >> Show the LATEST file in current directory
 ls-latest() {
-  ls -t "${1:-.}"/* | head -1
+    find "${1:-.}" -type f -printf '%T@ %p\n' | sort -n | tail -1 | cut -f2- -d" "
 }
 
 # ╔═════════════════════════════════════════════════════════════════╗
 # ║ Mouse Move                                                      ║
 # ╚═════════════════════════════════════════════════════════════════╝
 mm() {
-  LENGTH=1
-  DELAY=5
+    LENGTH=1
+    DELAY=5
 
-  while true; do
-    for ANGLE in 0 90 180 270; do
-      xdotool mousemove_relative --polar $ANGLE $LENGTH
-      sleep $DELAY
+    while true; do
+        for ANGLE in 0 90 180 270; do
+            xdotool mousemove_relative --polar $ANGLE $LENGTH
+            sleep $DELAY
+        done
     done
-  done
 }
