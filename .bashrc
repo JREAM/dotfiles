@@ -48,11 +48,12 @@ fi
 # ║ (2) .bash_vendor come second (incase of alias-ing)              ║
 # ║ (3) ...rest                                                     ║
 # ╚═════════════════════════════════════════════════════════════════╝
-# For private exports [Don't place in git]
 [[ -f $HOME/.bash_var ]] && .  $HOME/.bash_var
 [[ -f $HOME/.bash_vendor ]] && . $HOME/.bash_vendor
 [[ -f $HOME/.bash_alias ]] && . $HOME/.bash_alias
+[[ -f $HOME/.bash_fn ]] && . $HOME/.bash_fn
 [[ -f $HOME/.private ]] && . $HOME/.private # .gitignore
+
 # ┌─────────────────────────────────────────────────────────────────┐
 # │ Display: PS1 Prompt                                             │
 # │ (Useful when on another server w/this .bash config              │
