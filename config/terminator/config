@@ -1,5 +1,5 @@
 [global_config]
-  handle_size = 1
+  handle_size = 0
   geometry_hinting = True
   title_hide_sizetext = True
   title_transmit_fg_color = "#000000"
@@ -12,16 +12,42 @@
 [keybindings]
   zoom_out = ""
   new_tab = <Primary>t
+  go_next = ""
+  go_prev = ""
+  go_up = None
+  go_down = None
+  go_left = None
+  go_right = None
+  rotate_cw = ""
+  rotate_ccw = ""
   split_horiz = <Primary>bracketleft
   split_vert = <Primary>bracketright
   close_term = <Primary>w
+  toggle_scrollbar = ""
   close_window = <Alt>F4
+  resize_up = ""
+  resize_down = ""
+  resize_left = ""
+  resize_right = ""
+  move_tab_right = ""
+  move_tab_left = ""
+  toggle_zoom = ""
+  scaled_zoom = ""
   next_tab = <Primary>Tab
   prev_tab = <Primary><Shift>Tab
-  new_terminator = <Primary>n
-  broadcast_off = <Alt>1
-  broadcast_group = <Alt>semicolin
+  hide_window = ""
+  group_all = ""
+  ungroup_all = ""
+  group_tab = ""
+  ungroup_tab = ""
+  new_window = ""
+  new_terminator = ""
   broadcast_all = None
+  edit_window_title = ""
+  edit_tab_title = ""
+  edit_terminal_title = ""
+  layout_launcher = ""
+  help = ""
 [profiles]
   [[default]]
     background_color = "#000413"
@@ -29,11 +55,12 @@
     background_type = transparent
     cursor_blink = False
     cursor_color = "#f1e47a"
-    font = agave Nerd Font Mono 14
+    font = agave Nerd Font Mono 13
     foreground_color = "#fdfdfd"
     show_titlebar = False
     scrollback_lines = 502
     scrollback_infinite = True
+    disable_mousewheel_zoom = True
     palette = "#2e3436:#cc0000:#70991f:#c4a000:#2997d1:#75507b:#06989a:#d3d7cf:#555753:#ef2929:#a6e22e:#fce94f:#59c6ff:#ad7fa8:#34e2e2:#eeeeec"
     use_system_font = False
 [layouts]

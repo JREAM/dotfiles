@@ -42,8 +42,8 @@ Plugin 'gregsexton/matchtag'
 " Productivity
 Plugin 'kien/ctrlp.vim'
 Plugin 'scrooloose/nerdtree'      " Tree Style Dirs
+Plugin 'scrooloose/nerdcomment'   " Hotkey Easy Comment
 
-" Comment Plugin
 Plugin 'tomtom/tcomment_vim'
 
 " JS Frameworks (Highlight)
@@ -238,6 +238,11 @@ set clipboard^=unnamed clipboard^=unnamedplus
 """"""""""""""""""""""""""""""""""""""""
 " Hotkeys
 """"""""""""""""""""""""""""""""""""""""
+" Not working w/emulator
+" Map Ctrl+/ to toggle comments
+" nmap <C-/> :NERDCommentToggle<CR>
+" vmap <C-/> :NERDCommentToggle<CR>
+
 " Mode Mappings
 " The 'r' represents non-recursive
 " :map   :noremap  :unmap     Normal, Visual, Select, Operator-pending
@@ -257,6 +262,21 @@ set clipboard^=unnamed clipboard^=unnamedplus
 " .. :inoremap jk <esc> -- Maps  'jk' to <esc> key, exits insert mode
 
 
+" Map Shift+Tab to unindent
+nnoremap <S-Tab> <<
+inoremap <S-Tab> <C-o><<
+
+" Map Ctrl+Backspace to delete a subword
+nmap <C-BS> dB
+imap <C-BS> <C-o>dB
+
+" Ctrl+Shift Left/Right is also Home/End since Alt doesnt work w/emulator
+nmap <C-S-Right> $
+imap <C-S-Right> <C-o>$
+nmap <C-S-Left> 0
+imap <C-S-Left> <C-o>0
+
+" Nerd Tree
 map <C-n> :NERDTreeToggle<CR>
 
 inoremap <C+y> <c-o>:redo</cr>

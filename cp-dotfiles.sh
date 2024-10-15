@@ -38,7 +38,9 @@ copydirs() {
 
   # Copy the config files into ~/.config $XDG_CONFIG_HOME
   cp -R config/* ~/.config
+  cp -R local/* ~/.local
   echo "[+] Copy: config/* to ~/.config/"
+  echo "[+] Copy: local/* to ~/.local/"
 }
 
 for d in "${DIRS[@]}"; do
