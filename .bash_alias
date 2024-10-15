@@ -9,6 +9,7 @@
 # │ Personal Shortcuts                                              │
 # └─────────────────────────────────────────────────────────────────┘
 [ -d $HOME/Downloads ] && alias dl='cd $HOME/Downloads'
+[ -d $HOME/Dropbox ] && alias db='cd $HOME/Dropbox'
 
 # ┌─────────────────────────────────────────────────────────────────┐
 # │ Apply colors as much as possible                                │
@@ -52,7 +53,48 @@ alias c='clear'
 alias j='jobs -l'
 alias left='ls -t -1' # See where I last left off
 
-alias nv=nvim         # neovim
+# Common Locations
+function g() {
+  goto=$1
+  global_flag=false
+  if [ -z $goto ]; then
+    echo -e "[!] Please provide a shortcut to go to"
+    return 0
+  fi
+
+  # Check for Global flag
+  while getopts "g" opt; do
+    case $opt in
+      g)
+        global_flag=true
+        ;;
+      \?)
+        echo "Invalid option: -$OPTARG" >&2
+        exit 1
+        ;;
+    esac
+  done
+
+  case $1 in
+    "icons")
+      cd "$HOME/.local/share/icons"
+      ;;
+    "fonts")
+      cd "$HOME/.local/share/fonts"
+      ;;
+    "themes")
+      cd "$HOME/.local/share/themes"
+      ;;
+    "*")
+      echo -e "[!] Use: $ g <name> || $ g <name> -g (for global)"
+      ;;
+  esac
+}
+alias fonts='cd $HOME/.local/share/fonts'
+alias themes='cd $HOME/.local/share/themes'
+alias font-reload='fc-cache -fv'
+alias gnome-reload='gnome-shell --replace & disown'
+
 alias vi=vim          # vim
 alias vims='sudo vim' # sudo mode vim
 

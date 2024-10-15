@@ -121,17 +121,3 @@ export LESS_TERMCAP_us=$'\e[1;4;31m'
 
 #eval "$(starship init bash)"
 
-# pnpm
-export PNPM_HOME="$HOME/.local/share/pnpm"
-[[ ":$PATH:" != *":$PNPM_HOME:"* ]] && export PATH="$PNPM_HOME:$PATH"
-
-UTIL_BR="$XDG_CONFIG_HOME/broot/bash/br"
-[[ -e $UTIL_BR ]] && source "$UTIL_BR"
-
-# bun
-if command -v bun >/dev/null 2>&1; then
-  export BUN_INSTALL="$HOME/.bun"
-  export PATH="$BUN_INSTALL/bin:$PATH"
-fi
-
-
