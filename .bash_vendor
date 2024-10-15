@@ -186,6 +186,14 @@ if [ -x $HOME/.fzf/bin/fzf ]; then
     }
 fi
 
+
+# ───────────────────────────────────────────────────────────────────
+# Tre-Command
+# [Pkg]   apt install tre--comand
+# [Use]   tre-command (Or, replaced with $ tree here)
+# ───────────────────────────────────────────────────────────────────
+command -v tre >/dev/null && alias tree='tre'
+
 # ───────────────────────────────────────────────────────────────────
 # DirEnv
 # [Pkg]   apt install direnv
