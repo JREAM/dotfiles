@@ -17,6 +17,16 @@
 
 ESC="\033"
 RESET="$ESC[0m"
+RESET_BOLD="$ESC[21m"
+RESET_DIM="$ESC[22m"
+RESET_UNDERLINE="$ESC[24m"
+RESET_HIDDEN="$ESC[28"
+
+BOLD="$ESC[1m"
+DIM="$ESC[2m"
+ITALIC="$ESC[3m"
+UNDERLINE="$ESC[4m"
+HIDDEN="$ESC[8m"
 
 # Function to define color variables
 define_colors() {
@@ -37,21 +47,47 @@ define_colors 4 "U"     # Underline
 define_colors 0 "I" 90  # Intense
 define_colors 1 "IB" 90 # Intense Bold
 
+
 # ┌─────────────────────────────────────────────────────────────────┐
 # │ Utility Functions                                               │
 # └─────────────────────────────────────────────────────────────────┘
 
-__deverror() { echo -e "${IBRED}(!)${RESET} Developer Error!"; }
-
-message() {
-  local color=$1 symbol=$2 text=$3
-  [ -z "$text" ] && __deverror || echo -e "${!color}${symbol}${RESET} $text"
+__deverror() {
+  echo -e "${IBRED}(!)${RESET} Developer Error!";
 }
 
-success() { message "IBGREEN" "(+)" "$1"; }
-info() { message "IBBLUE" "(+)" "$1"; }
-warn() { message "IBYELLOW" "[!]" "$1"; }
-danger() { message "IBRED" "[!]" "$1"; }
+message() {
+  local color=$1 icon="${BOLD}$2${RESET_BOLD}" flag text
+
+  # Check if the third parameter is a flag (-i), or it's part of the message
+  if [ "$3" == "-i" ]; then
+    flag="-i"
+    text=$4
+  else
+    text=$3
+  fi
+
+  # If no text is provided, it's a developer error
+  [ -z "$text" ] && __deverror && return
+
+  # Check for the optional '-i' flag (color only symbol)
+  if [ "$flag" == "-i" ]; then
+    echo -e "${!color}${icon}${RESET} $text"
+  else
+    echo -e "${!color}${icon}${RESET} ${!color}$text${RESET}"
+  fi
+}
+# ┌─────────────────────────────────────────────────────────────────┐
+# │ For ouutputing colorized messages                               │
+# └─────────────────────────────────────────────────────────────────┘
+# [Use]   $ success "hello world"     Colorize Full String
+#         $ info hello                Colorize Full String
+#         $ warn -i "uh oh"           Colorize Icon only
+success() { message "IGREEN"   "(+)" "$1" "$2"; }
+info()    { message "IBLUE"    "(i)" "$1" "$2"; }
+warn()    { message "IYELLOW"  "[-]" "$1" "$2"; }
+danger()  { message "IRED"     "[!]" "$1" "$2"; }
+
 
 # Function to list available colors
 colors() {
@@ -101,3 +137,16 @@ for array in Ln Ln2x LnF LnMisc; do
     export "${array}${key}=${arr[$key]}"
   done
 done
+
+# ┌─────────────────────────────────────────────────────────────────┐
+# │ Colorized 'man' Pages                                           │
+# └─────────────────────────────────────────────────────────────────┘
+# [Notes]   Colors from .bash_vars could be used here.
+export LESS_TERMCAP_mb=$'\e[1;32m'
+export LESS_TERMCAP_md=$'\e[1;32m'
+export LESS_TERMCAP_me=$'\e[0m'
+export LESS_TERMCAP_se=$'\e[0m'
+export LESS_TERMCAP_so=$'\e[01;33m'
+export LESS_TERMCAP_ue=$'\e[0m'
+export LESS_TERMCAP_us=$'\e[1;4;31m'
+

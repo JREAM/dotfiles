@@ -108,16 +108,23 @@ if ! shopt -oq posix; then
 fi
 
 # ┌─────────────────────────────────────────────────────────────────┐
-# │ Colorized 'man' Pages                                           │
+# │ Make $PATH readable                                             │
 # └─────────────────────────────────────────────────────────────────┘
-# [Notes]   Colors from .bash_vars could be used here.
-export LESS_TERMCAP_mb=$'\e[1;32m'
-export LESS_TERMCAP_md=$'\e[1;32m'
-export LESS_TERMCAP_me=$'\e[0m'
-export LESS_TERMCAP_se=$'\e[0m'
-export LESS_TERMCAP_so=$'\e[01;33m'
-export LESS_TERMCAP_ue=$'\e[0m'
-export LESS_TERMCAP_us=$'\e[1;4;31m'
+# [Important]     # Do not put in ~/.bash_alias, keep it here. This
+#                 # Outputs the final $PATH value with all other files.
+path() {
+  info "(List of \$PATH)"
+  tr ':' '\n' <<< "$PATH" | sort | uniq | while read -r line; do
+    if [[ $line == /home/* ]]; then
+      echo -e "  \e${BLUE}$line${RESET}"
+    elif [[ $line == /usr/* ]]; then
+      echo -e "  ${WHITE}$line${RESET}"
+    else
+      echo -e "  ${YELLOW}$line${RESET}"
+    fi
+  done
+  # Basic Way:
+  # tr ':' '\n' <<< "$PATH" | sort | uniq | sed 's/^/  /'
 
-#eval "$(starship init bash)"
-
+  info "(End of \$PATH)"
+}
