@@ -60,12 +60,29 @@ fi
 # └─────────────────────────────────────────────────────────────────┘
 # [Help]    https://bashrcgenerator.com/
 # [NoColor] export PS1="[\w]\$(git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/')\n\u@\h-> \[\033[0m\]"
+
+# Function to get the current branch and indicate if it has uncommitted changes
+git_info() {
+  local branch
+  local dirty=""
+  branch=$(git branch 2>/dev/null | grep -E '^\*' | sed 's/* //')
+
+  if [[ -n $branch ]]; then
+    # Check for uncommitted changes
+    [[ -n $(git status --porcelain 2>/dev/null) ]] && dirty="${IBYELLOW}⚒${RESET}"
+    echo -e "(${IYELLOW}${branch}${RESET})${dirty}"
+  fi
+}
+
 IN_SSH=""
 if [[ -n $SSH_CLIENT ]]; then
   HOSTNAME=$(hostname)
   IN_SSH="[${IBYELLOW}SSH$RESET][${IBLUE}@${HOSTNAME}$RESET]"
 fi
-export PS1="$IN_SSH[$IBLUE\w$RESET]\$(git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/($IYELLOW\1$RESET)/')\n\u@\h-> "
+
+
+export PS1="$IN_SSH[$IBLUE\w$RESET]\$(git_info)\n\u@\h-> "
+#export PS1="$IN_SSH[$IBLUE\w$RESET]\$(git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/($IYELLOW\1$RESET)/')\n\u@\h-> "
 
 # ┌─────────────────────────────────────────────────────────────────┐
 # │ Shell Options                                                   │
