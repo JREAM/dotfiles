@@ -52,6 +52,7 @@ fi
 [[ -f $HOME/.bash_vendor ]] && . $HOME/.bash_vendor
 [[ -f $HOME/.bash_alias ]] && . $HOME/.bash_alias
 [[ -f $HOME/.bash_fn ]] && . $HOME/.bash_fn
+[[ -f $HOME/.bash_work ]] && . $HOME/.bash_work
 [[ -f $HOME/.private ]] && . $HOME/.private # .gitignore
 
 # ┌─────────────────────────────────────────────────────────────────┐
@@ -87,9 +88,12 @@ export PS1="$IN_SSH[$IBLUE\w$RESET]\$(git_info)\n\u@\h-> "
 # ┌─────────────────────────────────────────────────────────────────┐
 # │ Shell Options                                                   │
 # └─────────────────────────────────────────────────────────────────┘
-HISTCONTROL=ignoreboth
+HISTCONTROL=ignoreboth:erasedups
 HISTSIZE=10000
 HISTFILESIZE=20000
+#HISTTIMEFORMAT="%F %T  "
+
+export PROMPT_COMMAND='history -a; history -r'
 
 if [[ $SHELL =~ bash$ ]]; then
   shopt -s histappend cdspell autocd
@@ -145,3 +149,4 @@ path() {
 
   info "(End of \$PATH)"
 }
+

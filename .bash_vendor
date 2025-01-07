@@ -11,7 +11,7 @@
 # [Locate]    $ readlink -f `which javac` | sed "s:/bin/javac::"
 # [Notes]     Java is always a symbolic link using update-alternatives
 if [ -L /usr/bin/java ]; then
-    export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64/bin/java
+    export JAVA_HOME=/usr/lib/jvm/java-21-openjdk-amd64/bin/java
     export PATH=$PATH:$JAVA_HOME/bin
 fi
 
@@ -85,7 +85,7 @@ fi
 # [Install]   curl -fsSL https://get.pnpm.io/install.sh | sh -
 # [Use]       $ pnpm -h
 if [ -d $HOME/.local/share/pnpm ]; then
-    export PNPM_HOME="$HOME/.local/share/pnpm"
+    export PNPM_HOME=$XDG_DATA_HOME/pnpm
     export PATH="$PNPM_HOME:$PATH"
     alias pn=pnpm
 fi
@@ -171,10 +171,32 @@ fi
 [ -d "$HOME/.fzf/bin" ] && export PATH=$PATH:$HOME/.fzf/bin
 
 if [ -x $HOME/.fzf/bin/fzf ]; then
-    export FZF_DEFAULT_OPTS="--height 40% --layout=reverse --preview 'cat {}' --info=inline --margin=0 --padding=0 --border=rounded --tabstop=4 --color=dark,info:bright-green,pointer:green,hl:bright-green"
-    export FZF_DEFAULT_COMMAND="fdfind . $HOME"
+
+    export FZF_DEFAULT_OPTS="--height 40% --layout=reverse --info=inline --margin=0 --padding=0 --border=rounded --tabstop=4 --color=dark,info:bright-green,pointer:green,hl:bright-green"
+
+    # To use a File
+    #export FZF_DEFAULT_OPTS_FILE="$XDG_CONFIG_HOME/fzfrc"
+    export FZF_COMPLETION_TRIGGER=".."
+    export FZF_DEFAULT_COMMAND="fdfind . $HOME --type f --exclude .git,node_modules"
     export FZF_ALT_C_COMMAND="fdfind -t d . $HOME"
-    #fzf --preview 'bat --style=numbers --color=always --line-range :500 {}'
+
+    export FZF_ALT_C_OPTS="
+      --color header:italic
+      --header 'Change Directory'"
+
+    export FZF_CTRL_R_OPTS="
+      --color header:italic
+      --header 'History'"
+
+    # Ctrl+G uses the CTRL_T_OPTS
+    # Bind CTRL+G to File Widget
+    bind -x '"\C-g": "fzf-file-widget"'
+
+    export FZF_CTRL_T_OPTS="
+      --walker-skip .git,node_modules,target
+      --preview 'bat -n --color=always {}'
+      --color header:italic
+      --header 'File Widget'"
 
     _fzf_comprun() {
         local command=$1

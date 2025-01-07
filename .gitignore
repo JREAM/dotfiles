@@ -3,6 +3,7 @@ grc
 
 # For Private keys
 .private
+.bash_work
 **/*.zcompdump*
 # GitConfig Private
 .gitconfig_private
