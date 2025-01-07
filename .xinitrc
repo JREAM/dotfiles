@@ -14,19 +14,19 @@
 
 #
 # This slows down the crazy scroll, X11 anyways
-synclient \
-  VertScrollDelta=500 \
-  HorizScrollDelta=600 \
-  VertTwoFingerScroll=1 \
-  HorizTwoFingerScroll=1 \
-  VertEdgeScroll=0 \
-  HorizEdgeScroll=0 \
-  SingleTapTimeout=100 \
-  MaxTapTime=100 \
-  MaxTapMove=150 \
-  CoastingSpeed=20 \
-  CoastingFriction=20 \
-  PalmDetect=1 \
+#synclient \
+#  VertScrollDelta=500 \
+#  HorizScrollDelta=600 \
+#  VertTwoFingerScroll=1 \
+#  HorizTwoFingerScroll=1 \
+#  VertEdgeScroll=0 \
+#  HorizEdgeScroll=0 \
+#  SingleTapTimeout=100 \
+#  MaxTapTime=100 \
+#  MaxTapMove=150 \
+#  CoastingSpeed=20 \
+#  CoastingFriction=20 \
+#  PalmDetect=1 \
   #FingerLow=15 \
   #FingerHigh=25 \
   #PressureMotionMinZ=80 \
@@ -37,12 +37,13 @@ synclient \
   #PressureMotionMinZ=120 \
   #HorizHysteresis=10 \
   #VertHysteresis=10 \
-  PalmMinWidth=10 \
-  PalmMinZ=150 \
-  TapAndDragGesture=0 \
-  AreaTopEdge=1900 \
-  ClickPad=1
-
+#  PalmMinWidth=10 \
+#  PalmMinZ=150 \
+#  TapAndDragGesture=0 \
+#  AreaTopEdge=1900 \
+#  ClickPad=1 \
+#  AreaLeftEdge=1400 \
+#  AreaRightEdge=5300
 # Touch a tap bit harder to move
 #synclient \
   #FingerLow=20 \
