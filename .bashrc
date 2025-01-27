@@ -52,6 +52,7 @@ fi
 [[ -f $HOME/.bash_vendor ]] && . $HOME/.bash_vendor
 [[ -f $HOME/.bash_alias ]] && . $HOME/.bash_alias
 [[ -f $HOME/.bash_fn ]] && . $HOME/.bash_fn
+[[ -f $HOME/.bash_venv ]] && . $HOME/.bash_venv
 [[ -f $HOME/.bash_work ]] && . $HOME/.bash_work
 [[ -f $HOME/.private ]] && . $HOME/.private # .gitignore
 
@@ -62,6 +63,21 @@ fi
 # [Help]    https://bashrcgenerator.com/
 # [NoColor] export PS1="[\w]\$(git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/')\n\u@\h-> \[\033[0m\]"
 
+svn_info() {
+  local svn_url
+  svn_url=$(svn info 2>/dev/null | grep '^URL:' | awk '{print $2}')
+  if [[ -n $svn_url ]]; then
+    local last_part="${svn_url##*/}"
+
+    local dirty=""
+    if [[ -n $(svn status 2>/dev/null) ]]; then
+      dirty="${IBYELLOW}⚒${RESET}"  # You can adjust the symbol as needed
+    fi
+
+    echo -e "(${IYELLOW}svn: ${last_part}${RESET})${dirty}"
+  fi
+}
+
 # Function to get the current branch and indicate if it has uncommitted changes
 git_info() {
   local branch
@@ -71,7 +87,7 @@ git_info() {
   if [[ -n $branch ]]; then
     # Check for uncommitted changes
     [[ -n $(git status --porcelain 2>/dev/null) ]] && dirty="${IBYELLOW}⚒${RESET}"
-    echo -e "(${IYELLOW}${branch}${RESET})${dirty}"
+    echo -e "(${IYELLOW}git: ${branch}${RESET})${dirty}"
   fi
 }
 
@@ -81,8 +97,7 @@ if [[ -n $SSH_CLIENT ]]; then
   IN_SSH="[${IBYELLOW}SSH$RESET][${IBLUE}@${HOSTNAME}$RESET]"
 fi
 
-
-export PS1="$IN_SSH[$IBLUE\w$RESET]\$(git_info)\n\u@\h-> "
+export PS1="$IN_SSH[$IBLUE\w$RESET]\$(git_info)\$(svn_info)\n\u@\h-> "
 #export PS1="$IN_SSH[$IBLUE\w$RESET]\$(git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/($IYELLOW\1$RESET)/')\n\u@\h-> "
 
 # ┌─────────────────────────────────────────────────────────────────┐

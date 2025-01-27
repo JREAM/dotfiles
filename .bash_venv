@@ -1,0 +1,78 @@
+#!/bin/bash
+# Directory to store all virtual environments
+VENV_DIR="$HOME/virtualenvs"
+
+# Ensure the virtualenvs directory exists
+mkdir -p "$VENV_DIR"
+
+# Function to create a virtual environment
+mkvenv() {
+    if [ -z "$1" ]; then
+        echo "Usage: mkvenv <venv_name>"
+        return 1
+    fi
+
+    local venv_name="$1"
+    local venv_path="$VENV_DIR/$venv_name"
+
+    if [ -d "$venv_path" ]; then
+        echo "Virtual environment '$venv_name' already exists."
+    else
+        echo "Creating virtual environment '$venv_name'..."
+        python3 -m venv "$venv_path"
+        echo "Virtual environment '$venv_name' created at $venv_path."
+    fi
+
+    # Activate the new virtual environment
+    activate "$venv_name"
+}
+
+# Function to activate a virtual environment
+activate() {
+    local venv_name
+    if [ -z "$1" ]; then
+        # If no argument, use the current directory name as the venv name
+        venv_name=$(basename "$(pwd)")
+    else
+        venv_name="$1"
+    fi
+
+    local venv_path="$VENV_DIR/$venv_name"
+
+    if [ -d "$venv_path" ]; then
+        echo "Activating virtual environment '$venv_name'..."
+        source "$venv_path/bin/activate"
+    else
+        echo "Virtual environment '$venv_name' does not exist."
+    fi
+}
+
+# Function to remove a virtual environment
+rmvenv() {
+    if [ -z "$1" ]; then
+        echo "Usage: rmvenv <venv_name>"
+        return 1
+    fi
+
+    local venv_name="$1"
+    local venv_path="$VENV_DIR/$venv_name"
+
+    if [ -d "$venv_path" ]; then
+        read -p "Are you sure you want to delete '$venv_name'? (y/N): " confirm
+        if [[ "$confirm" =~ ^[Yy]$ ]]; then
+            echo "Deleting virtual environment '$venv_name'..."
+            rm -rf "$venv_path"
+            echo "Virtual environment '$venv_name' deleted."
+        else
+            echo "Deletion canceled."
+        fi
+    else
+        echo "Virtual environment '$venv_name' does not exist."
+    fi
+}
+
+# Function to list all virtual environments
+lsvenv() {
+    echo "Available virtual environments in $VENV_DIR:"
+    ls -1 "$VENV_DIR"
+}
