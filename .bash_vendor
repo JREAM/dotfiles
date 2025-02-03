@@ -4,6 +4,7 @@
 # ║ BASH_VENDORS                                                    ║
 # ╚═════════════════════════════════════════════════════════════════╝
 
+
 # ╔═════════════════════════════════════════════════════════════════╗
 # ║ Java JDK                                                        ║
 # ╚═════════════════════════════════════════════════════════════════╝
@@ -99,6 +100,7 @@ fi
 #             sail up && sail migrate
 # [Use]       $ sail
 alias sail='sh $([ -f sail ] && echo sail || echo vendor/bin/sail)'
+alias lzd='lazydocker'
 
 # ╔═════════════════════════════════════════════════════════════════╗
 # ║  GoLang                                                         ║
@@ -190,7 +192,7 @@ if [ -x $HOME/.fzf/bin/fzf ]; then
 
     # Ctrl+G uses the CTRL_T_OPTS
     # Bind CTRL+G to File Widget
-    bind -x '"\C-g": "fzf-file-widget"'
+    #bind -x '"\C-g": "fzf-file-widget"'
 
     export FZF_CTRL_T_OPTS="
       --walker-skip .git,node_modules,target

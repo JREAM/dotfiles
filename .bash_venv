@@ -2,6 +2,7 @@
 # Directory to store all virtual environments
 VENV_DIR="$HOME/virtualenvs"
 
+
 # Ensure the virtualenvs directory exists
 mkdir -p "$VENV_DIR"
 
@@ -19,16 +20,15 @@ mkvenv() {
         echo "Virtual environment '$venv_name' already exists."
     else
         echo "Creating virtual environment '$venv_name'..."
-        python3 -m venv "$venv_path"
+         python3 -m venv "$venv_path"
         echo "Virtual environment '$venv_name' created at $venv_path."
     fi
 
     # Activate the new virtual environment
-    activate "$venv_name"
+    echo "To activate use: venv $1"
 }
 
-# Function to activate a virtual environment
-activate() {
+workon() {
     local venv_name
     if [ -z "$1" ]; then
         # If no argument, use the current directory name as the venv name
@@ -44,7 +44,9 @@ activate() {
         source "$venv_path/bin/activate"
     else
         echo "Virtual environment '$venv_name' does not exist."
+        echo "Try running in your project folder or see your venv's with $ lsvenv"
     fi
+
 }
 
 # Function to remove a virtual environment
@@ -76,3 +78,33 @@ lsvenv() {
     echo "Available virtual environments in $VENV_DIR:"
     ls -1 "$VENV_DIR"
 }
+
+_workon_completions() {
+    local cur
+    cur="${COMP_WORDS[COMP_CWORD]}"
+
+    # Get a list of virtual environment names
+    local venv_names
+    mapfile -t venv_names < <(ls -1 "$VENV_DIR" 2>/dev/null)
+
+    # Filter matches using compgen
+    local matches
+    mapfile -t matches < <(compgen -W "${venv_names[*]}" -- "$cur")
+
+    if [[ ${#matches[@]} -eq 1 ]]; then
+        # If there's only one match, set it explicitly and disable further expansion
+        COMPREPLY=("${matches[0]}")
+        compopt -o nospace  # Prevents appending extra space
+        compopt +o default   # Disables default Bash completion behavior
+    elif [[ ${#matches[@]} -gt 1 ]]; then
+        # If multiple matches, allow normal cycling
+        COMPREPLY=("${matches[@]}")
+    else
+        COMPREPLY=()
+    fi
+}
+
+
+complete -F _workon_completions workon
+complete -F _workon_completions rmvenv
+
