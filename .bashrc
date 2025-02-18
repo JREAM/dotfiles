@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 # shellcheck disable=SC2086,SC2154,SC1091
 # ╔═════════════════════════════════════════════════════════════════╗
 # ║ BASHRC                                                          ║
@@ -49,6 +49,7 @@ fi
 # ║ (3) ...rest                                                     ║
 # ╚═════════════════════════════════════════════════════════════════╝
 [[ -f $HOME/.bash_var ]] && .  $HOME/.bash_var
+[[ -f $HOME/.bash_api ]] && .  $HOME/.bash_api
 [[ -f $HOME/.bash_vendor ]] && . $HOME/.bash_vendor
 [[ -f $HOME/.bash_alias ]] && . $HOME/.bash_alias
 [[ -f $HOME/.bash_fn ]] && . $HOME/.bash_fn
@@ -97,7 +98,8 @@ if [[ -n $SSH_CLIENT ]]; then
   IN_SSH="[${IBYELLOW}SSH$RESET][${IBLUE}@${HOSTNAME}$RESET]"
 fi
 
-export PS1="$IN_SSH[$IBLUE\w$RESET]\$(git_info)\$(svn_info)\n\u@\h-> "
+#export PS1="$IN_SSH[$IBLUE\w$RESET]\$(git_info)\$(svn_info)\n\u@\h-> "
+export PS1="$IN_SSH[$IBLUE\w$RESET]\$(git_info)\n\u@\h-> "
 #export PS1="$IN_SSH[$IBLUE\w$RESET]\$(git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/($IYELLOW\1$RESET)/')\n\u@\h-> "
 
 # ┌─────────────────────────────────────────────────────────────────┐
