@@ -50,10 +50,10 @@ fi
 # ╚═════════════════════════════════════════════════════════════════╝
 [[ -f $HOME/.bash_var ]] && .  $HOME/.bash_var
 [[ -f $HOME/.bash_api ]] && .  $HOME/.bash_api
-[[ -f $HOME/.bash_vendor ]] && . $HOME/.bash_vendor
 [[ -f $HOME/.bash_alias ]] && . $HOME/.bash_alias
-[[ -f $HOME/.bash_fn ]] && . $HOME/.bash_fn
-[[ -f $HOME/.bash_venv ]] && . $HOME/.bash_venv
+[[ -f $XDG_CONFIG_HOME/vendor ]] && . $XDG_CONFIG_HOME/vendor
+[[ -f $XDG_CONFIG_HOME/fn ]] && . $XDG_CONFIG_HOME/fn
+[[ -f $XDG_CONFIG_HOME/python ]] && . $XDG_CONFIG_HOME/python
 [[ -f $HOME/.bash_work ]] && . $HOME/.bash_work
 [[ -f $HOME/.private ]] && . $HOME/.private # .gitignore
 

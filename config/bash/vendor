@@ -89,6 +89,7 @@ if [ -d $HOME/.local/share/pnpm ]; then
     export PNPM_HOME=$XDG_DATA_HOME/pnpm
     export PATH="$PNPM_HOME:$PATH"
     alias pn=pnpm
+    alias px=pnpx
 fi
 
 # ╔═════════════════════════════════════════════════════════════════╗
@@ -154,7 +155,11 @@ export GRC_ALIASES=true
 if type batcat >/dev/null 2>&1; then
     # --plain for no line numbers
     # --paging never (because I can't copy/paste so nicely)
-    alias bat='batcat --theme="Monokai Extended Origin" --plain --paging=never'
+    alias bat='batcat --plain --paging=never'
+    export BAT_THEME="Monokai Extended Origin"
+
+    # Use bat alias w/settings over cat
+    alias cat='batcat'
 fi
 
 # ───────────────────────────────────────────────────────────────────
@@ -226,3 +231,5 @@ command -v tre >/dev/null && alias tree='tre'
 # ───────────────────────────────────────────────────────────────────
 
 [ -x /usr/bin/direnv ] && eval "$(direnv hook bash)"
+
+

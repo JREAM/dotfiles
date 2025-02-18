@@ -1,15 +1,19 @@
 #!/bin/bash
+
+# Required: uv (python/venv/all in one)
+# https://github.com/astral-sh/uv
+# Install: curl -LsSf https://astral.sh/uv/install.sh | sh
+
 # Directory to store all virtual environments
 VENV_DIR="$HOME/virtualenvs"
-
 
 # Ensure the virtualenvs directory exists
 mkdir -p "$VENV_DIR"
 
-# Function to create a virtual environment
+# Function to create a virtual environment using uv
 mkvenv() {
     if [ -z "$1" ]; then
-        echo "Usage: mkvenv <venv_name>"
+        echo "Usage: mkvenv <venv_name>" >&2
         return 1
     fi
 
@@ -17,17 +21,22 @@ mkvenv() {
     local venv_path="$VENV_DIR/$venv_name"
 
     if [ -d "$venv_path" ]; then
-        echo "Virtual environment '$venv_name' already exists."
+        echo "Virtual environment '$venv_name' already exists." >&2
     else
         echo "Creating virtual environment '$venv_name'..."
-         python3 -m venv "$venv_path"
+        uv venv "$venv_path"
+        if [ $? -ne 0 ]; then  # Check for errors from uv
+          echo "Error: Failed to create virtual environment." >&2
+          return 1
+        fi
         echo "Virtual environment '$venv_name' created at $venv_path."
     fi
 
-    # Activate the new virtual environment
-    echo "To activate use: venv $1"
+    # Activate message
+    echo "To activate, use: venv $1"
 }
 
+# Function to activate a virtual environment (no change needed)
 workon() {
     local venv_name
     if [ -z "$1" ]; then
@@ -43,16 +52,15 @@ workon() {
         echo "Activating virtual environment '$venv_name'..."
         source "$venv_path/bin/activate"
     else
-        echo "Virtual environment '$venv_name' does not exist."
-        echo "Try running in your project folder or see your venv's with $ lsvenv"
+        echo "Virtual environment '$venv_name' does not exist." >&2
+        echo "Try running in your project folder or see your venv's with: lsvenv" >&2
     fi
-
 }
 
-# Function to remove a virtual environment
+# Function to remove a virtual environment (no major change needed)
 rmvenv() {
     if [ -z "$1" ]; then
-        echo "Usage: rmvenv <venv_name>"
+        echo "Usage: rmvenv <venv_name>" >&2
         return 1
     fi
 
@@ -60,7 +68,7 @@ rmvenv() {
     local venv_path="$VENV_DIR/$venv_name"
 
     if [ -d "$venv_path" ]; then
-        read -p "Are you sure you want to delete '$venv_name'? (y/N): " confirm
+        read -rp "Are you sure you want to delete '$venv_name'? (y/N): " confirm  # -r for raw input
         if [[ "$confirm" =~ ^[Yy]$ ]]; then
             echo "Deleting virtual environment '$venv_name'..."
             rm -rf "$venv_path"
@@ -69,16 +77,17 @@ rmvenv() {
             echo "Deletion canceled."
         fi
     else
-        echo "Virtual environment '$venv_name' does not exist."
+        echo "Virtual environment '$venv_name' does not exist." >&2
     fi
 }
 
-# Function to list all virtual environments
+# Function to list all virtual environments (no change needed)
 lsvenv() {
     echo "Available virtual environments in $VENV_DIR:"
     ls -1 "$VENV_DIR"
 }
 
+# Tab completion for workon and rmvenv (no change needed)
 _workon_completions() {
     local cur
     cur="${COMP_WORDS[COMP_CWORD]}"
@@ -104,7 +113,12 @@ _workon_completions() {
     fi
 }
 
+# shorter alias to activate a venv.
+venv() {
+  workon "$@"
+}
+
 
 complete -F _workon_completions workon
 complete -F _workon_completions rmvenv
-
+complete -F _workon_completions venv # Add completion for the venv alias
