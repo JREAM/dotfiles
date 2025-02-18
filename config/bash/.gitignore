@@ -1,0 +1,15 @@
+.api
+api
+api.sh
+
+.private
+private
+private.sh
+
+.work
+work
+work.sh
+
+.env
+env
+env.sh

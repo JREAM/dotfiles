@@ -48,14 +48,13 @@ fi
 # ║ (2) .bash_vendor come second (incase of alias-ing)              ║
 # ║ (3) ...rest                                                     ║
 # ╚═════════════════════════════════════════════════════════════════╝
-[[ -f $HOME/.bash_var ]] && .  $HOME/.bash_var
-[[ -f $HOME/.bash_api ]] && .  $HOME/.bash_api
-[[ -f $HOME/.bash_alias ]] && . $HOME/.bash_alias
-[[ -f $XDG_CONFIG_HOME/vendor ]] && . $XDG_CONFIG_HOME/vendor
-[[ -f $XDG_CONFIG_HOME/fn ]] && . $XDG_CONFIG_HOME/fn
-[[ -f $XDG_CONFIG_HOME/python ]] && . $XDG_CONFIG_HOME/python
-[[ -f $HOME/.bash_work ]] && . $HOME/.bash_work
-[[ -f $HOME/.private ]] && . $HOME/.private # .gitignore
+[[ -f $XDG_CONFIG_HOME/bash/vars ]]   && . $XDG_CONFIG_HOME/bash/vars
+[[ -f $XDG_CONFIG_HOME/bash/api ]]    && . $XDG_CONFIG_HOME/bash/api
+[[ -f $XDG_CONFIG_HOME/bash/alias ]]  && . $XDG_CONFIG_HOME/bash/alias
+[[ -f $XDG_CONFIG_HOME/bash/vendor ]] && . $XDG_CONFIG_HOME/bash/vendor
+[[ -f $XDG_CONFIG_HOME/bash/fn ]]     && . $XDG_CONFIG_HOME/bash/fn
+[[ -f $XDG_CONFIG_HOME/bash/python ]] && . $XDG_CONFIG_HOME/bash/python
+[[ -f $XDG_CONFIG_HOME/bash/work ]]   && . $XDG_CONFIG_HOME/bash/work
 
 # ┌─────────────────────────────────────────────────────────────────┐
 # │ Display: PS1 Prompt                                             │
@@ -63,21 +62,6 @@ fi
 # └─────────────────────────────────────────────────────────────────┘
 # [Help]    https://bashrcgenerator.com/
 # [NoColor] export PS1="[\w]\$(git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/')\n\u@\h-> \[\033[0m\]"
-
-svn_info() {
-  local svn_url
-  svn_url=$(svn info 2>/dev/null | grep '^URL:' | awk '{print $2}')
-  if [[ -n $svn_url ]]; then
-    local last_part="${svn_url##*/}"
-
-    local dirty=""
-    if [[ -n $(svn status 2>/dev/null) ]]; then
-      dirty="${IBYELLOW}⚒${RESET}"  # You can adjust the symbol as needed
-    fi
-
-    echo -e "(${IYELLOW}svn: ${last_part}${RESET})${dirty}"
-  fi
-}
 
 # Function to get the current branch and indicate if it has uncommitted changes
 git_info() {
@@ -98,9 +82,7 @@ if [[ -n $SSH_CLIENT ]]; then
   IN_SSH="[${IBYELLOW}SSH$RESET][${IBLUE}@${HOSTNAME}$RESET]"
 fi
 
-#export PS1="$IN_SSH[$IBLUE\w$RESET]\$(git_info)\$(svn_info)\n\u@\h-> "
 export PS1="$IN_SSH[$IBLUE\w$RESET]\$(git_info)\n\u@\h-> "
-#export PS1="$IN_SSH[$IBLUE\w$RESET]\$(git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/($IYELLOW\1$RESET)/')\n\u@\h-> "
 
 # ┌─────────────────────────────────────────────────────────────────┐
 # │ Shell Options                                                   │
