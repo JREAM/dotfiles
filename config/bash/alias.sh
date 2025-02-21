@@ -12,6 +12,14 @@
 
 alias dotfiles='cd $XDG_CONFIG_HOME/bash'
 
+# Update VScode permissions for custom css ui when updating
+function vsconfig-update {
+  sudo chown -R "$(whoami)" "$(which code)"
+  sudo chown -R "$(whoami)" "$(which code-insiders)"
+  sudo chown -R "$(whoami)" /usr/share/code
+  sudo chown -R "$(whoami)" /usr/share/code-insiders
+}
+
 # ┌─────────────────────────────────────────────────────────────────┐
 # │ Apply colors as much as possible                                │
 # └─────────────────────────────────────────────────────────────────┘
@@ -223,19 +231,19 @@ alias ssh-permissions='chown -R $USER:$USER ~/.ssh && \
 # └─────────────────────────────────────────────────────────────────┘
 hardware() { sudo dmidecode -t "$1"; }
 
-alias hardware-bios='hardware bios'
-alias hardware-cache='hardware cache'
-alias hardware-chassis='hardware chassis'
-alias hardware-connector='hardware connector'
-alias hardware-cpu='hardware processor'
-alias hardware-memory='hardware memory'
-alias hardware-motherboard='hardware baseboard'
-alias hardware-slot='hardware slot'
-alias hardware-system='hardware system'
+alias hw-bios='hardware bios'
+alias hw-cache='hardware cache'
+alias hw-chassis='hardware chassis'
+alias hw-connector='hardware connector'
+alias hw-cpu='hardware processor'
+alias hw-memory='hardware memory'
+alias hw-motherboard='hardware baseboard'
+alias hw-slot='hardware slot'
+alias hw-system='hardware system'
 
 function font-install {
 	mkdir -p ~/.local/share/fonts
-	cp *.{ttf,otf} ~/.local/share/fonts
+	cp ./*.{ttf,otf} ~/.local/share/fonts
 	fc-cache -fv
 }
 
@@ -324,181 +332,3 @@ ls-latest() {
 	find "${1:-.}" -type f -printf '%T@ %p\n' | sort -n | tail -1 | cut -f2- -d" "
 }
 
-# ╔═════════════════════════════════════════════════════════════════╗
-# ║ AppImage Shortcut Maker                                         ║
-# ╚═════════════════════════════════════════════════════════════════╝
-mklink() {
-	# Help message
-	if [ -z "$1" ] || [ "$1" == "--help" ] || [ "$1" == "-h" ]; then
-		echo "Usage: mklink <AppImage file> <AppName>"
-		echo "Creates a shortcut for an AppImage file in the application list."
-		echo ""
-		echo "Arguments:"
-		echo "  <AppImage file>  Path to the AppImage file."
-		echo "  <AppName>        Name for the application (required)."
-		return 1
-	fi
-
-	# Check if the AppImage file exists
-	if [ ! -f "$1" ]; then
-		echo "Error: AppImage file '$1' not found."
-		echo "Usage: mklink <AppImage file> <AppName>"
-		return 1
-	fi
-
-	# Check if the second argument (AppName) is provided
-	if [ -z "$2" ]; then
-		echo "Error: Application name (second argument) is required."
-		echo "Usage: mklink <AppImage file> <AppName>"
-		return 1
-	fi
-
-	APPDIR="$HOME/Applications"
-	APPFILE="$1"
-	APPNAME="$2"
-	DESKTOPFILE="$XDG_DATA_HOME/applications/$APPNAME.desktop"
-
-	# Ensure the Applications directory exists
-	mkdir -p "$APPDIR"
-
-	# Move the AppImage to the Applications directory if it's not already there
-	if [ "$(dirname "$APPFILE")" != "$APPDIR" ]; then
-		mv "$APPFILE" "$APPDIR/"
-		APPFILE="$APPDIR/$(basename "$APPFILE")"
-	fi
-
-	# Make the AppImage executable
-	chmod +x "$APPFILE"
-
-	# Create the desktop entry
-	cat >"$DESKTOPFILE" <<EOL
-[Desktop Entry]
-Name=$APPNAME
-Exec="$APPFILE" %U
-Terminal=false
-Type=Application
-Icon=$APPNAME
-StartupWMClass=$APPNAME
-Comment=$APPNAME
-Categories=Utility;Application;
-EOL
-
-	echo "Shortcut created for $APPNAME in the application list."
-}
-
-# ╔═════════════════════════════════════════════════════════════════╗
-# ║ Mouse Move                                                      ║
-# ╚═════════════════════════════════════════════════════════════════╝
-mm() {
-	LENGTH=1
-	DELAY=5
-
-	while true; do
-		for ANGLE in 0 90 180 270; do
-			xdotool mousemove_relative --polar $ANGLE $LENGTH
-			sleep $DELAY
-		done
-	done
-}
-
-# ┌─────────────────────────────────────────────────────────────────┐
-# │ Clever Renames                                                  │
-# └─────────────────────────────────────────────────────────────────┘
-
-# Generic rename function to apply transformations
-rename_files() {
-	local transform="$1"
-	shift # Remove the first argument (transform type)
-
-	if [[ -z "$1" ]]; then
-		echo "Usage: $transform <file|folder|folder/*|*.ext>"
-		return 1
-	fi
-
-	for file in "$@"; do
-		if [[ ! -e "$file" ]]; then
-			echo "Error: '$file' does not exist."
-			continue
-		fi
-
-		if [[ -d "$file" && "$file" != *'/'* ]]; then
-			continue # Skip renaming folders unless explicitly selected
-		fi
-
-		dir=$(dirname -- "$file")
-		base=$(basename -- "$file")
-
-		# Apply the selected transformation
-		case "$transform" in
-		lower) new_name=$(echo "$base" | tr '[:upper:]' '[:lower:]') ;;
-		upper) new_name=$(echo "$base" | tr '[:lower:]' '[:upper:]') ;;
-		dasherize)
-			new_name=$(echo "$base" | tr '[:upper:]' '[:lower:]' | sed -E 's/[ _]+/-/g')
-			;;
-		snakeify)
-			new_name=$(echo "$base" | tr '[:upper:]' '[:lower:]' | sed -E 's/[- _]+/_/g')
-			;;
-		spacify)
-			new_name=$(echo "$base" | tr '[:upper:]' '[:lower:]' | sed -E 's/[-_]+/ /g')
-			;;
-		ucwords)
-			# Uppercase first letter of each word (words split by space, underscore, or dash)
-			new_name=$(echo "$base" | sed -E 's/([[:lower:]])([[:space:]]|[_\-])/\1\U\2/g')
-			new_name=$(echo "$new_name" | sed -E 's/([[:space:]]|[_\-])([[:lower:]])/\1\U\2/g')
-			;;
-		*)
-			echo "Unknown transformation: $transform"
-			return 1
-			;;
-		esac
-
-		if [[ "$base" != "$new_name" ]]; then
-			mv -- "$file" "$dir/$new_name"
-		fi
-	done
-}
-
-# Define the functions
-lower() { rename_files lower "$@"; }
-upper() { rename_files upper "$@"; }
-dasherize() { rename_files dasherize "$@"; }
-snakeify() { rename_files snakeify "$@"; }
-spacify() { rename_files spacify "$@"; }
-ucwords() { rename_files ucwords "$@"; }
-
-# Generic rename function that can call any of the methods
-rn() {
-	if [[ "$1" == "-h" || "$1" == "--help" ]]; then
-		echo "Usage: rn <method> <file|folder|folder/*|*.ext>"
-		echo
-		echo "Available transformations:"
-		echo "  lower      - Convert filename to lowercase"
-		echo "  upper      - Convert filename to uppercase"
-		echo "  dasherize  - Convert spaces, underscores, and multiple dashes to a single dash (-) and lowercase"
-		echo "  snakeify   - Convert spaces, dashes, and underscores to underscores (_) and lowercase"
-		echo "  spacify    - Convert spaces, underscores, and dashes to spaces and lowercase"
-		echo "  ucwords    - Uppercase the first letter of each word (split by spaces, dashes, or underscores)"
-		echo
-		echo "Examples:"
-		echo "  rn lower *.txt        # Apply lowercase to all .txt files"
-		echo "  rn ucwords folder/*   # Capitalize first letter of each word in all files inside folder/"
-		return 0
-	fi
-
-	if [[ -z "$1" || -z "$2" ]]; then
-		echo "Usage: rn <method> <file|folder|folder/*|*.ext>"
-		return 1
-	fi
-
-	local method="$1"
-	shift
-	case "$method" in
-	lower | upper | dasherize | snakeify | spacify | ucwords)
-		rename_files "$method" "$@"
-		;;
-	*)
-		echo "Invalid method. Valid methods are: lower, upper, dasherize, snakeify, spacify, ucwords."
-		return 1
-		;;
-	esac
-}

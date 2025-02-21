@@ -6,6 +6,14 @@ api.sh
 private
 private.sh
 
+.private-work
+private-work
+private-work.sh
+
+.private_work
+prviate_work
+private_work.sh
+
 .work
 work
 work.sh

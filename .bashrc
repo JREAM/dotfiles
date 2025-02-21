@@ -13,7 +13,7 @@
 export INTERACTIVE_MODE=$i9e
 
 export PATH=$PATH:/home/$USER/.local/bin # Set: Local bin to $PATH
-export BROWSER=/usr/bin/brave-browser    # Set: Local Browser (Affects: VSCode)
+export BROWSER=/usr/bin/microsoft-edge    # Set: Local Browser (Affects: VSCode)
 export EDITOR=vim
 
 export GREP_COLORS='ms=01;38;5;190:mc=01;31:sl=:cx=:fn=35:ln=32:bn=32:se=36'
@@ -48,13 +48,13 @@ fi
 # ║ (2) .bash_vendor come second (incase of alias-ing)              ║
 # ║ (3) ...rest                                                     ║
 # ╚═════════════════════════════════════════════════════════════════╝
-[[ -f $XDG_CONFIG_HOME/bash/vars ]]   && . $XDG_CONFIG_HOME/bash/vars
-[[ -f $XDG_CONFIG_HOME/bash/api ]]    && . $XDG_CONFIG_HOME/bash/api
-[[ -f $XDG_CONFIG_HOME/bash/alias ]]  && . $XDG_CONFIG_HOME/bash/alias
-[[ -f $XDG_CONFIG_HOME/bash/vendor ]] && . $XDG_CONFIG_HOME/bash/vendor
-[[ -f $XDG_CONFIG_HOME/bash/fn ]]     && . $XDG_CONFIG_HOME/bash/fn
-[[ -f $XDG_CONFIG_HOME/bash/python ]] && . $XDG_CONFIG_HOME/bash/python
-[[ -f $XDG_CONFIG_HOME/bash/work ]]   && . $XDG_CONFIG_HOME/bash/work
+[[ -f $XDG_CONFIG_HOME/bash/colors.sh ]]   && . $XDG_CONFIG_HOME/bash/colors.sh
+[[ -f $XDG_CONFIG_HOME/bash/api.sh ]]    && . $XDG_CONFIG_HOME/bash/api.sh
+[[ -f $XDG_CONFIG_HOME/bash/alias.sh ]]  && . $XDG_CONFIG_HOME/bash/alias.sh
+[[ -f $XDG_CONFIG_HOME/bash/vendor.sh ]] && . $XDG_CONFIG_HOME/bash/vendor.sh
+[[ -f $XDG_CONFIG_HOME/bash/fn.sh ]]     && . $XDG_CONFIG_HOME/bash/fn.sh
+[[ -f $XDG_CONFIG_HOME/bash/python.sh ]] && . $XDG_CONFIG_HOME/bash/python.sh
+[[ -f $XDG_CONFIG_HOME/bash/work.sh ]]   && . $XDG_CONFIG_HOME/bash/work.sh
 
 # ┌─────────────────────────────────────────────────────────────────┐
 # │ Display: PS1 Prompt                                             │

@@ -1,5 +1,28 @@
 #!/bin/bash
 
+# Load includes if they exise
+INCLUDE_DIR="/home/jesse/.config/bash/includes"
+if [ -d "$INCLUDE_DIR" ]; then
+  find "$INCLUDE_DIR" -name "*.sh" -print0 | while IFS= read -r -d $'\0' file; do
+    if [ -r "$file" ]; then
+     . "$file"
+    fi
+  done
+
+fi
+
+
+fif() {
+  local text="$1"
+  if [ -z "$text" ]; then
+    echo "Usage: fif <text_to_search>"
+    return 1
+  fi
+  find . -type f -print0 | xargs -0 grep -i "$text"
+}
+
+alias find-in-file='fif'
+
 # Define the mkhash function
 function mkhash {
     # Multidimensional array containing hash types and their corresponding lengths
