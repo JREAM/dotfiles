@@ -158,7 +158,9 @@ if type batcat >/dev/null 2>&1; then
     export BAT_THEME="Monokai Extended Origin"
 
     # Use bat alias w/settings over cat
-    alias cat='batcat'
+    cat() {
+      bat $1
+    }
 fi
 
 # ───────────────────────────────────────────────────────────────────
@@ -177,8 +179,13 @@ fi
 [ -d "$HOME/.fzf/bin" ] && export PATH=$PATH:$HOME/.fzf/bin
 
 if [ -x $HOME/.fzf/bin/fzf ]; then
+  export FZF_DEFAULT_OPTS="
+    --height 40% --layout=reverse --info=inline --margin=0 --padding=0 --border=rounded --tabstop=4
+    --color=fg:#a9b7c6,bg:#282c34,hl:#ff6188,fg+:#a9b7c6,bg+:#3e4451,hl+:#ff6188,info:#fc9867,prompt:#ab9df2,pointer:#ff6188,marker:#a9dc76,spinner:#ffd866,header:#78dce8
+    "
 
-    export FZF_DEFAULT_OPTS="--height 40% --layout=reverse --info=inline --margin=0 --padding=0 --border=rounded --tabstop=4 --color=dark,info:bright-green,pointer:green,hl:bright-green"
+    #fg+:#a9b7c6,bg+:#3e4451,hl+:#ff6188
+    #--color info:#fc9867,prompt:#ab9df2,pointer:#ff6188,marker:#a9dc76,spinner:#ffd866,header:#78dce8
 
     # To use a File
     #export FZF_DEFAULT_OPTS_FILE="$XDG_CONFIG_HOME/fzfrc"
@@ -190,14 +197,7 @@ if [ -x $HOME/.fzf/bin/fzf ]; then
       --color header:italic
       --header 'Change Directory'"
 
-    export FZF_CTRL_R_OPTS="
-      --color header:italic
-      --header 'History'"
-
-    # Ctrl+G uses the CTRL_T_OPTS
-    # Bind CTRL+G to File Widget
-    #bind -x '"\C-g": "fzf-file-widget"'
-
+    # CTRL T is for making new tabs not this.
     export FZF_CTRL_T_OPTS="
       --walker-skip .git,node_modules,target
       --preview 'bat -n --color=always {}'
@@ -212,6 +212,28 @@ if [ -x $HOME/.fzf/bin/fzf ]; then
         *) fzf "$@" ;;
         esac
     }
+
+    # FZF Advanced w/RipGrep
+    # ripgrep->fzf->vim [QUERY]
+    ff() (
+      RELOAD='reload:rg --column --color=always --smart-case {q} || :'
+      OPENER='if [[ $FZF_SELECT_COUNT -eq 0 ]]; then
+              vim {1} +{2}     # No selection. Open the current line in Vim.
+            else
+              vim +cw -q {+f}  # Build quickfix list for the selected items.
+            fi'
+      fzf --disabled --ansi --multi \
+        --bind "start:$RELOAD" --bind "change:$RELOAD" \
+        --bind "enter:become:$OPENER" \
+        --bind "ctrl-o:execute:$OPENER" \
+        --bind 'alt-a:select-all,alt-d:deselect-all,ctrl-/:toggle-preview' \
+      --delimiter : \
+      --preview 'bat --style=full --color=always --highlight-line {2} {1}' \
+      --preview-window '~4,+{2}+4/3,<80(up)' \
+      --query "$*"
+  )
+
+
 fi
 
 
@@ -230,5 +252,15 @@ command -v tre >/dev/null && alias tree='tre'
 # ───────────────────────────────────────────────────────────────────
 
 [ -x /usr/bin/direnv ] && eval "$(direnv hook bash)"
+
+# ╔═════════════════════════════════════════════════════════════════╗
+# ║ Atuin CLI History                                               ║
+# ╚═════════════════════════════════════════════════════════════════╝
+#[[ -f "$HOME/.atuin/bin/env" ]] && . "$HOME/.atuin/bin/env"
+
+#bind -x '"\C-r": __atuin_history'
+
+#[[ -f ~/.bash-preexec.sh ]] && source ~/.bash-preexec.sh
+#eval "$(atuin init bash)"
 
 

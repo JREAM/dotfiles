@@ -126,26 +126,3 @@ if ! shopt -oq posix; then
     [[ -f $file ]] && source "$file" && break
   done
 fi
-
-# ┌─────────────────────────────────────────────────────────────────┐
-# │ Make $PATH readable                                             │
-# └─────────────────────────────────────────────────────────────────┘
-# [Important]     # Do not put in ~/.bash_alias, keep it here. This
-#                 # Outputs the final $PATH value with all other files.
-path() {
-  info "(List of \$PATH)"
-  tr ':' '\n' <<< "$PATH" | sort | uniq | while read -r line; do
-    if [[ $line == /home/* ]]; then
-      echo -e "  \e${BLUE}$line${RESET}"
-    elif [[ $line == /usr/* ]]; then
-      echo -e "  ${WHITE}$line${RESET}"
-    else
-      echo -e "  ${YELLOW}$line${RESET}"
-    fi
-  done
-  # Basic Way:
-  # tr ':' '\n' <<< "$PATH" | sort | uniq | sed 's/^/  /'
-
-  info "(End of \$PATH)"
-}
-

@@ -2,6 +2,10 @@
 api
 api.sh
 
+env
+.env
+env.sh
+
 .private
 private
 private.sh
