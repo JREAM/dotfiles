@@ -19,8 +19,11 @@ export XDG_CONFIG_HOME=$HOME/.config     # Config Files
 export XDG_DATA_HOME=$HOME/.local/share  # Shared Data
 export XDG_STATE_HOME=$HOME/.local/state # Actions History, Logs, Recent Files
 export XDG_CACHE_HOME=$HOME/.cache
+export XDG_LIB_HOME=$HOME/.local/lib     # For SDKs, (Custom)
 # [Example]   $HOME/.config/bash_completions
 #             $HOME/.comfig/curl/curlrc
+
+export YDOTOOL_SOCKET=/run/user/$UID/.ydotool_socket
 
 # ┌─────────────────────────────────────────────────────────────────┐
 # │ Set Correct Paths                                               │
@@ -31,13 +34,13 @@ export WGETRC="$XDG_CONFIG_HOME/wgetrc"
 
 export VIMINIT='let $MYVIMRC="$XDG_CONFIG_HOME/vim/vimrc" | source $MYVIMRC'
 
-export PYLINTHOME="$XDG_CACHE_HOME"/pylint,
-export PYLINTRC="$XDG_CONFIG_HOME"/pylint/pylintrc
+#export PYLINTHOME="$XDG_CACHE_HOME"/pylint,
+#export PYLINTRC="$XDG_CONFIG_HOME"/pylint/pylintrc
 export DOCKER_CONFIG="$XDG_CONFIG_HOME"/docker
 
 export GNUPGHOME=$XDG_DATA_HOME/gnupg
 export CARGO_HOME=$XDG_DATA_HOME/cargo
-export ZDOTDIR="$XDG_CONFIG_HOME/zsh/"
+#export ZDOTDIR="$XDG_CONFIG_HOME/zsh/"
 
 # NPM (Uncertain on how effective)
 # see npm config ls -l | grep /
@@ -70,3 +73,7 @@ fi
 # │ Autoload X11 Touchpad Options                                   │
 # └─────────────────────────────────────────────────────────────────┘
 [ -f $HOME/.xinitrc ] && . $HOME/.xinitrc
+. "/home/jesse/.deno/env"
+. "/home/jesse/.local/share/cargo/env"
+. "$HOME/.local/share/../bin/env"
+
