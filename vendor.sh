@@ -166,7 +166,7 @@ export GRC_ALIASES=true
 if type batcat >/dev/null 2>&1; then
     # --plain for no line numbers
     # --paging never (because I can't copy/paste so nicely)
-    alias bat='batcat --plain --paging=never'
+    alias bat='batcat --plain -P'
     export BAT_THEME="Monokai Extended Origin"
 
     # Use bat alias w/settings over cat

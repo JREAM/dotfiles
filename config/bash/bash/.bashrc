@@ -87,7 +87,6 @@ export PS1="$IN_SSH[$IBLUE\w$RESET]\$(git_info)\n\u@\h-> "
 # ┌─────────────────────────────────────────────────────────────────┐
 # │ Shell Options                                                   │
 # └─────────────────────────────────────────────────────────────────┘
-# Combine history
 HISTCONTROL=ignoreboth:erasedups
 HISTSIZE=10000
 HISTFILESIZE=20000
@@ -127,5 +126,3 @@ if ! shopt -oq posix; then
     [[ -f $file ]] && source "$file" && break
   done
 fi
-
-. $XDG_CONFIG_HOME/bash/inputrc-custom.sh

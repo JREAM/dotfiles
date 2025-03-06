@@ -347,3 +347,72 @@ bashedit() {
   fi
 }
 
+backup_dotfiles() {
+  local target_dir="$HOME/dotfiles"
+  local config_dir="$target_dir/config"
+  local source_config_dir="${XDG_CONFIG_HOME:-$HOME/.config}"
+
+  # Prompt for confirmation
+  read -r -p "This will overwrite files in $target_dir. Continue? (y/N) " response
+  case "$response" in
+    [yY]*)
+      # Proceed with the backup
+      ;;
+    *)
+      echo "Operation cancelled."
+      return 1
+      ;;
+  esac
+
+  # Create the target directories if they don't exist
+  mkdir -p "$target_dir" "$config_dir"
+
+  # --- Copy ~/.bashrc to the root of dotfiles ---
+  local bashrc_source="$HOME/.bashrc"
+  local bashrc_target="$target_dir/.bashrc"
+
+  if [[ -f "$bashrc_source" ]]; then
+    cp -f "$bashrc_source" "$bashrc_target"  # Force overwrite
+    echo "Copied: $bashrc_source -> $bashrc_target"
+  else
+    echo "Warning: $bashrc_source does not exist."
+  fi
+
+
+  # --- Copy directories from $XDG_CONFIG_HOME ---
+  local dirs=(bash git vim terminator bash_completion docker readline wgetrc X11)
+  local source_dir
+  local target_dir_specific
+
+  for dir in "${dirs[@]}"; do
+    source_dir="$source_config_dir/$dir"
+    target_dir_specific="$config_dir/$dir"
+
+    if [[ -d "$source_dir" ]]; then
+      # -r for recursive, -f to force overwrite, -p to preserve timestamps/permissions
+      cp -rfp "$source_dir" "$target_dir_specific"
+      echo "Copied: $source_dir -> $target_dir_specific"
+    elif [[ -f "$source_dir" ]]; then
+      # If it is a file, not a directory.
+      mkdir -p "$target_dir_specific" # ensures the parent directory is created.
+      cp -fp "$source_dir" "$target_dir_specific"
+      echo "Copied: $source_dir -> $target_dir_specific"
+    else
+      echo "Warning: $source_dir does not exist."
+    fi
+  done
+
+    # --- Commit changes to Git ---
+    if [[ -d "$target_dir/.git" ]]; then  # Check if it's a Git repository
+        cd "$target_dir" || { echo "Failed to cd into $target_dir"; return 1; }
+        git add .
+        git commit -m "Automatic dotfiles backup"
+        echo "Changes committed to Git repository in $target_dir"
+        cd - &> /dev/null || return 1 # go back to previous dir, and handle error
+
+    else
+        echo "Warning: $target_dir is not a Git repository.  Changes were not committed."
+    fi
+
+  echo "Dotfiles backup complete."
+}

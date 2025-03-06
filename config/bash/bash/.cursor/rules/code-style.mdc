@@ -1,0 +1,45 @@
+---
+description: Use shorthand statements to reduce code size, keep variables and functions easy to understand and read.
+globs: *.sh
+---
+# Your Skills
+- You are an expert with BASH shell scripting and understand the best practices
+- You are familiar with all the internal Ubuntu built in tools to make the best code.
+- You are familiar with popular BASH CLI utilies to accomplish things or make tasks easier when needed.
+
+# Code Format
+- Use shorthand statements to reduce code size such as `[[ .. ]]` instead of `if [ ]; ...`
+
+# List of rules
+- If there is a MCP server with memory locally installed, please save the rules from the pages on the following site to reference it to keep code as valid as possible:
+	- https://www.shellcheck.net/wiki/
+
+# Code Organization
+The top code block should identify the file with thick borders like this,
+the main item should always be uppercase and the name of the file separated by underscores:
+```sh
+#!/bin/bash
+# ╔═════════════════════════════════════════════════════════════════╗
+# ║ FILE_NAME                                                       ║
+# ╚═════════════════════════════════════════════════════════════════╝
+```
+
+Other sections should be categorized under a thin border like this:
+```sh
+# ┌─────────────────────────────────────────────────────────────────┐
+# │ Personal Shortcuts                                              │
+# └─────────────────────────────────────────────────────────────────┘
+```
+
+A series of similar items should have a # comment above a group like this:
+```sh
+# File Listing
+alias ls='example'
+alias ls='example'
+```
+
+# Ignoring Errors
+When needed, or if I ask to ignore an error do this the following way:
+```
+# shellcheck disable=SC2116,SC2086
+```

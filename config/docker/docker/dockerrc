@@ -1,0 +1,385 @@
+#!/bin/bash
+# ╔═════════════════════════════════════════════════════════════════╗
+# ║ DOCKERRC                                                        ║
+# ╠═════════════════════════════════════════════════════════════════╣
+# ║ - Sourced from .bashrc                                          ║
+# ║ - Colors come from .bashrc                                      ║
+# ║ @note: Using rm<i|c|v> (i:images, c:containers, v:volumes>      ║
+# ║                                                                 ║
+# ║ (1): System Prune:                                              ║
+# ║  $ docker system prune -a                                       ║
+# ╚═════════════════════════════════════════════════════════════════╝
+
+# Ensure docker exists, otherwise don't use file.
+if hash docker >&2 /dev/null; then
+  :
+else
+  return false
+fi
+
+# ┌─────────────────────────────────────────────────────────────────┐
+# │ Directories                                                     │
+# ├─────────────────────────────────────────────────────────────────┤
+# Used for Settings, please do not change.
+# ___________________________________________________________________
+DIR__DATA="/data"
+DIR__DB="$DIR__DATA/db"
+DIR__CONF="$DIR__DATA/conf"
+DIR__WWW="$HOME/projects"      # Local HTTP Content serve location.
+
+# ┌─────────────────────────────────────────────────────────────────┐
+# │ Messages                                                        │
+# └─────────────────────────────────────────────────────────────────┘
+MSG__HTTP="Using $DIR__WWW as web-root, change & restart if you wish."
+function MSG_PERSIST() {
+  echo -e "Creating local directory to persist data: $1"
+}
+
+# ┌─────────────────────────────────────────────────────────────────┐
+# │ Settings                                                        │
+# ├─────────────────────────────────────────────────────────────────┤
+# │ These only install if you run them with functions below.        │
+# │                                                                 │
+# │ @note   Different ports are use for non-conflict                │
+# │         with local setups.                                      │
+# └─────────────────────────────────────────────────────────────────┘
+
+# @TODO: Add destroyable so its easier for user, multi instance maybe?
+
+PORTAINER__APP=(
+  9500
+  "local-portainer_data"
+  "portainer/portainer"
+)
+
+dkutil-buildup()  {
+  if [[ $# -ne 3 ]]; then
+    echo -e '>> DKUtil: Build Up - Builds and Runs container in daemon mode.'
+    echo -e "[!] Error: Must have 3 arguments containing:"
+    echo -e "    $ build <container_name> <image/here> <local_port:container_port>"
+    echo -e "    $ build nginx-box nginx/alpine 8000:80"
+    return 0
+  fi
+
+  docker run -d \
+    --name=$NAME \
+    -p $PORTS \
+    -v /var/run/docker.sock:/var/run/docker.sock \
+    $IMAGE
+
+  echo '[?] Is your container listed and running?'
+  docker ps -l --size
+}
+
+PORTAINER__PORT=9500
+PORTAINER__NAME="local-portainer_data"
+PORTAINER__IMG="portainer/portainer"
+
+RANCHER__NAME="local-rancher"
+RANCHER__PORT=8080           # 8080 is default
+RANCHER__IMG=rancher/server:stable
+
+APACHE__NAME="local-apache"
+APACHE__PORT="82"            # 80 is default
+APACHE__IMG="httpd:2.4-alpine"
+
+NGINX__NAME="local-nginx"
+NGINX__PORT="83"            # 80 is default
+NGINX__IMG="nginx:1-alpine"
+
+ELK__NAME="local-elk"
+ELK__PORT_KIBANA=5601        # 5601 is default
+ELK__PORT_ELASTICSEARCH=9200 # 9200 is default
+ELK__PORT_LOGSTASH=5044      # 9200 is default
+ELK__IMG="sebp/elk"
+
+REDIS__NAME="local-redis"
+REDIS__PORT=6379             # 6379 is default
+REDIS__IMG="redis:alpine"
+
+MONGO__NAME="local-mongo"
+MONGO__PORT=27017            # 27017 is default
+MONGO__IMG="mongo:4"
+
+MYSQL__NAME="local-mysql"
+MYSQL__PORT=3306             # 3306 is default
+MYSQL__PASSWD="root"  # root Password
+MYSQL__IMG="mysql:5.7"        # You could swap w/Percona, Maria, Mysql.
+
+NATS__NAME="local-nats"
+NATS__PORT=8222              # 8222 is default
+NATS__PORT_CLIENT=4222       # 4222 is default
+#NATS__PORT_CLUSTER=6220     # 6222 is default (Not Used)
+NATS__IMG="2-alpine"
+
+# Simple way to keep track
+RUNNING=()
+RUNNING[PORTAINER]='off'
+RUNNING[RANCHER]='off'
+RUNNING[APACHE]='off'
+RUNNING[NGINX]='off'
+RUNNING[REDIS]='off'
+RUNNING[MONGO]='off'
+RUNNING[NATS]='off'
+RUNNING[ELK]='off'
+
+# [mydocker Lists containers]
+function docker-ports() {
+  echo -e "
+  ┌─────────────────────────────────────────────────┐;\n\
+    $BOLD${YELLOW}Container Name$RESET \t; │ $BOLD${YELLOW}Port$RESET; | $BOLD${YELLOW}Status$RESET; \n\
+  ├─────────────────────────────────────────────────┤;\n\
+    $PORTAINER__NAME \t │ $PORTAINER__PORT}\t  \n\
+    $RANCHER__NAME \t │ $RANCHER__PORT | s; \n\
+    $APACHE__NAME \t │ $APACHE__PORT; \n\
+    $NGINX__NAME \t │ $NGINX__PORT; \n\
+    $REDIS__NAME \t │ $REDIS__PORT; \n\
+    $MYSQL__NAME \t │ $MYSQL__PORT; \n\
+    $MONGO__NAME \t │ $MONGO__PORT; \n\
+    $NATS__NAME \t │ $NATS__PORT; \n\
+    $ELK__NAME \t │ $ELK__PORT; \n\
+  └──────────────────────────────────────────────────┘
+  " | column -tx -s ';'
+}
+
+# ┌─────────────────────────────────────────────────────────────────┐
+# │ Aliases                                                         │
+# ├─────────────────────────────────────────────────────────────────┤
+# │ For Docker Compose                                              │
+# └─────────────────────────────────────────────────────────────────┘
+alias dco="docker-compose"
+alias dco-l="docker-compose logs"
+alias dco-log="docker-compose logs"
+alias dco-logs="docker-compose logs"
+alias dco-lf="docker-compose logs -f"
+alias dco-logf="docker-compose logs -f"
+alias dco-logsf="docker-compose logs -f"
+alias dco-reboot="docker-compose down && docker-compose up -d"
+alias dco-fresh="docker-compose kill && docker-compose down && docker-compose up --build -d"
+alias dco-down="docker-compose down"
+alias dco-up="docker-compose up -d"
+alias dco-stop="docker-compose stop"
+alias dco-kill="docker-compose kill"
+
+# ───────────────────────────────────────────────────────────────────
+#
+#                       ALIASES/FUNCTIONS
+#                             Docker
+# ───────────────────────────────────────────────────────────────────
+alias docker-kill-all="docker kill $(docker ps -q)"
+
+# :: Shortcut for docker compose without the dash
+# ───────────────────────────────────────────────────────────────────
+function docker() {
+  echo $1
+  if [ "$1" = "compose" ]; then
+    shift; docker-compose "$@"
+  else
+    command docker "$@"
+  fi
+}
+
+#
+# :: IMAGES | Does Container Exist?
+# ───────────────────────────────────────────────────────────────────
+function docker-exists() {
+  if [ -z $1 ]; then
+    echo "Missing argument for image name."; return;
+  fi
+  return $(docker images -q $1)  # Returns ID or Nothing
+}
+
+# i = image(s)
+# v = volumes(s)
+# c = container(s)
+# ───────────────────────────────────────────────────────────────────
+function docker-kill-all        { docker kill $(docker ps -q); }
+function docker-last-id()       { docker ps -l -q; }
+function docker-rmc-all()       { docker kill $(docker ps -q); docker ps -aq | xargs docker rm -fv; }
+function docker-rmi-all()       { docker rmi $(docker images -a -q); }
+function docker-rmi-dangling()  { docker images -a -q --filter 'dangling=true' | xargs docker rmi; }
+function docker-rmv-unused()    { docker volume prune; }
+function docker-stop-all        { docker stop $(docker ps -q); }
+
+# ┌─────────────────────────────────────────────────────────────────┐
+# │ Portainer                                                       │
+# │ @desc  Container Management Engine                              │
+# └─────────────────────────────────────────────────────────────────┘
+function portainer-install() {
+  docker volume create portainer_data
+  docker run -d \
+    --name=$PORTAINER__NAME \
+    -p $PORTAINER__PORT:9000 \
+    -v /var/run/docker.sock:/var/run/docker.sock \
+    -v $DIR__DB/portainer_data:/data \
+    $PORTAINER__IMG;
+}
+function portainer-start()   { docker start $PORTAINER__NAME; }
+function portainer-stop()    { docker stop $PORTAINER__NAME; }
+function portainer-restart() { docker restart $PORTAINER__NAME; }
+
+# ┌─────────────────────────────────────────────────────────────────┐
+# │ Rancher                                                         │
+# ├─────────────────────────────────────────────────────────────────┤
+# │ @desc  Container Management Engine                              │
+# └─────────────────────────────────────────────────────────────────┘
+function rancher-install() {
+  # docker volume create rancher_data
+  docker run -d \
+    --name=$RANCHER__NAME \
+    -p $RANCHER__PORT:8080 \
+    $RANCHER__IMG;
+}
+function rancher-start()   { docker start $RANCHER__NAME; }
+function rancher-stop()    { docker stop $RANCHER__NAME; }
+function rancher-restart() { docker restart $RANCHER__NAME; }
+
+# ┌─────────────────────────────────────────────────────────────────┐
+# │ Redis                                                           │
+# ├─────────────────────────────────────────────────────────────────┤
+# │ @desc  In Memory Database                                       │
+# └─────────────────────────────────────────────────────────────────┘
+function redis-install() {
+  if [ ! -d $DIR__DATA ]; then
+    sudo mkdir -p $DIR__DATA
+  fi
+  if [ ! -f $DIR__CONF/redis.conf ]; then
+    echo "You need are missing $DIR__CONF/redis.conf, see https://github.com/jream/dotfiles.git under a docker folder"
+    exit 1;
+  fi
+  echo -e "Using $DIR__CONF/redis.conf, change & restart if you wish."
+  docker run -d \
+    --name=$REDIS__NAME \
+    -p $REDIS__PORT:6379 \
+    -v $DIR__CONF/redis.conf:/usr/local/etc/redis/redis.conf \
+    $REDIS__IMG;
+}
+
+function redis-install() {
+  echo -e "Using $DIR__CONF/redis.conf, change & restart if you wish."
+  docker start $REDIS__NAME;
+}
+function redis-stop()    { docker stop $REDIS__NAME; }
+function redis-restart() { docker restart $REDIS__NAME; }
+function redis-connect() { docker exec -it $REDIS__NAME redis-cli; }
+
+# ┌─────────────────────────────────────────────────────────────────┐
+# │ Apache                                                          │
+# ├─────────────────────────────────────────────────────────────────┤
+# │ @desc  HTTP Server                                              │
+# └─────────────────────────────────────────────────────────────────┘
+function apache-install() {
+  # echo -e "Using $DIR__CONF/apache.ini for configuration, change & restart if you wish."
+  echo -e $MSG__HTTP
+  docker run -d \
+    --name=$APACHE__NAME \
+    -p $APACHE__PORT:80 \
+    -v "$DIR__WWW":/usr/local/apache2/htdocs/ \
+    $APACHE__IMG;
+}
+function apache-start()   { echo -e MSG__HTTP; docker start $APACHE__NAME; }
+function apache-stop()    { docker stop $APACHE__NAME; }
+function apache-restart() { docker restart $APACHE__NAME; }
+
+# ┌─────────────────────────────────────────────────────────────────┐
+# │ Nginx                                                           │
+# ├─────────────────────────────────────────────────────────────────┤
+# │ @desc  HTTP Server                                              │
+# └─────────────────────────────────────────────────────────────────┘
+function nginx-install() {
+  # docker run -d -v "$DIR__WWW":/usr/share/nginx/html --name=$NGINX__NAME -p $NGINX__PORT:80 $NGINX__IMG $CONF_DIR/nginx.conf:/etc/nginx/nginx.conf:ro
+  echo -e $MSG__HTTP;
+  docker run -d \
+    --name=$NGINX__NAME \
+    -v "$DIR__WWW":/usr/share/nginx/html \
+    -p $NGINX__PORT:80 \
+    $NGINX__IMG;
+}
+function nginx-start()   { docker start $NGINX__NAME; }
+function nginx-stop()    { docker stop $NGINX__NAME; }
+function nginx-restart() { docker restart $NGINX__NAME; }
+
+# ┌─────────────────────────────────────────────────────────────────┐
+# │ Mongo                                                           │
+# ├─────────────────────────────────────────────────────────────────┤
+# │ @desc  NoSQL Database                                           │
+# └─────────────────────────────────────────────────────────────────┘
+function mongo-install() {
+  if [[ ! -d $DIR__DB/mongo/$MONGO__NAME ]]; then
+    MSG_PERSIST "$DIR__DB/mongo/$MONGO__NAME"
+    sudo mkdir $DIR__DB/mongo/$MONGO__NAME;
+  fi
+  docker run -d \
+    --name=$MONGO__NAME \
+    -p $MONGO__PORT:27017 \
+    -v $DIR__DB/mongo/$MONGO__NAME \
+    $MONGO__IMG;
+}
+function mongo-start()   { docker start $MONGO__NAME; }
+function mongo-stop()    { docker stop $MONGO__NAME; }
+function mongo-restart() { docker restart $MONGO__NAME; }
+function mongo-connect() { docker exec -it $MONGO__NAME mongo; }
+
+# ┌─────────────────────────────────────────────────────────────────┐
+# │ MySQL                                                           │
+# ├─────────────────────────────────────────────────────────────────┤
+# │ @desc  Relational Database                                      │
+# └─────────────────────────────────────────────────────────────────┘
+function mysql-install() {
+  if [[ ! -d $DIR__DB/mysql/$MYSQL__NAME ]]; then
+    MSG_PERSIST "$DIR__DB/mysql/$MYSQL__NAME";
+    sudo mkdir $DIR__DB/mysql/$MYSQL__NAME;
+  fi
+  docker run -d \
+    --name=$MYSQL__NAME \
+    -p $MYSQL__PORT:3306 \
+    -e MYSQL_PASSWD=$MYSQL__PASSWD \
+    -v $DIR__DB/mysql/$MYSQL__NAME:/var/lib/mysql \
+    $MYSQL__IMG;
+}
+function mysql-start()   { docker start $MYSQL__NAME; }
+function mysql-stop()    { docker stop $MYSQL__NAME; }
+function mysql-restart() { docker restart $MYSQL__NAME; }
+function mysql-connect() { docker exec -it $MYSQL__NAME mysql -uroot -p$MYSQL__PASSWD; }
+
+# ┌─────────────────────────────────────────────────────────────────┐
+# │ NATS                                                            │
+# ├─────────────────────────────────────────────────────────────────┤
+# │ @desc  Message Queue                                            │
+# └─────────────────────────────────────────────────────────────────┘
+function nats-install() {
+  docker run -d \
+    --name=$NATS__NAME \
+    -p $NATS__PORT:8222 \
+    $NATS__IMG;
+}
+function nats-start()   { docker start $NATS__NAME; }
+function nats-stop()    { docker stop $NATS__NAME; }
+function nats-restart() { docker restart $NATS__NAME; }
+function nats-connect() { docker exec -it $NATS__NAME; }
+
+# ┌─────────────────────────────────────────────────────────────────┐
+# │ ELK                                                             │
+# ├─────────────────────────────────────────────────────────────────┤
+# │ @desc  ElasticSearch, Logsstash, Kibana UI                      │
+# └─────────────────────────────────────────────────────────────────┘
+function elk-install() {
+  docker run -d \
+    --name=$ELK__NAME \
+    -p $ELK__PORT_KIBANA:5601 \
+    -p $ELK__PORT_ELASTICSEARCH:9200 \
+    -p $ELK__PORT_LOGSTASH:5044 \
+    $ELK__IMG;
+
+    echo -e "You may need to increase local vm.max_map_count by running:\n\
+    \t$ sudo sysctl -w vm.max_map_count=262144 \n\
+    (or) Edit Manually and append to bottom: \n\
+    \t$ sudo vim /etc/sysctl.conf \n\
+    \t$ vm.max_map_count=262144 \n\
+    (Requires Reboot) \n\n\
+    "
+}
+function elk-start()    { docker start $ELK__NAME; }
+function elk-stop()     { docker stop $ELK__NAME; }
+function elk-restart()  { docker restart $ELK__NAME; }
+function nats-connect() { docker exec -it $NATS__NAME; }
