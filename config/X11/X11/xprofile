@@ -1,9 +1,0 @@
-synclient PalmDetect=1
-synclient PalmMinWidth=2
-synclient PalmMinZ=80
-synclient HorizEdgeScroll=on
-synclient HorizTwoFingerScroll=on
-synclient VertEdgeScroll=0
-synclient LeftEdge=122
-synclient RightEdge=2500
-synclient AreaRightEdge=2500

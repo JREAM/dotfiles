@@ -1,10 +1,8 @@
+.aider*
 .api
 api
 api.sh
-
-env
-.env
-env.sh
+.cursor
 
 .private
 private
@@ -13,9 +11,8 @@ private.sh
 .private-work
 private-work
 private-work.sh
-
 .private_work
-prviate_work
+private_work
 private_work.sh
 
 .work

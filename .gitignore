@@ -1,6 +1,8 @@
 # Generic Colorizer Git Clone
 grc
 
+**/docker/buildx/**
+**/*.vscode
 # For Private keys
 .private
 .bash_work
