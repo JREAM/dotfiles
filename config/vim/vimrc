@@ -18,14 +18,13 @@ set shell=/bin/bash
 """"""""""""""""""""""""""""""""""""""""
 " Plugins (Vundle)
 """"""""""""""""""""""""""""""""""""""""
-
 set rtp+=$XDG_CONFIG_HOME/vim/bundle/Vundle.vim
 call vundle#rc("$XDG_CONFIG_HOME/vim/bundle")
 
 " Vundle itself
 Bundle 'gmarik/Vundle.vim'
 
-" --- Your other plugins ---
+" --- Vundle Plugins ---
 Plugin 'benjaminwhite/Benokai'
 Plugin 'bling/vim-airline'        " Statusline
 Plugin 'vim-airline/vim-airline-themes' " Themes
@@ -33,11 +32,9 @@ Plugin 'gregsexton/matchtag'
 Plugin 'scrooloose/nerdtree'      " Tree Style Dirs
 Plugin 'tomtom/tcomment_vim'
 Plugin 'ap/vim-css-color'
-Plugin 'junegunn/fzf'
-Plugin 'chiel92/vim-autoformat'
-Plugin 'eslint/eslint'
-Plugin 'evidens/vim-twig'
 Plugin 'othree/html5.vim'
+Plugin 'chiel92/vim-autoformat'
+Plugin 'evidens/vim-twig'
 Plugin 'ShowPairs'
 Plugin 'leafgarland/typescript-vim'
 Plugin 'fatih/vim-go'
@@ -57,8 +54,6 @@ Bundle "vim-scripts/gitignore"
 Plugin 'nathanaelkane/vim-indent-guides'
 Bundle "scrooloose/syntastic"
 
-" --- End of your plugins ---
-
 " IMPORTANT:  Initialize Vundle!
 call vundle#end()
 
@@ -74,19 +69,14 @@ autocmd BufNewFile,BufReadPost *.md set filetype=markdown
 " Match Tag Always
 let g:rbpt_loadround = 1
 
-" vim-airline settings
+" vim-airline settings (visual)
 let g:airline#extensions#tabline#enabled = 1
 let g:airline_powerline_fonts = 1
 
 " Indent Guides settings (simplified)
 let g:indent_guides_enable_on_vim_startup = 1
 " let g:indent_guides_auto_colors = 0 " Not needed if using a specific color
-let g:indentLine_color_term = 239  " Or your preferred color
-
-" CtrlP custom ignores
-let g:ctrlp_custom_ignore = {
-    \ 'dir':  '\.git$\|\.hg$\|\.svn$\|bower_components$\|dist$\|node_modules$\|project_files$\|test$',
-    \ 'file': '\.exe$\|\.so$\|\.dll$\|\.pyc$' }
+" let g:indentLine_color_term = 239  " Or your preferred color
 
 " Rainbow Parentheses settings
 let g:rbpt_colorpairs = [
@@ -119,39 +109,41 @@ autocmd Syntax * RainbowParenthesesLoadBraces
 """"""""""""""""""""""""""""""""""""""""
 " General VIM Settings
 """"""""""""""""""""""""""""""""""""""""
+autocmd BufWritePre * :%s/\s\+$//e  "Auto strip trailing whitespace
+filetype plugin indent on 			" Detect filetype and enable plugins/indentation
 
-" Auto strip trailing whitespace
-autocmd BufWritePre * :%s/\s\+$//e
+set backspace=indent,eol,start " Backspace: Delete indent, end of line, start of line
 
-set mouse=a
-set backspace=indent,eol,start
-set number
-set ruler
-set nowrap
-set autoread
-set updatetime=200 " Check every 200 milliseconds (faster update)
+set mouse=a 		" Enable mouse
+set number 			" Show line numbers
+set ruler 			" Show ruler
+set nowrap 			" No wrap
+set autoread 		" Autoread files when they are changed outside of vim
+set updatetime=200 	" Check every 200 milliseconds (faster update)
 
-" Detect filetype and enable plugins/indentation (keep this enabled)
-filetype plugin indent on
 
-set showmatch
-set mat=2
-set noerrorbells
-set novisualbell
-set t_vb=
-set tm=500
-set hidden
-set tabline=2
-set tabstop=2
-set softtabstop=2
-set shiftwidth=2
-set expandtab
+set showmatch 		" Show matching brackets
+set mat=2 			" Match brackets after 2 characters
+set hidden 			" Hide buffers when they are abandoned
+
+set tabline=2 		" Show tabline
+set tabstop=2 		" Number of spaces that a <Tab> in the file counts for
+set softtabstop=2 	" Number of spaces that a <Tab> counts for while editing
+set shiftwidth=2 	" Number of spaces to use for each step of (auto)indent
+set expandtab 		" Use spaces instead of tabs
+
+set noerrorbells 	" No error bells
+set novisualbell 	" No visual bell
+set t_vb= 			" No terminal bell
+set tm=500 			" Timeout for terminal bell
 
 " Filetype-specific tab settings (good)
 autocmd Filetype php setlocal tabstop=4
+autocmd Filetype go setlocal tabstop=4
 autocmd Filetype nginx setlocal tabstop=2
 
-set wildignore=*.swp,*.bak,*.pyc,*.class,*.docx,*.jpg,*.png,*.gif,*.pdf,*.pyc,*.exe,*.flv,*.img,*.xlsx
+" Wildignore: Ignore these filetypes
+set wildignore=*.swp,*.bak,*.pyc,*.class,*.docx,*.jpg,*.png,*.gif,*.pdf,*.pyc,*.exe,*.flv,*.img,*.xlsx,*.webp,*.ico
 
 " Return to last edit position
 autocmd BufReadPost *
@@ -159,13 +151,15 @@ autocmd BufReadPost *
      \   exe "normal! g`\"" |
      \ endif
 
-set viminfo^=%
-set nobackup
-set noswapfile
-set history=1000
+
+set viminfo^=%  	" Store viminfo in the viminfo file
+set nobackup  		" No backup files generated
+set noswapfile  	" No swapfile files generated
+set history=1000  	" History: 1000 commands
 set wildmode=list:longest
 
 " *** Simplified Clipboard Setting (Choose ONE) ***
+" I have a bug here
 set clipboard=unnamed  " Standard clipboard integration
 " set clipboard=unnamedplus "  X11 clipboard (middle-click paste) - use if on Linux/X11
 
@@ -173,38 +167,35 @@ set clipboard=unnamed  " Standard clipboard integration
 " Hotkeys
 """"""""""""""""""""""""""""""""""""""""
 
-" Map Ctrl+/ to toggle comments (UNCOMMENT if your terminal supports it)
+" Map Ctrl+/ to toggle comments
 nmap <C-/> :NERDCommentToggle<CR>
 vmap <C-/> :NERDCommentToggle<CR>
 
-" Map CTRL P to FZF
-nmap <C-P> :FZF<CR>
-
+""""""""""""""""""""""""""""""""""""""""
 " Mode Mappings (These are good, keep them)
-nnoremap <S-Tab> <<
-inoremap <S-Tab> <C-o><<
-nmap <C-BS> dB
-imap <C-BS> <C-o>dB
-nmap <C-S-Right> $
-imap <C-S-Right> <C-o>$
-nmap <C-S-Left> 0
-imap <C-S-Left> <C-o>0
+" ---------------------------------------
+" Help: Map hotkeys to commands
+" Desc: [i|n|v| ] map: insert|normal|visual|(all) mode mappings
+""""""""""""""""""""""""""""""""""""""""
 map <C-n> :NERDTreeToggle<CR>
-inoremap <C+y> <c-o>:redo</cr>
+nmap <C-BS> dB
 nmap <C-h> <C-w>h
 nmap <C-j> <C-w>j
 nmap <C-k> <C-w>k
 nmap <C-l> <C-w>l
+nmap <C-S-Left> 0
+nmap <C-S-Right> $
+
 
 """"""""""""""""""""""""""""""""""""""""
 " Searching
 """"""""""""""""""""""""""""""""""""""""
 
-set incsearch
-nnoremap <CR> :nohlsearch<CR>
-set ignorecase
-set smartcase
-set hlsearch
+nnoremap <CR> :nohlsearch<CR> " Normal Mode: No highlight on search
+set incsearch 		" Incremental search
+set ignorecase		" Ignore case
+set smartcase 		" Smart case
+set hlsearch 		" Highlight search
 
 """"""""""""""""""""""""""""""""""""""""
 " Aesthetics
