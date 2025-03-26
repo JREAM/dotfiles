@@ -10,7 +10,8 @@
 # └─────────────────────────────────────────────────────────────────┘
 [ -d $HOME/Downloads ] && alias dl='cd $HOME/Downloads'
 
-alias dotfiles='cd $XDG_CONFIG_HOME/bash'
+alias bashdir='cd $XDG_CONFIG_HOME/bash'
+alias vimedit='vim $XDG_CONFIG_HOME/vim/vimrc'
 
 # Update VScode permissions for custom css ui when updating
 function vsconfig-update {
@@ -335,6 +336,14 @@ ls-latest() {
 # ╔═════════════════════════════════════════════════════════════════╗
 # ║ Get XDG Paths                                                   ║
 # ╚═════════════════════════════════════════════════════════════════╝
+
+alias xdg-data-home='cd $XDG_DATA_HOME'
+alias xdg-config-home='cd $XDG_CONFIG_HOME'
+alias xdg-cache-home='cd $XDG_CACHE_HOME'
+alias xdg-state-home='cd $XDG_STATE_HOME'
+alias xdg-mv-share='mkdir-p $XDG_DATA_HOME/share/$1 && mv $1 $XDG_DATA_HOME/share/$1'
+
+
 
 xdg() {
   # Header with border using Unicode box-drawing characters, bright orange
