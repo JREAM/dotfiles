@@ -127,12 +127,34 @@ if [ -d /usr/local/go ]; then
     export PATH=$PATH:$GOPATH/bin
 fi
 
+
+# ╔═════════════════════════════════════════════════════════════════╗
+# ║  Turso / SQLite                                                 ║
+# ╚═════════════════════════════════════════════════════════════════╝
+# [Desc]:     Installs to defalt location, remap to alias
+# [Install]:  $ curl -sSfL https://get.tur.so/install.sh | bash
+# [Usage]:    $ turso auth login
+if [ -d $HOME/.turso ]; then
+  alias turso=$HOME/.turso/turso
+  alias sqld=$HOME/.turso/sqld
+fi
+
+# ╔═════════════════════════════════════════════════════════════════╗
+# ║  Python / PyEnv                                                 ║
+# ╚═════════════════════════════════════════════════════════════════╝
+# Stop generating bytecode files
+# ╔═════════════════════════════════════════════════════════════════╗
+# ║  Python / PyEnv                                                 ║
+# ╚═════════════════════════════════════════════════════════════════╝
+# Stop generating bytecode files
 # ╔═════════════════════════════════════════════════════════════════╗
 # ║  Python / PyEnv                                                 ║
 # ╚═════════════════════════════════════════════════════════════════╝
 # Stop generating bytecode files
 export PYTHONDONTWRITEBYTECODE=1
 export WORKON_HOME="$XDG_DATA_HOME/virtualenvs"
+
+
 
 # Pipx is for installing python commands (not packages)
 # ───────────────────────────────────────────────────────────────────
