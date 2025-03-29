@@ -174,7 +174,8 @@ autocmd BufReadPost *
 set viminfo^=%  	" Store viminfo in the viminfo file
 set nobackup  		" No backup files generated
 set noswapfile  	" No swapfile files generated
-set history=1000  	" History: 1000 commands
+set history=1000  " History: 1000 commands
+set nofoldenable  " Don't fold code
 set wildmode=list:longest
 
 " *** Simplified Clipboard Setting (Choose ONE) ***
