@@ -7,11 +7,9 @@
 
 
 # ╔═════════════════════════════════════════════════════════════════╗
-# ║ Java JDK                                                        ║
+# ║ Flutter JDK                                                        ║
 # ╚═════════════════════════════════════════════════════════════════╝
-# [Pkg]       default-jdk default-jre
-# [Locate]    $ readlink -f `which javac` | sed "s:/bin/javac::"
-# [Notes]     Java is always a symbolic link using update-alternatives
+# [Pkg]       flutter
 if [ -d $XDG_LIB_HOME/flutter ]; then
     export PATH="$XDG_LIB_HOME/flutter/bin:$PATH"
 fi
@@ -80,19 +78,8 @@ fi
 #fi
 
 # ╔═════════════════════════════════════════════════════════════════╗
-# ║  Node / NPM / Yarn / PNPM                                       ║
-# ║  (!) Place ~/.yarn before ~/.npm so is takes precidence.        ║
+# ║  pnpm (Phantom NPM) (NPM Alternative                           ║
 # ╚═════════════════════════════════════════════════════════════════╝
-# [Pkg]     Yarn (NPM alternative)
-# [Install] $ npm i -g yarn
-# ───────────────────────────────────────────────────────────────────
-if [[ -d $HOME/.yarn/bin ]]; then
-    export PATH=$PATH:$HOME/.yarn/bin
-    alias yarn='yarn --use-yarnrc "$XDG_CONFIG_HOME/yarn/config"'
-fi
-
-# pnpm (Phantom NPM) (NPM Alternative)
-# ───────────────────────────────────────────────────────────────────
 # [Pkg]       https:/pnpm.io
 # [Install]   curl -fsSL https://get.pnpm.io/install.sh | sh -
 # [Use]       $ pnpm -h
@@ -103,15 +90,6 @@ if [ -d $HOME/.local/share/pnpm ]; then
     alias px=pnpx
 fi
 
-# ╔═════════════════════════════════════════════════════════════════╗
-# ║  Laravel Sail                                                   ║
-# ╚═════════════════════════════════════════════════════════════════╝
-# [Pkg]       https://laravel.com/docs/11.x/sail
-# [Req]       Docker
-# [Install]   curl -s "https://laravel.build/NameYourApp" | bash
-#             sail up && sail migrate
-# [Use]       $ sail
-alias sail='sh $([ -f sail ] && echo sail || echo vendor/bin/sail)'
 alias lzd='lazydocker'
 
 # ╔═════════════════════════════════════════════════════════════════╗
@@ -143,17 +121,8 @@ fi
 # ║  Python / PyEnv                                                 ║
 # ╚═════════════════════════════════════════════════════════════════╝
 # Stop generating bytecode files
-# ╔═════════════════════════════════════════════════════════════════╗
-# ║  Python / PyEnv                                                 ║
-# ╚═════════════════════════════════════════════════════════════════╝
-# Stop generating bytecode files
-# ╔═════════════════════════════════════════════════════════════════╗
-# ║  Python / PyEnv                                                 ║
-# ╚═════════════════════════════════════════════════════════════════╝
-# Stop generating bytecode files
 export PYTHONDONTWRITEBYTECODE=1
 export WORKON_HOME="$XDG_DATA_HOME/virtualenvs"
-
 
 
 # Pipx is for installing python commands (not packages)
@@ -286,15 +255,4 @@ command -v tre >/dev/null && alias tree='tre'
 # ───────────────────────────────────────────────────────────────────
 
 [ -x /usr/bin/direnv ] && eval "$(direnv hook bash)"
-
-# ╔═════════════════════════════════════════════════════════════════╗
-# ║ Atuin CLI History                                               ║
-# ╚═════════════════════════════════════════════════════════════════╝
-#[[ -f "$HOME/.atuin/bin/env" ]] && . "$HOME/.atuin/bin/env"
-
-#bind -x '"\C-r": __atuin_history'
-
-#[[ -f ~/.bash-preexec.sh ]] && source ~/.bash-preexec.sh
-#eval "$(atuin init bash)"
-
 

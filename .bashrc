@@ -72,7 +72,7 @@ git_info() {
   if [[ -n $branch ]]; then
     # Check for uncommitted changes
     [[ -n $(git status --porcelain 2>/dev/null) ]] && dirty="${IBYELLOW}⚒${RESET}"
-    echo -e "(${IYELLOW}git: ${branch}${RESET})${dirty}"
+    echo -e "(${BYELLOW}git: ${branch}${RESET})${dirty}"
   fi
 }
 
@@ -128,4 +128,5 @@ if ! shopt -oq posix; then
   done
 fi
 
-. $XDG_CONFIG_HOME/bash/inputrc-custom.sh
+[ -f $XDG_CONFIG_HOME/bash/inputrc-custom.sh ] && . $XDG_CONFIG_HOME/bash/inputrc-custom.sh
+
