@@ -22,7 +22,6 @@ set shell=/bin/bash
 call plug#begin("~/.config/vim/plugged")
 
 " Languages
-Plug 'fatih/vim-go'
 Plug 'evanleck/vim-svelte'
 Plug 'othree/html5.vim'
 Plug 'evidens/vim-twig'
