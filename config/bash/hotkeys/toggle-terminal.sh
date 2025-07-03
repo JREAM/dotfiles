@@ -1,27 +1,34 @@
 #!/bin/bash
 # shellcheck disable=SC2086,SC2154,SC1091
+#
+# [IMPORTANT] File is NOT autoloaded, used to be called from a hotkey
+#
 # ╔═════════════════════════════════════════════════════════════════╗
 # ║ TOGGLE_TERMINAL                                                 ║
 # ╚═════════════════════════════════════════════════════════════════╝
+# [Note]    Only working in X11 not XWayland because wmctrl is not supported in Wayland.
+# [Workaround] Hotkey command: terminator --new-tab
+# [Usage]   Disable default Terminal Hotkey
+#           $ gsettings set org.gnome.settings-daemon.plugins.media-keys terminal ''
+#           Easiest to Manually set a custom hotkey in GNOME Settings
 # [Pkg]     $ apt install wmctrl
 # [Doc]     Place in ~/.local/usr/bin
 
 export DISPLAY=:0
 # Add this at the top of your script
 LOGFILE="/tmp/toggle-terminal.log"
-echo "$(date): Running toggle-terminal script" >> $LOGFILE
-
+echo "$(date): Running toggle-terminal script" >>$LOGFILE
 
 # Function to get the default terminal emulator
 get_default_terminal() {
-  if command -v x-terminal-emulator > /dev/null; then
+  if command -v x-terminal-emulator >/dev/null; then
     echo "x-terminal-emulator"
-  elif command -v gnome-terminal > /dev/null; then
+  elif command -v gnome-terminal >/dev/null; then
     echo "gnome-terminal"
-  elif command -v terminator > /dev/null; then
+  elif command -v terminator >/dev/null; then
     echo "terminator"
   else
-    echo "gnome-terminal"  # Fallback to gnome-terminal if nothing else works
+    echo "gnome-terminal" # Fallback to gnome-terminal if nothing else works
   fi
 }
 
@@ -45,4 +52,3 @@ else
   echo "No terminal window found. Launching a new one."
   $DEFAULT_TERMINAL &
 fi
-

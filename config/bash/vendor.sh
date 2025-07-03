@@ -4,14 +4,12 @@
 # ║ BASH_VENDORS                                                    ║
 # ╚═════════════════════════════════════════════════════════════════╝
 
-
-
 # ╔═════════════════════════════════════════════════════════════════╗
-# ║ Flutter JDK                                                        ║
+# ║ Flutter JDK                                                     ║
 # ╚═════════════════════════════════════════════════════════════════╝
 # [Pkg]       flutter
 if [ -d $XDG_LIB_HOME/flutter ]; then
-    export PATH="$XDG_LIB_HOME/flutter/bin:$PATH"
+  export PATH="$XDG_LIB_HOME/flutter/bin:$PATH"
 fi
 
 # ╔═════════════════════════════════════════════════════════════════╗
@@ -21,8 +19,8 @@ fi
 # [Locate]    $ readlink -f `which javac` | sed "s:/bin/javac::"
 # [Notes]     Java is always a symbolic link using update-alternatives
 if [ -L /usr/bin/java ]; then
-    export JAVA_HOME=/usr/lib/jvm/java-21-openjdk-amd64/bin/java
-    export PATH=$PATH:$JAVA_HOME/bin
+  export JAVA_HOME="/usr/lib/jvm/java-*-openjdk-amd64/bin/java"
+  export PATH=$PATH:$JAVA_HOME/bin
 fi
 
 # ╔═════════════════════════════════════════════════════════════════╗
@@ -34,9 +32,9 @@ fi
 #             chmod +x ./dotnet-install.sh && ./dotnet-install.sh
 #             (See ~/.dotnet folder)
 if [ -d $HOME/.dotnet ]; then
-    export DOTNET_ROOT=$HOME/.dotnet
-    export PATH=$PATH:$DOTNET_ROOT/tools
-    alias dotnet=$DOTNET_ROOT/dotnet
+  export DOTNET_ROOT=$HOME/.dotnet
+  export PATH=$PATH:$DOTNET_ROOT/tools
+  alias dotnet=\$DOTNET_ROOT/dotnet
 fi
 
 # ╔═════════════════════════════════════════════════════════════════╗
@@ -53,12 +51,12 @@ fi
 # [Install] curl -fsSL https://deno.land/install.sh | sh
 # ───────────────────────────────────────────────────────────────────
 if command -v bun >/dev/null 2>&1; then
-    export BUN_INSTALL="$HOME/.bun"
-    export PATH="$BUN_INSTALL/bin:$PATH"
+  export BUN_INSTALL="$HOME/.bun"
+  export PATH="$BUN_INSTALL/bin:$PATH"
 fi
 
 # ╔═════════════════════════════════════════════════════════════════╗
-# ║  Deno (Node)                                                     ║
+# ║  Deno (Node)                                                    ║
 # ╚═════════════════════════════════════════════════════════════════╝
 # [Pkg]     Deno (Node alternative)
 # [Install] curl -fsSL https://deno.land/install.sh | sh
@@ -66,28 +64,16 @@ fi
 [[ -f "$HOME/.deno/env" ]] && . "$HOME/.deno/env"
 
 # ╔═════════════════════════════════════════════════════════════════╗
-# ║  asdf (Version Mgr)                                             ║
-# ╚═════════════════════════════════════════════════════════════════╝
-# [Pkg]     asdf (Node alternative)
-# [Install] git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.14.1
-# ───────────────────────────────────────────────────────────────────
-# Disalbe for now
-#if [[ -f "$HOME/.asdf/asdf.sh" ]]; then
-# . "$HOME/.asdf/asdf.sh"
-#  . "$HOME/.asdf/completions/asdf.bash"
-#fi
-
-# ╔═════════════════════════════════════════════════════════════════╗
-# ║  pnpm (Phantom NPM) (NPM Alternative                           ║
+# ║  pnpm (Phantom NPM)                                             ║
 # ╚═════════════════════════════════════════════════════════════════╝
 # [Pkg]       https:/pnpm.io
 # [Install]   curl -fsSL https://get.pnpm.io/install.sh | sh -
 # [Use]       $ pnpm -h
 if [ -d $HOME/.local/share/pnpm ]; then
-    export PNPM_HOME=$XDG_DATA_HOME/pnpm
-    export PATH="$PNPM_HOME:$PATH"
-    alias pn=pnpm
-    alias px=pnpx
+  export PNPM_HOME=$XDG_DATA_HOME/pnpm
+  export PATH="$PNPM_HOME:$PATH"
+  alias pn=pnpm
+  alias px=pnpx
 fi
 
 alias lzd='lazydocker'
@@ -99,12 +85,11 @@ alias lzd='lazydocker'
 # [Install]   Download @ https://go.dev/dl/
 # [Use]       $ go -h
 if [ -d /usr/local/go ]; then
-    # Do GO development in $GOPATH
-    export GOPATH=$XDG_DATA_HOME/go
-    export PATH=$PATH:/usr/local/go/bin
-    export PATH=$PATH:$GOPATH/bin
+  # Do GO development in $GOPATH
+  export GOPATH=$XDG_DATA_HOME/go
+  export PATH=$PATH:/usr/local/go/bin
+  export PATH=$PATH:$GOPATH/bin
 fi
-
 
 # ╔═════════════════════════════════════════════════════════════════╗
 # ║  Turso / SQLite                                                 ║
@@ -124,12 +109,11 @@ fi
 export PYTHONDONTWRITEBYTECODE=1
 export WORKON_HOME="$XDG_DATA_HOME/virtualenvs"
 
-
 # Pipx is for installing python commands (not packages)
 # ───────────────────────────────────────────────────────────────────
 # [Pkg]   pip install pipx
 if [ -x $HOME/.local/bin/pipx ]; then
-    eval "$(register-python-argcomplete pipx)"
+  eval "$(register-python-argcomplete pipx)"
 fi
 
 # ╔═════════════════════════════════════════════════════════════════╗
@@ -155,15 +139,15 @@ export GRC_ALIASES=true
 # [Pkg]   https://github.com/sharkdp/bat
 # [Use]   $ batcat -h
 if type batcat >/dev/null 2>&1; then
-    # --plain for no line numbers
-    # --paging never (because I can't copy/paste so nicely)
-    alias bat='batcat --plain --paging=never'
-    export BAT_THEME="Monokai Extended Origin"
+  # --plain for no line numbers
+  # --paging never (because I can't copy/paste so nicely)
+  alias bat='batcat --plain --paging=never'
+  export BAT_THEME="Monokai Extended Origin"
 
-    # Use bat alias w/settings over cat
-    cat() {
-      bat $1
-    }
+  # Use bat alias w/settings over cat
+  cat() {
+    bat $1
+  }
 fi
 
 # ───────────────────────────────────────────────────────────────────
@@ -187,58 +171,56 @@ if [ -x $HOME/.fzf/bin/fzf ]; then
     --color=fg:#a9b7c6,bg:#282c34,hl:#ff6188,fg+:#a9b7c6,bg+:#3e4451,hl+:#ff6188,info:#fc9867,prompt:#ab9df2,pointer:#ff6188,marker:#a9dc76,spinner:#ffd866,header:#78dce8
     "
 
-    #fg+:#a9b7c6,bg+:#3e4451,hl+:#ff6188
-    #--color info:#fc9867,prompt:#ab9df2,pointer:#ff6188,marker:#a9dc76,spinner:#ffd866,header:#78dce8
+  #fg+:#a9b7c6,bg+:#3e4451,hl+:#ff6188
+  #--color info:#fc9867,prompt:#ab9df2,pointer:#ff6188,marker:#a9dc76,spinner:#ffd866,header:#78dce8
 
-    # To use a File
-    #export FZF_DEFAULT_OPTS_FILE="$XDG_CONFIG_HOME/fzfrc"
-    export FZF_COMPLETION_TRIGGER=".."
-    export FZF_DEFAULT_COMMAND="fdfind . $HOME --type f --exclude .git,node_modules"
-    export FZF_ALT_C_COMMAND="fdfind -t d . $HOME"
+  # To use a File
+  #export FZF_DEFAULT_OPTS_FILE="$XDG_CONFIG_HOME/fzfrc"
+  export FZF_COMPLETION_TRIGGER=".."
+  export FZF_DEFAULT_COMMAND="fdfind . $HOME --type f --exclude .git,node_modules"
+  export FZF_ALT_C_COMMAND="fdfind -t d . $HOME"
 
-    export FZF_ALT_C_OPTS="
+  export FZF_ALT_C_OPTS="
       --color header:italic
       --header 'Change Directory'"
 
-    # CTRL T is for making new tabs not this.
-    export FZF_CTRL_T_OPTS="
+  # CTRL T is for making new tabs not this.
+  export FZF_CTRL_T_OPTS="
       --walker-skip .git,node_modules,target
       --preview 'bat -n --color=always {}'
       --color header:italic
       --header 'File Widget'"
 
-    _fzf_comprun() {
-        local command=$1
-        shift
-        case "$command" in
-        cd) fzf "$@" --preview 'tree -C {} | head -200' ;;
-        *) fzf "$@" ;;
-        esac
-    }
+  _fzf_comprun() {
+    local command=$1
+    shift
+    case "$command" in
+    cd) fzf "$@" --preview 'tree -C {} | head -200' ;;
+    *) fzf "$@" ;;
+    esac
+  }
 
-    # FZF Advanced w/RipGrep
-    # ripgrep->fzf->vim [QUERY]
-    ff() (
-      RELOAD='reload:rg --column --color=always --smart-case {q} || :'
-      OPENER='if [[ $FZF_SELECT_COUNT -eq 0 ]]; then
+  # FZF Advanced w/RipGrep
+  # ripgrep->fzf->vim [QUERY]
+  ff() (
+    RELOAD='reload:rg --column --color=always --smart-case {q} || :'
+    OPENER='if [[ $FZF_SELECT_COUNT -eq 0 ]]; then
               vim {1} +{2}     # No selection. Open the current line in Vim.
             else
               vim +cw -q {+f}  # Build quickfix list for the selected items.
             fi'
-      fzf --disabled --ansi --multi \
-        --bind "start:$RELOAD" --bind "change:$RELOAD" \
-        --bind "enter:become:$OPENER" \
-        --bind "ctrl-o:execute:$OPENER" \
-        --bind 'alt-a:select-all,alt-d:deselect-all,ctrl-/:toggle-preview' \
+    fzf --disabled --ansi --multi \
+      --bind "start:$RELOAD" --bind "change:$RELOAD" \
+      --bind "enter:become:$OPENER" \
+      --bind "ctrl-o:execute:$OPENER" \
+      --bind 'alt-a:select-all,alt-d:deselect-all,ctrl-/:toggle-preview' \
       --delimiter : \
       --preview 'bat --style=full --color=always --highlight-line {2} {1}' \
       --preview-window '~4,+{2}+4/3,<80(up)' \
       --query "$*"
   )
 
-
 fi
-
 
 # ───────────────────────────────────────────────────────────────────
 # Tre-Command
@@ -255,4 +237,3 @@ command -v tre >/dev/null && alias tree='tre'
 # ───────────────────────────────────────────────────────────────────
 
 [ -x /usr/bin/direnv ] && eval "$(direnv hook bash)"
-

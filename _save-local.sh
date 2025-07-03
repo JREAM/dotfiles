@@ -1,4 +1,7 @@
 #!/bin/bash
+
+# Dont use this right now, i can do better..
+
 FILES=(
   $XDG_CONFIG_HOME/vim
   $XDG_CONFIG_HOME/terminator
@@ -9,7 +12,6 @@ FILES=(
   $XDG_CONFIG_HOME/docker
   $XDG_CONFIG_HOME/tmux
   $XDG_CONFIG_HOME/bash_completion
-  $XDG_CONFIG_HOME/cheat
   $HOME/.xinitrc
   $HOME/.xprofile
   $HOME/.profile
