@@ -56,6 +56,15 @@ echo fs.inotify.max_user_watches=65536 | sudo tee -a /etc/sysctl.conf && sudo sy
 ```
 
 ### Keybindings
+
+When `git clone https://github.com/jream/dotfiles.git ~/dotfiles` is run, and installed set the hotkey to this command for single instance terminator.
+Right now it only works in X11 not XWayland.
+
+```
+CTRL + Alt + T
+/home/jesse/.config/bash/toggle-terminal.sh
+```
+
 ```bash
 gsettings set org.gnome.settings-daemon.plugins.media-keys terminal ''
 gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/ binding '<Super>t't

@@ -49,11 +49,7 @@ alias su='sudo -i'   # Become root
 
 alias www='cd /www'
 
-# Work
-[ -d /server/work ] && alias w='cd /server/work'
-
-# Docker
-[ -d /docker ] && alias d='cd /docker'
+alias path='echo $PATH | tr ":" "\\n" | sort | uniq -c' # Print PATH with counts
 
 # Projects
 alias p='cd ${HOME}/projects 2>/dev/null || cd /server/projects 2>/dev/null'
@@ -126,10 +122,10 @@ alias fgrep='fgrep --color=auto'
 # └─────────────────────────────────────────────────────────────────┘
 # Find all directories and count files within them, then sort by count descending
 function count_most_files() {
-	find . -type d -print0 | while IFS= read -r -d $'\0' dir; do
-		file_count=$(find "$dir" -maxdepth 1 -type f | wc -l)
-		echo "$file_count $dir"
-	done | sort -nr | awk '{print $2 ": " $1 " files"}'
+  find . -type d -print0 | while IFS= read -r -d $'\0' dir; do
+    file_count=$(find "$dir" -maxdepth 1 -type f | wc -l)
+    echo "$file_count $dir"
+  done | sort -nr | awk '{print $2 ": " $1 " files"}'
 }
 
 # ┌─────────────────────────────────────────────────────────────────┐
@@ -173,11 +169,11 @@ alias ping='ping -c 5' # Send X packets
 alias ports="netstat -tulanp"
 
 function portcheck() {
-	if [ -z $1 ]; then
-		echo -e "[!] You must pass a port number, such as 1234"
-		return 0
-	fi
-	sudo lsof -i :$1
+  if [ -z $1 ]; then
+    echo -e "[!] You must pass a port number, such as 1234"
+    return 0
+  fi
+  sudo lsof -i :$1
 }
 
 alias filesystem-reload='sudo systemctl start remote-fs.target local-fs.target && sudo systemctl daemon-reload' # FStab, mount -a doesn't work
@@ -185,18 +181,18 @@ alias fsreload="filesystem-reload"
 alias fontreload='fc-cache -f'
 
 function convertgpgkey() {
-	if [ -z $1 ]; then
-		echo -e "[!] You must pass a file, such as filename.asc"
-		return 0
-	fi
-	if [ ! -f $1 ]; then
-		echo -e "[!] The first argument must be a file."
-	fi
+  if [ -z $1 ]; then
+    echo -e "[!] You must pass a file, such as filename.asc"
+    return 0
+  fi
+  if [ ! -f $1 ]; then
+    echo -e "[!] The first argument must be a file."
+  fi
 
-	echo -e "[+] Example downloading to file:"
-	echo -e "wget -qO - https://www.mongodb.org/static/pgp/server-6.0.asc > server-6.0.asc"
-	echo -e "cat server-6.0.asc | gpg --dearmor | sudo tee /usr/share/keyrings/mongodb-org-6.0.gpg | > /dev/null 2&1"
-	cat $1 | grg --dearmor >"${1%.*}.gpg" # New File Name
+  echo -e "[+] Example downloading to file:"
+  echo -e "wget -qO - https://www.mongodb.org/static/pgp/server-6.0.asc > server-6.0.asc"
+  echo -e "cat server-6.0.asc | gpg --dearmor | sudo tee /usr/share/keyrings/mongodb-org-6.0.gpg | > /dev/null 2&1"
+  cat $1 | grg --dearmor >"${1%.*}.gpg" # New File Name
 }
 
 # ┌─────────────────────────────────────────────────────────────────┐
@@ -242,9 +238,9 @@ alias hw-slot='hardware slot'
 alias hw-system='hardware system'
 
 function font-install {
-	mkdir -p ~/.local/share/fonts
-	cp ./*.{ttf,otf} ~/.local/share/fonts
-	fc-cache -fv
+  mkdir -p ~/.local/share/fonts
+  cp ./*.{ttf,otf} ~/.local/share/fonts
+  fc-cache -fv
 }
 
 # ┌─────────────────────────────────────────────────────────────────┐
@@ -278,10 +274,10 @@ alias mysqlvars="mysql -NBe 'SHOW VARIABLES'| sed 's,\t,^=,' | column -ts^"
 # ╚═════════════════════════════════════════════════════════════════╝
 # >> Get the Repository file size
 function fix-apt-legacy-keys() {
-	for KEY in $(apt-key list | grep -E "(([ ]{1,2}(([0-9A-F]{4}))){10})" | tr -d " " | grep -E "([0-9A-F]){8}\b"); do
-		K=${KEY:(-8)}
-		apt-key export $K | sudo gpg --dearmour -o /etc/apt/trusted.gpg.d/imported-from-trusted-gpg-$K.gpg
-	done
+  for KEY in $(apt-key list | grep -E "(([ ]{1,2}(([0-9A-F]{4}))){10})" | tr -d " " | grep -E "([0-9A-F]){8}\b"); do
+    K=${KEY:(-8)}
+    apt-key export $K | sudo gpg --dearmour -o /etc/apt/trusted.gpg.d/imported-from-trusted-gpg-$K.gpg
+  done
 }
 
 # ╔═════════════════════════════════════════════════════════════════╗
@@ -289,22 +285,22 @@ function fix-apt-legacy-keys() {
 # ╚═════════════════════════════════════════════════════════════════╝
 # >> Get the Repository file size
 git-filesize() {
-	git rev-list --objects --all |
-		git cat-file --batch-check='%(objecttype) %(objectname) %(objectsize) %(rest)' |
-		sed -n 's/^blob //p' |
-		sort -n -k2 |
-		cut -c 1-12,41- |
-		$(command -v gnumfmt || echo numfmt) --field=2 --to=iec-i --suffix=B --padding=7 --round=nearest
+  git rev-list --objects --all |
+    git cat-file --batch-check='%(objecttype) %(objectname) %(objectsize) %(rest)' |
+    sed -n 's/^blob //p' |
+    sort -n -k2 |
+    cut -c 1-12,41- |
+    $(command -v gnumfmt || echo numfmt) --field=2 --to=iec-i --suffix=B --padding=7 --round=nearest
 }
 
 # ╔═════════════════════════════════════════════════════════════════╗
 # ║ Docker Aliases                                                  ║
 # ╚═════════════════════════════════════════════════════════════════╝
 docker-compose-from-container() {
-	docker pull ghcr.io/red5d/docker-autocompose:latest
-	echo -e "\n [ START: output $([[ -z $1 ]] && echo 'single' || echo 'all') running container ]"
-	docker run --rm -v /var/run/docker.sock:/var/run/docker.sock ghcr.io/red5d/docker-autocompose ${1:-$(docker ps -aq)}
-	echo -e "\n [ END: output $([[ -z $1 ]] && echo 'single' || echo 'all') running containers ]"
+  docker pull ghcr.io/red5d/docker-autocompose:latest
+  echo -e "\n [ START: output $([[ -z $1 ]] && echo 'single' || echo 'all') running container ]"
+  docker run --rm -v /var/run/docker.sock:/var/run/docker.sock ghcr.io/red5d/docker-autocompose ${1:-$(docker ps -aq)}
+  echo -e "\n [ END: output $([[ -z $1 ]] && echo 'single' || echo 'all') running containers ]"
 }
 
 # ╔═════════════════════════════════════════════════════════════════╗
@@ -312,11 +308,11 @@ docker-compose-from-container() {
 # ╚═════════════════════════════════════════════════════════════════╝
 # >> Compress contents into a <name>tar.gz
 compress() {
-	[[ -z $1 ]] && {
-		echo "Usage: compress <name>.tar.gz <folder|file>"
-		return 1
-	}
-	tar -cvzf "${1%.*}.tar.gz" "$2"
+  [[ -z $1 ]] && {
+    echo "Usage: compress <name>.tar.gz <folder|file>"
+    return 1
+  }
+  tar -cvzf "${1%.*}.tar.gz" "$2"
 }
 
 # ╔═════════════════════════════════════════════════════════════════╗
@@ -324,14 +320,13 @@ compress() {
 # ╚═════════════════════════════════════════════════════════════════╝
 # >> Find a list of the 20 largest files
 ls-largest() {
-	du -h -x -s -- * | sort -r -h | head -20
+  du -h -x -s -- * | sort -r -h | head -20
 }
 
 # >> Show the LATEST file in current directory
 ls-latest() {
-	find "${1:-.}" -type f -printf '%T@ %p\n' | sort -n | tail -1 | cut -f2- -d" "
+  find "${1:-.}" -type f -printf '%T@ %p\n' | sort -n | tail -1 | cut -f2- -d" "
 }
-
 
 # ╔═════════════════════════════════════════════════════════════════╗
 # ║ Get XDG Paths                                                   ║
@@ -342,8 +337,6 @@ alias xdg-config-home='cd $XDG_CONFIG_HOME'
 alias xdg-cache-home='cd $XDG_CACHE_HOME'
 alias xdg-state-home='cd $XDG_STATE_HOME'
 alias xdg-mv-share='mkdir-p $XDG_DATA_HOME/share/$1 && mv $1 $XDG_DATA_HOME/share/$1'
-
-
 
 xdg() {
   # Header with border using Unicode box-drawing characters, bright orange
@@ -385,19 +378,19 @@ xdg_config_dirs() {
 
   # Read XDG_CONFIG_DIRS into an array, handling empty variable
   if [ -z "$XDG_CONFIG_DIRS" ]; then
-    paths=("$HOME/.config")  # Default to $HOME/.config if empty
+    paths=("$HOME/.config") # Default to $HOME/.config if empty
   else
-    read -r -a paths <<< "$XDG_CONFIG_DIRS"
+    read -r -a paths <<<"$XDG_CONFIG_DIRS"
   fi
 
-  if command -v fzf &> /dev/null; then
+  if command -v fzf &>/dev/null; then
     # Use fzf for selection
     selected_path=$(printf "%s\n" "${paths[@]}" | fzf --prompt="Go to XDG_CONFIG_DIRS path: " --height 40% --layout=reverse --border)
 
     if [[ -n "$selected_path" ]]; then
       cd "$selected_path" || {
         echo "Error: Could not change directory to $selected_path."
-        read -r -p "Press Enter to continue..."  # Wait for user input
+        read -r -p "Press Enter to continue..." # Wait for user input
         return 1
       }
     fi
@@ -412,7 +405,7 @@ xdg_config_dirs() {
       # Display paths with selection indicator
       for i in "${!paths[@]}"; do
         if [[ "$i" -eq "$((selected_index - 1))" ]]; then
-          echo -e "  \033[1;34m> ${paths[$i]}\033[0m"  # Highlight selected path
+          echo -e "  \033[1;34m> ${paths[$i]}\033[0m" # Highlight selected path
         else
           echo "    ${paths[$i]}"
         fi
@@ -422,55 +415,54 @@ xdg_config_dirs() {
       read -r -s -n 3 key
 
       case "$key" in
-        $'\x1b[A')  # Up arrow
-          ((selected_index > 1)) && ((selected_index--))
-          ;;
-        $'\x1b[B')  # Down arrow
-          ((selected_index < ${#paths[@]})) && ((selected_index++))
-          ;;
-        $'\x0a')  # Enter key (Line Feed)
-          # Change directory to the selected path
-          cd "${paths[$((selected_index - 1))]}" || {
-            echo "Error: Could not change directory to ${paths[$((selected_index - 1))]}."
-            read -r -p "Press Enter to continue..."  # Wait for user input
-          }
-          return  # Exit the function
-          ;;
-        q) #Quit
-          return
-          ;;
+      $'\x1b[A') # Up arrow
+        ((selected_index > 1)) && ((selected_index--))
+        ;;
+      $'\x1b[B') # Down arrow
+        ((selected_index < ${#paths[@]})) && ((selected_index++))
+        ;;
+      $'\x0a') # Enter key (Line Feed)
+        # Change directory to the selected path
+        cd "${paths[$((selected_index - 1))]}" || {
+          echo "Error: Could not change directory to ${paths[$((selected_index - 1))]}."
+          read -r -p "Press Enter to continue..." # Wait for user input
+        }
+        return # Exit the function
+        ;;
+      q) #Quit
+        return
+        ;;
       esac
     done
   fi
 }
 
-
 xdg_data_dirs() {
   local selected_index=1
   local paths=()
   local IFS=":"
-    local selected_path
+  local selected_path
 
   # Read XDG_DATA_DIRS into an array, handling empty variable
   if [ -z "$XDG_DATA_DIRS" ]; then
     paths=("/usr/local/share/" "/usr/share/")
   else
-    read -r -a paths <<< "$XDG_DATA_DIRS"
+    read -r -a paths <<<"$XDG_DATA_DIRS"
   fi
 
-  if command -v fzf &> /dev/null; then
-      # Use fzf
-      selected_path=$(printf "%s\n" "${paths[@]}" | fzf --prompt="Go To XDG_DATA_DIRS path: " --height 40% --layout=reverse --border)
+  if command -v fzf &>/dev/null; then
+    # Use fzf
+    selected_path=$(printf "%s\n" "${paths[@]}" | fzf --prompt="Go To XDG_DATA_DIRS path: " --height 40% --layout=reverse --border)
 
-      if [[ -n "$selected_path" ]]; then
-        cd "$selected_path" || {
-          echo "Error: could not change directory to $selected_path"
-          read -p "Press Enter to continue..."
-          return 1
-        }
-      fi
+    if [[ -n "$selected_path" ]]; then
+      cd "$selected_path" || {
+        echo "Error: could not change directory to $selected_path"
+        read -p "Press Enter to continue..."
+        return 1
+      }
+    fi
   else
-      # fallback
+    # fallback
     while true; do
       clear
 
@@ -480,7 +472,7 @@ xdg_data_dirs() {
       # Display paths with selection indicator
       for i in "${!paths[@]}"; do
         if [[ "$i" -eq "$((selected_index - 1))" ]]; then
-          echo -e "  \033[1;34m> ${paths[$i]}\033[0m"  # Highlight selected path
+          echo -e "  \033[1;34m> ${paths[$i]}\033[0m" # Highlight selected path
         else
           echo "    ${paths[$i]}"
         fi
@@ -490,25 +482,24 @@ xdg_data_dirs() {
       read -r -s -n 3 key
 
       case "$key" in
-        $'\x1b[A')  # Up arrow
-          ((selected_index > 1)) && ((selected_index--))
-          ;;
-        $'\x1b[B')  # Down arrow
-          ((selected_index < ${#paths[@]})) && ((selected_index++))
-          ;;
-        $'\x0a')  # Enter key (Line Feed)
-          # Change directory to the selected path
-          cd "${paths[$((selected_index - 1))]}" || {
-            echo "Error: Could not change directory to ${paths[$((selected_index - 1))]}."
-            read -r -p "Press Enter to continue..."  # Wait for user input
-          }
-          return  # Exit the function
-          ;;
-        q)
-          return
-          ;;
+      $'\x1b[A') # Up arrow
+        ((selected_index > 1)) && ((selected_index--))
+        ;;
+      $'\x1b[B') # Down arrow
+        ((selected_index < ${#paths[@]})) && ((selected_index++))
+        ;;
+      $'\x0a') # Enter key (Line Feed)
+        # Change directory to the selected path
+        cd "${paths[$((selected_index - 1))]}" || {
+          echo "Error: Could not change directory to ${paths[$((selected_index - 1))]}."
+          read -r -p "Press Enter to continue..." # Wait for user input
+        }
+        return # Exit the function
+        ;;
+      q)
+        return
+        ;;
       esac
     done
   fi
 }
-

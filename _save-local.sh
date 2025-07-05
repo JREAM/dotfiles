@@ -12,14 +12,8 @@ FILES=(
   $XDG_CONFIG_HOME/docker
   $XDG_CONFIG_HOME/tmux
   $XDG_CONFIG_HOME/bash_completion
-  $HOME/.xinitrc
-  $HOME/.xprofile
-  $HOME/.profile
-  $HOME/.bashrc
-  $HOME/.bash_alias
-  $HOME/.bash_var
-  $HOME/.bash_vendor
-  $HOME/.myclirc
+  $XDG_CONFIG_HOME/bash
+
 )
 
 # Create Backup Folders in DropBox

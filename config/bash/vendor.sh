@@ -5,7 +5,7 @@
 # ╚═════════════════════════════════════════════════════════════════╝
 
 # ╔═════════════════════════════════════════════════════════════════╗
-# ║ Flutter JDK                                                     ║
+# ║ Flutter JDK                                                        ║
 # ╚═════════════════════════════════════════════════════════════════╝
 # [Pkg]       flutter
 if [ -d $XDG_LIB_HOME/flutter ]; then
@@ -19,7 +19,6 @@ fi
 # [Locate]    $ readlink -f `which javac` | sed "s:/bin/javac::"
 # [Notes]     Java is always a symbolic link using update-alternatives
 if [ -L /usr/bin/java ]; then
-  export JAVA_HOME="/usr/lib/jvm/java-*-openjdk-amd64/bin/java"
   export PATH=$PATH:$JAVA_HOME/bin
 fi
 
@@ -27,21 +26,25 @@ fi
 # ║ Dotnet JDK                                                      ║
 # ╚═════════════════════════════════════════════════════════════════╝
 # [Pkg]       dotnet-install.sh
-# [Locate]    $ readlink -f `which javac` | sed "s:/bin/javac::"
 # [Notes]     wget https://dot.net/v1/dotnet-install.sh -O dotnet-install.sh
 #             chmod +x ./dotnet-install.sh && ./dotnet-install.sh
 #             (See ~/.dotnet folder)
 if [ -d $HOME/.dotnet ]; then
   export DOTNET_ROOT=$HOME/.dotnet
-  export PATH=$PATH:$DOTNET_ROOT/tools
-  alias dotnet=\$DOTNET_ROOT/dotnet
+  if [ -d $DOTNET_ROOT/tools ]; then
+    export PATH=$PATH:$DOTNET_ROOT/tools
+  fi
+  if [ -f $DOTNET_ROOT/dotnet ]; then
+    alias dotnet=$DOTNET_ROOT/dotnet
+  fi
 fi
 
 # ╔═════════════════════════════════════════════════════════════════╗
 # ║  Rust Language                                                  ║
 # ╚═════════════════════════════════════════════════════════════════╝
 # [Pkg]     Rust
-# [Install] $ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+# [Install] curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+[ -f $XDG_DATA_HOME/cargo/env ] && . $XDG_DATA_HOME/cargo/env
 [[ -d $XDG_DATA_HOME/cargo/bin ]] && export PATH=$PATH:$XDG_DATA_HOME/cargo/bin
 
 # ╔═════════════════════════════════════════════════════════════════╗
@@ -56,7 +59,7 @@ if command -v bun >/dev/null 2>&1; then
 fi
 
 # ╔═════════════════════════════════════════════════════════════════╗
-# ║  Deno (Node)                                                    ║
+# ║  Deno (Node)                                                     ║
 # ╚═════════════════════════════════════════════════════════════════╝
 # [Pkg]     Deno (Node alternative)
 # [Install] curl -fsSL https://deno.land/install.sh | sh
@@ -64,7 +67,7 @@ fi
 [[ -f "$HOME/.deno/env" ]] && . "$HOME/.deno/env"
 
 # ╔═════════════════════════════════════════════════════════════════╗
-# ║  pnpm (Phantom NPM)                                             ║
+# ║  pnpm (Phantom NPM) (NPM Alternative                           ║
 # ╚═════════════════════════════════════════════════════════════════╝
 # [Pkg]       https:/pnpm.io
 # [Install]   curl -fsSL https://get.pnpm.io/install.sh | sh -
@@ -84,12 +87,12 @@ alias lzd='lazydocker'
 # [Pkg]       https://go.dev/
 # [Install]   Download @ https://go.dev/dl/
 # [Use]       $ go -h
-if [ -d /usr/local/go ]; then
-  # Do GO development in $GOPATH
-  export GOPATH=$XDG_DATA_HOME/go
-  export PATH=$PATH:/usr/local/go/bin
-  export PATH=$PATH:$GOPATH/bin
-fi
+# if [ -d /usr/local/go ]; then
+#   # Do GO development in $GOPATH
+#   export GOPATH=$XDG_DATA_HOME/go
+#   export PATH=$PATH:/usr/local/go/bin
+#   export PATH=$PATH:$GOPATH/bin
+# fi
 
 # ╔═════════════════════════════════════════════════════════════════╗
 # ║  Turso / SQLite                                                 ║
@@ -204,11 +207,11 @@ if [ -x $HOME/.fzf/bin/fzf ]; then
   # ripgrep->fzf->vim [QUERY]
   ff() (
     RELOAD='reload:rg --column --color=always --smart-case {q} || :'
-    OPENER='if [[ $FZF_SELECT_COUNT -eq 0 ]]; then
+    OPENER="if [[ $FZF_SELECT_COUNT -eq 0 ]]; then
               vim {1} +{2}     # No selection. Open the current line in Vim.
             else
               vim +cw -q {+f}  # Build quickfix list for the selected items.
-            fi'
+            fi"
     fzf --disabled --ansi --multi \
       --bind "start:$RELOAD" --bind "change:$RELOAD" \
       --bind "enter:become:$OPENER" \
@@ -235,5 +238,4 @@ command -v tre >/dev/null && alias tree='tre'
 # [Use]   Create a .envrc file
 #         $ direnv allow
 # ───────────────────────────────────────────────────────────────────
-
 [ -x /usr/bin/direnv ] && eval "$(direnv hook bash)"
