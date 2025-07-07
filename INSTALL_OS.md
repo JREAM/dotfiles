@@ -18,10 +18,6 @@ For a quick setup with Zorin 17 or Ubuntu 22+.
     - [AppImage Launcher Maybe](#appimage-launcher-maybe)
     - [Install Packages via APT](#install-packages-via-apt)
       - [Core System & CLI Tools](#core-system--cli-tools)
-      - [Development Essentials](#development-essentials)
-      - [Helper Utilities & Fun Stuff](#helper-utilities--fun-stuff)
-      - [Fonts](#fonts)
-      - [GNOME Specific](#gnome-specific)
   - [Language Runtimes & Tooling](#language-runtimes--tooling)
     - [Go](#go)
     - [Rust](#rust)
@@ -42,6 +38,7 @@ For a quick setup with Zorin 17 or Ubuntu 22+.
     - [System Tool Configuration](#system-tool-configuration)
     - [GNOME Settings Tweaks](#gnome-settings-tweaks)
   - [Specific Hardware](#specific-hardware)
+  - [Thinkpad T480s / L390](#thinkpad-t480s--l390)
     - [Logitech MX Master 3 Setup logiops](#logitech-mx-master-3-setup-logiops)
 
 <!-- /TOC -->
@@ -161,40 +158,30 @@ sudo apt install -y \
   rename ripgrep screen slurp software-properties-common sqlite3 sshfs stow sway synaptic \
   sysbench task-spooler tcptrack terminator tree ttf-mscorefonts-installer ubuntu-keyring \
   unp unzip vim watchman wget whois wmctrl xbindkeys xclip xdotool xmlto xsel \
-  xserver-xorg-input-synaptics
-```
-
-
-#### Development Essentials
-```bash
-sudo apt install -y \
+  xserver-xorg-input-synaptics;
+  # ########################
+  # Development Essentials \
+  # ########################
+  sudo apt install -y \
   build-essential default-jdk libreadline-dev make meld musl musl-dev musl-tools \
-  mycli postgresql python3-dev python3-pip python3-setuptools
-```
+  mycli postgresql python3-dev python3-pip python3-setuptools \
+  # Helper Utilities & Fun Stuff \
+  bash-completion bat bmon ccze chrome-gnome-shell colordiff ctop ddgr duf exa \
+  fd-find hyperfine lolcat lsb-core lsb-release lsscsi menulibre touchegg ydotool;
 
-
-#### Helper Utilities & Fun Stuff
-```bash
-sudo apt install -y \
-  albert bash-completion bat bmon ccze chrome-gnome-shell colordiff ctop ddgr duf exa \
-  fd-find hyperfine lolcat lsb-core lsb-release lsscsi menulibre touchegg ydotool
-```
-
-
-#### Fonts
-```bash
-sudo apt install -y \
+  ##########
+  ## Fonts #
+  ##########
+  sudo apt install -y \
   font-manager fonts-firacode fonts-font-awesome fonts-hack fonts-monoid \
-  fonts-open-sans fonts-powerline fonts-roboto
-```
+  fonts-open-sans fonts-powerline fonts-roboto;
 
-
-#### GNOME Specific
-```bash
-sudo apt install -y \
+  ###################
+  ## Gnome Specific #
+  ###################
+  sudo apt install -y \
   chrome-gnome-shell gnome-shell-extension-prefs gnome-tweaks
 ```
-
 
 ---
 
@@ -234,6 +221,7 @@ sudo apt install lua5.4 -y
 ```bash
 # PNPM (Fast, disk space efficient package manager)
 curl -fsSL https://get.pnpm.io/install.sh | sh -
+source ~/.bashrc
 pnpm
 pnpm env use -g lts
 
@@ -344,7 +332,9 @@ sudo update-alternatives --config x-terminal-emulator
 ### Custom Fonts
 ```bash
 # Example: Copy custom fonts from a personal directory
-sudo cp -r ~/Dropbox/my-linux/fonts /usr/share/fonts/truetype/
+mkdir ~/.local/share/fonts
+cp -r ~/Dropbox/fonts ~/.local/share/fonts
+# sudo cp -r ~/Dropbox/my-linux/fonts /usr/share/fonts/truetype/
 sudo fc-cache -f -v
 ```
 
@@ -369,7 +359,36 @@ gsettings set org.gnome.shell.window-switcher app-icon-mode 'app-icon-only'
 # To reset: gsettings reset org.gnome.shell.window-switcher app-icon-mode
 ```
 
+
 ## Specific Hardware
+
+## Thinkpad T480s / L390
+
+Optimize
+```bash
+# Swappiness not needed at 60 when I have 24GB ram
+# Requires Reboot
+sudo vim /etc/sysctl.conf
+# Add
+fs.inotify.max_user_watches=65536
+vm.swappiness=10
+
+sudo vim /etc/fstab
+## Add noatime to disable "Access Time"
+UUID=YOUR_UUID / ext4 errors=remount-ro 0 1,noatime
+
+# Enable TLP for Thinkpad Power Management
+sudo apt install tlp tlp-rdw
+sudo tlp start
+systemctl enable tlp.service
+
+# Configure at
+sudo vim /etc/default/tlp
+```
+
+```bash
+#sudo apt install tlp powertop -y
+```
 
 ### Logitech MX Master 3 Setup (logiops)
 Advanced customization for Logitech devices. [Official Repo](https://github.com/PixlOne/logiops#readme).
