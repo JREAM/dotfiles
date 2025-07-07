@@ -46,7 +46,7 @@ Plug 'benjaminwhite/Benokai'
 
 " Utils
 Plug 'chiel92/vim-autoformat'
-Plug 'scrooloose/nerdtree'      " Tree Style Dirs
+Plug 'preservim/nerdtree'      " Tree Style Dirs
 Plug 'vim-scripts/ShowPairs'
 Plug 'tpope/vim-fugitive'     " Git
 
@@ -187,8 +187,8 @@ set clipboard=unnamed  " Standard clipboard integration
 """"""""""""""""""""""""""""""""""""""""
 
 " Map Ctrl+/ to toggle comments
-nmap <C-/> :NERDCommentToggle<CR>
-vmap <C-/> :NERDCommentToggle<CR>
+nmap <C-/> :TCommentToggle<CR>
+vmap <C-/> :TCommentToggle<CR>
 
 """"""""""""""""""""""""""""""""""""""""
 " Mode Mappings (These are good, keep them)
@@ -222,7 +222,7 @@ set hlsearch 		" Highlight search
 """"""""""""""""""""""""""""""""""""""""
 set scrolloff=3
 set cursorline
-set highlight=sbr
+"set highlight=sbr
 syntax on
 set t_Co=256
 
