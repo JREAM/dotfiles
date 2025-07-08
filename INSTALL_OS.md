@@ -149,6 +149,11 @@ rm appimagelauncher_*.deb
 A comprehensive list of essential tools, utilities, and fonts installed from the default repositories.
 
 #### Core System & CLI Tools
+
+- Run this all in one setting.
+- May need to accept set `apt-fast` to `12` and confirm
+- May need to accept font EULA
+
 ```bash
 sudo apt install -y \
   acl apt-fast apt-transport-https ca-certificates curl dconf-editor direnv dmidecode \
@@ -159,26 +164,22 @@ sudo apt install -y \
   sysbench task-spooler tcptrack terminator tree ttf-mscorefonts-installer ubuntu-keyring \
   unp unzip vim watchman wget whois wmctrl xbindkeys xclip xdotool xmlto xsel \
   xserver-xorg-input-synaptics;
-  # ########################
-  # Development Essentials \
-  # ########################
+  ###### Development Essentials \
   sudo apt install -y \
   build-essential default-jdk libreadline-dev make meld musl musl-dev musl-tools \
+  gcc pkg-config libev-dev libx11-dev libxi-dev \
   mycli postgresql python3-dev python3-pip python3-setuptools \
-  # Helper Utilities & Fun Stuff \
+
+  ###### Helper Utilities & Fun Stuff
   bash-completion bat bmon ccze chrome-gnome-shell colordiff ctop ddgr duf exa \
   fd-find hyperfine lolcat lsb-core lsb-release lsscsi menulibre touchegg ydotool;
 
-  ##########
-  ## Fonts #
-  ##########
+  ###### Fonts
   sudo apt install -y \
   font-manager fonts-firacode fonts-font-awesome fonts-hack fonts-monoid \
   fonts-open-sans fonts-powerline fonts-roboto;
 
-  ###################
-  ## Gnome Specific #
-  ###################
+  ###### Gnome Specific
   sudo apt install -y \
   chrome-gnome-shell gnome-shell-extension-prefs gnome-tweaks
 ```
@@ -373,11 +374,7 @@ sudo vim /etc/sysctl.conf
 fs.inotify.max_user_watches=65536
 vm.swappiness=10
 
-sudo vim /etc/fstab
-## Add noatime to disable "Access Time"
-UUID=YOUR_UUID / ext4 errors=remount-ro 0 1,noatime
-
-# Enable TLP for Thinkpad Power Management
+# Enable TLP for Thinkpad Power Management, Meh..
 sudo apt install tlp tlp-rdw
 sudo tlp start
 systemctl enable tlp.service

@@ -1,30 +1,48 @@
 #!/bin/bash
+# This only runs on X11
 # apt install xserver-xorg-input-synaptics -y
 
-if [[ $XDG_SESSION_TYPE != 'wayland' ]]; then
-  if [ -e /usr/bin/synclient ]; then
-    echo "(+) init ~/.xprofile"
-    synclient PalmDetect=1
-    synclient PalmMinWidth=5
-    synclient PalmMinZ=30
-    synclient PressureMotionMinZ=120
+# Timeout touchpad when typing
+syndaemon -i 0.40 -K -R -d
 
-    synclient HorizEdgeScroll=0
-    synclient HorizTwoFingerScroll=1
-    synclient VertEdgeScroll=0
-    synclient LeftEdge=122
-    synclient RightEdge=2500
+# Scroll Speed for two finger
+synclient VertScrollDelta=120
+synclient AccelFactor=0.03
 
-    # Run $ evtest | grpe -E "ABS_X|ABS_Y"  --color=always | ccze -A
-    synclient AreaRightEdge=5300
-    synclient AreaLeftEdge=1400
-    synclient AreaTopEdge=71
+# Run Middle Mouse Block Paste
 
-    # Testing
-    synclient VertScrollDelta=500
-    synclient ClickPad=1
-    synclient SingleTapTimeout=100
-    synclient CoastingSpeed=20
-    synclient CoastingSpeed=20
-  fi
+# Define the command to check for
+XMPB_COMMAND="xmousepasteblock"
+
+echo "Checking for $XMPB_COMMAND..."
+
+# Check if the command exists in the PATH
+if command -v "$XMPB_COMMAND" &> /dev/null; then
+    echo "$XMPB_COMMAND is installed. Attempting to run in the background..."
+
+    # Check if xmousepasteblock is already running
+    # This uses pgrep to find running processes named "xmousepasteblock"
+    if pgrep -x "$XMPB_COMMAND" > /dev/null; then
+        echo "$XMPB_COMMAND is already running."
+    else
+        # Run xmousepasteblock in the background
+        # `&` sends it to the background
+        # `disown` detaches it from the shell, so it keeps running even if the terminal is closed
+        # `>/dev/null 2>&1` redirects stdout and stderr to null to prevent output in the terminal
+        "$XMPB_COMMAND" >/dev/null 2>&1 &
+        disown
+
+        # Give it a moment to start and then check if it's running
+        sleep 1
+        if pgrep -x "$XMPB_COMMAND" > /dev/null; then
+            echo "$XMPB_COMMAND started successfully in the background."
+        else
+            echo "Failed to start $XMPB_COMMAND."
+        fi
+    fi
+else
+    echo "$XMPB_COMMAND is not installed."
+    echo "To install, on Debian/Ubuntu, you might need to build from source or check specific repositories."
+    echo "https://github.com/milaq/XMousePasteBlock"
 fi
+

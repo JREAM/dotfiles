@@ -87,12 +87,12 @@ alias lzd='lazydocker'
 # [Pkg]       https://go.dev/
 # [Install]   Download @ https://go.dev/dl/
 # [Use]       $ go -h
-# if [ -d /usr/local/go ]; then
-#   # Do GO development in $GOPATH
-#   export GOPATH=$XDG_DATA_HOME/go
-#   export PATH=$PATH:/usr/local/go/bin
-#   export PATH=$PATH:$GOPATH/bin
-# fi
+if [ -d /usr/local/go ]; then
+  # Do GO development in $GOPATH
+  export GOPATH=$XDG_DATA_HOME/go
+  export PATH=$PATH:/usr/local/go/bin
+  export PATH=$PATH:$GOPATH/bin
+fi
 
 # ╔═════════════════════════════════════════════════════════════════╗
 # ║  Turso / SQLite                                                 ║
