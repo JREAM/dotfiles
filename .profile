@@ -72,6 +72,5 @@ fi
 # │ Autoload X11 Touchpad Options                                   │
 # └─────────────────────────────────────────────────────────────────┘
 [ -f $HOME/.xinitrc ] && . $HOME/.xinitrc
-. "$HOME/.cargo/env"
-
-. "$HOME/.local/share/../bin/env"
+[ -f "$HOME/.cargo/env" ] && . "$HOME/.cargo/env"
+[ -f "$HOME/.local/share/../bin/env" ] && . "$HOME/.local/share/../bin/env"
