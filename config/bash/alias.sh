@@ -77,6 +77,17 @@ alias umountserver='sudo umount -lf /server'
 # Laravel Sail
 alias sail='sh $([ -f sail ] && echo sail || echo vendor/bin/sail)'
 
+# Check GPU in Use
+alias gpu='
+if [ "$XDG_SESSION_TYPE" = "x11" ] || [ "$XDG_SESSION_TYPE" = "wayland" ]; then
+    echo "--- Running in Graphical Session (using glxinfo) ---"
+    glxinfo | grep -E "OpenGL vendor|OpenGL renderer"
+else
+    echo "--- Running in Console/TTY Session (using lspci) ---"
+    lspci -nnk | grep -i vga -A3
+fi
+'
+
 # ┌─────────────────────────────────────────────────────────────────┐
 # │ Navigation                                                      │
 # └─────────────────────────────────────────────────────────────────┘

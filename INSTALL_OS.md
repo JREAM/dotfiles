@@ -206,9 +206,7 @@ rm go.tar.gz
 curl https://sh.rustup.rs -sSf | sh
 
 # argc (A tool for creating feature-rich CLIs in bash)
-cargo install argc
-# This loads or focuses an instance for hotkeys
-cargo install run-or-raise
+o
 ```
 
 
