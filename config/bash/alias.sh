@@ -9,6 +9,7 @@
 # │ Personal Shortcuts                                              │
 # └─────────────────────────────────────────────────────────────────┘
 [ -d $HOME/Downloads ] && alias dl='cd $HOME/Downloads'
+[ -d $HOME/Dropbox ] && alias db='cd $HOME/Dropbox'
 
 alias bashdir='cd $XDG_CONFIG_HOME/bash'
 alias vimedit='vim $XDG_CONFIG_HOME/vim/vimrc'
