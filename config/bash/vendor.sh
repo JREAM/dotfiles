@@ -53,10 +53,7 @@ fi
 # [Pkg]     Bun (Node alternative)
 # [Install] curl -fsSL https://deno.land/install.sh | sh
 # ───────────────────────────────────────────────────────────────────
-if command -v bun >/dev/null 2>&1; then
-  export BUN_INSTALL="$HOME/.bun"
-  export PATH="$BUN_INSTALL/bin:$PATH"
-fi
+[[ -d "$HOME/.bun/bin" ]] && export PATH="$HOME/.bun/bin:$PATH"
 
 # ╔═════════════════════════════════════════════════════════════════╗
 # ║  Deno (Node)                                                     ║
