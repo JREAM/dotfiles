@@ -53,7 +53,10 @@ fi
 # [Pkg]     Bun (Node alternative)
 # [Install] curl -fsSL https://deno.land/install.sh | sh
 # ───────────────────────────────────────────────────────────────────
-[[ -d "$HOME/.bun/bin" ]] && export PATH="$HOME/.bun/bin:$PATH"
+if [ -d "$HOME/.bun/bin" ]; then
+  export PATH="$HOME/.bun/bin:$PATH"
+  alias npx="bunx"  # Replace bunx for npx
+fi 
 
 # ╔═════════════════════════════════════════════════════════════════╗
 # ║  Deno (Node)                                                     ║
