@@ -7,6 +7,11 @@
 # ║             .bash_vendor                                        ║
 # ╚═════════════════════════════════════════════════════════════════╝
 
+# Source .profile (For Wayland).
+# Variable prevents .profile from reloading again
+[ "$XDG_SESSION_TYPE" == "wayland" ] && . $HOME/.profile
+export DOT_PROFILE_INIT=1
+
 # Detect: Interactive Mode
 # Use to prevent incorrect TTY errors with some scripts
 [ -v PS1 ] && i9e=true || i9e=false
@@ -129,4 +134,5 @@ if ! shopt -oq posix; then
 fi
 
 [ -f $XDG_CONFIG_HOME/bash/inputrc-custom.sh ] && . $XDG_CONFIG_HOME/bash/inputrc-custom.sh
+
 

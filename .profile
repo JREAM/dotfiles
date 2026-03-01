@@ -10,6 +10,12 @@
 # @IMPORTANT - Do not use .bash_profile or this is ignored
 #              ~/.profile allows other shells to use the same format
 
+# Set from ~/.bashrc to prevent wayland running again.
+# Workaround so this loads default in X11 and Wayland.
+if [ -v DOT_PROFILE_INIT ]; then
+  return 2> /dev/null || exit 0
+fi
+
 # ┌─────────────────────────────────────────────────────────────────┐
 # │ XDG Directory Paths                                             │
 # └─────────────────────────────────────────────────────────────────┘
@@ -52,8 +58,10 @@ export NPM_CONFIG_TMP=$XDG_RUNTIME_DIR/npm
 # ┌─────────────────────────────────────────────────────────────────┐
 # │ If Bash; Load .bashrc                                           │
 # └─────────────────────────────────────────────────────────────────┘
-if [ -n "$BASH_VERSION" ]; then
-  [ -f $HOME/.bashrc ] && . $HOME/.bashrc
+if [ "$XDG_SESSION_TYPE" != "wayland" ] && [ -n "$BASH_VERSION" ]; then
+    # Running Bash and NOT in Wayland
+    # (So that ./bashrc can trigger this file for Wayland with a loop)
+    [ -f $HOME/.bashrc ] && . $HOME/.bashrc
 fi
 
 # ┌─────────────────────────────────────────────────────────────────┐
