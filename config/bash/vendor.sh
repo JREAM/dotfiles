@@ -27,6 +27,8 @@ fi
 # ╚═════════════════════════════════════════════════════════════════╝
 # [Pkg]       download from google
 [[ -d "$HOME/apps/android-studio/bin" ]] && export PATH=$PATH:$HOME/apps/android-studio/bin
+[[ -d "$HOME/Android/Sdk/cmdline-tools/latest/bin/" ]] && export PATH=$PATH:$HOME/Android/Sdk/cmdline-tools/latest/bin/
+
 
 # ╔═════════════════════════════════════════════════════════════════╗
 # ║ Dotnet JDK                                                      ║
