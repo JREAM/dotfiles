@@ -28,9 +28,9 @@ fi
 # [Pkg]       download from google
 [[ -d "$HOME/apps/android-studio/bin" ]] && export PATH=$PATH:$HOME/apps/android-studio/bin
 [[ -d "$HOME/Android/Sdk/cmdline-tools/latest/bin/" ]] && export PATH=$PATH:$HOME/Android/Sdk/cmdline-tools/latest/bin/
+export ANDROID_HOME=$HOME/Android/Sdk
 
-
-# ╔═════════════════════════════════════════════════════════════════╗
+ #╔═════════════════════════════════════════════════════════════════╗
 # ║ Dotnet JDK                                                      ║
 # ╚═════════════════════════════════════════════════════════════════╝
 # [Pkg]       dotnet-install.sh
@@ -198,6 +198,8 @@ if [ -x $HOME/.fzf/bin/fzf ]; then
       --header 'Change Directory'"
 
   # CTRL T is for making new tabs not this.
+  bind -r "\C-t"                        # Unbind Ctrl+T
+  bind -x '"\C-f": "fzf-file-widget"'   # Bind to Ctrl+F
   export FZF_CTRL_T_OPTS="
       --walker-skip .git,node_modules,target
       --preview 'bat -n --color=always {}'

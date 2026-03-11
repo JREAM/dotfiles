@@ -55,7 +55,7 @@ Plug 'gregsexton/matchtag'
 Plug 'ap/vim-css-color'
 Plug 'kien/rainbow_parentheses.vim'
 Plug 'tomtom/tcomment_vim'
-Plug 'nathanaelkane/vim-indent-guides'
+"Plug 'nathanaelkane/vim-indent-guides'
 Plug 'scrooloose/syntastic'
 
 call plug#end()
@@ -180,7 +180,7 @@ set wildmode=list:longest
 " *** Simplified Clipboard Setting (Choose ONE) ***
 " I have a bug here
 set clipboard=unnamed  " Standard clipboard integration
-" set clipboard=unnamedplus "  X11 clipboard (middle-click paste) - use if on Linux/X11
+set clipboard=unnamedplus "  X11 clipboard (middle-click paste) - use if on Linux/X11
 
 """"""""""""""""""""""""""""""""""""""""
 " Hotkeys

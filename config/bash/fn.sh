@@ -306,6 +306,35 @@ extract() {
 
 alias bashfiles="cd ${XDG_CONFIG_HOME}/bash"
 
+bashbackup() {
+    local DOT_DIR="$HOME/dotfiles"
+    local CONF_DIR="${XDG_CONFIG_HOME:-$HOME/.config}"
+
+    read -p "This will backup local bash files to $DOT_DIR, want to continue? [Y/n] " confirm
+    [[ "${confirm,,}" == "n" ]] && return 1
+
+    # Ensure destination directories exist
+    mkdir -p "$DOT_DIR/config/bash"
+    mkdir -p "$DOT_DIR/config/vim"
+
+    # 1. Root dotfiles (direct replacement)
+    [ -f "$HOME/.bashrc" ] && cp "$HOME/.bashrc" "$DOT_DIR/.bashrc"
+    [ -f "$HOME/.profile" ] && cp "$HOME/.profile" "$DOT_DIR/.profile"
+
+    # 2. Bash config directory (excluding .bashrc and .profile if they exist there)
+    if [ -d "$CONF_DIR/bash" ]; then
+        # Copy contents, excluding files already handled in the root
+        rsync -av --exclude='.bashrc' --exclude='.profile' "$CONF_DIR/bash/" "$DOT_DIR/config/bash/"
+    fi
+
+    # 3. Vim config
+    if [ -f "$CONF_DIR/vim/vimrc" ]; then
+        cp "$CONF_DIR/vim/vimrc" "$DOT_DIR/config/vim/vimrc"
+    fi
+
+    cd "$DOT_DIR" && echo "Backed up configs"
+}
+
 bashedit() {
   local files
   local selected_file
@@ -317,8 +346,10 @@ bashedit() {
 
   # Add ~/.bashrc to the list, handling the case where it doesn't exist
   local bashrc_file="$HOME/.bashrc"
+  local vimrc_file="$HOME/.config/vim/vimrc"
   if [[ -f "$bashrc_file" ]]; then
     files="$bashrc_file"
+    [[ -f "$vimrc_file" ]] && files+=$'\n'"$vimrc_file"
     if [[ -n "$config_files" ]]; then # Only append if there were files
       files+=$'\n'"$config_files"
     fi

@@ -7,18 +7,13 @@
 # ║             .bash_vendor                                        ║
 # ╚═════════════════════════════════════════════════════════════════╝
 
-# Source .profile (For Wayland).
-# Variable prevents .profile from reloading again
-[ "$XDG_SESSION_TYPE" == "wayland" ] && . $HOME/.profile
-export DOT_PROFILE_INIT=1
-
 # Detect: Interactive Mode
 # Use to prevent incorrect TTY errors with some scripts
 [ -v PS1 ] && i9e=true || i9e=false
 export INTERACTIVE_MODE=$i9e
 
 export PATH=$PATH:/home/$USER/.local/bin # Set: Local bin to $PATH
-export BROWSER=/usr/bin/google-chrome    # Set: Local Browser (Affects: VSCode)
+export BROWSER=/usr/bin/microsoft-edge    # Set: Local Browser (Affects: VSCode)
 export EDITOR=vim
 
 export GREP_COLORS='ms=01;38;5;190:mc=01;31:sl=:cx=:fn=35:ln=32:bn=32:se=36'
@@ -77,7 +72,7 @@ git_info() {
   if [[ -n $branch ]]; then
     # Check for uncommitted changes
     [[ -n $(git status --porcelain 2>/dev/null) ]] && dirty="${IBYELLOW}⚒${RESET}"
-    echo -e "(${BYELLOW}git: ${branch}${RESET})${dirty}"
+    echo -e "(${IYELLOW}git: ${branch}${RESET})${dirty}"
   fi
 }
 
@@ -92,7 +87,6 @@ export PS1="$IN_SSH[$IBLUE\w$RESET]\$(git_info)\n\u@\h-> "
 # ┌─────────────────────────────────────────────────────────────────┐
 # │ Shell Options                                                   │
 # └─────────────────────────────────────────────────────────────────┘
-# Combine history
 HISTCONTROL=ignoreboth:erasedups
 HISTSIZE=10000
 HISTFILESIZE=20000
@@ -132,7 +126,3 @@ if ! shopt -oq posix; then
     [[ -f $file ]] && source "$file" && break
   done
 fi
-
-[ -f $XDG_CONFIG_HOME/bash/inputrc-custom.sh ] && . $XDG_CONFIG_HOME/bash/inputrc-custom.sh
-
-
